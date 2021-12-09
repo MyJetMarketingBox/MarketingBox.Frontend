@@ -35,9 +35,9 @@ export const apiError = (error: any) => {
   };
 };
 
-export const socialLogin = (data: any, history: any, type: any) => {
-  return {
-    type: LoginTypes.SOCIAL_LOGIN,
-    payload: { data, history, type },
-  };
-};
+// export const socialLogin = (data: any, history: any, type: any) => {
+//   return {
+//     type: LoginTypes.SOCIAL_LOGIN,
+//     payload: { data, history, type },
+//   };
+// };

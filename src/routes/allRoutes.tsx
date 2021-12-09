@@ -3,6 +3,8 @@ import { Redirect } from "react-router-dom";
 //Dashboard
 import Dashboard from "../pages/Dashboard";
 
+import Affiliates from "../pages/Affiliates";
+
 //Authentication pages
 import Login from "src/pages/Authentication/Login";
 import Logout from "src/pages/Authentication/Logout";
@@ -21,6 +23,8 @@ const userRoutes: Array<RouteProps> = [
 
   //dashboard
   { path: "/dashboard", component: Dashboard },
+
+  { path: "/Affiliates", component: Affiliates },
 
   // this route should be at the end of all other routes
   { path: "/", exact: true, component: () => <Redirect to="/dashboard" /> },

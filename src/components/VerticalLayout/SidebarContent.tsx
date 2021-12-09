@@ -99,11 +99,69 @@ const SidebarContent = (props: any) => {
         <div id="sidebar-menu">
           <ul className="metismenu list-unstyled" id="side-menu">
             <li className="menu-title">{props.t("Menu")} </li>
+
             <li>
               <Link to="/dashboard" className="">
                 <Icon name="home" />
                 <span>{props.t("Dashboard")}</span>
               </Link>
+            </li>
+
+            <li>
+              <Link to="/reports" className="">
+                <Icon name="file-text" />
+                <span>{props.t("Reports")}</span>
+              </Link>
+            </li>
+
+            <li>
+              <Link to="/brands" className="">
+                <Icon name="grid" />
+                <span>{props.t("Brands")}</span>
+              </Link>
+            </li>
+
+            <li>
+              <Link to="/registrations" className="">
+                <Icon name="box" />
+                <span>{props.t("Registrations")}</span>
+              </Link>
+            </li>
+
+            <li>
+              <Link to="/Affiliates" className="">
+                <Icon name="briefcase" />
+                <span>{props.t("Affiliates")}</span>
+              </Link>
+            </li>
+
+            <li>
+              <Link to="/marketing_tools" className="">
+                <Icon name="cpu" />
+                <span>{props.t("Tools")}</span>
+              </Link>
+            </li>
+
+            <li>
+              <Link to="/conversions" className="">
+                <Icon name="filter" />
+                <span>{props.t("Conversions")}</span>
+              </Link>
+            </li>
+
+            <li>
+              <Link to="/settings" className="">
+                <Icon name="settings" />
+                <span>{props.t("Settings")}</span>
+              </Link>
+              <ul className="sub-menu">
+                <li>
+                  <Link to="/postback">{props.t("Postback")}</Link>
+                </li>
+                <li>
+                  <Link to="/re_registering">{props.t("Registering")}</Link>
+                </li>
+              </ul>
             </li>
 
             {/* <li>

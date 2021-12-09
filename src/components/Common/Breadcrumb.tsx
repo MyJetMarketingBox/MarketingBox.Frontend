@@ -16,7 +16,7 @@ const Breadcrumb = ({ breadcrumbItem, title }: BreadcrumbProps) => {
           <div className="page-title-right">
             <ol className="breadcrumb m-0">
               <BreadcrumbItem>
-                <Link to="#">{title}</Link>
+                <Link to="/dashboard">{title}</Link>
               </BreadcrumbItem>
               <BreadcrumbItem active>
                 <Link to="#">{breadcrumbItem}</Link>

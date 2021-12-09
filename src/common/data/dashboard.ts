@@ -12,43 +12,43 @@ interface DashboardProps {
 const WidgetsData : Array<DashboardProps> = [
     {
         id: 1,
-        title: "My Wallet",
-        price: 865.2,
-        rank: "+$20.9k",
-        isDoller: true,
-        postFix: "k",
+        title: "Clicks",
+        price: 3,
+        rank: "100%",
+        isDoller: false,
+        postFix: "",
         statusColor: "success",
-        series: [2, 10, 18, 22, 36, 15, 47, 75, 65, 19, 14, 2, 47, 42, 15],
+        series: [0, 0, 0, 0, 3, 0, 0],
     },
     {
         id: 2,
-        title: "Number of Trades",
-        price: 6258,
-        rank: "-29 Trades",
+        title: "Conversion",
+        price: 2,
+        rank: "100%",
         isDoller: false,
         postFix: "",
-        statusColor: "danger",
-        series: [15, 42, 47, 2, 14, 19, 65, 75, 47, 15, 42, 47, 2, 14, 12,]
+        statusColor: "success",
+        series: [0, 0, 0, 0, 0, 0, 2]
     },
     {
         id: 3,
-        title: "Invested Amount",
-        price: 432,
-        rank: "+$2.8k",
-        isDoller: true,
-        postFix: "M",
+        title: "CR",
+        price: 66.67,
+        rank: "100%",
+        isDoller: false,
+        postFix: "%",
         statusColor: "success",
-        series: [47, 15, 2, 67, 22, 20, 36, 60, 60, 30, 50, 11, 12, 3, 8,]
+        series: [12, 15, 15, 6.67, 12, 2, 4]
     },
     {
         id: 5,
-        title: "Profit Ration",
-        price: 1257,
-        rank: "+$2.75%",
+        title: "Payments",
+        price: 1172,
+        rank: "100%",
         isDoller: true,
-        postFix: "%",
+        postFix: "$",
         statusColor: "success",
-        series: [12, 14, 2, 47, 42, 15, 47, 75, 65, 19, 14, 2, 47, 42, 15,]
+        series: [200, 250, 200, 250, 50, 50, 72]
     },
 ];
 

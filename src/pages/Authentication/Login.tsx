@@ -12,21 +12,13 @@ import { withRouter, Link } from "react-router-dom";
 // availity-reactstrap-validation
 import { AvForm, AvField } from "availity-reactstrap-validation";
 
-//Social Media Imports
-//import { GoogleLogin } from "react-google-login";
-// import TwitterLogin from "react-twitter-auth"
-//import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
-
 // actions
-import { loginUser, socialLogin } from "../../store/actions";
+import { loginUser} from "../../store/actions";
 
 // import images
 import logo from "../../assets/images/logo-sm.svg";
 import BgImage from 'src/assets/images/bg-3.jpg';
 
-//Import config
-//import config from "../../config";
-//import CarouselPage from "./CarouselPage";
 
 interface LoginProps {
   history: object;
@@ -41,6 +33,7 @@ const Login = ({ history }: LoginProps) => {
 
   // handleValidSubmit
   const handleValidSubmit = (event: any, values: any) => {
+    // console.log(event);
     // console.log(values);
     // console.log(loginUser(values, history));
     // return;
@@ -85,9 +78,10 @@ const Login = ({ history }: LoginProps) => {
       <MetaTags>
         <title>Login | TraffMe - Dashboard</title>
       </MetaTags>
+      
       <div className="auth-page">
         <Container fluid className="p-0">
-          {/* <Row className="g-0"> */}
+          
             <Col className="auth-center">
               <div className="auth-full-page-content d-flex">
                 <div className="w-100">
@@ -209,8 +203,6 @@ const Login = ({ history }: LoginProps) => {
                 <div className="bgOverlay" />
             </div>
 
-            {/* <CarouselPage /> */}
-          {/* </Row> */}
         </Container>
       </div>
     </React.Fragment>

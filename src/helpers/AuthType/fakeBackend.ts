@@ -38,7 +38,18 @@ const fakeBackend = () => {
     })
   })
 
-  mock.onPost("/post-fake-login").reply(config => {
+  // axios.post(url.POST_FAKE_LOGIN, {
+  //     email: 'general-manager@gmail.com',
+  //     password: 'qwerty_123456'
+  //   })
+  //   .then(function (response) {
+  //     console.log(response);
+  //   })
+  //   .catch(function (error) {
+  //     console.log(error);
+  //   });
+
+  mock.onPost(url.POST_FAKE_LOGIN).reply(config => {
     const user = JSON.parse(config["data"])
     const validUser = users.filter(
       usr => usr.email === user.email && usr.password === user.password
