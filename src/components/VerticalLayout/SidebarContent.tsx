@@ -93,11 +93,20 @@ const SidebarContent = (props: any) => {
       }
     }
   }
+
+
+  const getAuthUser = localStorage.getItem("authUser");
+  let user = null;
+  if (getAuthUser) {
+    user = JSON.parse(getAuthUser);
+  }
+
   return (
     <React.Fragment>
       <SimpleBar style={{ maxHeight: "100%" }} ref={ref}>
         <div id="sidebar-menu">
           <ul className="metismenu list-unstyled" id="side-menu">
+
             <li className="menu-title">{props.t("Menu")} </li>
 
             <li>
@@ -114,12 +123,15 @@ const SidebarContent = (props: any) => {
               </Link>
             </li>
 
-            <li>
-              <Link to="/brands" className="">
-                <Icon name="grid" />
-                <span>{props.t("Brands")}</span>
-              </Link>
-            </li>
+            {(user.role != "affiliatesManager" && user.role != "affiliates") ?
+              (<li>
+                <Link to="/brands" className="">
+                  <Icon name="grid" />
+                  <span>{props.t("Brands")}</span>
+                </Link>
+              </li>)
+              : (<li></li>)
+            }
 
             <li>
               <Link to="/registrations" className="">
@@ -128,26 +140,26 @@ const SidebarContent = (props: any) => {
               </Link>
             </li>
 
-            <li>
+            {user.role != "affiliates" ? (<li>
               <Link to="/Affiliates" className="">
-                <Icon name="briefcase" />
+                <Icon name="briefcase"/>
                 <span>{props.t("Affiliates")}</span>
               </Link>
-            </li>
+            </li>):(<li></li>)}
 
             <li>
               <Link to="/marketing_tools" className="">
                 <Icon name="cpu" />
-                <span>{props.t("Tools")}</span>
+                <span>{props.t("Marketing Tools")}</span>
               </Link>
             </li>
 
-            <li>
+            {user.role != "affiliates" ? (<li>
               <Link to="/conversions" className="">
                 <Icon name="filter" />
                 <span>{props.t("Conversions")}</span>
               </Link>
-            </li>
+            </li>):(<li></li>)}
 
             <li>
               <Link to="/settings" className="">
@@ -158,9 +170,11 @@ const SidebarContent = (props: any) => {
                 <li>
                   <Link to="/postback">{props.t("Postback")}</Link>
                 </li>
-                <li>
+                {(user.role != "affiliatesManager" && user.role != "affiliates") ?
+                (<li>
                   <Link to="/re_registering">{props.t("Registering")}</Link>
-                </li>
+                </li>) : (<li></li>)
+                }
               </ul>
             </li>
 

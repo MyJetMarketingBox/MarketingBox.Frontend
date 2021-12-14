@@ -22,6 +22,20 @@ let users = [
     password: "123456",
     email: "admin@gm.com",
   },
+  {
+    uid: 2,
+    username: "Affiliates Manager",
+    role: "affiliatesManager",
+    password: "123456",
+    email: "admin@gm1.com",
+  },
+  {
+    uid: 3,
+    username: "Affiliates",
+    role: "affiliates",
+    password: "123456",
+    email: "admin@gm2.com",
+  },
 ]
 
 const fakeBackend = () => {

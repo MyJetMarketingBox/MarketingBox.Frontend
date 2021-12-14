@@ -442,6 +442,13 @@ const DatatableTables = () => {
                                   </div>
                                 </div>
                               </Col>
+                              <Col md="8">
+                                <div className="text-right float-end">
+                                  <button type="submit" className="btn btn-success ">
+                                    <i className="bx bx-plus"></i> new affiliate
+                                  </button>
+                                </div>
+                              </Col>
                             </Row>
 
                             <Row>

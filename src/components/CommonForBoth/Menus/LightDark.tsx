@@ -16,6 +16,7 @@ const LightDark = ({ layoutMode, onChangeLayoutMode }: LightDarkState) => {
     layoutMode === layoutTheme["DARKMODE"]
       ? layoutTheme["LIGHTMODE"]
       : layoutTheme["DARKMODE"];
+  //console.log(layoutMode)
   return (
     <div className="dropdown d-none d-sm-inline-block">
       <button

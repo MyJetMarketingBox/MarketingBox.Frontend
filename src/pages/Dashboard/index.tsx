@@ -66,7 +66,7 @@ const Dashboard = () => {
           <Breadcrumbs title="Dashboard" breadcrumbItem="Dashboard" />
 
           <div className="text-center">
-            <h1> FUCK I CAN </h1>
+            {/*<h1> FUCK I CAN </h1>*/}
           </div>
 
           <Row>
