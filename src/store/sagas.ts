@@ -18,6 +18,9 @@ import contactsSaga from "./contacts/saga";
 //Login
 import authSaga from "./auth/login/saga";
 
+//Affiliates
+import affiliatesSaga from "./affiliates/saga";
+
 //Register
 import registerSaga from "./auth/register/saga";
 
@@ -31,13 +34,14 @@ export default function* rootSaga() {
   yield all([
     //public
     fork(LayoutSaga),
-    fork(calendarSaga),
-    fork(chatSaga),
-    fork(invoiceSaga),
-    fork(contactsSaga),
+    //fork(calendarSaga),
+    //fork(chatSaga),
+    //fork(invoiceSaga),
+    //fork(contactsSaga),
     fork(authSaga),
-    fork(registerSaga),
-    fork(ProfileSaga),
-    fork(forgetPasswordSaga)
+    fork(affiliatesSaga),
+    //fork(registerSaga),
+    //fork(ProfileSaga),
+    //fork(forgetPasswordSaga)
   ])
 }

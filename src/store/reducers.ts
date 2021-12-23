@@ -3,6 +3,9 @@ import { combineReducers } from "redux"
 // Layout
 import Layout from "./layout/reducer";
 
+//Affiliates
+import affiliate from "./affiliates/reducer"
+
 // Calendar
 import Calendar from "./calendar/reducer";
 
@@ -30,6 +33,7 @@ import forgetPassword from "./auth/forgetpwd/reducer";
 const rootReducer = combineReducers({
   // public
   Layout,
+  affiliate,
   Calendar,
   Chat,
   Invoices,

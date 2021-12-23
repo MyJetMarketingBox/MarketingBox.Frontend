@@ -13,6 +13,9 @@ export * from "./invoices/actions";
 /** Contact */
 export * from "./contacts/actions";
 
+/** Affiliates */
+export * from "./affiliates/actions";
+
 /** Login */
 export * from "./auth/login/actions"
 

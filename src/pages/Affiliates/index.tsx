@@ -1,6 +1,28 @@
-import React from "react";
-import { Row, Col, Card, CardBody, CardTitle } from "reactstrap";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+
+//import {getAffiliates} from "../../helpers/fakebackend_helper";
+
+//import { Row, Col, Card, CardBody, CardTitle } from "reactstrap";
 import MetaTags from "react-meta-tags";
+import {
+  Card,
+  CardBody,
+  CardHeader,
+  Col,
+  Container,
+  DropdownItem,
+  DropdownMenu,
+  DropdownToggle,
+  Row,
+  UncontrolledDropdown,
+  Dropdown,
+  ButtonDropdown,
+  Button,
+  Form,
+  Label,
+  Input,
+} from "reactstrap";
 
 // datatable related plugins
 import BootstrapTable from "react-bootstrap-table-next";
@@ -16,7 +38,28 @@ import ToolkitProvider, { Search } from "react-bootstrap-table2-toolkit";
 import Breadcrumbs from "../../components/Common/Breadcrumb";
 import "./datatables.scss";
 
+import "flatpickr/dist/themes/material_orange.css";
+import Flatpickr from "react-flatpickr";
+import VerticalLayout from "../../components/VerticalLayout";
+
+
+import { getAffiliates as onGetAffiliates  } from "../../store/actions";
+
+import { useDispatch, useSelector } from "react-redux";
+
 const DatatableTables = () => {
+
+  const dispatch = useDispatch();
+
+  const { affiliates } = useSelector((state: any) => ({
+    affiliates: state.affiliate.affiliates,
+  }));
+
+  const [affiliateList, setAffiliateList] = useState(null);
+  const [isLoading, setLoading] = useState(false);
+  const [dateFilter, setDateFilter] = useState('12-01-2021 to 14-01-2021')
+  const [isEdit, setIsEdit] = useState<boolean>(false);
+
   const columns = [
     {
       dataField: "username",
@@ -26,11 +69,6 @@ const DatatableTables = () => {
     {
       dataField: "role",
       text: "Role",
-      sort: true,
-    },
-    {
-      dataField: "name",
-      text: "Name",
       sort: true,
     },
     {
@@ -66,12 +104,129 @@ const DatatableTables = () => {
     {
       dataField: "actions",
       text: "Actions",
-      sort: false,
-    },
+      sort:false,
+      formatter: () => (
+        <>
+          <div>
+              <UncontrolledDropdown className="mt-4 mt-sm-0">
+                <DropdownToggle tag="a" className="btn btn-light">
+                  <i className="mdi mdi-dots-vertical"></i>
+                </DropdownToggle>
+
+                <DropdownMenu>
+                  <DropdownItem to="#">edit</DropdownItem>
+                  <DropdownItem to="#">delete</DropdownItem>
+                </DropdownMenu>
+              </UncontrolledDropdown>
+
+          </div>
+        </>
+      ),
+    }
   ];
 
   // Table Data
-  const productData = [
+
+
+
+  // const apiURL = 'https://mb-affiliate-api.mnftx.biz/api/affiliates';
+  // const config = {
+  //   headers: {
+  //     'accept': 'text/plain',
+  //     'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJtYXJrZXRpbmctYm94LWFmZmlsaWF0ZSIsInVzZXItbmFtZSI6IkdlbmVyYWxVc2VyIiwidGVuYW50LWlkIjoiZGVmYXVsdC10ZW5hbnQtaWQiLCJyb2xlIjoiQWRtaW4iLCJ1c2VyLWlkIjoiR2VuZXJhbE1hbmFnZXIiLCJuYmYiOjE2NDAyNTEzNzksImV4cCI6MTY0MDM4MDk3OSwiaWF0IjoxNjQwMjUxMzc5fQ.cDE_v6Ixmbj5GnsUsyU2lgfsRZGxz4QJ-Q9DJu0tZ2I'
+  //   }
+  // };
+  //
+  // const getAffiliatesData = async () => {
+  //   try {
+  //       const response = await axios.get(apiURL, config);
+  //       //const response = await axios.get('http://makeup-api.herokuapp.com/api/v1/products.json?brand=maybelline');
+  //       //console.log(response);
+  //       setAffiliates(response.data.items)
+  //       setLoading(true);
+  //   }catch (e) {
+  //     console.log(e);
+  //   }
+  // }
+
+  /*useEffect(() => {
+    //setTimeout(function() {
+    try {
+      const getAff = getAffiliates('');
+      //debugger
+      console.log(getAff);
+    }catch (e) {
+      console.log(e);
+    }
+    //}, 2000)
+  }, []);*/
+
+  useEffect(() => {
+    if (affiliates && !affiliates.length) {
+      dispatch(onGetAffiliates());
+      setLoading(true)
+      setIsEdit(false);
+    }
+  }, [dispatch, affiliates]);
+
+  useEffect(() => {
+    setAffiliateList(affiliates);
+    debugger
+    setIsEdit(false);
+  }, [affiliates]);
+
+
+  /*{
+      "affiliateId": 1,
+      "generalInfo": {
+          "username": "Affiliate1",
+          "password": "qwerty_123456",
+          "email": "affiliate1@gmail.com",
+          "phone": "+79198765432",
+          "skype": "skype",
+          "zipCode": "100010",
+          "role": "masterAffiliateReferral",
+          "state": "active",
+          "currency": "usd",
+          "createdAt": "2021-11-30T14:07:47.055619Z",
+          "apiKey": "APIKEY123456"
+      },
+      "company": {
+          "name": "SomeCompany",
+          "address": "SomeAddress",
+          "regNumber": "Number",
+          "vatId": "VatId"
+      },
+      "bank": {
+          "beneficiaryName": "Bank",
+          "beneficiaryAddress": "Bank",
+          "bankName": "Bank",
+          "bankAddress": "Bank",
+          "accountNumber": "Bank",
+          "swift": "Bank",
+          "iban": "Bank"
+      },
+      "sequence": 4
+  }
+  */
+
+  // @ts-ignore
+  /*const productData = !(affiliateList) ? [] : affiliateList.map(affiliate => {
+    return {
+      id: affiliate.affiliateId,
+      username: affiliate.generalInfo.username,
+      role: affiliate.generalInfo.role,
+      ai: affiliate.affiliateId,
+      email: affiliate.generalInfo.email,
+      reportto: "Management",
+      createdat: new Date(affiliate.generalInfo.createdAt).toLocaleDateString('ru-RU', {day:"2-digit", month:"2-digit", year:"2-digit"}),
+      note: "",
+      status: affiliate.generalInfo.state,
+      actions: '',
+    }
+  });*/
+  const productData = [{}]
+  /*const productData = [
     {
       id: 1,
       username: "Airi Satou",
@@ -376,7 +531,7 @@ const DatatableTables = () => {
       startdate: "2013/02/01",
       salary: "$75,650",
     },
-  ];
+  ];*/
 
   const defaultSorted: any = [
     {
@@ -398,6 +553,11 @@ const DatatableTables = () => {
 
   const { SearchBar } = Search;
 
+  if(dateFilter){
+    console.log(dateFilter);
+  }
+
+  // @ts-ignore
   return (
     <React.Fragment>
       <div className="page-content">
@@ -419,75 +579,96 @@ const DatatableTables = () => {
                     <code>react-bootstrap-table-next </code>.
                   </p>*/}
 
-                  <PaginationProvider
-                    pagination={paginationFactory(pageOptions)}
-                    // columns={columns}
-                    // data={productData}
-                  >
-                    {({ paginationProps, paginationTableProps }) => (
-                      <ToolkitProvider
-                        keyField="id"
-                        columns={columns}
-                        data={productData}
-                        search
-                      >
-                        {toolkitProps => (
-                          <React.Fragment>
-                            <Row className="mb-2">
-                              <Col md="4">
-                                <div className="search-box me-2 mb-2 d-inline-block">
-                                  <div className="position-relative">
-                                    <SearchBar {...toolkitProps.searchProps} />
-                                    <i className="bx bx-search-alt search-icon" />
+                  {!isLoading ? (
+                    <div style={{ textAlign: "center" }}>
+                      <h1>Loading...</h1>
+                    </div>
+                  ):(
+
+                    <PaginationProvider
+                      pagination={paginationFactory(pageOptions)}
+                      // columns={columns}
+                      // data={productData}
+                    >
+                      {({ paginationProps, paginationTableProps }) => (
+                        <ToolkitProvider
+                          keyField="id"
+                          columns={columns}
+                          data={productData}
+                          search
+                        >
+                          {toolkitProps => (
+                            <React.Fragment>
+                              <Row className="mb-2">
+                                <Col md="4">
+                                  <div className="search-box me-2 mb-2 d-inline-block">
+                                    <div className="position-relative">
+                                      <SearchBar {...toolkitProps.searchProps} />
+                                      <i className="bx bx-search-alt search-icon" />
+                                    </div>
                                   </div>
-                                </div>
-                              </Col>
-                              <Col md="8">
-                                <div className="text-right float-end">
-                                  <button type="submit" className="btn btn-success ">
-                                    <i className="bx bx-plus"></i> new affiliate
-                                  </button>
-                                </div>
-                              </Col>
-                            </Row>
 
-                            <Row>
-                              <Col xl="12">
-                                <div className="table-responsive">
-                                  <BootstrapTable
-                                    // responsive
-                                    bordered={false}
-                                    striped={false}
-                                    defaultSorted={defaultSorted}
-                                    selectRow={selectRow}
-                                    classes={"table align-middle table-nowrap"}
-                                    headerWrapperClasses={"thead-light"}
-                                    {...toolkitProps.baseProps}
-                                    {...paginationTableProps}
+                                  <Flatpickr
+                                    className="form-control d-block"
+                                    placeholder="Y-m-d to Y-m-d"
+                                    options={{
+                                      mode: "range",
+                                      dateFormat: "d-m-Y",
+                                    }}
+                                    value={dateFilter}
+                                    onChange={setDateFilter(dateFilter)}
                                   />
-                                </div>
-                              </Col>
-                            </Row>
+                                </Col>
+                                <Col md="8">
+                                  <div className="text-right float-end">
+                                    <button type="submit" className="btn btn-success ">
+                                      <i className="bx bx-plus"></i> new affiliate
+                                    </button>
+                                  </div>
+                                </Col>
+                              </Row>
 
-                            {/*<Row className="align-items-md-center mt-30">
-                              <Col className="inner-custom-pagination d-flex">
-                                <div className="d-inline">
-                                  <SizePerPageDropdownStandalone
-                                    {...paginationProps}
-                                  />
-                                </div>
-                                <div className="text-md-right ms-auto">
-                                  <PaginationListStandalone
-                                    {...paginationProps}
-                                  />
-                                </div>
-                              </Col>
-                            </Row>*/}
-                          </React.Fragment>
-                        )}
-                      </ToolkitProvider>
-                    )}
-                  </PaginationProvider>
+                              <Row>
+                                <Col xl="12">
+                                  <div className="table-responsive">
+                                    <BootstrapTable
+                                      // responsive
+                                      bordered={false}
+                                      striped={false}
+                                      defaultSorted={defaultSorted}
+                                      selectRow={selectRow}
+                                      classes={"table align-middle table-nowrap"}
+                                      headerWrapperClasses={"thead-light"}
+                                      {...toolkitProps.baseProps}
+                                      {...paginationTableProps}
+                                    />
+                                  </div>
+                                </Col>
+                              </Row>
+
+                              <Row className="align-items-md-center mt-30">
+                                <Col className="inner-custom-pagination d-flex">
+                                  <div className="d-inline">
+                                    <SizePerPageDropdownStandalone
+                                      {...paginationProps}
+                                    />
+                                  </div>
+                                  <div className="text-md-right ms-auto">
+                                    <PaginationListStandalone
+                                      {...paginationProps}
+                                    />
+                                  </div>
+                                </Col>
+                              </Row>
+
+                            </React.Fragment>
+                          )}
+                        </ToolkitProvider>
+                      )}
+                    </PaginationProvider>
+
+                  )}
+
                 </CardBody>
               </Card>
             </Col>

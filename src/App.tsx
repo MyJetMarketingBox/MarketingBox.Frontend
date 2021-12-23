@@ -23,13 +23,13 @@ import "./assets/scss/preloader.scss";
 // Import Firebase Configuration file
 // import { initFirebaseBackend } from "./helpers/firebase_helper";
 
-import fakeBackend from "./helpers/AuthType/fakeBackend";
+//import fakeBackend from "./helpers/AuthType/fakeBackend";
 
 //api config
 // import config from "./config";
 
 // Activating fake backend
-fakeBackend();
+//fakeBackend();
 
 // const firebaseConfig = {
 //   apiKey: process.env.REACT_APP_APIKEY,
@@ -50,7 +50,7 @@ const App = () => {
     layoutType: state.Layout.layoutType,
   }));
 
-  function getLayout() {
+  /*function getLayout() {
     let layoutCls: Object = VerticalLayout;
     switch (layoutType) {
       // case "horizontal":
@@ -61,9 +61,9 @@ const App = () => {
         break;
     }
     return layoutCls;
-  }
+  }*/
 
-  const Layout = getLayout();
+  const Layout = VerticalLayout;
   return (
     <React.Fragment>
       <Router>
