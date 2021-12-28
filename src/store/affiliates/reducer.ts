@@ -2,7 +2,7 @@ import {AffiliatesTypes, AffiliatesState} from "../affiliates/actionTypes";
 
 export const INIT_STATE : AffiliatesState = {
   affiliates: [],
-  affiliatesProfile: {},
+  affiliateProfile: {},
   error: {},
 }
 
@@ -16,6 +16,18 @@ const affiliates = (state = INIT_STATE, action :any) => {
       }
 
     case AffiliatesTypes.GET_AFFILIATES_FAIL:
+      return {
+        ...state,
+        error: action.payload,
+      }
+
+    case AffiliatesTypes.GET_AFFILIATE_PROFILE_SUCCESS:
+      return {
+        ...state,
+        affiliateProfile: action.payload,
+      }
+
+    case AffiliatesTypes.GET_AFFILIATE_PROFILE_FAIL:
       return {
         ...state,
         error: action.payload,

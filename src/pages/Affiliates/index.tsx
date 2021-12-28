@@ -46,18 +46,19 @@ import VerticalLayout from "../../components/VerticalLayout";
 import { getAffiliates as onGetAffiliates  } from "../../store/actions";
 
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
-const DatatableTables = () => {
+const Affiliates = () => {
 
   const dispatch = useDispatch();
 
   const { affiliates } = useSelector((state: any) => ({
-    affiliates: state.affiliate.affiliates,
+    affiliates: state.Affiliates.affiliates,
   }));
 
   const [affiliateList, setAffiliateList] = useState(null);
   const [isLoading, setLoading] = useState(false);
-  const [dateFilter, setDateFilter] = useState('12-01-2021 to 14-01-2021')
+  const [dateFilter, setDateFilter] = useState('12-01-2021 to 25-01-2021')
   const [isEdit, setIsEdit] = useState<boolean>(false);
 
   const columns = [
@@ -92,69 +93,73 @@ const DatatableTables = () => {
       sort: true,
     },
     {
-      dataField: "note",
-      text: "Note",
-      sort: true,
-    },
-    {
       dataField: "status",
       text: "Status",
       sort: true,
+      formatter: (cellContent: any, productData: any) => (
+        <>
+          <div
+            className={"badge badge-soft-" + productData.color + " font-size-12"}
+          >
+            {productData.status}
+          </div>
+        </>
+      ),
     },
     {
       dataField: "actions",
       text: "Actions",
       sort:false,
-      formatter: () => (
+      formatter: (cell: any, row: any) => (
         <>
           <div>
-              <UncontrolledDropdown className="mt-4 mt-sm-0">
+              <UncontrolledDropdown>
                 <DropdownToggle tag="a" className="btn btn-light">
                   <i className="mdi mdi-dots-vertical"></i>
                 </DropdownToggle>
 
-                <DropdownMenu>
-                  <DropdownItem to="#">edit</DropdownItem>
-                  <DropdownItem to="#">delete</DropdownItem>
+                <DropdownMenu className="float-start">
+                  <DropdownItem tag={Link} to={{ pathname: `/Affiliates/view/${row.id}`, state: { id: row.id }}}>edit</DropdownItem>
+                  <DropdownItem onClick={() => console.log(row.id)}>delete</DropdownItem>
                 </DropdownMenu>
               </UncontrolledDropdown>
-
           </div>
         </>
-      ),
+      )
     }
   ];
 
   // Table Data
 
+  /*const apiURL = 'https://mb-affiliate-api.mnftx.biz/api/affiliates';
+  const config = {
+    headers: {
+      'accept': 'text/plain',
+      'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJtYXJrZXRpbmctYm94LWFmZmlsaWF0ZSIsInVzZXItbmFtZSI6IkdlbmVyYWxVc2VyIiwidGVuYW50LWlkIjoiZGVmYXVsdC10ZW5hbnQtaWQiLCJyb2xlIjoiQWRtaW4iLCJ1c2VyLWlkIjoiR2VuZXJhbE1hbmFnZXIiLCJuYmYiOjE2NDA0MDk4ODEsImV4cCI6MTY0MDUzOTQ4MSwiaWF0IjoxNjQwNDA5ODgxfQ.3YSF1rxgReyO8OG2mhlQOsVtSeA7parVuwT1O9sm5o8'
+    }
+  };
 
+  const getAffiliatesData = async () => {
+    try {
+        const response = await axios.get(apiURL, config);
+        //const response = await axios.get('http://makeup-api.herokuapp.com/api/v1/products.json?brand=maybelline');
+        // console.log(response);
+        // debugger
+        // @ts-ignore
+      if(setAffiliateList(response.data.items)){
+          setLoading(true);
+      }
+    }catch (e) {
+      console.log(e);
+    }
+  }
 
-  // const apiURL = 'https://mb-affiliate-api.mnftx.biz/api/affiliates';
-  // const config = {
-  //   headers: {
-  //     'accept': 'text/plain',
-  //     'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJtYXJrZXRpbmctYm94LWFmZmlsaWF0ZSIsInVzZXItbmFtZSI6IkdlbmVyYWxVc2VyIiwidGVuYW50LWlkIjoiZGVmYXVsdC10ZW5hbnQtaWQiLCJyb2xlIjoiQWRtaW4iLCJ1c2VyLWlkIjoiR2VuZXJhbE1hbmFnZXIiLCJuYmYiOjE2NDAyNTEzNzksImV4cCI6MTY0MDM4MDk3OSwiaWF0IjoxNjQwMjUxMzc5fQ.cDE_v6Ixmbj5GnsUsyU2lgfsRZGxz4QJ-Q9DJu0tZ2I'
-  //   }
-  // };
-  //
-  // const getAffiliatesData = async () => {
-  //   try {
-  //       const response = await axios.get(apiURL, config);
-  //       //const response = await axios.get('http://makeup-api.herokuapp.com/api/v1/products.json?brand=maybelline');
-  //       //console.log(response);
-  //       setAffiliates(response.data.items)
-  //       setLoading(true);
-  //   }catch (e) {
-  //     console.log(e);
-  //   }
-  // }
-
-  /*useEffect(() => {
+  useEffect(() => {
     //setTimeout(function() {
     try {
-      const getAff = getAffiliates('');
-      //debugger
+      const getAff = getAffiliatesData();
       console.log(getAff);
+      debugger
     }catch (e) {
       console.log(e);
     }
@@ -162,56 +167,31 @@ const DatatableTables = () => {
   }, []);*/
 
   useEffect(() => {
-    if (affiliates && !affiliates.length) {
-      dispatch(onGetAffiliates());
-      setLoading(true)
+    if (!isLoading) {
+      dispatch(onGetAffiliates(''));
       setIsEdit(false);
     }
-  }, [dispatch, affiliates]);
+  }, [dispatch]);
 
   useEffect(() => {
-    setAffiliateList(affiliates);
-    debugger
+    if(affiliates){
+      console.log(affiliates);
+      setAffiliateList(affiliates.items);
+      setLoading(true)
+    }
     setIsEdit(false);
   }, [affiliates]);
 
-
-  /*{
-      "affiliateId": 1,
-      "generalInfo": {
-          "username": "Affiliate1",
-          "password": "qwerty_123456",
-          "email": "affiliate1@gmail.com",
-          "phone": "+79198765432",
-          "skype": "skype",
-          "zipCode": "100010",
-          "role": "masterAffiliateReferral",
-          "state": "active",
-          "currency": "usd",
-          "createdAt": "2021-11-30T14:07:47.055619Z",
-          "apiKey": "APIKEY123456"
-      },
-      "company": {
-          "name": "SomeCompany",
-          "address": "SomeAddress",
-          "regNumber": "Number",
-          "vatId": "VatId"
-      },
-      "bank": {
-          "beneficiaryName": "Bank",
-          "beneficiaryAddress": "Bank",
-          "bankName": "Bank",
-          "bankAddress": "Bank",
-          "accountNumber": "Bank",
-          "swift": "Bank",
-          "iban": "Bank"
-      },
-      "sequence": 4
-  }
-  */
-
   // @ts-ignore
-  /*const productData = !(affiliateList) ? [] : affiliateList.map(affiliate => {
+  const productData = !(affiliateList) ? [] : affiliateList?.map(affiliate => {
+    let color = "";
+    switch (affiliate.generalInfo.state) {
+      case "active": color = "success"; break;
+      case "notActive": color = "warning"; break;
+      case "banned": color = "danger"; break;
+      default: color = "light"; break;
+    }
+
     return {
       id: affiliate.affiliateId,
       username: affiliate.generalInfo.username,
@@ -220,12 +200,12 @@ const DatatableTables = () => {
       email: affiliate.generalInfo.email,
       reportto: "Management",
       createdat: new Date(affiliate.generalInfo.createdAt).toLocaleDateString('ru-RU', {day:"2-digit", month:"2-digit", year:"2-digit"}),
-      note: "",
       status: affiliate.generalInfo.state,
       actions: '',
+      color: color
     }
-  });*/
-  const productData = [{}]
+  });
+  //const productData = [{}]
   /*const productData = [
     {
       id: 1,
@@ -557,6 +537,13 @@ const DatatableTables = () => {
     console.log(dateFilter);
   }
 
+  function loadMore() {
+    console.log(affiliates.pagination.nextUrl);
+    if(affiliates.pagination.nextUrl) {
+      dispatch(onGetAffiliates(affiliates.pagination.nextUrl));
+    }
+  }
+
   // @ts-ignore
   return (
     <React.Fragment>
@@ -669,6 +656,16 @@ const DatatableTables = () => {
 
                   )}
 
+                  <div className="text-center">
+                    <button
+                      className="btn btnOrange waves-effect waves-light w-sm"
+                      onClick={loadMore}
+                    >
+                      <i className="mdi mdi-download d-block font-size-16"></i>{" "}
+                      Load More
+                    </button>
+                  </div>
+
                 </CardBody>
               </Card>
             </Col>
@@ -679,4 +676,4 @@ const DatatableTables = () => {
   );
 };
 
-export default DatatableTables;
+export default Affiliates;

@@ -5,7 +5,7 @@ import accessToken from "./jwt-token-access/accessToken"
 const token = accessToken
 
 //apply base url for axios
-const API_URL = "https://mb-affiliate-api.mnftx.biz/api"
+const API_URL = "https://mb-affiliate-api.mnftx.biz/"
 
 const axiosApi = axios.create({
   baseURL: API_URL,

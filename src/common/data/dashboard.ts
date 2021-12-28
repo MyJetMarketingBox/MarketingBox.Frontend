@@ -1,4 +1,8 @@
 import axios from "axios";
+import accessToken from "./../../helpers/jwt-token-access/accessToken"
+
+//pass new generated access token here
+const token = accessToken
 
 interface DashboardProps {
     id : number;
@@ -14,12 +18,12 @@ interface DashboardProps {
 
 const config = {
     method: 'get',
-    //url: 'https://mb-affiliate-api.mnftx.biz/api/reports/by-days',
+    url: 'https://mb-affiliate-api.mnftx.biz/api/reports/by-days',
     //url: 'https://mb-affiliate-api.mnftx.biz/api/reports?fromDate=2021-11-01&toDate=2021-12-01',
-    url: 'https://mb-affiliate-api.mnftx.biz/api/affiliates',
+    //url: 'https://mb-affiliate-api.mnftx.biz/api/affiliates',
     headers: {
         'accept': 'text/plain',
-        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJtYXJrZXRpbmctYm94LWFmZmlsaWF0ZSIsInVzZXItbmFtZSI6IkdlbmVyYWxVc2VyIiwidGVuYW50LWlkIjoiZGVmYXVsdC10ZW5hbnQtaWQiLCJyb2xlIjoiQWRtaW4iLCJ1c2VyLWlkIjoiR2VuZXJhbE1hbmFnZXIiLCJuYmYiOjE2NDAwODAyMzMsImV4cCI6MTY0MDIwOTgzMywiaWF0IjoxNjQwMDgwMjMzfQ.DwH8zQ7ktZJED8umb4wHY2GLJS12CessOsaXsQCneDQ'
+        'Authorization': token
     }
 };
 

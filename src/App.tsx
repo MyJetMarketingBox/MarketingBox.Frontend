@@ -46,9 +46,9 @@ import "./assets/scss/preloader.scss";
 // initFirebaseBackend(config["firebase"]);
 
 const App = () => {
-  const { layoutType } = useSelector((state: any) => ({
-    layoutType: state.Layout.layoutType,
-  }));
+  // const { layoutType } = useSelector((state: any) => ({
+  //   layoutType: state.Layout.layoutType,
+  // }));
 
   /*function getLayout() {
     let layoutCls: Object = VerticalLayout;
@@ -63,7 +63,7 @@ const App = () => {
     return layoutCls;
   }*/
 
-  const Layout = VerticalLayout;
+  //const Layout = VerticalLayout;
   return (
     <React.Fragment>
       <Router>
@@ -82,7 +82,7 @@ const App = () => {
           {userRoutes.map((route: any, idx: number) => (
             <Authmiddleware
               path={route.path}
-              layout={Layout}
+              layout={VerticalLayout}
               component={route.component}
               key={idx}
               isAuthProtected={true}

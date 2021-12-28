@@ -60,7 +60,6 @@
   border-color: #e74a18 !important;
 
   &:hover {
-    color: #fff !important;
     background-color: #e7643b !important;
     border-color: #e7643b !important;
   }
@@ -68,9 +67,9 @@
 
 .text-orange{
   color: #e7643b;
-  &:hover{
-    color: #d84113;
-  }
+  //&:hover{
+  //  color: #d84113;
+  //}
 }
 
 .auth-bg {

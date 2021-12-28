@@ -216,7 +216,10 @@ export const deleteProject = (project  :any) =>
 export const getUserProfile = () => get(url.GET_USER_PROFILE)
 
 // get affiliates
-export const getAffiliates = () => get(url.GET_AFFILIATES)
+export const getAffiliates = (data: any) => get(data || url.GET_AFFILIATES)
+
+export const getAffiliateProfile = (id : number) =>
+  get(`${url.GET_AFFILIATES}/${id}`, { params: { id } })
 
 
 export {

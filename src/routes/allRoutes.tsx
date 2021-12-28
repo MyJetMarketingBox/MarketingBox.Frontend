@@ -4,6 +4,7 @@ import { Redirect } from "react-router-dom";
 import Dashboard from "../pages/Dashboard";
 
 import Affiliates from "../pages/Affiliates";
+import Affiliate from "../pages/Affiliates/view";
 
 //Authentication pages
 import Login from "src/pages/Authentication/Login";
@@ -25,6 +26,7 @@ const userRoutes: Array<RouteProps> = [
   { path: "/dashboard", component: Dashboard },
 
   { path: "/Affiliates", component: Affiliates },
+  { path: "/Affiliates/view/:id", component: Affiliate },
   //{ path: "/Reports", component: Reports },
 
   // this route should be at the end of all other routes

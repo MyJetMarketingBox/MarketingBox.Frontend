@@ -4,19 +4,19 @@ import { combineReducers } from "redux"
 import Layout from "./layout/reducer";
 
 //Affiliates
-import affiliate from "./affiliates/reducer"
+import Affiliates from "./affiliates/reducer"
 
 // Calendar
-import Calendar from "./calendar/reducer";
+//import Calendar from "./calendar/reducer";
 
 //Chat
-import Chat from "./chat/reducer";
+//import Chat from "./chat/reducer";
 
 //Invoices
-import Invoices from "./invoices/reducer";
+//import Invoices from "./invoices/reducer";
 
 //Contact
-import contacts from "./contacts/reducer";
+//import contacts from "./contacts/reducer";
 
 //login
 import login from "./auth/login/reducer";
@@ -33,11 +33,11 @@ import forgetPassword from "./auth/forgetpwd/reducer";
 const rootReducer = combineReducers({
   // public
   Layout,
-  affiliate,
-  Calendar,
-  Chat,
-  Invoices,
-  contacts,
+  Affiliates,
+  // Calendar,
+  // Chat,
+  // Invoices,
+  // contacts,
   login,
   register,
   profile,
