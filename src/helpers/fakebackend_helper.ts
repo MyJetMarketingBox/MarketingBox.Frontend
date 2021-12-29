@@ -203,15 +203,15 @@ export const updateUser = (user : any) => put(url.UPDATE_USER, user)
 export const deleteUser = (user : any) => del(url.DELETE_USER, { headers: { user } })
 
 /** PROJECT */
-// add user
-export const addNewProject = (project  :any) => post(url.ADD_NEW_PROJECT, project)
-
-// update user
-export const updateProject = (project  :any) => put(url.UPDATE_PROJECT, project)
-
-// delete user
-export const deleteProject = (project  :any) =>
-  del(url.DELETE_PROJECT, { headers: { project } })
+// // add user
+// export const addNewProject = (project  :any) => post(url.ADD_NEW_PROJECT, project)
+//
+// // update user
+// export const updateProject = (project  :any) => put(url.UPDATE_PROJECT, project)
+//
+// // delete user
+// export const deleteProject = (project  :any) =>
+//   del(url.DELETE_PROJECT, { headers: { project } })
 
 export const getUserProfile = () => get(url.GET_USER_PROFILE)
 
@@ -220,6 +220,9 @@ export const getAffiliates = (data: any) => get(data || url.GET_AFFILIATES)
 
 export const getAffiliateProfile = (id : number) =>
   get(`${url.GET_AFFILIATES}/${id}`, { params: { id } })
+
+// get reports
+export const getReports = (data: any) => get(url.GET_REPORTS)
 
 
 export {
