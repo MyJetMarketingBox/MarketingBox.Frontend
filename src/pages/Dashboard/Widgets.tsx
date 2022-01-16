@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, CardBody, Col, Row } from "reactstrap";
 
-import { WidgetsData } from "../../common/data/dashboard";
+import { WidgetsData } from "../../common/data/";
 
 //import countup
 import CountUp from "react-countup";
@@ -22,7 +22,7 @@ const Widgets = ({ options }: any) => {
                     {widget["title"]}
                   </span>
                   <h4 className="mb-3">
-                    {widget["isDoller"] === true ? "$" : ""}
+                    {/*{widget["isDoller"] === true ? "$" : ""}*/}
                     <span className="counter-value">
                       <CountUp start={0} end={widget["price"]} duration={12} />
                       {widget["postFix"]}

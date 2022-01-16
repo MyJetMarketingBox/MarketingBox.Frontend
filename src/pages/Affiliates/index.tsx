@@ -36,32 +36,59 @@ import ToolkitProvider, { Search } from "react-bootstrap-table2-toolkit";
 
 //Import Breadcrumb
 import Breadcrumbs from "../../components/Common/Breadcrumb";
+
 import "../../assets/scss/datatables.scss";
-
-import "flatpickr/dist/themes/material_orange.css";
-import Flatpickr from "react-flatpickr";
-import VerticalLayout from "../../components/VerticalLayout";
-
 
 import { getAffiliates as onGetAffiliates  } from "../../store/actions";
 
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
-const Affiliates = () => {
+const Affiliates: React.FC = () => {
 
   const dispatch = useDispatch();
 
-  const { affiliates } = useSelector((state: any) => ({
-    affiliates: state.Affiliates.affiliates,
-  }));
+  const { affiliates, errorAff } = useSelector((state: any) => {
+    return {
+      affiliates: state.Affiliates.affiliates,
+      errorAff: state.Affiliates.error,
+    }
+  });
 
   const [affiliateList, setAffiliateList] = useState(null);
-  const [isLoading, setLoading] = useState(false);
-  const [dateFilter, setDateFilter] = useState('12-01-2021 to 25-01-2021')
+  const [errorAffList, setErrorAffList] = useState<any>(null);
+  const [isLoading, setLoading] = useState<boolean>(false);
+  const [isLoadAff, setLoadAff] = useState<boolean>(false);
   const [isEdit, setIsEdit] = useState<boolean>(false);
+  const [actionBtn, setActionBtn] = useState<boolean>(false)
+
+  const toggleAction = () => {
+    console.log(1);
+    setActionBtn(actionBtn ? false : true)
+  }
 
   const columns = [
+    {
+      dataField: "actions",
+      text: "Actions",
+      sort:false,
+      formatter: (cell: any, row: any) => (
+        <>
+          <div>
+            <UncontrolledDropdown onClick={toggleAction}>
+              <DropdownToggle tag="a" className="btn btn-light">
+                <i className={`mdi ${actionBtn ? 'mdi-dots-horizontal' : ' mdi-dots-vertical'}`}></i>
+              </DropdownToggle>
+
+              <DropdownMenu className="float-start">
+                <DropdownItem tag={Link} to={{ pathname: `/Affiliates/view/${row.id}`, state: { id: row.id }}}>edit</DropdownItem>
+                <DropdownItem onClick={() => console.log(row.id)}>delete</DropdownItem>
+              </DropdownMenu>
+            </UncontrolledDropdown>
+          </div>
+        </>
+      )
+    },
     {
       dataField: "username",
       text: "Username",
@@ -106,27 +133,6 @@ const Affiliates = () => {
         </>
       ),
     },
-    {
-      dataField: "actions",
-      text: "Actions",
-      sort:false,
-      formatter: (cell: any, row: any) => (
-        <>
-          <div>
-              <UncontrolledDropdown>
-                <DropdownToggle tag="a" className="btn btn-light">
-                  <i className="mdi mdi-dots-vertical"></i>
-                </DropdownToggle>
-
-                <DropdownMenu className="float-start">
-                  <DropdownItem tag={Link} to={{ pathname: `/Affiliates/view/${row.id}`, state: { id: row.id }}}>edit</DropdownItem>
-                  <DropdownItem onClick={() => console.log(row.id)}>delete</DropdownItem>
-                </DropdownMenu>
-              </UncontrolledDropdown>
-          </div>
-        </>
-      )
-    }
   ];
 
   // Table Data
@@ -167,78 +173,108 @@ const Affiliates = () => {
   }, []);*/
 
   useEffect(() => {
-    if (!isLoading) {
-      dispatch(onGetAffiliates(''));
-      setIsEdit(false);
+    if (affiliates.items && !affiliates.items.length) {
+      dispatch(onGetAffiliates(''))
     }
-  }, [dispatch]);
+  }, []);
+
+  // async function getAffiliates(){
+  //   setLoading(true)
+  //   const aff = await onGetAffiliates('');
+  //   dispatch(aff);
+  //   setLoading(false)
+  // }
 
   useEffect(() => {
     if(affiliates){
-      console.log(affiliates);
+      //console.log(affiliates);
       setAffiliateList(affiliates.items);
       setLoading(true)
     }
     setIsEdit(false);
   }, [affiliates]);
 
+  // errorAff
+  useEffect(() => {
+    if(errorAff){
+      setErrorAffList(errorAff.response);
+    }
+    setIsEdit(false);
+  }, [errorAff]);
+
+  useEffect(() => {
+    setLoadAff(false)
+  }, [affiliateList])
+
   // @ts-ignore
-  const productData = !(affiliateList) ? [] : affiliateList?.map(affiliate => {
-    let color = "";
+  const affiliateData = !(affiliateList) ? [] : affiliateList?.map(affiliate => {
+    let color, status, role;
     switch (affiliate.generalInfo.state) {
-      case "active": color = "success"; break;
-      case "notActive": color = "warning"; break;
-      case "banned": color = "danger"; break;
+      case 0: status = "active"; color = "success"; break;
+      case 2: status = "notActive"; color = "warning"; break;
+      case 1: status = "banned"; color = "danger"; break;
       default: color = "light"; break;
+    }
+
+    switch (affiliate.generalInfo.role) {
+      case 0: role = "Affiliate"; break;
+      case 1: role = "Master Affiliate"; break;
+      case 2: role = "Affiliate Manager"; break;
+      case 3: role = "Admin"; break;
+      case 4: role = "Master Affiliate Referral"; break;
+      default: role = "Undefined"; break;
     }
 
     return {
       id: affiliate.affiliateId,
       username: affiliate.generalInfo.username,
-      role: affiliate.generalInfo.role,
+      role: role,
       ai: affiliate.affiliateId,
       email: affiliate.generalInfo.email,
       reportto: "Management",
       createdat: new Date(affiliate.generalInfo.createdAt).toLocaleDateString('ru-RU', {day:"2-digit", month:"2-digit", year:"2-digit"}),
-      status: affiliate.generalInfo.state,
+      status: status,
       actions: '',
       color: color
     }
   });
-  //const productData = [{}]
 
   const defaultSorted: any = [
     {
       dataField: "id",
-      order: "asc",
+      order: "desc",
     },
   ];
 
   const pageOptions: any = {
-    sizePerPage: 10,
-    totalSize: productData.length, // replace later with size(customers),
+    sizePerPage: affiliateData.length,
+    totalSize: affiliateData.length, // replace later with size(customers),
     custom: true,
   };
 
   // Select All Button operation
-  const selectRow: any = {
-    mode: "checkbox",
-  };
+  // const selectRow: any = {
+  //   mode: "checkbox",
+  // };
 
   const { SearchBar } = Search;
 
-  if(dateFilter){
-    console.log(dateFilter);
-  }
-
-  function loadMore() {
-    console.log(affiliates.pagination.nextUrl);
+  async function loadMore() {
     if(affiliates.pagination.nextUrl) {
-      dispatch(onGetAffiliates(affiliates.pagination.nextUrl));
+      setLoadAff(true)
+      const moreAff = await onGetAffiliates(affiliates.pagination.nextUrl)
+      dispatch(moreAff);
     }
   }
 
-  // @ts-ignore
+  if(errorAffList){
+    console.log(errorAffList);
+    // if(errorAffList.status === 401){
+    //   location.replace('/logout');
+    // }
+  }
+
+
   return (
     <React.Fragment>
       <div className="page-content">
@@ -252,13 +288,6 @@ const Affiliates = () => {
             <Col className="col-12">
               <Card>
                 <CardBody>
-                  {/*<CardTitle className="h4">Default Datatable </CardTitle>
-                  <p className="card-title-desc">
-                    react-bootstrap-table-next plugin has most features enabled
-                    by default, so all you need to do to use it with your own
-                    tables is to call the construction function:{" "}
-                    <code>react-bootstrap-table-next </code>.
-                  </p>*/}
 
                   {!isLoading ? (
                     <div style={{ textAlign: "center" }}>
@@ -275,7 +304,7 @@ const Affiliates = () => {
                         <ToolkitProvider
                           keyField="id"
                           columns={columns}
-                          data={productData}
+                          data={affiliateData}
                           search
                         >
                           {toolkitProps => (
@@ -288,17 +317,6 @@ const Affiliates = () => {
                                       <i className="bx bx-search-alt search-icon" />
                                     </div>
                                   </div>
-
-                                  <Flatpickr
-                                    className="form-control d-block"
-                                    placeholder="Y-m-d to Y-m-d"
-                                    options={{
-                                      mode: "range",
-                                      dateFormat: "d-m-Y",
-                                    }}
-                                    value={dateFilter}
-                                    onChange={setDateFilter(dateFilter)}
-                                  />
                                 </Col>
                                 <Col md="8">
                                   <div className="text-right float-end">
@@ -317,7 +335,7 @@ const Affiliates = () => {
                                       bordered={false}
                                       striped={false}
                                       defaultSorted={defaultSorted}
-                                      selectRow={selectRow}
+                                      //selectRow={selectRow}
                                       classes={"table align-middle table-nowrap"}
                                       headerWrapperClasses={"thead-light"}
                                       {...toolkitProps.baseProps}
@@ -327,7 +345,7 @@ const Affiliates = () => {
                                 </Col>
                               </Row>
 
-                              <Row className="align-items-md-center mt-30">
+                              {/*<Row className="align-items-md-center mt-30">
                                 <Col className="inner-custom-pagination d-flex">
                                   <div className="d-inline">
                                     <SizePerPageDropdownStandalone
@@ -340,7 +358,7 @@ const Affiliates = () => {
                                     />
                                   </div>
                                 </Col>
-                              </Row>
+                              </Row>*/}
 
                             </React.Fragment>
                           )}
@@ -350,15 +368,22 @@ const Affiliates = () => {
 
                   )}
 
-                  <div className="text-center">
-                    <button
-                      className="btn btnOrange waves-effect waves-light w-sm"
-                      onClick={loadMore}
-                    >
-                      <i className="mdi mdi-download d-block font-size-16"></i>{" "}
-                      Load More
-                    </button>
-                  </div>
+
+                  {affiliates.pagination.nextUrl && (
+                    <div className="text-center">
+                      <button
+                        className="btn btnOrange waves-effect waves-light w-sm"
+                        onClick={loadMore}
+                      >
+                        {console.log(isLoadAff)}
+                        {!isLoadAff ? <i className='mdi mdi-download d-block font-size-16'> </i> : <i className='bx bx-loader bx-spin d-block font-size-16'> </i>}
+                        {/*<i className={`${!isLoadAff ? 'mdi mdi-download' : 'bx bx-loader bx-spin'} d-block font-size-16`}></i> {" "}*/}
+                        {" "}
+                        Load More
+                      </button>
+                    </div>
+                  )}
+
 
                 </CardBody>
               </Card>

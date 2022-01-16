@@ -5,8 +5,13 @@ export enum ReportsTypes {
   GET_REPORTS_FAIL = '@@affiliates/GET_REPORTS_FAIL',
 }
 
+interface iReports {
+  items  : Array<object>;
+  pagination : Object;
+}
+
 export interface ReportsState {
-  reports  : Array<any>;
+  reports  : iReports;
   reportProfile : Object;
   error : Object;
 }

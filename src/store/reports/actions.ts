@@ -1,8 +1,8 @@
 import {ReportsTypes} from './actionTypes'
 
-export const getReports = (data: any) => ({
+export const getReports = (filter: any) => ({
   type: ReportsTypes.GET_REPORTS,
-  data
+  filter
 })
 
 export const getReportsSuccess = (reports : any) => ({

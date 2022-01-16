@@ -2,6 +2,7 @@ import { LoginTypes } from "./actionTypes";
 
 const initialState = {
   error: "",
+  userInfo: {},
   loading: false,
 };
 
@@ -16,6 +17,7 @@ const login = (state = initialState, action: any) => {
     case LoginTypes.LOGIN_SUCCESS:
       state = {
         ...state,
+        userInfo: action.payload,
         loading: false,
       };
       break;
@@ -26,7 +28,7 @@ const login = (state = initialState, action: any) => {
       state = { ...state };
       break;
     case LoginTypes.API_ERROR:
-      state = { ...state, error: action.payload, loading: false };
+      state = { ...state, error: action.payload.message, loading: false };
       break;
     default:
       state = { ...state };

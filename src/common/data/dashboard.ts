@@ -1,8 +1,10 @@
 import axios from "axios";
-import accessToken from "./../../helpers/jwt-token-access/accessToken"
+import accessToken from "./../../helpers/jwt-token-access/accessToken";
 
 //pass new generated access token here
 const token = accessToken
+const fromDate = new Date(new Date().setDate(new Date().getDate() - 7)).toJSON().slice(0, 10);
+const toDate = new Date().toJSON().slice(0, 10);
 
 interface DashboardProps {
     id : number;
@@ -16,37 +18,37 @@ interface DashboardProps {
 }
 
 
-const config = {
-    method: 'get',
-    url: 'https://mb-affiliate-api.mnftx.biz/api/reports/by-days',
-    //url: 'https://mb-affiliate-api.mnftx.biz/api/reports?fromDate=2021-11-01&toDate=2021-12-01',
-    //url: 'https://mb-affiliate-api.mnftx.biz/api/affiliates',
-    headers: {
-        'accept': 'text/plain',
-        'Authorization': token
-    }
+const MyState = {
+    ctr: [],
+    ftd: []
 };
 
-// @ts-ignore
-// function byDay(obj){
-//     // @ts-ignore
-//     let ctr = obj.map(item => item.registrationsCount);
-//     // @ts-ignore
-//     let ftd = obj.map(item => item.ftdCount);
-//
-//     return { 'ctr': ctr, 'ftd': ftd };
-// }
+async function getData(){
 
-// @ts-ignore
-axios(config)
-  .then(function (response) {
-      console.log(JSON.stringify(response.data));
-  })
-  .catch(function (error) {
-      console.log(error);
-  });
+    let response = await fetch(`https://mb-affiliate-api.mnftx.biz/api/reports?fromDate=${fromDate}&toDate=${toDate}`, {
+        method: 'get',
+        headers: {
+            'accept': 'text/plain',
+            'Authorization': token
+        }
+    });
+    let res = await response.json();
+    console.log(res)
 
-//console.log(res);
+    // @ts-ignore
+    let ctr = await res.items.map(item => item.registrationsCount);
+    //MyState.ctr.push(res.items.map(item => item.registrationsCount));
+
+    // @ts-ignore
+    let ftd = await res.items.map(item => item.ftdCount);
+    //MyState.ftd.push(res.items.map(item => item.ftdCount));
+
+    return  {
+        "ctr": ctr,
+        "ftd": ftd
+    };
+
+}
 
 
 const WidgetsData : Array<DashboardProps> = [
@@ -58,7 +60,7 @@ const WidgetsData : Array<DashboardProps> = [
         isDoller: false,
         postFix: "",
         statusColor: "success",
-        series: [0, 0, 0, 0, 3, 0, 0],
+        series: [0, 0, 0, 3, 0, 0, 2],
     },
     {
         id: 2,

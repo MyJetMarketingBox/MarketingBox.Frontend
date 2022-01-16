@@ -9,16 +9,11 @@ import {
 } from "./actions";
 
 //Включите оба файла-помощника с необходимыми методами
-import { getReports } from "../../helpers/fakebackend_helper";
+import { getReports } from "../../helpers/backend_helper";
 
-function* fetchReports({ data } : any) {
+function* fetchReports({ filter } : any) {
   try{
-    console.log(data);
-    if(data){
-
-    }
-    debugger
-    const response : Promise<any> = yield call(getReports, data)
+    const response : Promise<any> = yield call(getReports, filter)
     yield put(getReportsSuccess(response))
   }catch (error) {
     yield put(getReportsFail(error))

@@ -1,23 +1,11 @@
 /** Layouts */
 export * from "./layout/actions";
 
-/** Calendar */
-//export * from "./calendar/actions";
-
-/** Chat */
-//export * from "./chat/actions";
-
-/** Invoices */
-//export * from "./invoices/actions";
-
-/** Contact */
-//export * from "./contacts/actions";
-
 /** Affiliates */
 export * from "./affiliates/actions";
 
 /** Reports */
-//export * from "./reports/actions"
+export * from "./reports/actions"
 
 /** Login */
 export * from "./auth/login/actions"

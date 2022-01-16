@@ -4,7 +4,8 @@ import * as url from "./url_helper"
 
 // Gets the logged in user data from local session
 const getLoggedInUser = () => {
-  const user = localStorage.getItem("user")
+  const user = localStorage.getItem("userAuth")
+  console.log(user);
   if (user) return JSON.parse(user)
   return null
 }
@@ -46,7 +47,7 @@ const postFakeRegister = (data : any) => {
 }
 
 // Login Method
-const postFakeLogin = (data : any) => post(url.POST_FAKE_LOGIN, data)
+const postLogin = (data : any) => post(url.POST_FAKE_LOGIN, data)
 
 // postForgetPwd
 const postFakeForgetPwd = (data : any) => post(url.POST_FAKE_PASSWORD_FORGET, data)
@@ -222,14 +223,14 @@ export const getAffiliateProfile = (id : number) =>
   get(`${url.GET_AFFILIATES}/${id}`, { params: { id } })
 
 // get reports
-export const getReports = (data: any) => get(url.GET_REPORTS)
+export const getReports = (filter: any) => get(`${url.GET_REPORTS}`,  { params: filter } )
 
 
 export {
   getLoggedInUser,
   isUserAuthenticated,
   postFakeRegister,
-  postFakeLogin,
+  postLogin,
   postFakeProfile,
   postFakeForgetPwd,
   postJwtRegister,

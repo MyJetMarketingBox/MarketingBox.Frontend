@@ -10,8 +10,13 @@ export enum AffiliatesTypes {
   GET_AFFILIATE_PROFILE_FAIL = '@@contact/GET_AFFILIATE_PROFILE_FAIL',
 }
 
+interface iAffiliates {
+  items  : Array<object>;
+  pagination : Object;
+}
+
 export interface AffiliatesState {
-  affiliates  : Array<any>;
+  affiliates  : iAffiliates;
   affiliateProfile : Object;
   error : Object;
 }

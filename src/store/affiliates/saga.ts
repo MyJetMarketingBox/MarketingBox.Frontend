@@ -11,7 +11,7 @@ import {
 } from "./actions";
 
 //Включите оба файла-помощника с необходимыми методами
-import { getAffiliates, getAffiliateProfile } from "../../helpers/fakebackend_helper";
+import { getAffiliates, getAffiliateProfile } from "../../helpers/backend_helper";
 
 function* fetchAffiliates({ data } : any) {
   try{

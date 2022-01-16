@@ -14,6 +14,10 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getReports } from "../../store/reports/actions";
 
+import "flatpickr/dist/themes/material_orange.css";
+import "../../assets/scss/datatables.scss";
+import affiliates from "../../store/affiliates/reducer";
+
 const Reports = () => {
 
   const dispatch = useDispatch();
@@ -22,103 +26,101 @@ const Reports = () => {
     reports: state.Reports.reports,
   }));
 
+
+  // const dateEnd = new Date().toJSON().slice(0, 10);
+  // const dateStart = new Date(new Date().setDate(new Date().getDate() - 61)).toJSON().slice(0, 10);
+  //
+  // let filter = {
+  //   fromDate: dateStart,
+  //   toDate: "2021-11-30"
+  // }
+
   const [isLoading, setLoading] = useState<boolean>(false);
-  const [dateFilter, setDateFilter] = useState('2021-10-01 to 2021-11-30')
+  const [fromDate, setFromDate] = useState(new Date(new Date().setDate(new Date().getDate() - 61)).toJSON().slice(0, 10))
+  const [toDate, setToDate] = useState(new Date().toJSON().slice(0, 10))
+  const [dateFilter, setDateFilter] = useState(`${fromDate} to ${toDate}`)
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [reportList, setReportList] = useState(null)
+  const [filter, setFilter] = useState<object>({ fromDate: fromDate, toDate: "2021-11-30" })
+
+  //let filter = {}
 
   useEffect(() => {
-    if(!isLoading){
-      dispatch(getReports(dateFilter))
-      debugger
+    console.log(1);
+    if(reports.items && !reports.items.length){
+      console.log(2);
+      // filter = {
+      //   fromDate: fromDate,
+      //   toDate: "2021-11-30"
+      // }
+      dispatch(getReports(filter))
       setIsEdit(false);
     }
-  }, [dispatch])
+  }, [dispatch, filter])
 
   useEffect(() => {
     if(reports){
-      console.log(reports);
+      // console.log(reports);
+      // debugger
       setReportList(reports.items);
       setLoading(true)
     }
     setIsEdit(false);
   }, [reports]);
 
+  // useEffect(() => {
+  //   setDateFilter(`${fromDate} to ${toDate}`)
+  // });
+
+  // useEffect(() => {
+  //   console.log(filter);
+  //   dispatch(getReports(filter))
+  // }, [filter]);
+
   // @ts-ignore
   const reportsData = !(reportList) ? [] : reportList?.map(report => {
-    console.log(report);
+    //console.log(report);
     return {
       id: report.affiliateId,
-      registrationsCount: report.registrationsCount
+      cr: (report.cr).toFixed(2),
+      ftdCount: report.ftdCount,
+      payout: report.payout,
+      registrationsCount: report.registrationsCount,
+      revenue: report.revenue
     }
   });
 
   const columns = [
     {
-      dataField: "username",
-      text: "Username",
+      dataField: "id",
+      text: "affiliateId",
       sort: true,
     },
     {
-      dataField: "role",
-      text: "Role",
+      dataField: "cr",
+      text: "CR",
       sort: true,
     },
     {
-      dataField: "ai",
-      text: "AI",
+      dataField: "ftdCount",
+      text: "FTD",
       sort: true,
     },
     {
-      dataField: "email",
-      text: "Email",
+      dataField: "payout",
+      text: "Payout",
       sort: true,
     },
     {
-      dataField: "reportto",
-      text: "Report To",
+      dataField: "registrationsCount",
+      text: "Registrations",
       sort: true,
     },
     {
-      dataField: "createdat",
-      text: "Created At",
+      dataField: "revenue",
+      text: "Revenue",
       sort: true,
-    },
-    {
-      dataField: "status",
-      text: "Status",
-      sort: true,
-      formatter: (cellContent: any, productData: any) => (
-        <>
-          <div
-            className={"badge badge-soft-" + productData.color + " font-size-12"}
-          >
-            {productData.status}
-          </div>
-        </>
-      ),
-    },
-    /*{
-      dataField: "actions",
-      text: "Actions",
-      sort:false,
-      formatter: (cell: any, row: any) => (
-        <>
-          <div>
-            <UncontrolledDropdown>
-              <DropdownToggle tag="a" className="btn btn-light">
-                <i className="mdi mdi-dots-vertical"></i>
-              </DropdownToggle>
-
-              <DropdownMenu className="float-start">
-                <DropdownItem tag={Link} to={{ pathname: `/Affiliates/view/${row.id}`, state: { id: row.id }}}>edit</DropdownItem>
-                <DropdownItem onClick={() => console.log(row.id)}>delete</DropdownItem>
-              </DropdownMenu>
-            </UncontrolledDropdown>
-          </div>
-        </>
-      )
-    }*/
+    }
   ];
 
   const defaultSorted: any = [
@@ -135,13 +137,51 @@ const Reports = () => {
   };
 
   // Select All Button operation
-  const selectRow: any = {
-    mode: "checkbox",
-  };
+  // const selectRow: any = {
+  //   mode: "checkbox",
+  // };
 
-  if(dateFilter.length > 1){
-    console.log(dateFilter);
+  const fullWidth = {
+    width: '100%'
   }
+
+  useEffect(() => {
+    console.log(dateFilter);
+  }, [dateFilter]);
+
+  const setDateOnFilter = (data: any) => {
+    if(data.length > 1){
+
+      const utcFrom = data[0].getTime();
+      const from = new Date(utcFrom + (3600000*2)).toJSON().slice(0, 10);
+
+      const utcTo = data[1].getTime();
+      const to = new Date(utcTo + (3600000*2)).toJSON().slice(0, 10);
+
+      setFromDate(from)
+      setToDate(to)
+
+      setDateFilter(`${from} to ${to}`);
+
+      setTimeout(() => {
+        console.log(dateFilter);
+        console.log(from);
+        console.log(to);
+      },1000)
+
+
+      //setFilter({ fromDate: fromDate, toDate: toDate })
+      // setTimeout(() => {
+      //   console.log("2: ",filter)
+      // }, 2000);
+      //dispatch(getReports(filter))
+
+
+    }
+  }
+
+  //console.log(dateFilter)
+
 
   const { SearchBar } = Search;
 
@@ -160,13 +200,6 @@ const Reports = () => {
                 <CardBody>
 
                   <CardBody>
-                    {/*<CardTitle className="h4">Default Datatable </CardTitle>
-                  <p className="card-title-desc">
-                    react-bootstrap-table-next plugin has most features enabled
-                    by default, so all you need to do to use it with your own
-                    tables is to call the construction function:{" "}
-                    <code>react-bootstrap-table-next </code>.
-                  </p>*/}
 
                     {!isLoading ? (
                       <div style={{ textAlign: "center" }}>
@@ -188,6 +221,23 @@ const Reports = () => {
                               <React.Fragment>
                                 <Row className="mb-2">
                                   <Col md="12">
+
+
+                                    <div className="me-2 mb-2 d-inline-block col-md-3">
+                                      <label className="search-label" style={fullWidth}>
+                                        <Flatpickr
+                                          className="form-control d-block"
+                                          placeholder="Y-m-d to Y-m-d"
+                                          options={{
+                                            mode: "range",
+                                            dateFormat: "Y-m-d",
+                                          }}
+                                          value={dateFilter}
+                                          onChange={(date: any) => setDateOnFilter(date)}
+                                        />
+                                      </label>
+                                    </div>
+
                                     <div className="search-box me-2 mb-2 d-inline-block">
                                       <div className="position-relative">
                                         <SearchBar {...toolkitProps.searchProps} />
@@ -195,26 +245,7 @@ const Reports = () => {
                                       </div>
                                     </div>
 
-                                    <div className="me-3 mb-3 d-inline-block col-3">
-                                      <Flatpickr
-                                        className="form-control d-block"
-                                        placeholder="Y-m-d to Y-m-d"
-                                        options={{
-                                          mode: "range",
-                                          dateFormat: "Y-m-d",
-                                        }}
-                                        value={dateFilter}
-                                        onChange={(date: any) => setDateFilter(date)}
-                                      />
-                                    </div>
                                   </Col>
-                                  {/*<Col md="8">
-                                    <div className="text-right float-end">
-                                      <button type="submit" className="btn btn-success ">
-                                        <i className="bx bx-plus"></i> new affiliate
-                                      </button>
-                                    </div>
-                                  </Col>*/}
                                 </Row>
 
                                 <Row>
@@ -225,7 +256,7 @@ const Reports = () => {
                                         bordered={false}
                                         striped={false}
                                         defaultSorted={defaultSorted}
-                                        selectRow={selectRow}
+                                        //selectRow={selectRow}
                                         classes={"table align-middle table-nowrap"}
                                         headerWrapperClasses={"thead-light"}
                                         {...toolkitProps.baseProps}

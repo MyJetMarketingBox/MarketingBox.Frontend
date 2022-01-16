@@ -9,18 +9,6 @@ import Affiliates from "./affiliates/reducer"
 //Reports
 import Reports from "./reports/reducer"
 
-// Calendar
-//import Calendar from "./calendar/reducer";
-
-//Chat
-//import Chat from "./chat/reducer";
-
-//Invoices
-//import Invoices from "./invoices/reducer";
-
-//Contact
-//import contacts from "./contacts/reducer";
-
 //login
 import login from "./auth/login/reducer";
 
@@ -38,10 +26,6 @@ const rootReducer = combineReducers({
   Layout,
   Affiliates,
   Reports,
-  // Calendar,
-  // Chat,
-  // Invoices,
-  // contacts,
   login,
   register,
   profile,

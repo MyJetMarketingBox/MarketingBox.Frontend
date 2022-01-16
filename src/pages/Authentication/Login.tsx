@@ -13,7 +13,7 @@ import { withRouter, Link } from "react-router-dom";
 import { AvForm, AvField } from "availity-reactstrap-validation";
 
 // actions
-import { loginUser} from "../../store/actions";
+import { loginUser } from "../../store/actions";
 
 // import images
 import logo from "../../assets/images/logo-sm.svg";
@@ -33,45 +33,8 @@ const Login = ({ history }: LoginProps) => {
 
   // handleValidSubmit
   const handleValidSubmit = (event: any, values: any) => {
-    // console.log(event);
-    // console.log(values);
-    // console.log(loginUser(values, history));
-    // return;
     dispatch(loginUser(values, history));
   };
-
-  // const signIn = (res: any, type: any) => {
-  //   if (type === "google" && res) {
-  //     const postData = {
-  //       name: res.profileObj.name,
-  //       email: res.profileObj.email,
-  //       token: res.tokenObj.access_token,
-  //       idToken: res.tokenId,
-  //     };
-  //     dispatch(socialLogin(postData, history, type));
-  //   } else if (type === "facebook" && res) {
-  //     const postData = {
-  //       name: res.name,
-  //       email: res.email,
-  //       token: res.accessToken,
-  //       idToken: res.tokenId,
-  //     };
-  //     dispatch(socialLogin(postData, history, type));
-  //   }
-  // };
-
-  //handleGoogleLoginResponse
-  // const googleResponse = (response: Object) => {
-  //   signIn(response, "google");
-  // };
-
-  //handleTwitterLoginResponse
-  // const twitterResponse = e => {}
-
-  //handleFacebookLoginResponse
-  // const facebookResponse = (response: Object) => {
-  //   signIn(response, "facebook");
-  // };
 
   return (
     <React.Fragment>
@@ -104,14 +67,14 @@ const Login = ({ history }: LoginProps) => {
                           handleValidSubmit(e, v);
                         }}
                       >
-                        {error ? <Alert color="danger">{error}</Alert> : null}
+                        {error ? <Alert color="danger">{`Not valid email or password`}</Alert> : null}
                         <div className="flex-grow-1">
                           <label className="form-label text-white">Email</label>
                         </div>
                         <div className="mb-3">
                           <AvField
                             name="email"
-                            value="admin@gm.com"
+                            value="vitaliy.v@smplt.net"
                             className="form-control"
                             placeholder="Enter email"
                             type="email"
@@ -138,7 +101,7 @@ const Login = ({ history }: LoginProps) => {
                           <div className="mb-3">
                             <AvField
                               name="password"
-                              value="123456"
+                              value="cguRFXtoaDLZwU4h"
                               type="password"
                               className="form-control"
                               required

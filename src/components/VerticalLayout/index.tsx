@@ -6,7 +6,7 @@ import {
   changeSidebarType,
   changeTopbarTheme,
   changeLayoutWidth,
-  changelayoutMode,
+  changelayoutMode, loginSuccess
 } from "../../store/actions";
 
 // Layout Related Components
@@ -16,6 +16,8 @@ import Footer from "./Footer";
 
 //redux
 import { useSelector, useDispatch } from "react-redux";
+import parseJwt from "../../common/utils/parse";
+
 const Layout = (props: any) => {
   const dispatch = useDispatch();
 
@@ -120,6 +122,17 @@ const Layout = (props: any) => {
       dispatch(changelayoutMode(value, layoutType));
     }
   };
+
+  if(localStorage.getItem("authUser")){
+    // @ts-ignore
+    const authUser = JSON.parse(localStorage.getItem("authUser"));
+    const userInfo = parseJwt(JSON.stringify(authUser.token))
+
+    useSelector((state : any) => {
+      state.login.userInfo = userInfo;
+    })
+  }
+
 
   return (
     <React.Fragment>
