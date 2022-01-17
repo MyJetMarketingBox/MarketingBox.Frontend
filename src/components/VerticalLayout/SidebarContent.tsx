@@ -60,7 +60,7 @@ const SidebarContent = (props: any) => {
     return false;
   }, []);
 
-  // Use ComponentDidMount and ComponentDidUpdate method symultaniously
+
   useEffect(() => {
     const pathName = props.location.pathname;
 
