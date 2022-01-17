@@ -123,7 +123,7 @@ const SidebarContent = (props: any) => {
               </Link>
             </li>
 
-            {(user.role != "affiliatesManager" && user.role != "Affiliate") ?
+            {(user && user.role != "affiliatesManager" && user.role != "Affiliate") ?
               (<li>
                 <Link to="/brands" className="">
                   <Icon name="grid" />
@@ -140,7 +140,7 @@ const SidebarContent = (props: any) => {
               </Link>
             </li>
 
-            {user.role != "Affiliate" ? (<li>
+            {user && user.role != "Affiliate" ? (<li>
               <Link to="/Affiliates" className="">
                 <Icon name="briefcase"/>
                 <span>{props.t("Affiliates")}</span>
@@ -154,7 +154,7 @@ const SidebarContent = (props: any) => {
               </Link>
             </li>
 
-            {user.role != "Affiliate" ? (<li>
+            {user && user.role != "Affiliate" ? (<li>
               <Link to="/conversions" className="">
                 <Icon name="filter" />
                 <span>{props.t("Conversions")}</span>
@@ -170,7 +170,7 @@ const SidebarContent = (props: any) => {
                 <li>
                   <Link to="/postback">{props.t("Postback")}</Link>
                 </li>
-                {(user.role != "affiliatesManager" && user.role != "Affiliate") ?
+                {( user && user.role != "affiliatesManager" && user.role != "Affiliate") ?
                 (<li>
                   <Link to="/re_registering">{props.t("Registering")}</Link>
                 </li>) : (<li></li>)
