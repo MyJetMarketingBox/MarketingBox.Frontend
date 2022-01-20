@@ -1,11 +1,12 @@
 import axios from "axios"
 import authHeader from "./jwt-token-access/auth-token-header"
+import config from "../config";
 
 //pass new generated access token here
 //const token = accessToken
 
 //apply base url for axios
-const API_URL = "https://affiliate-api.traffme.com/"
+const API_URL = config.traffme.affiliateUrlApi
 
 const axiosApi = axios.create({
   baseURL: API_URL,
