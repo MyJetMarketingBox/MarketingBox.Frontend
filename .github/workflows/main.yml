@@ -14,8 +14,23 @@ jobs:
     
     steps:
     - uses: actions/checkout@v2
+    - name: Extract branch name
+      uses: vazco/github-actions-branch-name@v1
+      id: branch
 
-    - name: Use Node.js 16.x
+    - id: string
+      uses: ASzc/change-string-case-action@v1
+      with:
+        string: ${{ github.event.repository.name }}
+        
+    - name: Get current time
+      uses: MyJetTools/get-current-time@v2
+      id: current-time
+      with:
+        format: YYYY-MM-DD HH:mm:ss
+        utcOffset: "+00:00"
+        
+    - name: Use Node.js 14.x
       uses: actions/setup-node@v1
       with:
     #    node-version: ${{ matrix.node-version }}
@@ -36,9 +51,9 @@ jobs:
         password: ${{ secrets.MBOX_REGISTRY_PASS }}
         path: ./
         registry: ${{ secrets.MBOX_REGISTRY_URL }} 
-        repository: myjetmarketingbox/marketingbox-frontend
+        repository: marketingbox/${{ steps.string.outputs.lowercase }}-${{ steps.branch.outputs.branch_name }}
         tags: latest
-        build_args: app_version=marketingbox-frontend:latest
+        build_args: app_version=${{ steps.string.outputs.lowercase }}-${{ steps.branch.outputs.branch_name }}:latest,app_compilation_date=${{ steps.current-time.outputs.formattedTime }}
 
 #     - name: executing remote ssh commands using password
 #       uses: appleboy/ssh-action@master
