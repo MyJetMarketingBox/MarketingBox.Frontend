@@ -32,10 +32,10 @@ jobs:
     - name: Publish image github
       uses: docker/build-push-action@v1
       with:
-        username: ${{ MBOX_REGISTRY_USER }}
-        password: ${{ MBOX_REGISTRY_PASS }}
+        username: ${{ secrets.MBOX_REGISTRY_USER }}
+        password: ${{ secrets.MBOX_REGISTRY_PASS }}
         path: ./
-        registry: ${{ MBOX_REGISTRY_URL }} 
+        registry: ${{ secrets.MBOX_REGISTRY_URL }} 
         repository: myjetmarketingbox/marketingbox-frontend
         tags: latest
         build_args: app_version=marketingbox-frontend:latest
