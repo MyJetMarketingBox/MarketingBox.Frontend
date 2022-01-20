@@ -21,24 +21,24 @@ jobs:
     #    node-version: ${{ matrix.node-version }}
         node-version: 14.x
 
-#     - name: Install
-#       run: |
-#         npm install
-#     - name: Build
-#       run: |
-#         CI=false
-#         npm run build
+    - name: Install
+      run: |
+        npm install
+    - name: Build
+      run: |
+        CI=false
+        npm run build
 
-#     - name: Publish image github
-#       uses: docker/build-push-action@v1
-#       with:
-#         username: ${{ MBOX_REGISTRY_USER }}
-#         password: ${{ MBOX_REGISTRY_PASS }}
-#         path: ./
-#         registry: ${{ MBOX_REGISTRY_URL }} 
-#         repository: myjetmarketingbox/marketingbox-frontend
-#         tags: latest
-#         build_args: app_version=marketingbox-frontend:latest
+    - name: Publish image github
+      uses: docker/build-push-action@v1
+      with:
+        username: ${{ MBOX_REGISTRY_USER }}
+        password: ${{ MBOX_REGISTRY_PASS }}
+        path: ./
+        registry: ${{ MBOX_REGISTRY_URL }} 
+        repository: myjetmarketingbox/marketingbox-frontend
+        tags: latest
+        build_args: app_version=marketingbox-frontend:latest
 
 #     - name: executing remote ssh commands using password
 #       uses: appleboy/ssh-action@master
