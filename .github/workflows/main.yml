@@ -45,6 +45,7 @@ jobs:
         npm run build
 
     - name: Publish image github
+      id: publish
       uses: docker/build-push-action@v1
       with:
         username: ${{ secrets.MBOX_REGISTRY_USER }}
@@ -55,11 +56,20 @@ jobs:
         tags: latest
         build_args: app_version=${{ steps.string.outputs.lowercase }}-${{ steps.branch.outputs.branch_name }}:latest,app_compilation_date=${{ steps.current-time.outputs.formattedTime }}
 
-#     - name: executing remote ssh commands using password
-#       uses: appleboy/ssh-action@master
+#     - name: Deploy to kube
+#       uses: Azure/k8s-deploy@v1.4
 #       with:
-#         host: ${{ secrets.HOST }}
-#         username: ${{ secrets.USERNAME }}
-#         port: ${{ secrets.PORT }}
-#         key: ${{ secrets.PRIVATE_KEY }}
-#         script: cd /home/monfex/Services/educationweb-test && docker-compose pull && docker-compose up -d
+#         namespace: 'marketing-box'
+#         manifests: |
+#             deployment.yaml
+#             service.yaml
+#         images: ${{ secrets.MBOX_REGISTRY_URL }}/${{ steps.publish.repository }}'
+#         imagepullsecrets: |
+#           mbox
+#         kubectl-version: 'latest'
+        
+#     - name: deploy
+#       uses: Myjetwallet/kube-apply-all@master
+#       env:
+#         KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA_PROD }}
+
