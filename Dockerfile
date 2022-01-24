@@ -10,4 +10,5 @@ COPY . .
 
 #EXPOSE 3000
 
-CMD [ "npm", "start" ]
+RUN chmod +x ./start.sh
+ENTRYPOINT ["./start.sh"]

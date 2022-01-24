@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+  labels:
+    app: marketing-box-frontend
+    environment: Development
+  name: marketing-box-frontend
+  namespace: marketing-box
+spec:
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+  - name: http
+    port: 8080
+    protocol: TCP
+    targetPort: 8080
+  - name: grpc
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: marketing-box-frontend
+  sessionAffinity: None
+  type: ClusterIP
