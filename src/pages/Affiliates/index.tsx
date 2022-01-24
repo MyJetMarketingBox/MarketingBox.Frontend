@@ -16,6 +16,9 @@ import {
   DropdownToggle,
   Row,
   UncontrolledDropdown,
+  Modal,
+  ModalHeader,
+  ModalBody,
   Dropdown,
   ButtonDropdown,
   Button,
@@ -39,28 +42,38 @@ import Breadcrumbs from "../../components/Common/Breadcrumb";
 
 import "../../assets/scss/datatables.scss";
 
-import { getAffiliates as onGetAffiliates  } from "../../store/actions";
+import {
+  getAffiliates as onGetAffiliates,
+  addNewAffiliate as onAddNewAffiliate,
+  deleteAffiliate as onDeleteAffiliate
+} from "../../store/actions";
+import { isEmpty, size, map } from "lodash";
 
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { AvField, AvForm } from "availity-reactstrap-validation";
+import { AffiliateRole, AffiliateState, Currency } from "../../common/utils/model";
+import Loader from "../../components/UI/loader";
 
 const Affiliates: React.FC = () => {
 
   const dispatch = useDispatch();
 
-  const { affiliates, errorAff } = useSelector((state: any) => {
+  const { affiliates, errorAff, loading } = useSelector((state: any) => {
     return {
       affiliates: state.Affiliates.affiliates,
       errorAff: state.Affiliates.error,
+      loading: state.Affiliates.loading,
     }
   });
 
-  const [affiliateList, setAffiliateList] = useState(null);
+  const [affiliateList, setAffiliateList] = useState<any>(null);
   const [errorAffList, setErrorAffList] = useState<any>(null);
   const [isLoading, setLoading] = useState<boolean>(false);
   const [isLoadAff, setLoadAff] = useState<boolean>(false);
   const [isEdit, setIsEdit] = useState<boolean>(false);
-  const [actionBtn, setActionBtn] = useState<boolean>(false)
+  const [actionBtn, setActionBtn] = useState<boolean>(false);
+  const [modal, setModal] = useState<boolean>(false);
 
   const toggleAction = () => {
     console.log(1);
@@ -82,7 +95,7 @@ const Affiliates: React.FC = () => {
 
               <DropdownMenu className="float-start">
                 <DropdownItem tag={Link} to={{ pathname: `/Affiliates/view/${row.id}`, state: { id: row.id }}}>edit</DropdownItem>
-                <DropdownItem onClick={() => console.log(row.id)}>delete</DropdownItem>
+                <DropdownItem onClick={() => handleDeleteAffiliate(row.id)}>delete</DropdownItem>
               </DropdownMenu>
             </UncontrolledDropdown>
           </div>
@@ -172,9 +185,13 @@ const Affiliates: React.FC = () => {
     //}, 2000)
   }, []);*/
 
+  let filter = {
+    order: 1
+  }
+
   useEffect(() => {
     if (affiliates.items && !affiliates.items.length) {
-      dispatch(onGetAffiliates(''))
+      dispatch(onGetAffiliates('', filter))
     }
   }, []);
 
@@ -262,7 +279,7 @@ const Affiliates: React.FC = () => {
   async function loadMore() {
     if(affiliates.pagination.nextUrl) {
       setLoadAff(true)
-      const moreAff = await onGetAffiliates(affiliates.pagination.nextUrl)
+      const moreAff = await onGetAffiliates(affiliates.pagination.nextUrl, {})
       dispatch(moreAff);
     }
   }
@@ -273,6 +290,62 @@ const Affiliates: React.FC = () => {
     //   location.replace('/logout');
     // }
   }
+
+  const toggle = () => {
+    setModal(!modal);
+    if (!modal && !isEmpty(affiliates) && !!isEdit) {
+      setTimeout(() => {
+        setAffiliateList(affiliates.items);
+        setIsEdit(false);
+      }, 500);
+    }
+  };
+
+  const handleDeleteAffiliate = (id: number) => {
+    console.log(id);
+    dispatch(onDeleteAffiliate(id));
+  }
+
+  const handleValidAffiliateSubmit = (values: any) => {
+      const date = new Date();
+      const newAffiliate = {
+        generalInfo: {
+          username: values["username"],
+          email: values["email"],
+          password: values["password"],
+          phone: "",
+          skype: "",
+          zipCode: "",
+          role: +values["role"],
+          state: +values["state"],
+          currency: +values["currency"],
+          createdAt: date,
+          apiKey: ""
+        },
+        company: {
+          name: "",
+          address: "",
+          regNumber: "",
+          vatId: ""
+        },
+        bank: {
+          beneficiaryName: "",
+          beneficiaryAddress: "",
+          bankName: "",
+          bankAddress: "",
+          accountNumber: "",
+          swift: "",
+          iban: ""
+        }
+      };
+      // save new aff
+      dispatch(onAddNewAffiliate(newAffiliate));
+  };
+
+
+  const handleAffiliateClicks = () => {
+    toggle();
+  };
 
 
   return (
@@ -320,9 +393,19 @@ const Affiliates: React.FC = () => {
                                 </Col>
                                 <Col md="8">
                                   <div className="text-right float-end">
-                                    <button type="submit" className="btn btn-success ">
+
+                                    <Link
+                                      to="#"
+                                      className="btn btn-success"
+                                      onClick={handleAffiliateClicks}
+                                    >
+                                      <i className="bx bx-plus me-1"></i> Add
+                                      New
+                                    </Link>
+
+                                    {/*<button type="submit" className="btn btn-success ">
                                       <i className="bx bx-plus"></i> new affiliate
-                                    </button>
+                                    </button>*/}
                                   </div>
                                 </Col>
                               </Row>
@@ -341,6 +424,156 @@ const Affiliates: React.FC = () => {
                                       {...toolkitProps.baseProps}
                                       {...paginationTableProps}
                                     />
+
+
+                                    <Modal isOpen={modal} toggle={toggle}>
+                                      {loading && <Loader />}
+                                      <ModalHeader toggle={toggle} tag="h4">
+                                        Add Affiliate
+                                      </ModalHeader>
+                                      <ModalBody>
+
+                                        <AvForm
+                                          onValidSubmit={(
+                                            e: any,
+                                            values: any
+                                          ) => {
+                                            handleValidAffiliateSubmit(values);
+                                          }}
+                                        >
+                                          <Row form>
+                                            <Col xs={12}>
+                                              <div className="mb-3">
+                                                <AvField
+                                                  name="username"
+                                                  label="Name"
+                                                  type="text"
+                                                  errorMessage="Invalid name"
+                                                  validate={{
+                                                    required: { value: true },
+                                                  }}
+                                                  value={""}
+                                                />
+                                              </div>
+                                              <div className="mb-3">
+                                                <AvField
+                                                  name="email"
+                                                  label="Email"
+                                                  type="email"
+                                                  errorMessage="Invalid Email"
+                                                  validate={{
+                                                    required: { value: true },
+                                                  }}
+                                                  value={""}
+                                                />
+                                              </div>
+                                              <div className="mb-3">
+                                                <AvField
+                                                  name="password"
+                                                  label="Password"
+                                                  type="password"
+                                                  errorMessage="Invalid Designation"
+                                                  validate={{
+                                                    required: { value: true },
+                                                  }}
+                                                  value={""}
+                                                />
+                                              </div>
+
+                                              <div className="mb-3">
+                                                <AvField
+                                                  type="select"
+                                                  name="role"
+                                                  className="form-select"
+                                                  label="Role"
+                                                  required
+                                                  value={""}
+                                                >
+                                                  <option value={""}>Select role</option>
+                                                  {AffiliateRole.map((val, i) => <option key={i} value={i} >{val}</option>)}
+                                                </AvField>
+                                              </div>
+
+                                              <div className="mb-3">
+                                                <AvField
+                                                  type="select"
+                                                  name="state"
+                                                  className="form-select"
+                                                  label="State"
+                                                  required
+                                                  value={""}
+                                                >
+                                                  <option value={""}>Select sate</option>
+                                                  {AffiliateState.map((val, i) => <option key={i} value={i} >{val}</option>)}
+                                                </AvField>
+                                              </div>
+
+                                              <div className="mb-3">
+                                                <AvField
+                                                  type="select"
+                                                  name="currency"
+                                                  className="form-select"
+                                                  label="Currency"
+                                                  required
+                                                  value={""}
+                                                >
+                                                  <option value={""}>Select sate</option>
+                                                  {Currency.map((val, i) => <option key={i} value={i} >{val}</option>)}
+                                                </AvField>
+                                              </div>
+
+                                              {/*<div className="mb-3">
+                                                <AvField
+                                                  type="select"
+                                                  name="tags"
+                                                  className="form-select"
+                                                  label="Option"
+                                                  helpMessage="MULTIPLE!"
+                                                  multiple={true}
+                                                  required
+                                                  value={""}
+                                                >
+                                                  <option>Photoshop</option>
+                                                  <option>illustrator</option>
+                                                  <option>Html</option>
+                                                  <option>Php</option>
+                                                  <option>Java</option>
+                                                  <option>Python</option>
+                                                  <option>UI/UX Designer</option>
+                                                  <option>Ruby</option>
+                                                  <option>Css</option>
+                                                </AvField>
+                                              </div>
+                                              <div className="mb-3">
+                                                <AvField
+                                                  name="projects"
+                                                  label="Projects"
+                                                  type="text"
+                                                  errorMessage="Invalid Projects"
+                                                  validate={{
+                                                    required: { value: true },
+                                                  }}
+                                                  value={""}
+                                                />
+                                              </div>*/}
+                                            </Col>
+                                          </Row>
+                                          <Row>
+                                            <Col>
+                                              <div className="text-end">
+                                                <button
+                                                  type="submit"
+                                                  className="btn btn-success save-user"
+                                                >
+                                                  Save
+                                                </button>
+                                              </div>
+                                            </Col>
+                                          </Row>
+                                        </AvForm>
+                                      </ModalBody>
+                                    </Modal>
+
                                   </div>
                                 </Col>
                               </Row>

@@ -16,7 +16,7 @@ export const POST_EDIT_JWT_PROFILE = "/post-jwt-profile"
 export const POST_EDIT_PROFILE = "/post-fake-profile"
 
 //AFFILIATES
-export const GET_AFFILIATES = "api/affiliates"
+export const AFFILIATES = "api/affiliates"
 
 //REPORTS
 export const GET_REPORTS = "api/reports"

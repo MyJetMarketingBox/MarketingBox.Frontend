@@ -25,31 +25,38 @@ const MyState = {
 
 async function getData(){
 
-    let response = await fetch(`https://mb-affiliate-api.mnftx.biz/api/reports?fromDate=${fromDate}&toDate=${toDate}`, {
-        method: 'get',
-        headers: {
-            'accept': 'text/plain',
-            'Authorization': token
-        }
-    });
-    let res = await response.json();
-    console.log(res)
+    try {
+        let response = await fetch(`https://affiliate-api.traffme.com/api/reports/by-days`, {
+            method: 'get',
+            headers: {
+                'accept': 'text/plain',
+                'Authorization': token
+            }
+        });
+        let res = await response.json();
+        console.log(res)
 
-    // @ts-ignore
-    let ctr = await res.items.map(item => item.registrationsCount);
-    //MyState.ctr.push(res.items.map(item => item.registrationsCount));
+        // @ts-ignore
+        let ctr = await res.items.map(item => item.registrationsCount);
+        //MyState.ctr.push(res.items.map(item => item.registrationsCount));
 
-    // @ts-ignore
-    let ftd = await res.items.map(item => item.ftdCount);
-    //MyState.ftd.push(res.items.map(item => item.ftdCount));
+        // @ts-ignore
+        let ftd = await res.items.map(item => item.ftdCount);
+        //MyState.ftd.push(res.items.map(item => item.ftdCount));
 
-    return  {
-        "ctr": ctr,
-        "ftd": ftd
-    };
+        return  {
+            "ctr": ctr,
+            "ftd": ftd
+        };
+
+    }catch (e) {
+
+    }
+
 
 }
 
+getData()
 
 const WidgetsData : Array<DashboardProps> = [
     {

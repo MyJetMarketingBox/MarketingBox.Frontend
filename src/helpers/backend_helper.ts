@@ -1,6 +1,7 @@
 import axios from "axios"
 import { del, get, post, put } from "./api_helper"
 import * as url from "./url_helper"
+import { log } from "util";
 
 // Gets the logged in user data from local session
 const getLoggedInUser = () => {
@@ -95,10 +96,14 @@ const postJwtForgetPwd = (data : any) => post(url.POST_FAKE_JWT_PASSWORD_FORGET,
 
 
 // get affiliates
-export const getAffiliates = (data: any) => get(data || url.GET_AFFILIATES)
+export const getAffiliates = (nextUrl: any, filter: object) => get(nextUrl || url.AFFILIATES, { params: filter });
 
 export const getAffiliateProfile = (id : number) =>
-  get(`${url.GET_AFFILIATES}/${id}`, { params: { id } })
+  get(`${url.AFFILIATES}/${id}`, { params: { id } })
+
+export const addNewAffiliate = (affiliate : any) => post(url.AFFILIATES,  affiliate );
+
+export const deleteAffiliate = (id : number) => del(`${url.AFFILIATES}/${id}`);
 
 // get reports
 export const getReports = (filter: any) => get(`${url.GET_REPORTS}`,  { params: filter } )
