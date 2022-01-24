@@ -68,8 +68,8 @@ jobs:
 #           mbox
 #         kubectl-version: 'latest'
         
-#     - name: deploy
-#       uses: Myjetwallet/kube-apply-all@master
-#       env:
-#         KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA_PROD }}
+    - name: deploy
+      uses: Myjetwallet/kube-apply-all@master
+      env:
+        KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA_PROD }}
 
