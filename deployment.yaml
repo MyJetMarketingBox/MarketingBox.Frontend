@@ -50,32 +50,32 @@ spec:
               - /bin/sh
               - -c
               - /bin/echo 'options single-request-reopen' >> /etc/resolv.conf
-        livenessProbe:
-          failureThreshold: 3
-          httpGet:
-            path: /api/isalive
-            port: 8080
-            scheme: HTTP
-          initialDelaySeconds: 20
-          periodSeconds: 20
-          successThreshold: 1
-          timeoutSeconds: 1
+#         livenessProbe:
+#           failureThreshold: 3
+#           httpGet:
+#             path: /api/isalive
+#             port: 8080
+#             scheme: HTTP
+#           initialDelaySeconds: 20
+#           periodSeconds: 20
+#           successThreshold: 1
+#           timeoutSeconds: 1
         name: marketing-box-frontend
         ports:
         - containerPort: 8080
           protocol: TCP
         - containerPort: 80
           protocol: TCP
-        readinessProbe:
-          failureThreshold: 3
-          httpGet:
-            path: /api/isalive
-            port: 8080
-            scheme: HTTP
-          initialDelaySeconds: 10
-          periodSeconds: 5
-          successThreshold: 1
-          timeoutSeconds: 3
+#         readinessProbe:
+#           failureThreshold: 3
+#           httpGet:
+#             path: /api/isalive
+#             port: 8080
+#             scheme: HTTP
+#           initialDelaySeconds: 10
+#           periodSeconds: 5
+#           successThreshold: 1
+#           timeoutSeconds: 3
         resources:
           limits:
             cpu: 100m
