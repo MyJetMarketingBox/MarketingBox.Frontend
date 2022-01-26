@@ -36,25 +36,25 @@ jobs:
     #    node-version: ${{ matrix.node-version }}
         node-version: 14.x
 
-    - name: Install
-      run: |
-        npm install
-    - name: Build
-      run: |
-        CI=false
-        npm run build
+#     - name: Install
+#       run: |
+#         npm install
+#     - name: Build
+#       run: |
+#         CI=false
+#         npm run build
 
-    - name: Publish image github
-      id: publish
-      uses: docker/build-push-action@v1
-      with:
-        username: ${{ secrets.MBOX_REGISTRY_USER }}
-        password: ${{ secrets.MBOX_REGISTRY_PASS }}
-        path: ./
-        registry: ${{ secrets.MBOX_REGISTRY_URL }} 
-        repository: marketingbox/${{ steps.string.outputs.lowercase }}-${{ steps.branch.outputs.branch_name }}
-        tags: latest
-        build_args: app_version=${{ steps.string.outputs.lowercase }}-${{ steps.branch.outputs.branch_name }}:latest,app_compilation_date=${{ steps.current-time.outputs.formattedTime }}
+#     - name: Publish image github
+#       id: publish
+#       uses: docker/build-push-action@v1
+#       with:
+#         username: ${{ secrets.MBOX_REGISTRY_USER }}
+#         password: ${{ secrets.MBOX_REGISTRY_PASS }}
+#         path: ./
+#         registry: ${{ secrets.MBOX_REGISTRY_URL }} 
+#         repository: marketingbox/${{ steps.string.outputs.lowercase }}-${{ steps.branch.outputs.branch_name }}
+#         tags: latest
+#         build_args: app_version=${{ steps.string.outputs.lowercase }}-${{ steps.branch.outputs.branch_name }}:latest,app_compilation_date=${{ steps.current-time.outputs.formattedTime }}
 
 #     - name: Deploy to kube
 #       uses: Azure/k8s-deploy@v1.4
@@ -76,7 +76,6 @@ jobs:
     - name: deploy
  #     uses: docker://gcr.io/cloud-builders/kubectl
       run: |
-        sudo apt install kubectl -y
         echo "$KUBE_CONFIG_DATA" | base64 --decode > /tmp/config
         export KUBECONFIG=/tmp/config
         kubectl config current-context
