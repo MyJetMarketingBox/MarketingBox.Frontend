@@ -76,7 +76,7 @@ jobs:
     - name: deploy
  #     uses: docker://gcr.io/cloud-builders/kubectl
       run: |
-        suod apt install kubectl -y
+        sudo apt install kubectl -y
         echo "$KUBE_CONFIG_DATA" | base64 --decode > /tmp/config
         export KUBECONFIG=/tmp/config
         kubectl config current-context
