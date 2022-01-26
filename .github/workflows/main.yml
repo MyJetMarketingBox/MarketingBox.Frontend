@@ -76,7 +76,7 @@ jobs:
     - name: deploy
  #     uses: docker://gcr.io/cloud-builders/kubectl
       run: |
-        echo "$KUBE_CONFIG_DATA" | base64 --decode > /tmp/config
+        echo "$KUBE_CONFIG_DATA_PROD" | base64 --decode > /tmp/config
         export KUBECONFIG=/tmp/config
         ls -la /tmp
         kubectl config current-context
