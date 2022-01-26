@@ -2,7 +2,8 @@ name: NodeJS with Webpack
 
 on:
   push:
-    branches: [ master ]
+    branches:
+    - test
 
 jobs:
   build:
@@ -63,7 +64,7 @@ jobs:
 
     - name: deploy
       env:
-        KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA_PROD }}
+        KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA__ST_TEST }}
       run: |
         echo "$KUBE_CONFIG_DATA" | base64 --decode > /tmp/config
         export KUBECONFIG=/tmp/config
