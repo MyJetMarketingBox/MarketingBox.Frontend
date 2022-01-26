@@ -36,37 +36,25 @@ jobs:
     #    node-version: ${{ matrix.node-version }}
         node-version: 14.x
 
-#     - name: Install
-#       run: |
-#         npm install
-#     - name: Build
-#       run: |
-#         CI=false
-#         npm run build
+    - name: Install
+      run: |
+        npm install
+    - name: Build
+      run: |
+        CI=false
+        npm run build
 
-#     - name: Publish image github
-#       id: publish
-#       uses: docker/build-push-action@v1
-#       with:
-#         username: ${{ secrets.MBOX_REGISTRY_USER }}
-#         password: ${{ secrets.MBOX_REGISTRY_PASS }}
-#         path: ./
-#         registry: ${{ secrets.MBOX_REGISTRY_URL }} 
-#         repository: marketingbox/${{ steps.string.outputs.lowercase }}-${{ steps.branch.outputs.branch_name }}
-#         tags: latest
-#         build_args: app_version=${{ steps.string.outputs.lowercase }}-${{ steps.branch.outputs.branch_name }}:latest,app_compilation_date=${{ steps.current-time.outputs.formattedTime }}
-
-#     - name: Deploy to kube
-#       uses: Azure/k8s-deploy@v1.4
-#       with:
-#         namespace: 'marketing-box'
-#         manifests: |
-#             deployment.yaml
-#             service.yaml
-#         images: ${{ secrets.MBOX_REGISTRY_URL }}/${{ steps.publish.repository }}'
-#         imagepullsecrets: |
-#           mbox
-#         kubectl-version: 'latest'
+    - name: Publish image github
+      id: publish
+      uses: docker/build-push-action@v1
+      with:
+        username: ${{ secrets.MBOX_REGISTRY_USER }}
+        password: ${{ secrets.MBOX_REGISTRY_PASS }}
+        path: ./
+        registry: ${{ secrets.MBOX_REGISTRY_URL }} 
+        repository: marketingbox/${{ steps.string.outputs.lowercase }}-${{ steps.branch.outputs.branch_name }}
+        tags: latest
+        build_args: app_version=${{ steps.string.outputs.lowercase }}-${{ steps.branch.outputs.branch_name }}:latest,app_compilation_date=${{ steps.current-time.outputs.formattedTime }}
         
 #     - name: deploy
 #       uses: Myjetwallet/kube-apply-all@master
