@@ -41,7 +41,7 @@ spec:
             fieldRef:
               apiVersion: v1
               fieldPath: metadata.name
-        image: mboxregistry.azurecr.io/marketingbox/marketingbox.frontend-master:latest
+        image: mboxregistry.azurecr.io/marketingbox/marketingbox.frontend-test:latest
         imagePullPolicy: Always
         lifecycle:
           postStart:
