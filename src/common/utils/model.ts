@@ -19,3 +19,10 @@ export const Currency = [
     'CHF',
     'BTC',
 ]
+
+export const RegistrationStatus = [
+    "Created",
+    "Registered",
+    "Deposited",
+    "Approved",
+]

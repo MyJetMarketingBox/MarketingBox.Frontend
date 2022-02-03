@@ -4,6 +4,9 @@ export * from "./layout/actions";
 /** Affiliates */
 export * from "./affiliates/actions";
 
+/** Registrations */
+export * from "./registrations/actions";
+
 /** Reports */
 export * from "./reports/actions"
 

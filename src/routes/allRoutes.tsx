@@ -8,6 +8,8 @@ import Affiliate from "../pages/Affiliates/view";
 
 import Reports from "../pages/Reports";
 
+import Registrations from "../pages/Registrations";
+
 //Authentication pages
 import Login from "src/pages/Authentication/Login";
 import Logout from "src/pages/Authentication/Logout";
@@ -28,9 +30,11 @@ const userRoutes: Array<RouteProps> = [
   { path: "/dashboard", component: Dashboard },
 
   { path: "/Affiliates", component: Affiliates },
-  { path: "/Affiliates/view/:id", component: Affiliate, exact: true },
+  { path: "/Affiliates/view/:id", component: Affiliate },
 
   { path: "/Reports", component: Reports },
+
+  { path: "/Registrations", component: Registrations },
 
   // this route should be at the end of all other routes
   { path: "/", exact: true, component: () => <Redirect to="/dashboard" /> },
