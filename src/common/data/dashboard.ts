@@ -24,7 +24,7 @@ const MyState = {
 };
 
 async function getData(){
-
+    return [];
     try {
         let response = await fetch(`https://affiliate-api.traffme.com/api/reports/by-days`, {
             method: 'get',

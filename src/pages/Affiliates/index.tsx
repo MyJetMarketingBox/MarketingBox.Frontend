@@ -1,38 +1,19 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
-
-//import {getAffiliates} from "../../helpers/fakebackend_helper";
-
-//import { Row, Col, Card, CardBody, CardTitle } from "reactstrap";
 import MetaTags from "react-meta-tags";
 import {
   Card,
   CardBody,
-  CardHeader,
   Col,
-  Container,
-  DropdownItem,
-  DropdownMenu,
-  DropdownToggle,
   Row,
-  UncontrolledDropdown,
   Modal,
   ModalHeader,
-  ModalBody,
-  Dropdown,
-  ButtonDropdown,
-  Button,
-  Form,
-  Label,
-  Input,
+  ModalBody
 } from "reactstrap";
 
 // datatable related plugins
 import BootstrapTable from "react-bootstrap-table-next";
 import paginationFactory, {
-  PaginationProvider,
-  PaginationListStandalone,
-  SizePerPageDropdownStandalone,
+  PaginationProvider
 } from "react-bootstrap-table2-paginator";
 
 import ToolkitProvider, { Search } from "react-bootstrap-table2-toolkit";
@@ -45,7 +26,6 @@ import "../../assets/scss/datatables.scss";
 import {
   getAffiliates as onGetAffiliates,
   addNewAffiliate as onAddNewAffiliate,
-  deleteAffiliate as onDeleteAffiliate
 } from "../../store/actions";
 import { isEmpty, size, map } from "lodash";
 
@@ -54,6 +34,7 @@ import { Link } from "react-router-dom";
 import { AvField, AvForm } from "availity-reactstrap-validation";
 import { AffiliateRole, AffiliateState, Currency } from "../../common/utils/model";
 import Loader from "../../components/UI/loader";
+import ColumnActions from "./view/ColumnActions";
 
 const Affiliates: React.FC = () => {
 
@@ -63,8 +44,8 @@ const Affiliates: React.FC = () => {
     return {
       affiliates: state.Affiliates.affiliates,
       errorAff: state.Affiliates.error,
-      loading: state.Affiliates.loading,
-    }
+      loading: state.Affiliates.loading
+    };
   });
 
   const [affiliateList, setAffiliateList] = useState<any>(null);
@@ -72,65 +53,48 @@ const Affiliates: React.FC = () => {
   const [isLoading, setLoading] = useState<boolean>(false);
   const [isLoadAff, setLoadAff] = useState<boolean>(false);
   const [isEdit, setIsEdit] = useState<boolean>(false);
-  const [actionBtn, setActionBtn] = useState<boolean>(false);
   const [modal, setModal] = useState<boolean>(false);
-
-  const toggleAction = () => {
-    console.log(1);
-    setActionBtn(actionBtn ? false : true)
-  }
 
   const columns = [
     {
       dataField: "actions",
       text: "Actions",
-      sort:false,
+      sort: false,
       formatter: (cell: any, row: any) => (
-        <>
-          <div>
-            <UncontrolledDropdown onClick={toggleAction}>
-              <DropdownToggle tag="a" className="btn btn-light">
-                <i className={`mdi ${actionBtn ? 'mdi-dots-horizontal' : ' mdi-dots-vertical'}`}></i>
-              </DropdownToggle>
-
-              <DropdownMenu className="float-start">
-                <DropdownItem tag={Link} to={{ pathname: `/Affiliates/view/${row.id}`, state: { id: row.id }}}>edit</DropdownItem>
-                <DropdownItem onClick={() => handleDeleteAffiliate(row.id)}>delete</DropdownItem>
-              </DropdownMenu>
-            </UncontrolledDropdown>
-          </div>
-        </>
+        <ColumnActions
+          id={row.id}
+        />
       )
     },
     {
       dataField: "username",
       text: "Username",
-      sort: true,
+      sort: true
     },
     {
       dataField: "role",
       text: "Role",
-      sort: true,
+      sort: true
     },
     {
       dataField: "ai",
       text: "AI",
-      sort: true,
+      sort: true
     },
     {
       dataField: "email",
       text: "Email",
-      sort: true,
+      sort: true
     },
     {
       dataField: "reportto",
       text: "Report To",
-      sort: true,
+      sort: true
     },
     {
       dataField: "createdat",
       text: "Created At",
-      sort: true,
+      sort: true
     },
     {
       dataField: "status",
@@ -144,102 +108,82 @@ const Affiliates: React.FC = () => {
             {productData.status}
           </div>
         </>
-      ),
-    },
+      )
+    }
   ];
 
   // Table Data
 
-  /*const apiURL = 'https://mb-affiliate-api.mnftx.biz/api/affiliates';
-  const config = {
-    headers: {
-      'accept': 'text/plain',
-      'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJtYXJrZXRpbmctYm94LWFmZmlsaWF0ZSIsInVzZXItbmFtZSI6IkdlbmVyYWxVc2VyIiwidGVuYW50LWlkIjoiZGVmYXVsdC10ZW5hbnQtaWQiLCJyb2xlIjoiQWRtaW4iLCJ1c2VyLWlkIjoiR2VuZXJhbE1hbmFnZXIiLCJuYmYiOjE2NDA0MDk4ODEsImV4cCI6MTY0MDUzOTQ4MSwiaWF0IjoxNjQwNDA5ODgxfQ.3YSF1rxgReyO8OG2mhlQOsVtSeA7parVuwT1O9sm5o8'
-    }
-  };
-
-  const getAffiliatesData = async () => {
-    try {
-        const response = await axios.get(apiURL, config);
-        //const response = await axios.get('http://makeup-api.herokuapp.com/api/v1/products.json?brand=maybelline');
-        // console.log(response);
-        // debugger
-        // @ts-ignore
-      if(setAffiliateList(response.data.items)){
-          setLoading(true);
-      }
-    }catch (e) {
-      console.log(e);
-    }
-  }
-
-  useEffect(() => {
-    //setTimeout(function() {
-    try {
-      const getAff = getAffiliatesData();
-      console.log(getAff);
-      debugger
-    }catch (e) {
-      console.log(e);
-    }
-    //}, 2000)
-  }, []);*/
-
   let filter = {
     order: 1
-  }
+  };
 
   useEffect(() => {
     if (affiliates.items && !affiliates.items.length) {
-      dispatch(onGetAffiliates('', filter))
+      dispatch(onGetAffiliates("", filter));
     }
   }, []);
 
-  // async function getAffiliates(){
-  //   setLoading(true)
-  //   const aff = await onGetAffiliates('');
-  //   dispatch(aff);
-  //   setLoading(false)
-  // }
-
   useEffect(() => {
-    if(affiliates){
-      //console.log(affiliates);
+    if (affiliates) {
       setAffiliateList(affiliates.items);
-      setLoading(true)
+      setLoading(true);
     }
     setIsEdit(false);
   }, [affiliates]);
 
   // errorAff
   useEffect(() => {
-    if(errorAff){
+    if (errorAff) {
       setErrorAffList(errorAff.response);
     }
     setIsEdit(false);
   }, [errorAff]);
 
   useEffect(() => {
-    setLoadAff(false)
-  }, [affiliateList])
+    setLoadAff(false);
+  }, [affiliateList]);
 
   // @ts-ignore
   const affiliateData = !(affiliateList) ? [] : affiliateList?.map(affiliate => {
     let color, status, role;
     switch (affiliate.generalInfo.state) {
-      case 0: status = "active"; color = "success"; break;
-      case 2: status = "notActive"; color = "warning"; break;
-      case 1: status = "banned"; color = "danger"; break;
-      default: color = "light"; break;
+      case 0:
+        status = "active";
+        color = "success";
+        break;
+      case 2:
+        status = "notActive";
+        color = "warning";
+        break;
+      case 1:
+        status = "banned";
+        color = "danger";
+        break;
+      default:
+        color = "light";
+        break;
     }
 
     switch (affiliate.generalInfo.role) {
-      case 0: role = "Affiliate"; break;
-      case 1: role = "Master Affiliate"; break;
-      case 2: role = "Affiliate Manager"; break;
-      case 3: role = "Admin"; break;
-      case 4: role = "Master Affiliate Referral"; break;
-      default: role = "Undefined"; break;
+      case 0:
+        role = "Affiliate";
+        break;
+      case 1:
+        role = "Master Affiliate";
+        break;
+      case 2:
+        role = "Affiliate Manager";
+        break;
+      case 3:
+        role = "Admin";
+        break;
+      case 4:
+        role = "Master Affiliate Referral";
+        break;
+      default:
+        role = "Undefined";
+        break;
     }
 
     return {
@@ -249,24 +193,28 @@ const Affiliates: React.FC = () => {
       ai: affiliate.affiliateId,
       email: affiliate.generalInfo.email,
       reportto: "Management",
-      createdat: new Date(affiliate.generalInfo.createdAt).toLocaleDateString('ru-RU', {day:"2-digit", month:"2-digit", year:"2-digit"}),
+      createdat: new Date(affiliate.generalInfo.createdAt).toLocaleDateString("ru-RU", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "2-digit"
+      }),
       status: status,
-      actions: '',
+      actions: "",
       color: color
-    }
+    };
   });
 
   const defaultSorted: any = [
     {
       dataField: "id",
-      order: "desc",
-    },
+      order: "desc"
+    }
   ];
 
   const pageOptions: any = {
     sizePerPage: affiliateData.length,
     totalSize: affiliateData.length, // replace later with size(customers),
-    custom: true,
+    custom: true
   };
 
   // Select All Button operation
@@ -277,14 +225,14 @@ const Affiliates: React.FC = () => {
   const { SearchBar } = Search;
 
   async function loadMore() {
-    if(affiliates.pagination.nextUrl) {
-      setLoadAff(true)
-      const moreAff = await onGetAffiliates(affiliates.pagination.nextUrl, {})
+    if (affiliates.pagination.nextUrl) {
+      setLoadAff(true);
+      const moreAff = await onGetAffiliates(affiliates.pagination.nextUrl, {});
       dispatch(moreAff);
     }
   }
 
-  if(errorAffList){
+  if (errorAffList) {
     console.log(errorAffList);
     // if(errorAffList.status === 401){
     //   location.replace('/logout');
@@ -301,47 +249,41 @@ const Affiliates: React.FC = () => {
     }
   };
 
-  const handleDeleteAffiliate = (id: number) => {
-    console.log(id);
-    dispatch(onDeleteAffiliate(id));
-  }
-
   const handleValidAffiliateSubmit = (values: any) => {
-      const date = new Date();
-      const newAffiliate = {
-        generalInfo: {
-          username: values["username"],
-          email: values["email"],
-          password: values["password"],
-          phone: "",
-          skype: "",
-          zipCode: "",
-          role: +values["role"],
-          state: +values["state"],
-          currency: +values["currency"],
-          createdAt: date,
-          apiKey: ""
-        },
-        company: {
-          name: "",
-          address: "",
-          regNumber: "",
-          vatId: ""
-        },
-        bank: {
-          beneficiaryName: "",
-          beneficiaryAddress: "",
-          bankName: "",
-          bankAddress: "",
-          accountNumber: "",
-          swift: "",
-          iban: ""
-        }
-      };
-      // save new aff
-      dispatch(onAddNewAffiliate(newAffiliate));
+    const date = new Date();
+    const newAffiliate = {
+      generalInfo: {
+        username: values["username"],
+        email: values["email"],
+        password: values["password"],
+        phone: "",
+        skype: "",
+        zipCode: "",
+        role: +values["role"],
+        state: +values["state"],
+        currency: +values["currency"],
+        createdAt: date,
+        apiKey: ""
+      },
+      company: {
+        name: "",
+        address: "",
+        regNumber: "",
+        vatId: ""
+      },
+      bank: {
+        beneficiaryName: "",
+        beneficiaryAddress: "",
+        bankName: "",
+        bankAddress: "",
+        accountNumber: "",
+        swift: "",
+        iban: ""
+      }
+    };
+    // save new aff
+    dispatch(onAddNewAffiliate(newAffiliate));
   };
-
 
   const handleAffiliateClicks = () => {
     toggle();
@@ -356,7 +298,6 @@ const Affiliates: React.FC = () => {
         </MetaTags>
         <div className="container-fluid">
           <Breadcrumbs title="TraffMe" breadcrumbItem="Affiliates" />
-
           <Row>
             <Col className="col-12">
               <Card>
@@ -366,7 +307,7 @@ const Affiliates: React.FC = () => {
                     <div style={{ textAlign: "center" }}>
                       <h1>Loading...</h1>
                     </div>
-                  ):(
+                  ) : (
 
                     <PaginationProvider
                       pagination={paginationFactory(pageOptions)}
@@ -397,7 +338,7 @@ const Affiliates: React.FC = () => {
                                     <Link
                                       to="#"
                                       className="btn btn-success"
-                                      onClick={handleAffiliateClicks}
+                                      onClick={toggle}
                                     >
                                       <i className="bx bx-plus me-1"></i> Add
                                       New
@@ -450,7 +391,7 @@ const Affiliates: React.FC = () => {
                                                   type="text"
                                                   errorMessage="Invalid name"
                                                   validate={{
-                                                    required: { value: true },
+                                                    required: { value: true }
                                                   }}
                                                   value={""}
                                                 />
@@ -462,7 +403,7 @@ const Affiliates: React.FC = () => {
                                                   type="email"
                                                   errorMessage="Invalid Email"
                                                   validate={{
-                                                    required: { value: true },
+                                                    required: { value: true }
                                                   }}
                                                   value={""}
                                                 />
@@ -474,7 +415,7 @@ const Affiliates: React.FC = () => {
                                                   type="password"
                                                   errorMessage="Invalid Designation"
                                                   validate={{
-                                                    required: { value: true },
+                                                    required: { value: true }
                                                   }}
                                                   value={""}
                                                 />
@@ -490,7 +431,8 @@ const Affiliates: React.FC = () => {
                                                   value={""}
                                                 >
                                                   <option value={""}>Select role</option>
-                                                  {AffiliateRole.map((val, i) => <option key={i} value={i} >{val}</option>)}
+                                                  {AffiliateRole.map((val, i) => <option key={i}
+                                                                                         value={i}>{val}</option>)}
                                                 </AvField>
                                               </div>
 
@@ -504,7 +446,8 @@ const Affiliates: React.FC = () => {
                                                   value={""}
                                                 >
                                                   <option value={""}>Select sate</option>
-                                                  {AffiliateState.map((val, i) => <option key={i} value={i} >{val}</option>)}
+                                                  {AffiliateState.map((val, i) => <option key={i}
+                                                                                          value={i}>{val}</option>)}
                                                 </AvField>
                                               </div>
 
@@ -518,7 +461,7 @@ const Affiliates: React.FC = () => {
                                                   value={""}
                                                 >
                                                   <option value={""}>Select sate</option>
-                                                  {Currency.map((val, i) => <option key={i} value={i} >{val}</option>)}
+                                                  {Currency.map((val, i) => <option key={i} value={i}>{val}</option>)}
                                                 </AvField>
                                               </div>
 
@@ -598,7 +541,6 @@ const Affiliates: React.FC = () => {
                         </ToolkitProvider>
                       )}
                     </PaginationProvider>
-
                   )}
 
 
@@ -608,8 +550,8 @@ const Affiliates: React.FC = () => {
                         className="btn btnOrange waves-effect waves-light w-sm"
                         onClick={loadMore}
                       >
-                        {console.log(isLoadAff)}
-                        {!isLoadAff ? <i className='mdi mdi-download d-block font-size-16'> </i> : <i className='bx bx-loader bx-spin d-block font-size-16'> </i>}
+                        {!isLoadAff ? <i className="mdi mdi-download d-block font-size-16"> </i> :
+                          <i className="bx bx-loader bx-spin d-block font-size-16"> </i>}
                         {/*<i className={`${!isLoadAff ? 'mdi mdi-download' : 'bx bx-loader bx-spin'} d-block font-size-16`}></i> {" "}*/}
                         {" "}
                         Load More
