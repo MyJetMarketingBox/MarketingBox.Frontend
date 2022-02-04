@@ -99,7 +99,7 @@ const postJwtForgetPwd = (data : any) => post(url.POST_FAKE_JWT_PASSWORD_FORGET,
 export const getAffiliates = (nextUrl: any, filter: object) => get(nextUrl || url.AFFILIATES, { params: filter });
 
 export const getAffiliateProfile = (id : number) =>
-  get(`${url.AFFILIATES}/${id}`, { params: { id } })
+  get(`${url.AFFILIATES}/${id}` )
 
 export const addNewAffiliate = (affiliate : any) => post(url.AFFILIATES,  affiliate );
 

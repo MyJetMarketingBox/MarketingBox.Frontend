@@ -8,10 +8,12 @@ import {
     FormGroup,
     Label,
     Input,
-    Button
+    Button,
+    Badge,
 } from 'reactstrap';
 
 import { AvForm, AvField } from "availity-reactstrap-validation"
+import { AffiliateRole, AffiliateState, Currency } from "../../../common/utils/model";
 
 /*{
   "affiliateId": 5,
@@ -50,15 +52,29 @@ import { AvForm, AvField } from "availity-reactstrap-validation"
 const FormAffiliate = (props: any) => {
 
     const { affiliateId, generalInfo, company, bank, sequence } = props.affiliate;
+    const handleValidAffiliateSubmit = (values: any) => {
+        console.log(values);
+    }
+
+    const bg = [ "bg-success", "bg-danger", "bg-warning" ];
 
     return (
         <React.Fragment>
-            <AvForm className="needs-validation">
+            <AvForm className="needs-validation" onValidSubmit={(
+              e: any,
+              values: any
+            ) => {
+                handleValidAffiliateSubmit(values);
+            }}>
+                <div style={{margin: '0 0 25px 0', display: "flex", justifyContent: "space-between"}}>
+                    <h4>{generalInfo.username}</h4>
+                    <Badge className={`me-2 ${bg[generalInfo.state]}`}>{AffiliateState[generalInfo.state]}</Badge>
+                </div>
                 <Row>
                     <h5 className="text-orange">General Info</h5>
                     <Col md="3">
                         <FormGroup className="mb-3">
-                            <Label htmlFor="validationCustom01">User name</Label>
+                            <Label htmlFor="validationCustom01">User name *</Label>
                             <AvField
                                 name="username"
                                 placeholder="User name"
@@ -73,7 +89,7 @@ const FormAffiliate = (props: any) => {
                     </Col>
                     <Col md="3">
                         <FormGroup className="mb-3">
-                            <Label htmlFor="validationCustom02">Email</Label>
+                            <Label htmlFor="validationCustomEmail">Email*</Label>
                             <AvField
                                 name="email"
                                 placeholder="Email"
@@ -81,7 +97,7 @@ const FormAffiliate = (props: any) => {
                                 errorMessage="Enter email"
                                 className="form-control"
                                 validate={{ required: { value: true } }}
-                                id="validationCustom02"
+                                id="validationCustomEmail"
                                 value={generalInfo.email}
                             />
                         </FormGroup>
@@ -116,51 +132,52 @@ const FormAffiliate = (props: any) => {
                             />
                         </FormGroup>
                     </Col>
-                </Row>
-                <Row>
                     <Col md="3">
                         <FormGroup className="mb-3">
-                            <Label htmlFor="validationCustom01">Role</Label>
                             <AvField
+                              type="select"
                               name="role"
-                              placeholder="Role"
-                              type="text"
-                              errorMessage="Enter role"
-                              className="form-control"
-                              validate={{ required: { value: true } }}
-                              id="validationCustom05"
+                              className="form-select"
+                              label="Role*"
+                              required
                               value={generalInfo.role}
-                            />
+                            >
+                                <option value={""}>Select role</option>
+                                {AffiliateRole.map((val, i) => <option key={i} value={i} >{val}</option>)}
+                            </AvField>
                         </FormGroup>
                     </Col>
                     <Col md="3">
                         <FormGroup className="mb-3">
-                            <Label htmlFor="validationCustom02">Email</Label>
+                            <Label htmlFor="validationCustomZip">Zip Code</Label>
                             <AvField
-                              name="email"
-                              placeholder="Email"
-                              type="email"
-                              errorMessage="Enter email"
-                              className="form-control"
-                              validate={{ required: { value: true } }}
-                              id="validationCustom02"
-                              value={generalInfo.email}
-                            />
-                        </FormGroup>
-                    </Col>
-                    <Col md="3">
-                        <FormGroup className="mb-3">
-                            <Label htmlFor="validationCustom02">Phone</Label>
-                            <AvField
-                              name="phone"
-                              placeholder="Last phone"
+                              name="zipCode"
+                              placeholder="zip code"
                               type="text"
-                              errorMessage="Enter phone"
+                              errorMessage="Enter zip code"
                               className="form-control"
-                              validate={{ required: { value: true } }}
-                              id="validationCustom03"
-                              value={generalInfo.phone}
+                              //validate={{ required: { value: true } }}
+                              id="validationCustomZip"
+                              value={generalInfo.zipCode}
                             />
+                        </FormGroup>
+                    </Col>
+                    <Col md="3">
+                        <FormGroup className="mb-3">
+                            <AvField
+                              type="select"
+                              name="currency"
+                              className="form-select"
+                              label="Currency *"
+                              required
+                              value={generalInfo.currency}
+                            >
+                                <option value={""}>Select currency</option>
+                                {Currency.map((val, i) => {
+                                    const selected = generalInfo.currency === i;
+                                    return (<option key={i} value={i} selected={selected}>{val}</option>);
+                                })}
+                            </AvField>
                         </FormGroup>
                     </Col>
                     <Col md="3">
@@ -191,7 +208,7 @@ const FormAffiliate = (props: any) => {
                                 type="text"
                                 errorMessage=" Please provide a company name."
                                 className="form-control"
-                                validate={{ required: { value: true } }}
+                                //validate={{ required: { value: true } }}
                                 id="validationCompanyName"
                                 value={company.name}
                             />
@@ -206,7 +223,7 @@ const FormAffiliate = (props: any) => {
                                 type="text"
                                 errorMessage="Please provide a company address."
                                 className="form-control"
-                                validate={{ required: { value: true } }}
+                                //validate={{ required: { value: true } }}
                                 id="validationCompanyAddress"
                                 value={company.address}
                             />
@@ -221,7 +238,7 @@ const FormAffiliate = (props: any) => {
                                 type="text"
                                 errorMessage=" Please provide a Company Reg Number."
                                 className="form-control"
-                                validate={{ required: { value: true } }}
+                                //validate={{ required: { value: true } }}
                                 id="validationCompanyRegNumber"
                                 value={company.regNumber}
                             />
@@ -236,7 +253,7 @@ const FormAffiliate = (props: any) => {
                               type="text"
                               errorMessage=" Please provide a VAT IT."
                               className="form-control"
-                              validate={{ required: { value: true } }}
+                              //validate={{ required: { value: true } }}
                               id="validationVatIt"
                               value={company.vatId}
                             />
@@ -255,7 +272,7 @@ const FormAffiliate = (props: any) => {
                               type="text"
                               errorMessage=" Please provide a Beneficiary name."
                               className="form-control"
-                              validate={{ required: { value: true } }}
+                              //validate={{ required: { value: true } }}
                               id="validationBeneficiaryName"
                               value={bank.beneficiaryName}
                             />
@@ -270,7 +287,7 @@ const FormAffiliate = (props: any) => {
                               type="text"
                               errorMessage="Please provide a Beneficiary address."
                               className="form-control"
-                              validate={{ required: { value: true } }}
+                              //validate={{ required: { value: true } }}
                               id="validationBeneficiaryAddress"
                               value={bank.beneficiaryAddress}
                             />
@@ -285,7 +302,7 @@ const FormAffiliate = (props: any) => {
                               type="text"
                               errorMessage=" Please provide a Bank name."
                               className="form-control"
-                              validate={{ required: { value: true } }}
+                              //validate={{ required: { value: true } }}
                               id="validationBankName"
                               value={bank.bankName}
                             />
@@ -300,7 +317,7 @@ const FormAffiliate = (props: any) => {
                               type="text"
                               errorMessage="Please provide a Bank address."
                               className="form-control"
-                              validate={{ required: { value: true } }}
+                              //validate={{ required: { value: true } }}
                               id="validationBankAddress"
                               value={bank.bankAddress}
                             />
@@ -317,7 +334,7 @@ const FormAffiliate = (props: any) => {
                               type="text"
                               errorMessage=" Please provide a Account Number."
                               className="form-control"
-                              validate={{ required: { value: true } }}
+                              //validate={{ required: { value: true } }}
                               id="validationAccountNumber"
                               value={bank.accountNumber}
                             />
@@ -332,7 +349,7 @@ const FormAffiliate = (props: any) => {
                               type="text"
                               errorMessage="Please provide a Swift."
                               className="form-control"
-                              validate={{ required: { value: true } }}
+                              //validate={{ required: { value: true } }}
                               id="validationSwift"
                               value={bank.swift}
                             />
@@ -347,7 +364,7 @@ const FormAffiliate = (props: any) => {
                               type="text"
                               errorMessage=" Please provide a IBAN."
                               className="form-control"
-                              validate={{ required: { value: true } }}
+                              //validate={{ required: { value: true } }}
                               id="validationIBAN"
                               value={bank.iban}
                             />

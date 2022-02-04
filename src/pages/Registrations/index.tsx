@@ -65,6 +65,15 @@ const Registrations: React.FC = () => {
     }
   });
 
+  /*const { register } = useSelector((state: any) => {
+    const registerList = state.Registrations.registrations.items;
+
+    // @ts-ignore
+    const registerItem = registerList.filter(item => (item.registrationId === id))
+    console.log(registerItem);
+    return registerItem;
+  });*/
+
   const [registrationsList, setRegistrationsList] = useState<any>(null);
   const [errorRegList, setErrorRegList] = useState<any>(null);
   const [isLoading, setLoading] = useState<boolean>(false);
@@ -152,7 +161,7 @@ const Registrations: React.FC = () => {
     setIsEdit(false);
   }, [registrations]);
 
-  // errorAff
+  // errorReg
   useEffect(() => {
     if(errorReg){
       setErrorRegList(errorReg.response);
@@ -232,11 +241,13 @@ const Registrations: React.FC = () => {
   }
 
   const toggle = () => {
+    console.log('toggle');
     setModal(!modal);
     if (!modal && !isEmpty(registrations) && !!isEdit) {
       setTimeout(() => {
         setRegistrationsList(registrations.items);
         setIsEdit(false);
+        /*<Modal id={id} />*/
       }, 500);
     }
   };
@@ -247,7 +258,8 @@ const Registrations: React.FC = () => {
 
   const tableRowEvents = {
     onClick: (e:any, row:any, rowIndex:any) => {
-      console.log(`clicked on row with index: ${row}`);
+      console.log(row);
+      handleAffiliateClicks();
     }
   }
 
