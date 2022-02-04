@@ -6,6 +6,9 @@ import Layout from "./layout/reducer";
 //Affiliates
 import Affiliates from "./affiliates/reducer"
 
+//Registrations
+import Registrations from "./registrations/reducer"
+
 //Reports
 import Reports from "./reports/reducer"
 
@@ -25,6 +28,7 @@ const rootReducer = combineReducers({
   // public
   Layout,
   Affiliates,
+  Registrations,
   Reports,
   login,
   register,

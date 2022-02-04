@@ -1,19 +1,38 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
+
+//import {getAffiliates} from "../../helpers/fakebackend_helper";
+
+//import { Row, Col, Card, CardBody, CardTitle } from "reactstrap";
 import MetaTags from "react-meta-tags";
 import {
   Card,
   CardBody,
+  CardHeader,
   Col,
+  Container,
+  DropdownItem,
+  DropdownMenu,
+  DropdownToggle,
   Row,
+  UncontrolledDropdown,
   Modal,
   ModalHeader,
-  ModalBody
+  ModalBody,
+  Dropdown,
+  ButtonDropdown,
+  Button,
+  Form,
+  Label,
+  Input,
 } from "reactstrap";
 
 // datatable related plugins
 import BootstrapTable from "react-bootstrap-table-next";
 import paginationFactory, {
-  PaginationProvider
+  PaginationProvider,
+  PaginationListStandalone,
+  SizePerPageDropdownStandalone,
 } from "react-bootstrap-table2-paginator";
 
 import ToolkitProvider, { Search } from "react-bootstrap-table2-toolkit";
@@ -24,197 +43,170 @@ import Breadcrumbs from "../../components/Common/Breadcrumb";
 import "../../assets/scss/datatables.scss";
 
 import {
-  getAffiliates as onGetAffiliates,
-  addNewAffiliate as onAddNewAffiliate
+  getRegistrations as onGetRegistrations,
 } from "../../store/actions";
 import { isEmpty, size, map } from "lodash";
 
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { AvField, AvForm } from "availity-reactstrap-validation";
-import { AffiliateRole, AffiliateState, Currency } from "../../common/utils/model";
-import Loader from "../../components/UI/loader";
-import ColumnActions from "./view/ColumnActions";
+import { RegistrationStatus } from "../../common/utils/model";
+//import Loader from "../../components/UI/loader";
 
-const Affiliates: React.FC = () => {
+const Registrations: React.FC = () => {
 
   const dispatch = useDispatch();
 
-  const { affiliates, errorAff, loading } = useSelector((state: any) => {
+  const { registrations, errorReg, loading } = useSelector((state: any) => {
     return {
-      affiliates: state.Affiliates.affiliates,
-      errorAff: state.Affiliates.error,
-      loading: state.Affiliates.loading
-    };
+      registrations: state.Registrations.registrations,
+      errorReg: state.Registrations.error,
+      loading: state.Affiliates.loading,
+    }
   });
 
-  const [affiliateList, setAffiliateList] = useState<any>(null);
-  const [errorAffList, setErrorAffList] = useState<any>(null);
+  const [registrationsList, setRegistrationsList] = useState<any>(null);
+  const [errorRegList, setErrorRegList] = useState<any>(null);
   const [isLoading, setLoading] = useState<boolean>(false);
-  const [isLoadAff, setLoadAff] = useState<boolean>(false);
+  const [isLoadReg, setLoadReg] = useState<boolean>(false);
   const [isEdit, setIsEdit] = useState<boolean>(false);
+  const [actionBtn, setActionBtn] = useState<boolean>(false);
   const [modal, setModal] = useState<boolean>(false);
+
+  const toggleAction = () => {
+    console.log(1);
+    setActionBtn(actionBtn ? false : true)
+  }
 
   const columns = [
     {
       dataField: "actions",
       text: "Actions",
-      sort: false,
+      sort:false,
       formatter: (cell: any, row: any) => (
-        <ColumnActions
-          id={row.id}
-        />
+        <>
+          <div>
+            <UncontrolledDropdown onClick={toggleAction}>
+              <DropdownToggle tag="a" className="btn btn-light">
+                <i className={`mdi ${actionBtn ? 'mdi-dots-horizontal' : ' mdi-dots-vertical'}`}></i>
+              </DropdownToggle>
+
+              <DropdownMenu className="float-start">
+                <DropdownItem tag={Link} to={{ pathname: `/Affiliates/view/${row.id}`, state: { id: row.id }}}>edit</DropdownItem>
+                <DropdownItem onClick={() => console.log('del')}>delete</DropdownItem>
+              </DropdownMenu>
+            </UncontrolledDropdown>
+          </div>
+        </>
       )
     },
     {
-      dataField: "username",
-      text: "Username",
-      sort: true
+      dataField: "id",
+      text: "Registration ID",
+      sort: true,
     },
     {
-      dataField: "role",
-      text: "Role",
-      sort: true
-    },
-    {
-      dataField: "ai",
-      text: "AI",
-      sort: true
-    },
-    {
-      dataField: "email",
-      text: "Email",
-      sort: true
-    },
-    {
-      dataField: "reportto",
-      text: "Report To",
-      sort: true
-    },
-    {
-      dataField: "createdat",
-      text: "Created At",
-      sort: true
+      dataField: "uniqueId",
+      text: "Unique ID",
+      sort: true,
     },
     {
       dataField: "status",
       text: "Status",
       sort: true,
-      formatter: (cellContent: any, productData: any) => (
-        <>
-          <div
-            className={"badge badge-soft-" + productData.color + " font-size-12"}
-          >
-            {productData.status}
-          </div>
-        </>
-      )
-    }
+    },
+    {
+      dataField: "sequence",
+      text: "Sequence",
+      sort: true,
+    },
+    {
+      dataField: "createdAt",
+      text: "Created At",
+      sort: true,
+    },
+    {
+      dataField: "depositedAt",
+      text: "Deposited At",
+      sort: true,
+    },
   ];
 
-  // Table Data
-
   let filter = {
-    order: 1
-  };
+    order: 1 //DESC
+  }
 
   useEffect(() => {
-    if (affiliates.items && !affiliates.items.length) {
-      dispatch(onGetAffiliates("", filter));
+    if (registrations.items && !registrations.items.length) {
+      dispatch(onGetRegistrations('', filter))
     }
   }, []);
 
+
   useEffect(() => {
-    if (affiliates) {
-      setAffiliateList(affiliates.items);
-      setLoading(true);
+    if(registrations){
+      console.log(registrations);
+      setRegistrationsList(registrations.items);
+      setLoading(true)
     }
     setIsEdit(false);
-  }, [affiliates]);
+  }, [registrations]);
 
   // errorAff
   useEffect(() => {
-    if (errorAff) {
-      setErrorAffList(errorAff.response);
+    if(errorReg){
+      setErrorRegList(errorReg.response);
     }
     setIsEdit(false);
-  }, [errorAff]);
+  }, [errorReg]);
 
   useEffect(() => {
-    setLoadAff(false);
-  }, [affiliateList]);
+    setLoadReg(false)
+  }, [registrationsList])
 
   // @ts-ignore
-  const affiliateData = !(affiliateList) ? [] : affiliateList?.map(affiliate => {
-    let color, status, role;
-    switch (affiliate.generalInfo.state) {
-      case 0:
-        status = "active";
-        color = "success";
-        break;
-      case 2:
-        status = "notActive";
-        color = "warning";
-        break;
-      case 1:
-        status = "banned";
-        color = "danger";
-        break;
-      default:
-        color = "light";
-        break;
+  const registrationData = !(registrationsList) ? [] : registrationsList?.map(registration => {
+    /*let color, status, role;
+    switch (registration.generalInfo.state) {
+      case 0: status = "active"; color = "success"; break;
+      case 2: status = "notActive"; color = "warning"; break;
+      case 1: status = "banned"; color = "danger"; break;
+      default: color = "light"; break;
     }
 
-    switch (affiliate.generalInfo.role) {
-      case 0:
-        role = "Affiliate";
-        break;
-      case 1:
-        role = "Master Affiliate";
-        break;
-      case 2:
-        role = "Affiliate Manager";
-        break;
-      case 3:
-        role = "Admin";
-        break;
-      case 4:
-        role = "Master Affiliate Referral";
-        break;
-      default:
-        role = "Undefined";
-        break;
-    }
+    switch (registration.generalInfo.role) {
+      case 0: role = "Affiliate"; break;
+      case 1: role = "Master Affiliate"; break;
+      case 2: role = "Affiliate Manager"; break;
+      case 3: role = "Admin"; break;
+      case 4: role = "Master Affiliate Referral"; break;
+      default: role = "Undefined"; break;
+    }*/
+
+    //console.log(registration);
 
     return {
-      id: affiliate.affiliateId,
-      username: affiliate.generalInfo.username,
-      role: role,
-      ai: affiliate.affiliateId,
-      email: affiliate.generalInfo.email,
-      reportto: "Management",
-      createdat: new Date(affiliate.generalInfo.createdAt).toLocaleDateString("ru-RU", {
-        day: "2-digit",
-        month: "2-digit",
-        year: "2-digit"
-      }),
-      status: status,
-      actions: "",
-      color: color
-    };
+      id: registration.registrationId,
+      uniqueId: registration.uniqueId,
+      country: registration.generalInfo.country,
+      status: RegistrationStatus.filter((item, key) => key === registration.status),
+      sequence: registration.sequence,
+      createdAt: new Date(registration.generalInfo.createdAt).toLocaleDateString('ru-RU', {day:"2-digit", month:"2-digit", year:"2-digit", hour: "2-digit", minute: "2-digit", second: "numeric"}),
+      depositedAt: (registration.generalInfo.depositedAt) ? new Date(registration.generalInfo.depositedAt).toLocaleDateString('ru-RU', {day:"2-digit", month:"2-digit", year:"2-digit", hour: "2-digit", minute: "2-digit", second: "numeric"}) : "",
+    }
   });
 
   const defaultSorted: any = [
     {
       dataField: "id",
-      order: "desc"
-    }
+      order: "desc",
+    },
   ];
 
   const pageOptions: any = {
-    sizePerPage: affiliateData.length,
-    totalSize: affiliateData.length, // replace later with size(customers),
-    custom: true
+    sizePerPage: registrationData.length,
+    totalSize: registrationData.length, // replace later with size(customers),
+    custom: true,
   };
 
   // Select All Button operation
@@ -225,15 +217,15 @@ const Affiliates: React.FC = () => {
   const { SearchBar } = Search;
 
   async function loadMore() {
-    if (affiliates.pagination.nextUrl) {
-      setLoadAff(true);
-      const moreAff = await onGetAffiliates(affiliates.pagination.nextUrl, {});
-      dispatch(moreAff);
+    if(registrations.pagination.nextUrl) {
+      setLoadReg(true)
+      const moreReg = await onGetRegistrations(registrations.pagination.nextUrl, {})
+      dispatch(moreReg);
     }
   }
 
-  if (errorAffList) {
-    console.log(errorAffList);
+  if(errorRegList){
+    console.log(errorRegList);
     // if(errorAffList.status === 401){
     //   location.replace('/logout');
     // }
@@ -241,64 +233,33 @@ const Affiliates: React.FC = () => {
 
   const toggle = () => {
     setModal(!modal);
-    if (!modal && !isEmpty(affiliates) && !!isEdit) {
+    if (!modal && !isEmpty(registrations) && !!isEdit) {
       setTimeout(() => {
-        setAffiliateList(affiliates.items);
+        setRegistrationsList(registrations.items);
         setIsEdit(false);
       }, 500);
     }
-  };
-
-  const handleValidAffiliateSubmit = (values: any) => {
-    const date = new Date();
-    const newAffiliate = {
-      generalInfo: {
-        username: values["username"],
-        email: values["email"],
-        password: values["password"],
-        phone: "",
-        skype: "",
-        zipCode: "",
-        role: +values["role"],
-        state: +values["state"],
-        currency: +values["currency"],
-        createdAt: date,
-        apiKey: ""
-      },
-      company: {
-        name: "",
-        address: "",
-        regNumber: "",
-        vatId: ""
-      },
-      bank: {
-        beneficiaryName: "",
-        beneficiaryAddress: "",
-        bankName: "",
-        bankAddress: "",
-        accountNumber: "",
-        swift: "",
-        iban: ""
-      }
-    };
-    // save new aff
-    dispatch(onAddNewAffiliate(newAffiliate));
-    toggle();
   };
 
   const handleAffiliateClicks = () => {
     toggle();
   };
 
+  const tableRowEvents = {
+    onClick: (e:any, row:any, rowIndex:any) => {
+      console.log(`clicked on row with index: ${row}`);
+    }
+  }
 
   return (
     <React.Fragment>
       <div className="page-content">
         <MetaTags>
-          <title>Affiliates | TraffMe </title>
+          <title>Registrations | TraffMe </title>
         </MetaTags>
         <div className="container-fluid">
-          <Breadcrumbs title="TraffMe" breadcrumbItem="Affiliates" />
+          <Breadcrumbs title="TraffMe" breadcrumbItem="Registrations" />
+
           <Row>
             <Col className="col-12">
               <Card>
@@ -308,7 +269,7 @@ const Affiliates: React.FC = () => {
                     <div style={{ textAlign: "center" }}>
                       <h1>Loading...</h1>
                     </div>
-                  ) : (
+                  ):(
 
                     <PaginationProvider
                       pagination={paginationFactory(pageOptions)}
@@ -319,12 +280,11 @@ const Affiliates: React.FC = () => {
                         <ToolkitProvider
                           keyField="id"
                           columns={columns}
-                          data={affiliateData}
+                          data={registrationData}
                           search
                         >
                           {toolkitProps => (
                             <React.Fragment>
-                              {loading && <Loader />}
                               <Row className="mb-2">
                                 <Col md="4">
                                   <div className="search-box me-2 mb-2 d-inline-block">
@@ -334,23 +294,18 @@ const Affiliates: React.FC = () => {
                                     </div>
                                   </div>
                                 </Col>
-                                <Col md="8">
+                                {/*<Col md="8">
                                   <div className="text-right float-end">
-
                                     <Link
                                       to="#"
                                       className="btn btn-success"
-                                      onClick={toggle}
+                                      onClick={handleAffiliateClicks}
                                     >
                                       <i className="bx bx-plus me-1"></i> Add
                                       New
                                     </Link>
-
-                                    {/*<button type="submit" className="btn btn-success ">
-                                      <i className="bx bx-plus"></i> new affiliate
-                                    </button>*/}
                                   </div>
-                                </Col>
+                                </Col>*/}
                               </Row>
 
                               <Row>
@@ -366,10 +321,12 @@ const Affiliates: React.FC = () => {
                                       headerWrapperClasses={"thead-light"}
                                       {...toolkitProps.baseProps}
                                       {...paginationTableProps}
+                                      rowEvents={ tableRowEvents }
                                     />
 
 
-                                    <Modal isOpen={modal} toggle={toggle}>
+                                    {/*<Modal isOpen={modal} toggle={toggle}>
+                                      {loading && <Loader />}
                                       <ModalHeader toggle={toggle} tag="h4">
                                         Add Affiliate
                                       </ModalHeader>
@@ -392,7 +349,7 @@ const Affiliates: React.FC = () => {
                                                   type="text"
                                                   errorMessage="Invalid name"
                                                   validate={{
-                                                    required: { value: true }
+                                                    required: { value: true },
                                                   }}
                                                   value={""}
                                                 />
@@ -404,7 +361,7 @@ const Affiliates: React.FC = () => {
                                                   type="email"
                                                   errorMessage="Invalid Email"
                                                   validate={{
-                                                    required: { value: true }
+                                                    required: { value: true },
                                                   }}
                                                   value={""}
                                                 />
@@ -416,7 +373,7 @@ const Affiliates: React.FC = () => {
                                                   type="password"
                                                   errorMessage="Invalid Designation"
                                                   validate={{
-                                                    required: { value: true }
+                                                    required: { value: true },
                                                   }}
                                                   value={""}
                                                 />
@@ -432,8 +389,7 @@ const Affiliates: React.FC = () => {
                                                   value={""}
                                                 >
                                                   <option value={""}>Select role</option>
-                                                  {AffiliateRole.map((val, i) => <option key={i}
-                                                                                         value={i}>{val}</option>)}
+                                                  {AffiliateRole.map((val, i) => <option key={i} value={i} >{val}</option>)}
                                                 </AvField>
                                               </div>
 
@@ -447,8 +403,7 @@ const Affiliates: React.FC = () => {
                                                   value={""}
                                                 >
                                                   <option value={""}>Select sate</option>
-                                                  {AffiliateState.map((val, i) => <option key={i}
-                                                                                          value={i}>{val}</option>)}
+                                                  {AffiliateState.map((val, i) => <option key={i} value={i} >{val}</option>)}
                                                 </AvField>
                                               </div>
 
@@ -462,11 +417,11 @@ const Affiliates: React.FC = () => {
                                                   value={""}
                                                 >
                                                   <option value={""}>Select sate</option>
-                                                  {Currency.map((val, i) => <option key={i} value={i}>{val}</option>)}
+                                                  {Currency.map((val, i) => <option key={i} value={i} >{val}</option>)}
                                                 </AvField>
                                               </div>
 
-                                              {/*<div className="mb-3">
+                                              <div className="mb-3">
                                                 <AvField
                                                   type="select"
                                                   name="tags"
@@ -499,7 +454,7 @@ const Affiliates: React.FC = () => {
                                                   }}
                                                   value={""}
                                                 />
-                                              </div>*/}
+                                              </div>
                                             </Col>
                                           </Row>
                                           <Row>
@@ -516,7 +471,7 @@ const Affiliates: React.FC = () => {
                                           </Row>
                                         </AvForm>
                                       </ModalBody>
-                                    </Modal>
+                                    </Modal>*/}
 
                                   </div>
                                 </Col>
@@ -542,19 +497,17 @@ const Affiliates: React.FC = () => {
                         </ToolkitProvider>
                       )}
                     </PaginationProvider>
+
                   )}
 
 
-                  {affiliates.pagination.nextUrl && (
+                  {registrations.pagination.nextUrl && (
                     <div className="text-center">
                       <button
                         className="btn btnOrange waves-effect waves-light w-sm"
                         onClick={loadMore}
                       >
-                        {!isLoadAff ? <i className="mdi mdi-download d-block font-size-16"> </i> :
-                          <i className="bx bx-loader bx-spin d-block font-size-16"> </i>}
-                        {/*<i className={`${!isLoadAff ? 'mdi mdi-download' : 'bx bx-loader bx-spin'} d-block font-size-16`}></i> {" "}*/}
-                        {" "}
+                        <i className={`${!isLoadReg ? 'mdi mdi-download' : 'bx bx-loader bx-spin'} d-block font-size-16`}></i> {" "}
                         Load More
                       </button>
                     </div>
@@ -571,4 +524,4 @@ const Affiliates: React.FC = () => {
   );
 };
 
-export default Affiliates;
+export default Registrations;

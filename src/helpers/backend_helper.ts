@@ -105,6 +105,9 @@ export const addNewAffiliate = (affiliate : any) => post(url.AFFILIATES,  affili
 
 export const deleteAffiliate = (id : number) => del(`${url.AFFILIATES}/${id}`);
 
+// get registrations
+export const getRegistrations = (nextUrl: any, filter: object) => get(nextUrl || url.REGISTRATIONS, { params: filter });
+
 // get reports
 export const getReports = (filter: any) => get(`${url.GET_REPORTS}`,  { params: filter } )
 

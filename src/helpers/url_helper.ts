@@ -18,6 +18,9 @@ export const POST_EDIT_PROFILE = "/post-fake-profile"
 //AFFILIATES
 export const AFFILIATES = "api/affiliates"
 
+//REGISTRATIONS
+export const REGISTRATIONS = "api/registrations"
+
 //REPORTS
 export const GET_REPORTS = "api/reports"
 
