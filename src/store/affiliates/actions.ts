@@ -41,14 +41,27 @@ export const addAffiliateSuccess = (affiliate : any) => ({
   payload: affiliate,
 })
 
-export const addAffiliateStart = ( ) => ({
-  type: AffiliatesTypes.ADD_AFFILIATE_START,
-})
-
 export const addAffiliateFail = (error : any) => ({
   type: AffiliatesTypes.ADD_AFFILIATE_FAIL,
   payload: error,
 })
+
+export const updateAffiliate = (affiliate : any, id: number) => ({
+  type: AffiliatesTypes.UPDATE_AFFILIATE,
+  payload: affiliate,
+  id: id
+})
+
+export const updateAffiliateSuccess = (affiliate : any) => ({
+  type: AffiliatesTypes.UPDATE_AFFILIATE_SUCCESS,
+  payload: affiliate,
+})
+
+export const updateAffiliateFail = (error : any) => ({
+  type: AffiliatesTypes.UPDATE_AFFILIATE_FAIL,
+  payload: error,
+})
+
 
 export const deleteAffiliate = (id : number) => ({
   type: AffiliatesTypes.DELETE_AFFILIATE,

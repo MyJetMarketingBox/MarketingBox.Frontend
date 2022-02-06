@@ -11,7 +11,9 @@ import {
   addAffiliateFail,
   addAffiliateSuccess,
   deleteAffiliateFail,
-  deleteAffiliateSuccess, addAffiliateStart
+  deleteAffiliateSuccess,
+  updateAffiliateSuccess,
+  updateAffiliateFail
 } from "./actions";
 
 //Включите оба файла-помощника с необходимыми методами
@@ -19,7 +21,9 @@ import {
   getAffiliates,
   getAffiliateProfile,
   addNewAffiliate,
-  deleteAffiliate } from "../../helpers/backend_helper";
+  deleteAffiliate,
+  updateAffiliate
+} from "../../helpers/backend_helper";
 
 function* fetchAffiliates({ nextUrl, filter } : any) {
 
@@ -42,12 +46,20 @@ function* fetchAffiliateProfile({ affiliateId } : any) {
 }
 
 function* onAddNewAffiliate({ payload: affiliate } : any) {
-  yield put(addAffiliateStart())
   try {
     const response : Promise<any> = yield call(addNewAffiliate, affiliate)
     yield put(addAffiliateSuccess(response))
   } catch (error) {
     yield put(addAffiliateFail(error))
+  }
+}
+
+function* onUpdateAffiliate({ payload: affiliate, id: id } : any) {
+  try {
+    const response : Promise<any> = yield call(updateAffiliate, affiliate, id)
+    yield put(updateAffiliateSuccess(response))
+  } catch (error) {
+    yield put(updateAffiliateFail(error))
   }
 }
 
@@ -64,6 +76,7 @@ function* contactsSaga() {
   yield takeEvery(AffiliatesTypes.GET_AFFILIATES, fetchAffiliates)
   yield takeEvery(AffiliatesTypes.GET_AFFILIATE_PROFILE, fetchAffiliateProfile)
   yield takeEvery(AffiliatesTypes.ADD_NEW_AFFILIATE, onAddNewAffiliate)
+  yield takeEvery(AffiliatesTypes.UPDATE_AFFILIATE, onUpdateAffiliate)
   yield takeEvery(AffiliatesTypes.DELETE_AFFILIATE, onDeleteAffiliate)
 }
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from "react";
 import {
     Card,
     CardBody,
@@ -10,53 +10,121 @@ import {
     Input,
     Button,
     Badge,
+    UncontrolledDropdown,
+    DropdownItem,
+    DropdownMenu,
+    DropdownToggle,
 } from 'reactstrap';
+
+import {
+    updateAffiliate as onUpdateAff
+} from "../../../store/actions";
 
 import { AvForm, AvField } from "availity-reactstrap-validation"
 import { AffiliateRole, AffiliateState, Currency } from "../../../common/utils/model";
-
-/*{
-  "affiliateId": 5,
-  "generalInfo": {
-    "username": "Test Sv",
-    "password": "111eqrwsd",
-    "email": "string",
-    "phone": "+48222292744",
-    "skype": "string",
-    "zipCode": "02648",
-    "role": "affiliate",
-    "state": "active",
-    "currency": "eur",
-    "createdAt": "2021-11-11T17:23:24.683092Z",
-    "apiKey": "TRDR39334"
-  },
-  "company": {
-    "name": "FYTVY",
-    "address": "string",
-    "regNumber": "string",
-    "vatId": "string"
-  },
-  "bank": {
-    "beneficiaryName": "YCYTCY",
-    "beneficiaryAddress": "string",
-    "bankName": "string",
-    "bankAddress": "string",
-    "accountNumber": "string",
-    "swift": "string",
-    "iban": "string"
-  },
-  "sequence": 0
-}*/
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const FormAffiliate = (props: any) => {
+    const dispatch = useDispatch();
 
-    const { affiliateId, generalInfo, company, bank, sequence } = props.affiliate;
+    const { affiliate, errorAff, loading } = useSelector((state: any) => {
+        return {
+            affiliate: state.Affiliates.affiliateProfile,
+            errorAff: state.Affiliates.error,
+            loading: state.Affiliates.loading
+        };
+    });
+
+    const { affiliateId, generalInfo, company, bank, sequence } = affiliate;
+
+    /*const [newPass, setNewPass] = useState("");
+    const [confirmPass, setConfirmPass] = useState("");
+    const [sendForm, setSendForm] = useState(false);*/
+    const [state, setState] = useState(generalInfo.state);
+
+
+    const closeAfter15 = () => toast("Will close after 2.5s", { autoClose: 2500 });
+
+    /*useEffect(() => {
+        if(errorAff === {}) return;
+        console.log(errorAff);
+        alert(errorAff.message);
+        toast.error(errorAff.message+"\n"+"Something went wrong! try a little later...", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
+    }, [])*/
+
+
     const handleValidAffiliateSubmit = (values: any) => {
-        console.log(values);
+        //if(!sendForm) return;
+
+        const updateAff = {
+            generalInfo: {
+                username: values["username"],
+                email: values["email"],
+                password: values["new_password"] || generalInfo.password,
+                phone: values["phone"],
+                skype: values["skype"],
+                zipCode: values["zipCode"],
+                role: +values["role"],
+                state: +state,
+                currency: +values["currency"],
+                createdAt: generalInfo.createdAt,
+                apiKey: generalInfo.apiKey
+            },
+            company: {
+                name: values["name"],
+                address: values["address"],
+                regNumber: values["regNumber"],
+                vatId: values["vatId"]
+            },
+            bank: {
+                beneficiaryName: values["beneficiaryName"],
+                beneficiaryAddress: values["beneficiaryAddress"],
+                bankName: values["bankName"],
+                bankAddress: values["bankAddress"],
+                accountNumber: values["accountNumber"],
+                swift: values["swift"],
+                iban: values["iban"]
+            },
+            sequence: sequence
+        };
+
+        console.log(updateAff);
+        //dispatch(onUpdateAff(updateAff, affiliateId))
+        dispatch(onUpdateAff(updateAff, 90001))
+
     }
 
     const bg = [ "bg-success", "bg-danger", "bg-warning" ];
+    const bx = [ "bx-check-double", "bx-block", "bx-error" ];
+
+    /*useEffect(() => {
+        console.log(confirmPass, newPass);
+        // @ts-ignore
+        if(!confirmPass && !newPass){
+            setSendForm(true)
+        }else if(newPass === confirmPass && confirmPass.length > 6){
+            alert("password confirmed")
+            setSendForm(true)
+        }else{
+            setSendForm(false)
+            console.log(212);
+        }
+    }, [newPass, confirmPass])*/
+
+    const changeStateAff = (e: any) => {
+        setState(e.target.value)
+    }
 
     return (
         <React.Fragment>
@@ -68,13 +136,33 @@ const FormAffiliate = (props: any) => {
             }}>
                 <div style={{margin: '0 0 25px 0', display: "flex", justifyContent: "space-between"}}>
                     <h4>{generalInfo.username}</h4>
-                    <Badge className={`me-2 ${bg[generalInfo.state]}`}>{AffiliateState[generalInfo.state]}</Badge>
+
+                    <div>
+                        <UncontrolledDropdown>
+                            <DropdownToggle
+                              type="button"
+                              className={`btn-sm ${bg[state]} waves-effect btn-label waves-light`}
+                            >
+                                <i className={`bx ${bx[state]} label-icon`}></i>{" "}
+                                {AffiliateState[state]} <i className="mdi mdi-chevron-down"></i>
+                            </DropdownToggle>
+                            <DropdownMenu>
+                                {AffiliateState.map((item, i) => {
+                                    if(i !== state)
+                                        return <DropdownItem onClick={changeStateAff} key={i} value={i}>{item}</DropdownItem>
+                                })}
+                            </DropdownMenu>
+                        </UncontrolledDropdown>
+
+                        <button onClick={closeAfter15}>Notify</button>
+
+                    </div>
                 </div>
                 <Row>
                     <h5 className="text-orange">General Info</h5>
                     <Col md="3">
                         <FormGroup className="mb-3">
-                            <Label htmlFor="validationCustom01">User name *</Label>
+                            <Label htmlFor="validationUserName">User name *</Label>
                             <AvField
                                 name="username"
                                 placeholder="User name"
@@ -82,14 +170,14 @@ const FormAffiliate = (props: any) => {
                                 errorMessage="Enter User Name"
                                 className="form-control"
                                 validate={{ required: { value: true } }}
-                                id="validationCustom01"
+                                id="validationUserName"
                                 value={generalInfo.username}
                             />
                         </FormGroup>
                     </Col>
                     <Col md="3">
                         <FormGroup className="mb-3">
-                            <Label htmlFor="validationCustomEmail">Email*</Label>
+                            <Label htmlFor="validationCustomEmail">Email *</Label>
                             <AvField
                                 name="email"
                                 placeholder="Email"
@@ -104,30 +192,30 @@ const FormAffiliate = (props: any) => {
                     </Col>
                     <Col md="3">
                         <FormGroup className="mb-3">
-                            <Label htmlFor="validationCustom02">Phone</Label>
+                            <Label htmlFor="validationPhone">Phone</Label>
                             <AvField
                               name="phone"
                               placeholder="Last phone"
                               type="text"
                               errorMessage="Enter phone"
                               className="form-control"
-                              validate={{ required: { value: true } }}
-                              id="validationCustom03"
+                              //validate={{ required: { value: true } }}
+                              id="validationPhone"
                               value={generalInfo.phone}
                             />
                         </FormGroup>
                     </Col>
                     <Col md="3">
                         <FormGroup className="mb-3">
-                            <Label htmlFor="validationCustom02">Skype</Label>
+                            <Label htmlFor="validationSkype">Skype</Label>
                             <AvField
                               name="skype"
                               placeholder="Last skype"
                               type="text"
                               errorMessage="Enter skype"
                               className="form-control"
-                              validate={{ required: { value: true } }}
-                              id="validationCustom04"
+                              //validate={{ required: { value: true } }}
+                              id="validationSkype"
                               value={generalInfo.skype}
                             />
                         </FormGroup>
@@ -138,18 +226,19 @@ const FormAffiliate = (props: any) => {
                               type="select"
                               name="role"
                               className="form-select"
-                              label="Role*"
+                              label="Role *"
+                              id="role"
                               required
-                              value={generalInfo.role}
+                              value={generalInfo.role.toString()}
                             >
-                                <option value={""}>Select role</option>
+                                <option value="">Select role</option>
                                 {AffiliateRole.map((val, i) => <option key={i} value={i} >{val}</option>)}
                             </AvField>
                         </FormGroup>
                     </Col>
                     <Col md="3">
                         <FormGroup className="mb-3">
-                            <Label htmlFor="validationCustomZip">Zip Code</Label>
+                            <Label htmlFor="validationZip">Zip Code</Label>
                             <AvField
                               name="zipCode"
                               placeholder="zip code"
@@ -157,7 +246,7 @@ const FormAffiliate = (props: any) => {
                               errorMessage="Enter zip code"
                               className="form-control"
                               //validate={{ required: { value: true } }}
-                              id="validationCustomZip"
+                              id="validationZip"
                               value={generalInfo.zipCode}
                             />
                         </FormGroup>
@@ -168,31 +257,14 @@ const FormAffiliate = (props: any) => {
                               type="select"
                               name="currency"
                               className="form-select"
+                              id="currency"
                               label="Currency *"
                               required
-                              value={generalInfo.currency}
+                              value={generalInfo.currency.toString()}
                             >
-                                <option value={""}>Select currency</option>
-                                {Currency.map((val, i) => {
-                                    const selected = generalInfo.currency === i;
-                                    return (<option key={i} value={i} selected={selected}>{val}</option>);
-                                })}
+                                <option value="">Select currency</option>
+                                {Currency.map((val, i) => <option key={i} value={i} >{val}</option>)}
                             </AvField>
-                        </FormGroup>
-                    </Col>
-                    <Col md="3">
-                        <FormGroup className="mb-3">
-                            <Label htmlFor="validationCustom02">Skype</Label>
-                            <AvField
-                              name="skype"
-                              placeholder="Last skype"
-                              type="text"
-                              errorMessage="Enter skype"
-                              className="form-control"
-                              validate={{ required: { value: true } }}
-                              id="validationCustom04"
-                              value={generalInfo.skype}
-                            />
                         </FormGroup>
                     </Col>
                 </Row>
@@ -323,8 +395,6 @@ const FormAffiliate = (props: any) => {
                             />
                         </FormGroup>
                     </Col>
-                </Row>
-                <Row>
                     <Col md="4">
                         <FormGroup className="mb-3">
                             <Label htmlFor="validationAccountNumber">Account Number</Label>
@@ -372,28 +442,82 @@ const FormAffiliate = (props: any) => {
                     </Col>
                 </Row>
 
+                {generalInfo.apiKey &&
+                    <>
+                        <hr />
+                        <Row>
+                            <h5 className="text-orange">API Key</h5>
+                            <Col md="12">
+                                <FormGroup className="mb-3">
+                                    {/*<Label htmlFor="validationAPIKey">API Key</Label>*/}
+                                    <AvField
+                                    name="apiKey"
+                                    placeholder="API Key"
+                                    type="text"
+                                    errorMessage=" Please provide a API Key."
+                                    className="form-control"
+                                    //validate={{ required: { value: true } }}
+                                    id="validationAPIKey"
+                                    value={generalInfo.apiKey}
+                                    disabled="disabled"
+                                    />
+                                </FormGroup>
+                            </Col>
+                        </Row>
+                    </>
+                }
+
                 <hr />
-                {/*<Row>
-                    <Col lg="12">
+                <Row>
+                    <h5 className="text-orange">Password</h5>
+                    <Col md="6">
                         <FormGroup className="mb-3">
-                            <div className="form-check">
-                                <Input
-                                    type="checkbox"
-                                    className="form-check-input"
-                                    id="invalidCheck"
-                                />
-                                <Label
-                                    className="form-check-label"
-                                    htmlFor="invalidCheck"
-                                >
-                                    {" "}
-                                    Agree to terms and conditions
-                                </Label>
-                            </div>
+                            <Label htmlFor="validationNewPassword">New Password</Label>
+                            <AvField
+                              name="new_password"
+                              placeholder="New password"
+                              type="password"
+                              errorMessage=" Please provide a new password."
+                              className="form-control"
+                              validate={{
+                                  minLength: {value: 8, errorMessage: 'Your name must be between 8 and 16 characters'},
+                                  maxLength: {value: 16, errorMessage: 'Your name must be between 6 and 16 characters'},
+                                  pattern: {value: '^[A-Za-z0-9]+$', errorMessage: 'Your name must be composed only with letter and numbers'},
+                              }}
+                              id="validationNewPassword"
+                              value=""
+                              autocomplete="off"
+                              //onChange={(e: any) => setNewPass(e.target.value)}
+                            />
                         </FormGroup>
                     </Col>
-                </Row>*/}
-                <Button className="btnOrange float-end" type="submit">
+                    <Col md="6">
+                        <FormGroup className="mb-3">
+                            <Label htmlFor="validationConfirmPassword">Confirm Password</Label>
+                            <AvField
+                              name="confirm_password"
+                              placeholder="Confirm Password"
+                              type="password"
+                              errorMessage="Please provide a confirm password."
+                              className="form-control"
+                              validate={{
+                                  minLength: {value: 8, errorMessage: 'Your name must be between 8 and 16 characters'},
+                                  maxLength: {value: 16, errorMessage: 'Your name must be between 6 and 16 characters'},
+                                  pattern: {value: '^[A-Za-z0-9]+$', errorMessage: 'Your name must be composed only with letter and numbers'},
+                                  match: {value:'new_password', errorMessage: 'Passwords must match'}
+                              }}
+                              id="validationConfirmPassword"
+                              value=""
+                              autocomplete="off"
+                              //onChange={(e: any) => setConfirmPass(e.target.value)}
+                            />
+                        </FormGroup>
+                    </Col>
+                </Row>
+
+                <hr />
+                <Button className="btnOrange float-end" type="submit" disabled={loading}>
+                    {loading && <i className="bx bx-hourglass bx-spin me-2" />}
                     Save
                 </Button>
             </AvForm>

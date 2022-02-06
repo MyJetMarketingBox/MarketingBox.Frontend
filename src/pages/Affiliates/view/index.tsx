@@ -167,7 +167,7 @@ const Affiliate = (props: any) => {
                         <Row>
                           <Col sm="12">
                             <CardText className="mb-0">
-                              <FormAffiliate affiliate={getAffiliate}/>
+                              <FormAffiliate />
                             </CardText>
                           </Col>
                         </Row>
