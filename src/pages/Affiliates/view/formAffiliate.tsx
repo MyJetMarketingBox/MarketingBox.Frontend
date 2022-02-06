@@ -23,7 +23,7 @@ import {
 import { AvForm, AvField } from "availity-reactstrap-validation"
 import { AffiliateRole, AffiliateState, Currency } from "../../../common/utils/model";
 import { useDispatch, useSelector } from "react-redux";
-import { toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 
@@ -45,28 +45,22 @@ const FormAffiliate = (props: any) => {
     const [sendForm, setSendForm] = useState(false);*/
     const [state, setState] = useState(generalInfo.state);
 
-
-    const closeAfter15 = () => toast("Will close after 2.5s", { autoClose: 2500 });
-
-    /*useEffect(() => {
-        if(errorAff === {}) return;
-        console.log(errorAff);
-        alert(errorAff.message);
-        toast.error(errorAff.message+"\n"+"Something went wrong! try a little later...", {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-        });
-    }, [])*/
+    useEffect(() => {
+        if(errorAff.message) {
+            toast.error(errorAff.message + "\n" + "Something went wrong! try a little later...", {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined
+            });
+        }
+    }, [errorAff])
 
 
     const handleValidAffiliateSubmit = (values: any) => {
-        //if(!sendForm) return;
-
         const updateAff = {
             generalInfo: {
                 username: values["username"],
@@ -98,11 +92,7 @@ const FormAffiliate = (props: any) => {
             },
             sequence: sequence
         };
-
-        console.log(updateAff);
-        //dispatch(onUpdateAff(updateAff, affiliateId))
-        dispatch(onUpdateAff(updateAff, 90001))
-
+        dispatch(onUpdateAff(updateAff, affiliateId))
     }
 
     const bg = [ "bg-success", "bg-danger", "bg-warning" ];
@@ -153,8 +143,6 @@ const FormAffiliate = (props: any) => {
                                 })}
                             </DropdownMenu>
                         </UncontrolledDropdown>
-
-                        <button onClick={closeAfter15}>Notify</button>
 
                     </div>
                 </div>
