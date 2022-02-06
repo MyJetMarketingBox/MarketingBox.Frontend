@@ -165,7 +165,7 @@ const Affiliates: React.FC = () => {
         break;
     }
 
-    switch (affiliate.generalInfo.role) {
+    /*switch (affiliate.generalInfo.role) {
       case 0:
         role = "Affiliate";
         break;
@@ -184,12 +184,14 @@ const Affiliates: React.FC = () => {
       default:
         role = "Undefined";
         break;
-    }
+    }*/
+
+
 
     return {
       id: affiliate.affiliateId,
       username: affiliate.generalInfo.username,
-      role: role,
+      role: AffiliateRole[affiliate.generalInfo.role],
       ai: affiliate.affiliateId,
       email: affiliate.generalInfo.email,
       reportto: "Management",
