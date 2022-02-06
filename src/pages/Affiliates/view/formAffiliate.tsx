@@ -30,11 +30,12 @@ import 'react-toastify/dist/ReactToastify.css';
 const FormAffiliate = (props: any) => {
     const dispatch = useDispatch();
 
-    const { affiliate, errorAff, loading } = useSelector((state: any) => {
+    const { affiliate, errorAff, loading, success } = useSelector((state: any) => {
         return {
             affiliate: state.Affiliates.affiliateProfile,
             errorAff: state.Affiliates.error,
-            loading: state.Affiliates.loading
+            loading: state.Affiliates.loading,
+            success: state.Affiliates.success
         };
     });
 
@@ -57,7 +58,21 @@ const FormAffiliate = (props: any) => {
                 progress: undefined
             });
         }
-    }, [errorAff])
+    }, [errorAff]);
+
+    useEffect(() => {
+        if(success){
+            toast.success("Affiliate update success", {
+                position: "top-right",
+                autoClose: 2500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined
+            });
+        }
+    }, [success]);
 
 
     const handleValidAffiliateSubmit = (values: any) => {
@@ -118,6 +133,7 @@ const FormAffiliate = (props: any) => {
 
     return (
         <React.Fragment>
+           <ToastContainer />
             <AvForm className="needs-validation" onValidSubmit={(
               e: any,
               values: any
