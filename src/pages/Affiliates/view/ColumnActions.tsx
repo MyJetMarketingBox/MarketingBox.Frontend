@@ -28,7 +28,7 @@ export default ({ id }: any) => {
 
   return (
     <div>
-      <UncontrolledDropdown onClick={toggleAction}>
+      <UncontrolledDropdown isOpen={isOpen} toggle={toggleAction}>
         <DropdownToggle tag="a" className="btn btn-light">
           <i className={`mdi ${isOpen ? "mdi-dots-horizontal" : "mdi-dots-vertical"}`} />
         </DropdownToggle>

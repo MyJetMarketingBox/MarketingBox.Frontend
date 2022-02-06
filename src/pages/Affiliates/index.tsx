@@ -35,6 +35,7 @@ import { AvField, AvForm } from "availity-reactstrap-validation";
 import { AffiliateRole, AffiliateState, Currency } from "../../common/utils/model";
 import Loader from "../../components/UI/loader";
 import ColumnActions from "./view/ColumnActions";
+import SearchAffiliate from "./view/SearchAffiliate";
 
 const Affiliates: React.FC = () => {
 
@@ -334,7 +335,10 @@ const Affiliates: React.FC = () => {
                                     </div>
                                   </div>
                                 </Col>
-                                <Col md="8">
+                                <Col md="4">
+                                  <SearchAffiliate />
+                                </Col>
+                                <Col md="4">
                                   <div className="text-right float-end">
 
                                     <Link
