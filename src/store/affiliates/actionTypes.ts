@@ -23,6 +23,9 @@ export enum AffiliatesTypes {
   DELETE_AFFILIATE = '@@contact/DELETE_AFFILIATE',
   DELETE_AFFILIATE_SUCCESS = '@@contact/DELETE_AFFILIATE_SUCCESS',
   DELETE_AFFILIATE_FAIL = '@@contact/DELETE_AFFILIATE_FAIL',
+
+  /* CLEAR AFFILIATE */
+  CLEAR_AFFILIATE = '@@contact/CLEAR_AFFILIATE',
 }
 
 interface iAffiliate {

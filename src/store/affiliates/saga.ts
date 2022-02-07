@@ -26,7 +26,6 @@ import {
 } from "../../helpers/backend_helper";
 
 function* fetchAffiliates({ nextUrl, filter } : any) {
-
   try{
     const response : Promise<any> = yield call(getAffiliates, nextUrl, filter)
     yield put(getAffiliatesSuccess(response))

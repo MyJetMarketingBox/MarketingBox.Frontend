@@ -20,6 +20,12 @@ const affiliates = (state = INIT_STATE, action :any) => {
         },
       }
 
+    case AffiliatesTypes.CLEAR_AFFILIATE:
+      return {
+        ...state,
+        affiliates: {items: [], pagination: {}},
+      }
+
     case AffiliatesTypes.GET_AFFILIATES_FAIL:
       return {
         ...state,

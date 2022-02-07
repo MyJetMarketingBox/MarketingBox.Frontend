@@ -1,4 +1,4 @@
-.c-popup {
+.popup {
   box-sizing: border-box;
   position: fixed !important;
   top: 0;
@@ -6,9 +6,7 @@
   right: 0;
   bottom: 0;
   padding: 40px 20px;
-  opacity: 0;
-  visibility: hidden;
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(255, 255, 255, 0.8);
   font-size: 0;
   text-align: center;
   white-space: nowrap;
@@ -16,12 +14,10 @@
   overflow-y: auto;
   z-index: 1200;
 }
-.c-popup.opened {
-  opacity: 1;
-  visibility: visible;
-  transition: opacity .3s, visibility .3s;
+.popup.dark {
+  background-color: rgba(0, 0, 0, 0.6);
 }
-.c-popup::before {
+.popup::before {
   content: '';
   box-sizing: border-box;
   display: inline-block;
@@ -30,24 +26,23 @@
   vertical-align: middle;
   background-color: #fff;
 }
-.c-popup-wrapper {
+.popup-wrapper {
   box-sizing: border-box;
   position: relative;
   display: inline-block;
-  background-color: #30323b;
+  background-color: #ffffff;
   vertical-align: middle;
   width: 100%;
   max-width: 400px;
   padding: 40px 30px;
   border-radius: 20px;
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, .3);
-  transform: scale(0);
 }
-.c-popup.opened .c-popup-wrapper {
-  transform: scale(1);
-  transition: transform .3s;
+.popup.dark .popup-wrapper {
+  background-color: #30323b;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, .3);
 }
-.c-popup-btn-close {
+.popup-btn-close {
   position: absolute;
   top: 5px;
   right: 5px;
@@ -56,8 +51,8 @@
   cursor: pointer;
   z-index: 1200;
 }
-.c-popup-btn-close::before,
-.c-popup-btn-close::after {
+.popup-btn-close::before,
+.popup-btn-close::after {
   content: "";
   position: absolute;
   left: 50%;
@@ -68,49 +63,52 @@
   border-radius: 1px;
   transition: background-color .3s;
 }
-.c-popup-btn-close::before {
+.popup-btn-close::before {
   transform: translate(-50%, -50%) rotate(-45deg);
 }
-.c-popup-btn-close::after {
+.popup-btn-close::after {
   transform: translate(-50%, -50%) rotate(45deg);
 }
-.c-popup-btn-close:hover::before,
-.c-popup-btn-close:hover::after {
+.popup-btn-close:hover::before,
+.popup-btn-close:hover::after {
   background-color: #333333;
 }
-.c-popup-content {
+.popup-content {
   box-sizing: border-box;
   width: 100%;
   white-space: normal;
 }
-.c-popup-img {
+.popup-img {
   width: 100%;
   max-width: 120px;
   margin-left: auto;
   margin-right: auto;
 
 }
-.c-popup-img img {
+.popup-img img {
   display: block;
   width: 100%;
   height: auto;
   margin-bottom: 20px;
 }
-.c-popup-title {
+.popup-title {
   margin-bottom: 20px;
   font-size: 24px;
   line-height: 1.1;
   font-weight: 700;
   color: #ff4146;
 }
-.c-popup-text {
+.popup-text {
   margin-bottom: 20px;
   font-size: 14px;
   line-height: 1.4;
   font-weight: 400;
+  color: #495057;
+}
+.popup.dark .popup-text {
   color: #ffffff;
 }
-.c-popup-descr {
+.popup-descr {
   margin-bottom: 20px;
   font-size: 16px;
   line-height: 1.4;
@@ -118,17 +116,20 @@
   color: #ff4146;
   text-decoration: underline;
 }
-.c-popup-input {
+.popup-input {
   margin-bottom: 20px;
 }
-.c-popup-input-descr {
+.popup-input-descr {
   margin-bottom: 5px;
   font-size: 16px;
   line-height: 1.2;
   font-weight: 400;
+  color: #495057;
+}
+.popup.dark .popup-input-descr {
   color: #ffffff;
 }
-.c-popup-input input {
+.popup-input input {
   display: block;
   box-sizing: border-box;
   width: 100%;
@@ -137,37 +138,45 @@
   margin-right: auto;
   padding: 8px 9px 7px;
   background-color: rgba(255,255,255,0.1);
-  border: 1px solid transparent;
+  border: 1px solid #ced4da;
   border-radius: 5px;
   font-size: 16px;
   line-height: 1.3;
-  color: #ffffff;
+  color: #495057;
   text-align: center;
+
+  &:focus {
+    outline: none;
+  }
 }
-.c-popup-input input::-webkit-input-placeholder {
+.popup.dark .popup-input input {
+  border: 1px solid transparent;
+  color: #ffffff;
+}
+.popup-input input::-webkit-input-placeholder {
   color: #939393;
   line-height: 1.3;
 }
-.c-popup-input input::-moz-placeholder {
+.popup-input input::-moz-placeholder {
   color: #939393;
   line-height: 1.3;
 }
-.c-popup-input input:-moz-placeholder {
+.popup-input input:-moz-placeholder {
   color: #939393;
   line-height: 1.3;
 }
-.c-popup-input input:-ms-input-placeholder {
+.popup-input input:-ms-input-placeholder {
   color: #939393;
   line-height: 1.3;
 }
-.c-popup-btns {
+.popup-btns {
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.c-popup-btns .btn {
+.popup-btns button {
   margin-right: 10px;
 }
-.c-popup-btns .btn:last-child {
+.popup-btns button:last-child {
   margin-right: 0;
 }

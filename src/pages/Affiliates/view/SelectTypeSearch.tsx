@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import c from "./SelectTypeSearch.module.css";
+import c from "./SelectTypeSearch.module.scss";
 
-export default ({ options, curValue, handleChange }: any) => {
+export default ({ options, curValue, handleChange, theme }: any) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const closeSelect = () => {
@@ -13,10 +13,10 @@ export default ({ options, curValue, handleChange }: any) => {
   }
 
   useEffect(() => {
-    document.body.addEventListener('click', closeSelect);
+    document.addEventListener('click', closeSelect);
 
     return () => {
-      document.body.removeEventListener('click', closeSelect);
+      document.removeEventListener('click', closeSelect);
     }
   }, [])
 
@@ -25,9 +25,13 @@ export default ({ options, curValue, handleChange }: any) => {
     handleChange(idx);
   }
 
+  const selectClasses = [c['select']];
+  if (theme === 'dark') selectClasses.push(c['dark'])
+  if (isOpen) selectClasses.push(c['open']);
+
   return (
-    <div className={c['select']} onClick={e => e.stopPropagation()}>
-      <div className={c['select-toggle']} onClick={handleToggle}>V</div>
+    <div className={selectClasses.join(' ')} onClick={e => e.stopPropagation()}>
+      <div className={c['select-toggle']} onClick={handleToggle} />
       {
         isOpen &&
         <ul className={c['select-items']}>
@@ -37,7 +41,7 @@ export default ({ options, curValue, handleChange }: any) => {
                 <li
                   key={i}
                   onClick={() => handleClickItem(i)}
-                  className={(curValue === i) ? 'active' : ''}>{label}</li>
+                  className={(curValue === i) ? c['active'] : ''}>{label}</li>
               )
             })
           }

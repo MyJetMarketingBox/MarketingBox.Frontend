@@ -17,7 +17,7 @@ export const INIT_STATE : LayoytState = {
   layoutWidth: layoutWidthTypes.FLUID,
   leftSideBarTheme: leftSideBarThemeTypes.LIGHT,
   leftSideBarType: leftSidebarTypes.DEFAULT,
-  layoutMode: layoutTheme.LIGHTMODE,
+  layoutMode: localStorage.getItem('layoutTheme') || layoutTheme.LIGHTMODE,
   topbarTheme: topBarThemeTypes.LIGHT,
   isPreloader: true,
   showRightSidebar: false,
