@@ -19,7 +19,10 @@ export default () => {
     return {
       theme: state.Layout.layoutMode
     }
-  })
+  });
+  const filter = {
+    order: 1
+  };
 
   const handleChangeSelect = (typeFilter: any) => {
     setSearchType(typeFilter);
@@ -30,17 +33,18 @@ export default () => {
   }
 
   const getAffiliateByFilter = () => {
-    const type = optionsSelect[searchType].value;
     if (value) {
+      const type = optionsSelect[searchType].value;
+      const curFilter = { ...filter, [type]: value }
       dispatch(clearAffiliate());
-      dispatch(getAffiliates(null, {[type]: value}));
+      dispatch(getAffiliates(null, curFilter));
     }
   }
 
   const cancelHandleClick = () => {
     setValue('');
     dispatch(clearAffiliate());
-    dispatch(getAffiliates(null, {}));
+    dispatch(getAffiliates(null, filter));
   }
 
   const classesContainer = [c['search-aff']];

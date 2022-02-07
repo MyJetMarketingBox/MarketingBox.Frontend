@@ -362,17 +362,20 @@ const Affiliates: React.FC = () => {
                               <Row>
                                 <Col xl="12">
                                   <div className="table-responsive">
-                                    <BootstrapTable
-                                      // responsive
-                                      bordered={false}
-                                      striped={false}
-                                      defaultSorted={defaultSorted}
-                                      //selectRow={selectRow}
-                                      classes={"table align-middle table-nowrap"}
-                                      headerWrapperClasses={"thead-light"}
-                                      {...toolkitProps.baseProps}
-                                      {...paginationTableProps}
-                                    />
+                                    {(affiliates.items && affiliates.items.length > 0) ?
+                                      <BootstrapTable
+                                        // responsive
+                                        bordered={false}
+                                        striped={false}
+                                        defaultSorted={defaultSorted}
+                                        //selectRow={selectRow}
+                                        classes={"table align-middle table-nowrap"}
+                                        headerWrapperClasses={"thead-light"}
+                                        {...toolkitProps.baseProps}
+                                        {...paginationTableProps}
+                                      /> :
+                                      <div style={{'textAlign': 'center', 'padding': '30px 0'}}>No Data Available</div>
+                                    }
 
 
                                     <Modal isOpen={modal} toggle={toggle}>
