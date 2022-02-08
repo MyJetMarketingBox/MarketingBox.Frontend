@@ -12,7 +12,6 @@ interface iRegistrations {
 
 export interface RegistrationsState {
   registrations  : iRegistrations;
-  registrationProfile : Object;
   error : Object;
   loading: boolean;
 }

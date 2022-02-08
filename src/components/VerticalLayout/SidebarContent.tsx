@@ -140,6 +140,13 @@ const SidebarContent = (props: any) => {
               </Link>
             </li>
 
+            <li>
+              <Link to="/campaigns" className="">
+                <Icon name="box" />
+                <span>{props.t("Campaigns")}</span>
+              </Link>
+            </li>
+
             {user && user.role != "Affiliate" ? (<li>
               <Link to="/Affiliates" className="">
                 <Icon name="briefcase"/>

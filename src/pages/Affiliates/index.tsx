@@ -187,8 +187,6 @@ const Affiliates: React.FC = () => {
         break;
     }*/
 
-
-
     return {
       id: affiliate.affiliateId,
       username: affiliate.generalInfo.username,
@@ -348,13 +346,9 @@ const Affiliates: React.FC = () => {
                                       className="btn btn-success"
                                       onClick={toggle}
                                     >
-                                      <i className="bx bx-plus me-1"></i> Add
-                                      New
+                                      <i className="bx bx-plus me-1"></i> Add New
                                     </Link>
 
-                                    {/*<button type="submit" className="btn btn-success ">
-                                      <i className="bx bx-plus"></i> new affiliate
-                                    </button>*/}
                                   </div>
                                 </Col>
                               </Row>
@@ -362,7 +356,7 @@ const Affiliates: React.FC = () => {
                               <Row>
                                 <Col xl="12">
                                   <div className="table-responsive">
-                                    {(affiliates.items && affiliates.items.length > 0) ?
+                                    {(affiliateList && affiliateList.length > 0) ? (
                                       <BootstrapTable
                                         // responsive
                                         bordered={false}
@@ -373,159 +367,11 @@ const Affiliates: React.FC = () => {
                                         headerWrapperClasses={"thead-light"}
                                         {...toolkitProps.baseProps}
                                         {...paginationTableProps}
-                                      /> :
-                                      <div style={{'textAlign': 'center', 'padding': '30px 0'}}>No Data Available</div>
-                                    }
-
-
-                                    <Modal isOpen={modal} toggle={toggle}>
-                                      <ModalHeader toggle={toggle} tag="h4">
-                                        Add Affiliate
-                                      </ModalHeader>
-                                      <ModalBody>
-
-                                        <AvForm
-                                          onValidSubmit={(
-                                            e: any,
-                                            values: any
-                                          ) => {
-                                            handleValidAffiliateSubmit(values);
-                                          }}
-                                        >
-                                          <Row form>
-                                            <Col xs={12}>
-                                              <div className="mb-3">
-                                                <AvField
-                                                  name="username"
-                                                  label="Name"
-                                                  type="text"
-                                                  errorMessage="Invalid name"
-                                                  validate={{
-                                                    required: { value: true }
-                                                  }}
-                                                  value={""}
-                                                />
-                                              </div>
-                                              <div className="mb-3">
-                                                <AvField
-                                                  name="email"
-                                                  label="Email"
-                                                  type="email"
-                                                  errorMessage="Invalid Email"
-                                                  validate={{
-                                                    required: { value: true }
-                                                  }}
-                                                  value={""}
-                                                />
-                                              </div>
-                                              <div className="mb-3">
-                                                <AvField
-                                                  name="password"
-                                                  label="Password"
-                                                  type="password"
-                                                  errorMessage="Invalid Designation"
-                                                  validate={{
-                                                    required: { value: true }
-                                                  }}
-                                                  value={""}
-                                                />
-                                              </div>
-
-                                              <div className="mb-3">
-                                                <AvField
-                                                  type="select"
-                                                  name="role"
-                                                  className="form-select"
-                                                  label="Role"
-                                                  required
-                                                  value={""}
-                                                >
-                                                  <option value={""}>Select role</option>
-                                                  {AffiliateRole.map((val, i) => <option key={i}
-                                                                                         value={i}>{val}</option>)}
-                                                </AvField>
-                                              </div>
-
-                                              <div className="mb-3">
-                                                <AvField
-                                                  type="select"
-                                                  name="state"
-                                                  className="form-select"
-                                                  label="State"
-                                                  required
-                                                  value={""}
-                                                >
-                                                  <option value={""}>Select sate</option>
-                                                  {AffiliateState.map((val, i) => <option key={i}
-                                                                                          value={i}>{val}</option>)}
-                                                </AvField>
-                                              </div>
-
-                                              <div className="mb-3">
-                                                <AvField
-                                                  type="select"
-                                                  name="currency"
-                                                  className="form-select"
-                                                  label="Currency"
-                                                  required
-                                                  value={""}
-                                                >
-                                                  <option value={""}>Select sate</option>
-                                                  {Currency.map((val, i) => <option key={i} value={i}>{val}</option>)}
-                                                </AvField>
-                                              </div>
-
-                                              {/*<div className="mb-3">
-                                                <AvField
-                                                  type="select"
-                                                  name="tags"
-                                                  className="form-select"
-                                                  label="Option"
-                                                  helpMessage="MULTIPLE!"
-                                                  multiple={true}
-                                                  required
-                                                  value={""}
-                                                >
-                                                  <option>Photoshop</option>
-                                                  <option>illustrator</option>
-                                                  <option>Html</option>
-                                                  <option>Php</option>
-                                                  <option>Java</option>
-                                                  <option>Python</option>
-                                                  <option>UI/UX Designer</option>
-                                                  <option>Ruby</option>
-                                                  <option>Css</option>
-                                                </AvField>
-                                              </div>
-                                              <div className="mb-3">
-                                                <AvField
-                                                  name="projects"
-                                                  label="Projects"
-                                                  type="text"
-                                                  errorMessage="Invalid Projects"
-                                                  validate={{
-                                                    required: { value: true },
-                                                  }}
-                                                  value={""}
-                                                />
-                                              </div>*/}
-                                            </Col>
-                                          </Row>
-                                          <Row>
-                                            <Col>
-                                              <div className="text-end">
-                                                <button
-                                                  type="submit"
-                                                  className="btn btn-success save-user"
-                                                >
-                                                  Save
-                                                </button>
-                                              </div>
-                                            </Col>
-                                          </Row>
-                                        </AvForm>
-                                      </ModalBody>
-                                    </Modal>
+                                      /> ) : (
+                                      <div style={{'textAlign': 'center', 'padding': '30px 0'}}>
+                                        <h3>No Data Available</h3>
+                                      </div>
+                                    )}
 
                                   </div>
                                 </Col>
@@ -576,6 +422,122 @@ const Affiliates: React.FC = () => {
           </Row>
         </div>
       </div>
+
+      <Modal isOpen={modal} toggle={toggle}>
+        <ModalHeader toggle={toggle} tag="h4">
+          Add Affiliate
+        </ModalHeader>
+        <ModalBody>
+
+          <AvForm
+            onValidSubmit={(
+              e: any,
+              values: any
+            ) => {
+              handleValidAffiliateSubmit(values);
+            }}
+          >
+            <Row form>
+              <Col xs={12}>
+                <div className="mb-3">
+                  <AvField
+                    name="username"
+                    label="Name"
+                    type="text"
+                    errorMessage="Invalid name"
+                    validate={{
+                      required: { value: true }
+                    }}
+                    value={""}
+                  />
+                </div>
+                <div className="mb-3">
+                  <AvField
+                    name="email"
+                    label="Email"
+                    type="email"
+                    errorMessage="Invalid Email"
+                    validate={{
+                      required: { value: true }
+                    }}
+                    value={""}
+                  />
+                </div>
+                <div className="mb-3">
+                  <AvField
+                    name="password"
+                    label="Password"
+                    type="password"
+                    errorMessage="Invalid Designation"
+                    validate={{
+                      required: { value: true }
+                    }}
+                    value={""}
+                  />
+                </div>
+
+                <div className="mb-3">
+                  <AvField
+                    type="select"
+                    name="role"
+                    className="form-select"
+                    label="Role"
+                    required
+                    value={""}
+                  >
+                    <option value={""}>Select role</option>
+                    {AffiliateRole.map((val, i) => <option key={i}
+                                                           value={i}>{val}</option>)}
+                  </AvField>
+                </div>
+
+                <div className="mb-3">
+                  <AvField
+                    type="select"
+                    name="state"
+                    className="form-select"
+                    label="State"
+                    required
+                    value={""}
+                  >
+                    <option value={""}>Select sate</option>
+                    {AffiliateState.map((val, i) => <option key={i}
+                                                            value={i}>{val}</option>)}
+                  </AvField>
+                </div>
+
+                <div className="mb-3">
+                  <AvField
+                    type="select"
+                    name="currency"
+                    className="form-select"
+                    label="Currency"
+                    required
+                    value={""}
+                  >
+                    <option value={""}>Select sate</option>
+                    {Currency.map((val, i) => <option key={i} value={i}>{val}</option>)}
+                  </AvField>
+                </div>
+
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <div className="text-end">
+                  <button
+                    type="submit"
+                    className="btn btn-success save-user"
+                  >
+                    Save
+                  </button>
+                </div>
+              </Col>
+            </Row>
+          </AvForm>
+        </ModalBody>
+      </Modal>
+
     </React.Fragment>
   );
 };
