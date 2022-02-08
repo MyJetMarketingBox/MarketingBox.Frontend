@@ -10,6 +10,8 @@ import Reports from "../pages/Reports";
 
 import Registrations from "../pages/Registrations";
 
+import Campaigns from "../pages/Campaigns"
+
 //Authentication pages
 import Login from "src/pages/Authentication/Login";
 import Logout from "src/pages/Authentication/Logout";
@@ -35,6 +37,8 @@ const userRoutes: Array<RouteProps> = [
   { path: "/Reports", component: Reports },
 
   { path: "/Registrations", component: Registrations },
+
+  { path: "/Campaigns", component: Campaigns },
 
   // this route should be at the end of all other routes
   { path: "/", exact: true, component: () => <Redirect to="/dashboard" /> },
