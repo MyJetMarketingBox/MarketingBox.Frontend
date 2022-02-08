@@ -30,25 +30,6 @@ const CardCampaigns = (props : any) => {
                 <DropdownItem to="#">Remove</DropdownItem>
               </DropdownMenu>
             </UncontrolledDropdown>
-            {/*{!campaign.img ? (
-              <div className="avatar-xl mx-auto mb-4">
-                  <span
-                    className={
-                      "avatar-title bg-soft-light text-light display-4 m-0 rounded-circle"
-                    }
-                  >
-                    <i className="bx bxs-user-circle"></i>
-                  </span>
-              </div>
-            ) : (
-              <div className="mx-auto mb-4">
-                <img
-                  className="avatar-xl rounded-circle img-thumbnail"
-                  src=""
-                  alt=""
-                />
-              </div>
-            )}*/}
 
             <div className="avatar-xl mx-auto mb-4">
               <span
