@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown } from "reactstrap";
 import { deleteAffiliate as onDeleteAffiliate } from "../../../store/affiliates/actions";
-import ConfirmDeleteAff from "./ConfirmDeleteAff";
+import ConfirmDeleteAff from "../components/confirm/ConfirmDeleteAff";
 
 export default ({ id }: any) => {
   const dispatch = useDispatch();

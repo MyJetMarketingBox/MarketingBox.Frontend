@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import SelectTypeSearch from "./SelectTypeSearch";
+import SelectTypeSearch from "../select/SelectTypeSearch";
 import c from './SearchAffiliate.module.scss';
-import { clearAffiliate, getAffiliates } from "../../../store/affiliates/actions";
+import { clearAffiliate, getAffiliates } from "../../../../store/affiliates/actions";
 
 export default () => {
   const optionsSelect = [

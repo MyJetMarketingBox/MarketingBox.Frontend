@@ -9,7 +9,7 @@ const sagaMiddleware = createSagaMiddleware();
 const middlewares = [sagaMiddleware];
 
 const composeEnhancers = composeWithDevTools({
-    // Specify name here, actionsBlacklist, actionsCreators and other options if needed
+    // Specify name here, actionsBlacklist, actionsCreators and components options if needed
   });
 
 export function configureStore(initialState: any) {

@@ -40,7 +40,7 @@ const userRoutes: Array<RouteProps> = [
 
   { path: "/Campaigns", component: Campaigns },
 
-  // this route should be at the end of all other routes
+  // this route should be at the end of all components routes
   { path: "/", exact: true, component: () => <Redirect to="/dashboard" /> },
 ];
 
