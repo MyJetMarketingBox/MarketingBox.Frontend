@@ -1,11 +1,15 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import c from "./SelectTypeSearch.module.scss";
 
 export default ({ options, curValue, handleChange, theme }: any) => {
   const [isOpen, setIsOpen] = useState(false);
+  const rootEl = useRef(null);
 
-  const closeSelect = () => {
-    setIsOpen(false);
+  const closeSelect = (e: any) => {
+    // @ts-ignore
+    if (rootEl.current && !rootEl.current.contains(e.target)) {
+      setIsOpen(false);
+    }
   };
 
   const handleToggle = () => {
@@ -21,7 +25,7 @@ export default ({ options, curValue, handleChange, theme }: any) => {
   }, [])
 
   const handleClickItem = (idx: any) => {
-    closeSelect();
+    setIsOpen(false);
     handleChange(idx);
   }
 
@@ -34,7 +38,7 @@ export default ({ options, curValue, handleChange, theme }: any) => {
       <div className={c['select-toggle']} onClick={handleToggle} />
       {
         isOpen &&
-        <ul className={c['select-items']}>
+        <ul className={c['select-items']} ref={rootEl}>
           {
             options.map(({label}: any, i: any) => {
               return (

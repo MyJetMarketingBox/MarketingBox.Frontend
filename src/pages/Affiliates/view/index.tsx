@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Breadcrumbs from "../../../components/Common/Breadcrumb";
-import FormAffiliate from "./formAffiliate"
+import FormAffiliate from "../components/editAffiliate/formAffiliate"
 import MetaTags from "react-meta-tags";
 
 import {

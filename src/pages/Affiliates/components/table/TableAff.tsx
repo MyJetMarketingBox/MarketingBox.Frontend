@@ -1,8 +1,57 @@
 import BootstrapTable from "react-bootstrap-table-next";
-import ColumnActions from "../../view/ColumnActions";
+import ColumnActions from "../columnActions/ColumnActions";
+import { AffiliateRole } from "../../../../common/utils/model";
+import { useEffect, useRef } from "react";
 
 export default ({ affiliates = [] }: any) => {
-  console.log(affiliates);
+  const tableNode = useRef<any>(null);
+
+  useEffect(() => {
+    // @ts-ignore
+    const bodyTable = tableNode.current;
+    if (bodyTable) {
+      bodyTable.style.height = document.documentElement.clientHeight - bodyTable.getBoundingClientRect().top - 100 + 'px';
+    }
+  }, []);
+
+  // @ts-ignore
+  const affiliateData = affiliates.map(affiliate => {
+    let color, status;
+    switch (affiliate.generalInfo.state) {
+      case 0:
+        status = "active";
+        color = "success";
+        break;
+      case 2:
+        status = "notActive";
+        color = "warning";
+        break;
+      case 1:
+        status = "banned";
+        color = "danger";
+        break;
+      default:
+        color = "light";
+        break;
+    }
+
+    return {
+      id: affiliate.affiliateId,
+      username: affiliate.generalInfo.username,
+      role: AffiliateRole[affiliate.generalInfo.role],
+      ai: affiliate.affiliateId,
+      email: affiliate.generalInfo.email,
+      reportto: "Management",
+      createdat: new Date(affiliate.generalInfo.createdAt).toLocaleDateString("ru-RU", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "2-digit"
+      }),
+      status: status,
+      actions: "",
+      color: color
+    };
+  });
 
   const columns = [
     {
@@ -69,15 +118,17 @@ export default ({ affiliates = [] }: any) => {
   ];
 
   return (
-    <BootstrapTable
-      keyField='affiliateId'
-      data={affiliates}
-      columns={columns}
-      bordered={false}
-      striped={false}
-      defaultSorted={defaultSorted}
-      classes={"table align-middle table-nowrap"}
-      headerWrapperClasses={"thead-light"}
-    />
+    <div ref={tableNode}>
+      <BootstrapTable
+        keyField='ai'
+        data={affiliateData}
+        columns={columns}
+        bordered={false}
+        striped={false}
+        defaultSorted={defaultSorted}
+        classes={"table align-middle table-nowrap"}
+        headerWrapperClasses={"thead-light"}
+      />
+    </div>
   );
 }

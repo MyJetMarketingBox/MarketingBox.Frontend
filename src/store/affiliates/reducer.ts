@@ -5,11 +5,18 @@ export const INIT_STATE : AffiliatesState = {
   affiliateProfile: {},
   error: {},
   loading: false,
+  loaded: false,
   success: false
 }
 
 const affiliates = (state = INIT_STATE, action :any) => {
   switch (action.type) {
+
+    case AffiliatesTypes.GET_AFFILIATES:
+      return {
+        ...state,
+        loading: true,
+      }
 
     case AffiliatesTypes.GET_AFFILIATES_SUCCESS:
       return {
@@ -18,18 +25,23 @@ const affiliates = (state = INIT_STATE, action :any) => {
           items: [...state.affiliates.items, ...action.payload.items],
           pagination: { ...action.payload.pagination }
         },
+        loading: false,
+        loaded: true,
+      }
+
+    case AffiliatesTypes.GET_AFFILIATES_FAIL:
+      return {
+        ...state,
+        loading: false,
+        loaded: true,
+        error: action.payload,
       }
 
     case AffiliatesTypes.CLEAR_AFFILIATE:
       return {
         ...state,
         affiliates: {items: [], pagination: {}},
-      }
-
-    case AffiliatesTypes.GET_AFFILIATES_FAIL:
-      return {
-        ...state,
-        error: action.payload,
+        loaded: false,
       }
 
     case AffiliatesTypes.GET_AFFILIATE_PROFILE_SUCCESS:
@@ -60,7 +72,6 @@ const affiliates = (state = INIT_STATE, action :any) => {
         error: {},
         loading: false,
       }
-
 
     case AffiliatesTypes.ADD_AFFILIATE_FAIL:
       return {

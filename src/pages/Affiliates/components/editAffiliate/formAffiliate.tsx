@@ -18,10 +18,10 @@ import {
 
 import {
     updateAffiliate as onUpdateAff
-} from "../../../store/actions";
+} from "../../../../store/actions";
 
 import { AvForm, AvField } from "availity-reactstrap-validation"
-import { AffiliateRole, AffiliateState, Currency } from "../../../common/utils/model";
+import { AffiliateRole, AffiliateState, Currency } from "../../../../common/utils/model";
 import { useDispatch, useSelector } from "react-redux";
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
