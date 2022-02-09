@@ -11,10 +11,7 @@ import {
 import Breadcrumbs from "../../components/Common/Breadcrumb";
 import AddAffiliateForm from "./components/addAffiliate/AddAffiliateForm";
 import "../../assets/scss/datatables.scss";
-
-import { getAffiliates } from "../../store/actions";
-import { isEmpty, size, map } from "lodash";
-
+import { clearAffiliate, getAffiliates } from "../../store/actions";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../../components/UI/loader";
 import SearchAffiliate from "./components/search/SearchAffiliate";
@@ -34,9 +31,7 @@ const Affiliates: React.FC = () => {
     };
   });
 
-  // const [errorAffList, setErrorAffList] = useState<any>(null);
   const [isLoadAff, setLoadAff] = useState<boolean>(false);
-  // const [isEdit, setIsEdit] = useState<boolean>(false);
   const [modal, setModal] = useState<boolean>(false);
 
   let filter = {
@@ -44,8 +39,9 @@ const Affiliates: React.FC = () => {
   };
 
   useEffect(() => {
-    if (affiliates && !affiliates.length) {
-      dispatch(getAffiliates("", filter));
+    dispatch(getAffiliates("", filter));
+    return () => {
+      dispatch(clearAffiliate());
     }
   }, []);
 
@@ -64,12 +60,6 @@ const Affiliates: React.FC = () => {
 
   const toggleModal = () => {
     setModal(prev => !prev);
-    // if (!modal && !isEmpty(affiliates) && !!isEdit) {
-    //   setTimeout(() => {
-    //     setAffiliateList(affiliates.items);
-    //     setIsEdit(false);
-    //   }, 500);
-    // }
   };
 
   return (
@@ -88,7 +78,7 @@ const Affiliates: React.FC = () => {
           <Col className="col-12">
             <Card>
               <CardBody>
-                <Row>
+                <Row className="mb-2">
                   <Col className="col-md-4">
                     <SearchAffiliate />
                   </Col>

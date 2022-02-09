@@ -4,16 +4,6 @@ import { AffiliateRole } from "../../../../common/utils/model";
 import { useEffect, useRef } from "react";
 
 export default ({ affiliates = [] }: any) => {
-  const tableNode = useRef<any>(null);
-
-  useEffect(() => {
-    // @ts-ignore
-    const bodyTable = tableNode.current;
-    if (bodyTable) {
-      bodyTable.style.height = document.documentElement.clientHeight - bodyTable.getBoundingClientRect().top - 100 + 'px';
-    }
-  }, []);
-
   // @ts-ignore
   const affiliateData = affiliates.map(affiliate => {
     let color, status;
@@ -118,7 +108,7 @@ export default ({ affiliates = [] }: any) => {
   ];
 
   return (
-    <div ref={tableNode}>
+    <div>
       <BootstrapTable
         keyField='ai'
         data={affiliateData}

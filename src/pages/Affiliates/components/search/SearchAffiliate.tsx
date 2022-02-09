@@ -9,7 +9,8 @@ export default () => {
     {value: 'username', label: 'Search by username'},
     {value: 'email', label: 'Search by Email'},
     {value: 'role', label: 'Search by Role'},
-    {value: 'name', label: 'Search by Name'}
+    {value: 'name', label: 'Search by Name'},
+    {value: 'id', label: 'Search by AI'}
   ];
 
   const [searchType, setSearchType] = useState(0);
@@ -41,6 +42,12 @@ export default () => {
     }
   }
 
+  const onKeypressHandler = (e: any) => {
+    if (e.key === "Enter") {
+      getAffiliateByFilter();
+    }
+  }
+
   const cancelHandleClick = () => {
     setValue('');
     dispatch(clearAffiliate());
@@ -63,6 +70,7 @@ export default () => {
           type="text"
           value={value}
           onChange={onChangeHandler}
+          onKeyPress={onKeypressHandler}
           placeholder={optionsSelect[searchType].label} />
       </div>
       <button

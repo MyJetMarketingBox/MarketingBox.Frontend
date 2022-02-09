@@ -6,6 +6,9 @@ import Layout from "./layout/reducer";
 //Affiliates
 import Affiliates from "./affiliates/reducer"
 
+//Campaigns
+import Campaigns from "./campaigns/reducer"
+
 //Registrations
 import Registrations from "./registrations/reducer"
 
@@ -18,7 +21,7 @@ import login from "./auth/login/reducer";
 //register
 import register from "./auth/register/reducer";
 
-// User Profile 
+// User Profile
 import profile from "./auth/profile/reducer";
 
 // Forget Password
@@ -28,6 +31,7 @@ const rootReducer = combineReducers({
   // public
   Layout,
   Affiliates,
+  Campaigns,
   Registrations,
   Reports,
   login,
