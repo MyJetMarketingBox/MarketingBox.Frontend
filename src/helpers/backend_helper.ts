@@ -111,6 +111,9 @@ export const updateAffiliate = (affiliate : object, id: number) =>
 // get registrations
 export const getRegistrations = (nextUrl: any, filter: object) => get(nextUrl || url.REGISTRATIONS, { params: filter });
 
+// get postback logs
+export const getPostbackLogs = (nextUrl: any, filter: object) => get(nextUrl || url.POSTBACKLOGS, { params: filter });
+
 // get reports
 export const getReports = (filter: any) => get(`${url.GET_REPORTS}`,  { params: filter } )
 

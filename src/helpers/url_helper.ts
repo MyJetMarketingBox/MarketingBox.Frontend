@@ -21,6 +21,9 @@ export const AFFILIATES = "api/affiliates"
 //REGISTRATIONS
 export const REGISTRATIONS = "api/registrations"
 
+//PostbackLogs
+export const POSTBACKLOGS = "api/PostbackLogs"
+
 //REPORTS
 export const GET_REPORTS = "api/reports"
 

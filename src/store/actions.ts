@@ -7,6 +7,9 @@ export * from "./affiliates/actions";
 /** Registrations */
 export * from "./registrations/actions";
 
+/** PostbackLogs */
+export * from "./postback_logs/actions";
+
 /** Reports */
 export * from "./reports/actions"
 

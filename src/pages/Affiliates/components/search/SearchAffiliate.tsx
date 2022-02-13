@@ -8,6 +8,7 @@ export default () => {
   const optionsSelect = [
     {value: 'username', label: 'Search by username'},
     {value: 'email', label: 'Search by Email'},
+    {value: 'id', label: 'Search by AI'},
     {value: 'role', label: 'Search by Role'},
     {value: 'name', label: 'Search by Name'},
     {value: 'id', label: 'Search by AI'}
