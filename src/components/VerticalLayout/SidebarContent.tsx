@@ -135,7 +135,7 @@ const SidebarContent = (props: any) => {
 
             <li>
               <Link to="/registrations" className="">
-                <Icon name="box" />
+                <Icon name="user-plus" />
                 <span>{props.t("Registrations")}</span>
               </Link>
             </li>
@@ -176,6 +176,9 @@ const SidebarContent = (props: any) => {
               <ul className="sub-menu">
                 <li>
                   <Link to="/postback">{props.t("Postback")}</Link>
+                </li>
+                <li>
+                  <Link to="/postback_logs">{props.t("Postback Logs")}</Link>
                 </li>
                 {( user && user.role != "affiliatesManager" && user.role != "Affiliate") ?
                 (<li>

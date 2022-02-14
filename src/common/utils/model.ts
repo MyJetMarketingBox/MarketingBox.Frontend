@@ -26,3 +26,26 @@ export const RegistrationStatus = [
     "Deposited",
     "Approved",
 ]
+
+export const ReportType = [
+    'Registrations',
+    'Ftd',
+    'All',
+]
+
+export const registrationModel = [
+    "Created",
+    "Registered",
+    "Deposited",
+    "Approved",
+]
+
+export const eventType = [
+    "Registered",
+    "Approved",
+]
+
+export const httpQueryType = [
+    "Get",
+    "Post",
+]

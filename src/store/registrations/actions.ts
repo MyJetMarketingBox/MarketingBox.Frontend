@@ -15,3 +15,7 @@ export const getRegistrationsFail = (error : any) => ({
   type: RegistrationsTypes.GET_REGISTRATIONS_FAIL,
   payload: error,
 })
+
+export const clearRegistrations = () => ({
+  type: RegistrationsTypes.CLEAR_REGISTRATIONS,
+})

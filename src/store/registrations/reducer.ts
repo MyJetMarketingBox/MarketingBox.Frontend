@@ -9,6 +9,9 @@ export const INIT_STATE : RegistrationsState = {
 const registrations = (state = INIT_STATE, action :any) => {
   switch (action.type) {
 
+    case RegistrationsTypes.CLEAR_REGISTRATIONS:
+      return INIT_STATE
+
     case RegistrationsTypes.GET_REGISTRATIONS:
       return {
         ...state,
