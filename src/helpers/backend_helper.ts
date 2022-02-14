@@ -114,6 +114,14 @@ export const getRegistrations = (nextUrl: any, filter: object) => get(nextUrl ||
 // get reports
 export const getReports = (filter: any) => get(`${url.GET_REPORTS}`,  { params: filter } )
 
+// campaigns
+export const getCampaignsApi = (nextUrl: any, filter: object) => get(nextUrl || url.CAMPAIGNS, { params: filter });
+
+export const addCampaignApi = (campaign : any) => post(url.CAMPAIGNS,  campaign );
+
+export const deleteCampaignApi = (id : number) => del(`${url.CAMPAIGNS}/${id}`);
+
+export const updateCampaignApi = (campaign : object, id: number) => put(`${url.CAMPAIGNS}/${id}`, campaign)
 
 export {
   getLoggedInUser,

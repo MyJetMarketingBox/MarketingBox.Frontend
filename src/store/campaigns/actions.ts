@@ -1,8 +1,8 @@
-import {CampaignsTypes} from "./actionTypes"
+import {CampaignsTypes} from "./actionTypes";
 
-export const getCampaigns = (filter: object) => ({
+export const getCampaigns = (nextUrl: string | null, filter: object) => ({
   type: CampaignsTypes.GET_CAMPAIGNS,
-  payload: filter
+  payload: { nextUrl, filter }
 })
 
 export const getCampaignsSuccess = (campaigns : any) => ({
@@ -43,4 +43,8 @@ export const deleteCampaignSuccess = (id : any) => ({
 export const deleteCampaignFail = (error : any) => ({
   type: CampaignsTypes.DELETE_CAMPAIGN_FAIL,
   payload: error,
+})
+
+export const clearCampaigns = () => ({
+  type: CampaignsTypes.CLEAR_CAMPAIGNS
 })

@@ -24,3 +24,6 @@ export const REGISTRATIONS = "api/registrations"
 //REPORTS
 export const GET_REPORTS = "api/reports"
 
+//CAMPAIGNS
+export const CAMPAIGNS = "api/campaigns"
+

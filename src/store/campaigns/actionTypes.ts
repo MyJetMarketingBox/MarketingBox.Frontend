@@ -13,6 +13,9 @@ export enum CampaignsTypes {
   DELETE_CAMPAIGN = '@@campaigns/DELETE_CAMPAIGN',
   DELETE_CAMPAIGN_SUCCESS = '@@campaigns/DELETE_CAMPAIGN_SUCCESS',
   DELETE_CAMPAIGN_FAIL = '@@campaigns/DELETE_CAMPAIGN_FAIL',
+
+  /** Clear Campaigns */
+  CLEAR_CAMPAIGNS = '@@campaigns/CLEAR_CAMPAIGNS',
 }
 
 interface iCampaign {

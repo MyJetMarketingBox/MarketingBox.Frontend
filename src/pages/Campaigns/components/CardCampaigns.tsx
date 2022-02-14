@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import React from "react";
 import { Link } from "react-router-dom";
 import {
@@ -10,9 +9,17 @@ import {
   DropdownToggle,
   UncontrolledDropdown,
 } from "reactstrap";
+import { useDispatch } from "react-redux";
+import { deleteCampaign } from "../../../store/campaigns/actions";
 
 const CardCampaigns = (props : any) => {
   const { campaign } = props;
+
+  const dispatch = useDispatch();
+
+  const handleDelete = () => {
+    dispatch(deleteCampaign(campaign.id))
+  }
 
   return (
     <React.Fragment>
@@ -60,6 +67,7 @@ const CardCampaigns = (props : any) => {
             <button
               type="button"
               className="btn btn-outline-light text-truncate"
+              onClick={handleDelete}
             >
               <i className="uil uil-envelope-alt me-1"></i> Delete
             </button>

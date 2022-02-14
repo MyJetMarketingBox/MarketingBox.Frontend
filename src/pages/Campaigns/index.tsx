@@ -1,34 +1,45 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+
 import MetaTags from "react-meta-tags";
-import { Link, withRouter } from "react-router-dom";
+
 import {
   Col,
   Container,
   Row,
 } from "reactstrap";
-import { map } from "lodash";
 
 //Import Breadcrumb
 import Breadcrumbs from "../../components/Common/Breadcrumb";
-import CardCampaigns from "./other/CardCampaigns";
+import CardCampaigns from "./components/CardCampaigns";
+
+import { clearCampaigns, getCampaigns } from "../../store/campaigns/actions";
+import AddCampaignForm from './components/addCampaign/AddCampaignForm';
 
 const CampaignsGrid = () => {
+  const dispatch = useDispatch();
+  const { campaigns, nextUrl, loaded, loading, error } = useSelector((state: any) => ({
+      campaigns: state.Campaigns.campaigns.items,
+      nextUrl: state.Campaigns.campaigns.pagination.nextUrl,
+      loaded: state.Campaigns.loaded,
+      loading: state.Campaigns.loading,
+      error: state.Campaigns.error,
+    }));
 
-  const campaigns : any = [
-    {
-      id: 1,
-      name: "Карамелька",
-    },
-    {
-      id: 2,
-      name: "Компот",
-    },
-    {
-      id: 3,
-      name: "Коржик",
+  const [modal, setModal] = useState<boolean>(false);
+
+  useEffect(() => {
+    dispatch(getCampaigns(null, { order: 1 }));
+
+    return () => {
+      dispatch(clearCampaigns());
     }
-  ]
+  }, []);
 
+  const toggleModal = () => {
+    setModal(prev => !prev);
+  };
 
   return (
     <React.Fragment>
@@ -52,21 +63,23 @@ const CampaignsGrid = () => {
 
             <Col md={6}>
               <div className="d-flex flex-wrap align-items-center justify-content-end gap-2 mb-3">
-
                 <div>
-                  <Link to="#" className="btn btn-light">
+                  <button
+                    type="button"
+                    className="btn btn-light"
+                    onClick={toggleModal}
+                  >
                     <i className="bx bx-plus me-1"></i> Add New
-                  </Link>
+                  </button>
                 </div>
-
               </div>
             </Col>
           </Row>
 
           <Row>
-            {map(campaigns, (campaign, key) => {
-              return <CardCampaigns campaign={campaign} key={"_campaign_" + key} />
-            })}
+            {campaigns.map((campaign: any) =>
+              <CardCampaigns campaign={campaign} key={campaign.id} />
+            )}
           </Row>
 
           <Row>
@@ -79,9 +92,9 @@ const CampaignsGrid = () => {
               </div>
             </Col>
           </Row>
-
         </Container>
       </div>
+      <AddCampaignForm isOpen={modal} toggle={toggleModal} />
     </React.Fragment>
   )
 }
