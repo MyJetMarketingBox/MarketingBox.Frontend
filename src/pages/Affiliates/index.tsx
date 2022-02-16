@@ -16,6 +16,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Loader from "../../components/UI/loader";
 import SearchAffiliate from "./components/search/SearchAffiliate";
 import TableAff from "./components/table/TableAff";
+import BtnLoadMore from "../../components/UI/btns/BtnLoadMore";
 
 const Affiliates: React.FC = () => {
 
@@ -101,7 +102,7 @@ const Affiliates: React.FC = () => {
                     </button>
                   </Col>
                 </Row>
-                <Row>
+                <Row className="mb-4">
                   <Col xl="12">
                     <div className="table-responsive">
                       {affiliates.length ? <TableAff affiliates={affiliates} /> : null}
@@ -120,15 +121,10 @@ const Affiliates: React.FC = () => {
                   <Row>
                     <Col className="col-12">
                       <div className="text-center">
-                        <button
-                          className="btn btnOrange waves-effect waves-light w-sm"
-                          onClick={loadMore}
-                        >
-                          {!isLoadAff ? <i className="mdi mdi-download d-block font-size-16"> </i> :
-                            <i className="bx bx-loader bx-spin d-block font-size-16"> </i>}
-                          {" "}
-                          Load More
-                        </button>
+                        <BtnLoadMore
+                          loading={loaded && loading}
+                          handeClick={loadMore}
+                        />
                       </div>
                     </Col>
                   </Row>
