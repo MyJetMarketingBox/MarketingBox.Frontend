@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import {
   Card,
@@ -10,19 +10,33 @@ import {
   UncontrolledDropdown,
 } from "reactstrap";
 import { useDispatch } from "react-redux";
-import { deleteCampaign } from "../../../store/campaigns/actions";
+import { deleteCampaign } from "../../../../store/campaigns/actions";
+import ConfirmDelete from "../../../../components/UI/confirmDelete/ConfirmDelete";
 
 const CardCampaigns = (props : any) => {
   const { campaign } = props;
 
   const dispatch = useDispatch();
+  const [isDeleteConfirm, setIsDeleteConfirm] = useState(false);
 
   const handleDelete = () => {
     dispatch(deleteCampaign(campaign.id))
   }
 
+  const popupDeleteConfirmOpen = () => {
+    setIsDeleteConfirm(true);
+  }
+
+  const popupDeleteConfirmClose = () => {
+    setIsDeleteConfirm(false);
+  }
+
+  const handleDeleteCampaign = () => {
+    dispatch(deleteCampaign(campaign.id))
+  }
+
   return (
-    <React.Fragment>
+    <>
       <Col xl="3" sm="6">
         <Card className="text-center">
           <CardBody>
@@ -67,14 +81,20 @@ const CardCampaigns = (props : any) => {
             <button
               type="button"
               className="btn btn-outline-light text-truncate"
-              onClick={handleDelete}
+              onClick={popupDeleteConfirmOpen}
             >
               <i className="uil uil-envelope-alt me-1"></i> Delete
             </button>
           </div>
         </Card>
       </Col>
-    </React.Fragment>
+      {
+        isDeleteConfirm &&
+        <ConfirmDelete
+          close={popupDeleteConfirmClose}
+          handleDelete={handleDeleteCampaign} />
+      }
+    </>
   )
 }
 

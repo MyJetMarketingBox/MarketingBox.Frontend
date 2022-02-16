@@ -18,9 +18,8 @@ export default ({ isOpen, toggle }: any) => {
       name: values["name"],
     };
 
-    console.log(campaign);
-    // dispatch(addCampaign(campaign));
-    // toggle();
+    dispatch(addCampaign(campaign));
+    toggle();
   };
 
   return (

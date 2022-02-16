@@ -1,4 +1,4 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Col,
   Row,
@@ -9,10 +9,24 @@ import {
 import { AvField, AvForm } from "availity-reactstrap-validation";
 import { addNewAffiliate } from "../../../../store/actions";
 import { AffiliateRole, AffiliateState, Currency } from "../../../../common/utils/model";
+import { useEffect, useState } from "react";
+import Loader from "../../../../components/UI/loader";
 
 export default ({ isOpen, toggle }: any) => {
 
   const dispatch = useDispatch();
+  const { loadingNew } = useSelector((state: any) => {
+    return {
+      loadingNew: state.Affiliates.loadingNew,
+    }
+  });
+
+  // useEffect(() => {
+    // if (!loadingNew && isSend) {
+    //   toggle();
+    //   setIsSend(false);
+    // }
+  // },[loadingNew])
 
   const handleValidAffiliateSubmit = (values: any) => {
     const date = new Date();
@@ -53,6 +67,7 @@ export default ({ isOpen, toggle }: any) => {
 
   return (
     <Modal isOpen={isOpen} toggle={toggle}>
+      {loadingNew && <Loader />}
       <ModalHeader toggle={toggle} tag="h4">
         Add Affiliate
       </ModalHeader>

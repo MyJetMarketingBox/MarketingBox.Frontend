@@ -9,8 +9,6 @@ export const INIT_STATE : CampaignsState = {
 }
 
 const campaigns = (state = INIT_STATE, action :any) => {
-  console.log('action', action);
-
   switch (action.type) {
     case CampaignsTypes.GET_CAMPAIGNS:
       return {
@@ -46,6 +44,10 @@ const campaigns = (state = INIT_STATE, action :any) => {
     case CampaignsTypes.ADD_CAMPAIGN_SUCCESS:
       return {
         ...state,
+        campaigns: {
+          ...state.campaigns,
+          items: [action.payload, ...state.campaigns.items],
+        },
       }
 
     case CampaignsTypes.ADD_CAMPAIGN_FAIL:

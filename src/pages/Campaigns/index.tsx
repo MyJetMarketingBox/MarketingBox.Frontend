@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import MetaTags from "react-meta-tags";
@@ -12,10 +11,12 @@ import {
 
 //Import Breadcrumb
 import Breadcrumbs from "../../components/Common/Breadcrumb";
-import CardCampaigns from "./components/CardCampaigns";
+import CardCampaigns from "./components/card/CardCampaigns";
 
 import { clearCampaigns, getCampaigns } from "../../store/campaigns/actions";
 import AddCampaignForm from './components/addCampaign/AddCampaignForm';
+import ConfirmDelete from "../../components/UI/confirmDelete/ConfirmDelete";
+import BtnLoadMore from "../../components/UI/btns/BtnLoadMore";
 
 const CampaignsGrid = () => {
   const dispatch = useDispatch();
@@ -85,10 +86,7 @@ const CampaignsGrid = () => {
           <Row>
             <Col xs="12">
               <div className="text-center my-3">
-                <Link to="#" className="text-success">
-                  <i className="bx bx-hourglass bx-spin me-2" />
-                  Load more
-                </Link>
+                <BtnLoadMore />
               </div>
             </Col>
           </Row>

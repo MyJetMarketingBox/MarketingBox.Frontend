@@ -5,6 +5,7 @@ export const INIT_STATE : AffiliatesState = {
   affiliateProfile: {},
   error: {},
   loading: false,
+  loadingNew: false,
   loaded: false,
   success: false
 }
@@ -59,7 +60,7 @@ const affiliates = (state = INIT_STATE, action :any) => {
     case AffiliatesTypes.ADD_NEW_AFFILIATE:
       return {
         ...state,
-        loading: true,
+        loadingNew: true,
       }
 
     case AffiliatesTypes.ADD_AFFILIATE_SUCCESS:
@@ -70,14 +71,14 @@ const affiliates = (state = INIT_STATE, action :any) => {
           items: [action.payload, ...state.affiliates.items]
         },
         error: {},
-        loading: false,
+        loadingNew: false,
       }
 
     case AffiliatesTypes.ADD_AFFILIATE_FAIL:
       return {
         ...state,
         error: action.payload,
-        loading: false,
+        loadingNew: false,
       }
 
     case AffiliatesTypes.UPDATE_AFFILIATE:

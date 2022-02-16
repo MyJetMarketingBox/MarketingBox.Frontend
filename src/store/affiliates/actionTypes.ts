@@ -42,6 +42,7 @@ export interface AffiliatesState {
   affiliateProfile : Object;
   error : Object;
   loading: boolean;
+  loadingNew: boolean;
   loaded: boolean;
   success: boolean;
 }

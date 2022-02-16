@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import ReactDOM from 'react-dom';
 import { useSelector } from "react-redux";
-import c from './ConfirmDeleteAff.module.scss';
+import c from './ConfirmDelete.module.scss';
 
 export default ({ close, handleDelete }: any) => {
   const [value, setValue] = useState("");

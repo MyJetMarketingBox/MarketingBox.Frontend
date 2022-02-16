@@ -62,6 +62,15 @@ const Affiliates: React.FC = () => {
     setModal(prev => !prev);
   };
 
+  // const showModal = () => {
+  //   setModal(true);
+  // };
+
+  // const hideModal = () => {
+  //   setModal(false);
+  // };
+
+
   return (
     <>
       {
