@@ -56,7 +56,7 @@ export default ({ close, handleDelete }: any) => {
               type="text"
               name="confirm"
               placeholder="DELETE"
-              value={value}
+              value={value.toUpperCase()}
               onChange={handleChange}
             />
           </div>

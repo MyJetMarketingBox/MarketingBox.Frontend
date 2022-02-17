@@ -32,7 +32,6 @@ const Affiliates: React.FC = () => {
     };
   });
 
-  const [isLoadAff, setLoadAff] = useState<boolean>(false);
   const [modal, setModal] = useState<boolean>(false);
 
   let filter = {
@@ -63,19 +62,10 @@ const Affiliates: React.FC = () => {
     setModal(prev => !prev);
   };
 
-  // const showModal = () => {
-  //   setModal(true);
-  // };
-
-  // const hideModal = () => {
-  //   setModal(false);
-  // };
-
-
   return (
     <>
       {
-        loading && <Loader />
+        !loaded && loading && <Loader />
       }
       <div className="page-content">
         <MetaTags>
@@ -122,7 +112,7 @@ const Affiliates: React.FC = () => {
                     <Col className="col-12">
                       <div className="text-center">
                         <BtnLoadMore
-                          loading={loaded && loading}
+                          loading={loading}
                           handeClick={loadMore}
                         />
                       </div>

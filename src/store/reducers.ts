@@ -41,7 +41,7 @@ const rootReducer = combineReducers({
   login,
   register,
   profile,
-  forgetPassword
+  forgetPassword,
 })
 
 export default rootReducer

@@ -17,6 +17,7 @@ import Footer from "./Footer";
 //redux
 import { useSelector, useDispatch } from "react-redux";
 import parseJwt from "../../common/utils/parse";
+import { ToastContainer } from "react-toastify";
 
 const Layout = (props: any) => {
   const dispatch = useDispatch();
@@ -136,6 +137,7 @@ const Layout = (props: any) => {
 
   return (
     <React.Fragment>
+      <ToastContainer autoClose={2000} />
       <div id="preloader">
         <div id="status">
           <div className="spinner-chase">
