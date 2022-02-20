@@ -27,12 +27,14 @@ interface LoginProps {
 const Login = ({ history }: LoginProps) => {
   const dispatch = useDispatch();
 
-  const { error } = useSelector((state: any) => ({
+  const { error, loading } = useSelector((state: any) => ({
     error: state.login.error,
+    loading: state.login.loading
   }));
 
   // handleValidSubmit
   const handleValidSubmit = (event: any, values: any) => {
+    if(loading) return;
     dispatch(loginUser(values, history));
   };
 
@@ -130,8 +132,9 @@ const Login = ({ history }: LoginProps) => {
                           <button
                             className="btn btnOrange w-100 waves-effect waves-light"
                             type="submit"
+                            disabled={loading}
                           >
-                            Log In
+                            {loading ? <i className="bx bx-hourglass bx-spin me-2" /> : "Log In" }
                           </button>
                         </div>
                       </AvForm>
