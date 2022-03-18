@@ -29,6 +29,7 @@ const PostbackLogs: React.FC = () => {
 
   let filter = {
     order: 1, //DESC
+    //limit: 12,
   }
 
   useEffect(() => {
@@ -49,7 +50,7 @@ const PostbackLogs: React.FC = () => {
   };
 
   /** toast error **/
-  useEffect(() => {
+  /*useEffect(() => {
     if(errorLog.statusText) {
 
       let autoClose : any = 5000;
@@ -75,7 +76,7 @@ const PostbackLogs: React.FC = () => {
 
       toast.error(message, optionToast);
     }
-  }, [errorLog]);
+  }, [errorLog]);*/
 
   return (
     <React.Fragment>
@@ -94,7 +95,7 @@ const PostbackLogs: React.FC = () => {
               <CardBody>
 
                 <Row className="mb-4">
-                  <Filter />
+                  {/*<Filter />*/}
                 </Row>
 
                 <Row>

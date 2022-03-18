@@ -10,6 +10,9 @@ export * from "./registrations/actions";
 /** PostbackLogs */
 export * from "./postback_logs/actions";
 
+/** Postback **/
+export * from "./postback/actions";
+
 /** Reports */
 export * from "./reports/actions"
 

@@ -23,7 +23,7 @@ const postbackLogs = (state = INIT_STATE, action: any) => {
       return {
         ...state,
         logs: {
-          items: [...state.logs.items, ...action.payload],
+          items: [...state.logs.items, ...action.payload.items],
           pagination: { ...action.payload.pagination }
         },
         error: {},

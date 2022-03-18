@@ -13,6 +13,7 @@ import Registrations from "../pages/Registrations";
 import Campaigns from "../pages/Campaigns"
 
 import Postbacklogs from "../pages/PostbackLogs"
+import Postback from "../pages/Postback";
 
 //Authentication pages
 import Login from "src/pages/Authentication/Login";
@@ -42,6 +43,7 @@ const userRoutes: Array<RouteProps> = [
 
   { path: "/Campaigns", component: Campaigns },
   { path: "/Postback_logs", component: Postbacklogs },
+  { path: "/Postback", component: Postback},
 
   // this route should be at the end of all components routes
   { path: "/", exact: true, component: () => <Redirect to="/dashboard" /> },

@@ -49,3 +49,8 @@ export const httpQueryType = [
     "Get",
     "Post",
 ]
+
+export const responseStatus = [
+    "Ok",
+    "Failed",
+]

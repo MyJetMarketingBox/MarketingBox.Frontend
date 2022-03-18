@@ -13,7 +13,10 @@ import Campaigns from "./campaigns/reducer"
 import Registrations from "./registrations/reducer"
 
 //PostbackLogs
-import PostbackLogs from "./postback_logs/reduser"
+import PostbackLogs from "./postback_logs/reducer"
+
+//Postback
+import Postback from "./postback/reducer"
 
 //Reports
 import Reports from "./reports/reducer"
@@ -37,6 +40,7 @@ const rootReducer = combineReducers({
   Campaigns,
   Registrations,
   PostbackLogs,
+  Postback,
   Reports,
   login,
   register,

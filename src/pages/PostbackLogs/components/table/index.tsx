@@ -1,6 +1,6 @@
 import BootstrapTable from "react-bootstrap-table-next";
 import React, { useState } from "react";
-import { eventType, httpQueryType } from "../../../../common/utils/model";
+import { eventType, httpQueryType, responseStatus } from "../../../../common/utils/model";
 
 
 export default ({logs = [], setID, toggle} : any) => {
@@ -33,9 +33,17 @@ export default ({logs = [], setID, toggle} : any) => {
       sort: true,
     },
     {
+      dataField: "responseStatus",
+      text: "Status",
+      sort: false,
+    },
+    {
       dataField: "postbackReference",
       text: "URL",
       sort: true,
+      headerStyle: () => {
+        return { maxWidth: "10%" };
+      }
     },
     {
       dataField: "createdAt",
@@ -53,8 +61,9 @@ export default ({logs = [], setID, toggle} : any) => {
 
   const tableRowEvents = {
     onClick: (e:any, row:any, rowIndex:any) => {
+      console.log(row);
       if(e.target.classList.length == 0) {
-        setID(rowIndex);
+        setID(row.id);
         toggle();
       }
     }
@@ -72,10 +81,12 @@ export default ({logs = [], setID, toggle} : any) => {
 
   const logsData = logs.map((item: any) => {
     return {
-      affiliate: item.affiliateId,
+      id: item.id,
+      affiliate: item.affiliateName,
       registrationUId: item.registrationUId,
       eventType: eventType[item.eventType],
       httpQueryType: httpQueryType[item.httpQueryType].toUpperCase(),
+      responseStatus: responseStatus[item.responseStatus].toUpperCase(),
       postbackReference: item.postbackReference,
       createdAt: new Date(item.date).toLocaleDateString('ru-RU', {day:"2-digit", month:"2-digit", year:"2-digit", hour: "2-digit", minute: "2-digit", second: "numeric"}),
     }
@@ -84,7 +95,7 @@ export default ({logs = [], setID, toggle} : any) => {
   return (
     <>
       <BootstrapTable
-        keyField='registrationUId'
+        keyField='id'
         data={logsData}
         columns={columns}
         bordered={false}

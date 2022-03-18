@@ -24,6 +24,9 @@ export const REGISTRATIONS = "api/registrations"
 //PostbackLogs
 export const POSTBACKLOGS = "api/PostbackLogs"
 
+//Postback
+export const POSTBACK = "api/postback"
+
 //REPORTS
 export const GET_REPORTS = "api/reports"
 

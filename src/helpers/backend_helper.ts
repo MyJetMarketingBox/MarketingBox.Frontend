@@ -114,6 +114,9 @@ export const getRegistrations = (nextUrl: any, filter: object) => get(nextUrl ||
 // get postback logs
 export const getPostbackLogs = (nextUrl: any, filter: object) => get(nextUrl || url.POSTBACKLOGS, { params: filter });
 
+// get postback
+export const getPostback = () => get(url.POSTBACK)
+
 // get reports
 export const getReports = (filter: any) => get(`${url.GET_REPORTS}`,  { params: filter } )
 

@@ -21,6 +21,9 @@ import registrationsSaga from "./registrations/saga";
 //PostbackLogs
 import postbackLogsSaga from "./postback_logs/saga"
 
+//Postback
+import postbackSaga from "./postback/saga";
+
 
 //Register
 import registerSaga from "./auth/register/saga";
@@ -41,6 +44,7 @@ export default function* rootSaga() {
     fork(reportsSaga),
     fork(registrationsSaga),
     fork(postbackLogsSaga),
+    fork(postbackSaga),
     //fork(registerSaga),
     //fork(ProfileSaga),
     //fork(forgetPasswordSaga)
