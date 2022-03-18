@@ -21,6 +21,9 @@ import Postback from "./postback/reducer"
 //Reports
 import Reports from "./reports/reducer"
 
+//Brands
+import Brands from "./brands/reducer"
+
 //login
 import login from "./auth/login/reducer";
 
@@ -41,6 +44,7 @@ const rootReducer = combineReducers({
   Registrations,
   PostbackLogs,
   Postback,
+  Brands,
   Reports,
   login,
   register,

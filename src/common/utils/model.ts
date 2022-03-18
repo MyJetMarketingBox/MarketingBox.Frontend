@@ -50,6 +50,22 @@ export const httpQueryType = [
     "Post",
 ]
 
+export const plan = [
+    "CPA",
+    "CPL",
+    "CPC",
+]
+
+export const brandStatus = [
+    "Active",
+    "Disabled",
+]
+
+export const brandPrivacy = [
+    "Private",
+    "Public",
+]
+
 export const responseStatus = [
     "Ok",
     "Failed",

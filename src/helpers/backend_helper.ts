@@ -120,6 +120,14 @@ export const getPostback = () => get(url.POSTBACK)
 // get reports
 export const getReports = (filter: any) => get(`${url.GET_REPORTS}`,  { params: filter } )
 
+/** START BRANDS **/
+export const getBrands = (nextUrl: any, filter: object) => get(nextUrl || url.BRANDS, { params: filter });
+
+export const updateBrand = (brand : object, id: number) => put(`${url.BRANDS}/${id}`, brand);
+
+
+/** END BRANDS **/
+
 // campaigns
 export const getCampaignsApi = (nextUrl: any, filter: object) => get(nextUrl || url.CAMPAIGNS, { params: filter });
 

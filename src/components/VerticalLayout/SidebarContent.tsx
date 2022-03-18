@@ -15,7 +15,7 @@ import { withTranslation } from "react-i18next";
 
 // MetisMenu
 import MetisMenu from "metismenujs";
-import { withRouter } from "react-router-dom";
+import { NavLink, withRouter } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
@@ -148,10 +148,10 @@ const SidebarContent = (props: any) => {
             </li>
 
             {user && user.role != "Affiliate" ? (<li>
-              <Link to="/Affiliates" className="">
+              <NavLink to="/Affiliates" className="">
                 <Icon name="briefcase"/>
                 <span>{props.t("Affiliates")}</span>
-              </Link>
+              </NavLink>
             </li>):(<li></li>)}
 
             <li>

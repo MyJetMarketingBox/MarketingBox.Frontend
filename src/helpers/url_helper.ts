@@ -33,3 +33,6 @@ export const GET_REPORTS = "api/reports"
 //CAMPAIGNS
 export const CAMPAIGNS = "api/campaigns"
 
+//BRANDS
+export const BRANDS = "api/brands"
+

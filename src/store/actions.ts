@@ -16,6 +16,9 @@ export * from "./postback/actions";
 /** Reports */
 export * from "./reports/actions"
 
+/** Brands */
+export * from "./brands/actions"
+
 /** Login */
 export * from "./auth/login/actions"
 

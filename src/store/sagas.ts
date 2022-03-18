@@ -15,6 +15,9 @@ import campaignsSaga from "./campaigns/saga";
 //Reports
 import reportsSaga from "./reports/saga";
 
+//Brands
+import brandsSaga from "./brands/saga";
+
 //Registrations
 import registrationsSaga from "./registrations/saga";
 
@@ -44,6 +47,7 @@ export default function* rootSaga() {
     fork(reportsSaga),
     fork(registrationsSaga),
     fork(postbackLogsSaga),
+    fork(brandsSaga),
     fork(postbackSaga),
     //fork(registerSaga),
     //fork(ProfileSaga),
