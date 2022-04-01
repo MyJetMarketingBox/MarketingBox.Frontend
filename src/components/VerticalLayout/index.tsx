@@ -6,7 +6,7 @@ import {
   changeSidebarType,
   changeTopbarTheme,
   changeLayoutWidth,
-  changelayoutMode, loginSuccess
+  changelayoutMode, loginSuccess, getCountries
 } from "../../store/actions";
 
 // Layout Related Components
@@ -123,6 +123,11 @@ const Layout = (props: any) => {
       dispatch(changelayoutMode(value, layoutType));
     }
   };
+
+  useEffect(() => {
+    dispatch(getCountries("", { limit: 300 }))
+  }, [])
+
 
   if(localStorage.getItem("authUser")){
     // @ts-ignore

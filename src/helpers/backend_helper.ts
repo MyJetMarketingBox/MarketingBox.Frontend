@@ -128,6 +128,9 @@ export const updateBrand = (brand : object, id: number) => put(`${url.BRANDS}/${
 
 /** END BRANDS **/
 
+// get countries
+export const getCountries = (nextUrl: any, filter: object) => get(nextUrl || url.COUNTRIES, { params: filter });
+
 // campaigns
 export const getCampaignsApi = (nextUrl: any, filter: object) => get(nextUrl || url.CAMPAIGNS, { params: filter });
 
