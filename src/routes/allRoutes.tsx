@@ -10,6 +10,9 @@ import Reports from "../pages/Reports";
 
 import Registrations from "../pages/Registrations";
 
+import Integrations from "../pages/Integrations";
+import Integration from "../pages/Integrations/detail"
+
 import Campaigns from "../pages/Campaigns";
 
 import Postbacklogs from "../pages/PostbackLogs"
@@ -43,6 +46,9 @@ const userRoutes: Array<RouteProps> = [
   { path: "/Reports", component: Reports },
 
   { path: "/Registrations", component: Registrations },
+
+  { path: "/Integrations", component: Integrations },
+  { path: "/Integrations/:id", component: Integration },
 
   { path: "/Campaigns", component: Campaigns },
   { path: "/Postback_logs", component: Postbacklogs },

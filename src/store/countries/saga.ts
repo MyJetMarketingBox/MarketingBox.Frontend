@@ -18,9 +18,9 @@ function* fetchCountries({ nextUrl, filter }: any) {
   }
 }
 
-function* contactsSaga() {
+function* countriesSaga() {
   yield takeEvery(CountriesType.GET_COUNTRIES, fetchCountries);
 }
 
-export default contactsSaga;
+export default countriesSaga;
 

@@ -31,6 +31,7 @@ const Layout = (props: any) => {
     layoutMode,
     layoutType,
     leftSidebarTypes,
+    loadedCountries
   } = useSelector((state: any) => ({
     isPreloader: state.Layout.isPreloader,
     leftSideBarType: state.Layout.leftSideBarType,
@@ -40,6 +41,7 @@ const Layout = (props: any) => {
     layoutMode: state.Layout.layoutMode,
     layoutType: state.Layout.layoutType,
     leftSidebarTypes: state.Layout.leftSidebarTypes,
+    loadedCountries: state.Countries.loaded,
   }));
 
   const isMobile: any = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
@@ -125,7 +127,8 @@ const Layout = (props: any) => {
   };
 
   useEffect(() => {
-    dispatch(getCountries("", { limit: 300 }))
+    if(!loadedCountries)
+      dispatch(getCountries("", { limit: 300 }))
   }, [])
 
 

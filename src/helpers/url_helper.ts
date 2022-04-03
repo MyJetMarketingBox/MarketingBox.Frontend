@@ -38,3 +38,5 @@ export const BRANDS = "api/brands"
 
 export const COUNTRIES = "api/countries"
 
+export const INTEGRATIONS = "api/integrations"
+

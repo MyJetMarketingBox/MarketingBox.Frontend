@@ -22,6 +22,9 @@ export * from "./brands/actions"
 /** Countries */
 export * from "./countries/actions"
 
+/** Integrations */
+export * from "./integrations/actions"
+
 /** Login */
 export * from "./auth/login/actions"
 

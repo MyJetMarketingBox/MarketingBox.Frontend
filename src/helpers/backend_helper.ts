@@ -2,6 +2,7 @@ import axios from "axios"
 import { del, get, post, put } from "./api_helper"
 import * as url from "./url_helper"
 import { log } from "util";
+import integrations from "../store/integrations/reducer";
 
 // Gets the logged in user data from local session
 const getLoggedInUser = () => {
@@ -125,11 +126,23 @@ export const getBrands = (nextUrl: any, filter: object) => get(nextUrl || url.BR
 
 export const updateBrand = (brand : object, id: number) => put(`${url.BRANDS}/${id}`, brand);
 
-
 /** END BRANDS **/
 
 // get countries
 export const getCountries = (nextUrl: any, filter: object) => get(nextUrl || url.COUNTRIES, { params: filter });
+
+/** INTEGRATIONS **/
+export const getIntegrations = (nextUrl: any, filter: object) => get(nextUrl || url.INTEGRATIONS, {params: filter})
+
+export const getIntegration = (id: number) => get(`${url.INTEGRATIONS}/${id}` )
+
+export const addIntegration = (integration : any) => post(url.INTEGRATIONS, integration)
+
+export const deleteIntegration = (id : number) => del(`${url.INTEGRATIONS}/${id}`);
+
+export const updateIntegration = (integration: object, id: number) => put(`${url.INTEGRATIONS}/${id}`, integration)
+
+/** END INTEGRATIONS **/
 
 // campaigns
 export const getCampaignsApi = (nextUrl: any, filter: object) => get(nextUrl || url.CAMPAIGNS, { params: filter });

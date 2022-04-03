@@ -185,6 +185,9 @@ const SidebarContent = (props: any) => {
                   <Link to="/re_registering">{props.t("Registering")}</Link>
                 </li>) : (<li></li>)
                 }
+                <li>
+                  <Link to="/integrations">{props.t("Integrations")}</Link>
+                </li>
               </ul>
             </li>
 
