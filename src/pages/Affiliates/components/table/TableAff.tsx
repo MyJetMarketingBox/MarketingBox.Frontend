@@ -26,10 +26,10 @@ export default ({ affiliates = [] }: any) => {
     }
 
     return {
-      id: affiliate.affiliateId,
+      id: affiliate.id,
       username: affiliate.generalInfo.username,
       role: AffiliateRole[affiliate.generalInfo.role],
-      ai: affiliate.affiliateId,
+      ai: affiliate.id,
       email: affiliate.generalInfo.email,
       reportto: "Management",
       createdat: new Date(affiliate.generalInfo.createdAt).toLocaleDateString("ru-RU", {

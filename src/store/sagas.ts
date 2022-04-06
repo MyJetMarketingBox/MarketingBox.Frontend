@@ -21,6 +21,9 @@ import brandsSaga from "./brands/saga";
 //Countries
 import countriesSaga from "./countries/saga";
 
+//Integrations
+import integrationsSaga from "./integrations/saga"
+
 //Registrations
 import registrationsSaga from "./registrations/saga";
 
@@ -53,6 +56,7 @@ export default function* rootSaga() {
     fork(brandsSaga),
     fork(postbackSaga),
     fork(countriesSaga),
+    fork(integrationsSaga),
     //fork(registerSaga),
     //fork(ProfileSaga),
     //fork(forgetPasswordSaga)

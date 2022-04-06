@@ -69,7 +69,7 @@ export default ({ brands = []} : any ) => {
       dataField: "revenue",
       text: "Revenue",
       sort: false,
-      formatter: (cell: any, row: any) => {
+      /*formatter: (cell: any, row: any) => {
         return (
           <>
             {row.revenue.amount +" "}
@@ -77,13 +77,13 @@ export default ({ brands = []} : any ) => {
             {plan[row.revenue.plan]}
           </>
         )
-      }
+      }*/
     },
     {
       dataField: "payout",
       text: "Payout",
       sort: false,
-      formatter: (cell: any, row: any) => {
+      /*formatter: (cell: any, row: any) => {
         return (
           <>
             {row.payout.amount +" "}
@@ -91,7 +91,7 @@ export default ({ brands = []} : any ) => {
             {plan[row.payout.plan]}
           </>
         )
-      }
+      }*/
     },
     {
       dataField: "status",

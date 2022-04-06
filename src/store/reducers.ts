@@ -27,6 +27,9 @@ import Brands from "./brands/reducer"
 //Countries
 import Countries from "./countries/reducer"
 
+//Integrations
+import Integrations from "./integrations/reducer"
+
 //login
 import login from "./auth/login/reducer";
 
@@ -48,6 +51,7 @@ const rootReducer = combineReducers({
   PostbackLogs,
   Postback,
   Countries,
+  Integrations,
   Brands,
   Reports,
   login,
