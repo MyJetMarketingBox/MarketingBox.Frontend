@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import MetaTags from "react-meta-tags";
 import { Row, Col, Alert, Container } from "reactstrap";
 
@@ -14,13 +14,14 @@ import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 
 // import images
-import logo from "../../assets/images/logo-sm.svg";
-import BgImage from 'src/assets/images/bg-3.jpg';
+import logo from "../../assets/images/logo.svg";
 
 const Register = () => {
   const dispatch = useDispatch();
 
-  const { user, registrationError } = useSelector((state: any) => ({
+  const [showPass, useShowPass] = useState<boolean>(false);
+
+  const { user, registrationError, loading } = useSelector((state: any) => ({
     user: state.register.user,
     registrationError: state.register.registrationError,
     loading: state.register.loading,
@@ -31,6 +32,10 @@ const Register = () => {
     dispatch(registerUser(values));
   };
 
+  const passToggleHandler = () => {
+    useShowPass(prev => !prev);
+  };
+
   useEffect(() => {
     dispatch(apiError(""));
   }, [dispatch]);
@@ -38,111 +43,117 @@ const Register = () => {
   return (
     <React.Fragment>
       <MetaTags>
-        <title>Register | TraffMe - Dashboard</title>
+        <title>Register | TraffMe</title>
       </MetaTags>
 
-      <div className="auth-page">
-        <Container fluid className="p-0">
-            <Col className="reg-center">
-              <div className="d-flex ">
-                <div className="w-100">
-                  <div className="d-flex flex-column h-100">
-                    <div className="text-center">
-                      <Link to="/dashboard" className="d-block auth-logo">
-                        <img src={logo} alt="" height="150" />{" "}
+      <div className="container-fluid">
+        <div className="auth-page row">
+          <div className="auth-page-form-wrapper col-12 col-lg-6">
+            <div className="auth-page-form-body">
+              <div className="auth-page-logo text-center">
+                <Link to="/dashboard" className="d-block auth-logo">
+                  <img src={logo} alt="FoxOffers" width="164" height="42" />
+                </Link>
+              </div>
+              <div className="auth-content">
+                <h5 className="auth-page-title">Register account</h5>
+                <p className="auth-page-descr">
+                  Get your free TraffMe account now
+                </p>
+                <AvForm
+                  className="custom-form"
+                  onValidSubmit={(e: any, v: any) => {
+                    handleValidSubmit(v);
+                  }}
+                >
+                  <div className="mb-3">
+                    <AvField
+                      name="email"
+                      value=""
+                      className="form-control"
+                      placeholder="Enter your email"
+                      type="email"
+                      required
+                    />
+                  </div>
+                  <div className="mb-3">
+                    <AvField
+                      name="username"
+                      value=""
+                      className="form-control"
+                      placeholder="Enter your username"
+                      type="text"
+                      required
+                    />
+                  </div>
+                  <div className="mb-3">
+                    <div className="auth-page-form-pass">
+                      <div
+                        className="auth-page-form-pass-toggle"
+                        onClick={passToggleHandler}
+                      >
+                        {showPass ? "HIDE" : "SHOW"}
+                      </div>
+                      <AvField
+                        name="password"
+                        value=""
+                        type={showPass ? "text" : "password"}
+                        className="form-control"
+                        required
+                        placeholder="Enter your password"
+                      />
+                    </div>
+                    <div className="auth-page-forgot-pass">
+                      <Link
+                        to="/auth-recoverpw"
+                        className=""
+                      >
+                        Forgot password?
                       </Link>
                     </div>
-                    <div className="auth-content my-auto">
-                      <div className="text-center">
-                        <h5 className="mb-0 text-white">Register Account</h5>
-                        <p className="text-white mt-2">
-                          Get your free TraffMe account now.
-                        </p>
-                      </div>
-                      <AvForm
-                        className="needs-validation custom-form mt-2 pt-2"
-                        onValidSubmit={(e: any, v: any) => {
-                          handleValidSubmit(v);
-                        }}
-                      >
-                        {user && user ? (
-                          <Alert color="success">
-                            Register User Successfully
-                          </Alert>
-                        ) : null}
-
-                        {registrationError && registrationError ? (
-                          <Alert color="danger">{registrationError}</Alert>
-                        ) : null}
-
-                        <div className="row">
-                          <div className="col-md-6">
-                            <div className="mb-3 text-white">
-                              <AvField id="email" name="email" label="Email" className="form-control" placeholder="Enter email" type="email" required />
-                            </div>
-                          </div>
-
-                          <div className="col-md-6">
-                            <div className="mb-3 text-white">
-                              <AvField name="username" label="Username" type="text" required placeholder="Enter username" />
-                            </div>
-                          </div>
-                        </div>
-
-                        <div className="mb-3 text-white">
-                          <AvField name="password" label="Password" type="password" required placeholder="Enter Password"
-                          />
-                        </div>
-
-                        <div className="mb-4">
-                          <p className="mb-0 text-white">
-                            By registering you agree to the TraffMe{" "}
-                            <Link to="#" className="text-orange">
-                              Terms of Use
-                            </Link>
-                          </p>
-                        </div>
-                        <div className="mb-3">
-                          <button
-                            className="btn btnOrange w-100 waves-effect waves-light"
-                            type="submit"
-                          >
-                            Register
-                          </button>
-                        </div>
-                      </AvForm>
-
-                      <div className="mt-2 text-center">
-                        <p className="text-white mb-0">
-                          Already have an account ?{" "}
-                          <Link
-                            to="/login"
-                            className="text-orange fw-semibold"
-                          >
-                            {" "}
-                            Login{" "}
-                          </Link>{" "}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="text-center">
-                      <p className="mb-0">
-                        © {new Date().getFullYear()} TraffMe.
-                      </p>
-                    </div>
                   </div>
+                  <div className="form-checkbox">
+                    <input
+                      className="form-checkbox-input"
+                      type="checkbox"
+                      id="remember-check"
+                    />
+                    <label
+                      className="form-checkbox-label"
+                      htmlFor="remember-check"
+                    >
+                      Remember me
+                    </label>
+                  </div>
+                  <div>
+                    <button
+                      className="auth-page-btn"
+                      type="submit"
+                      disabled={loading}
+                    >
+                      {
+                        loading ?
+                          <i className="bx bx-hourglass bx-spin me-2" /> :
+                          "Log In"
+                      }
+                    </button>
+                  </div>
+                </AvForm>
+
+                <div className="auth-page-form-descr text-center">
+                  Don't have an account?{" "}
+                  <Link
+                    to="/register"
+                    className="text-orange fw-semibold"
+                  >
+                    Sign up
+                  </Link>
                 </div>
               </div>
-            </Col>
-
-            <div
-            style={{ backgroundImage: `url(${BgImage})` }}
-            className={`authBg pt-md-5 p-4 d-flex`}
-            >
-              <div className="bgOverlay" />
             </div>
-
-        </Container>
+          </div>
+          <div className="auth-page-img d-none d-lg-block col-lg-6" />
+        </div>
       </div>
     </React.Fragment>
   );

@@ -5,9 +5,6 @@ import { Switch, BrowserRouter as Router } from "react-router-dom";
 // Import Routes all
 import { userRoutes, authRoutes } from "./routes/allRoutes";
 
-//redux
-import { useSelector } from "react-redux";
-
 // Import all middleware
 import Authmiddleware from "./routes/middleware/Authmiddleware";
 
