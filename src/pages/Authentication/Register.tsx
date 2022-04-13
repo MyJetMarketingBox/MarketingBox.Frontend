@@ -3,7 +3,7 @@ import MetaTags from "react-meta-tags";
 import { Row, Col, Alert, Container } from "reactstrap";
 
 // availity-reactstrap-validation
-import { AvForm, AvField, AvCheckboxGroup, AvCheckbox } from "availity-reactstrap-validation";
+import { AvForm, AvField, AvRadioGroup, AvRadio } from "availity-reactstrap-validation";
 
 // action
 import { registerUser, apiError } from "../../store/actions";
@@ -20,6 +20,8 @@ const Register = () => {
   const dispatch = useDispatch();
 
   const [showPass, useShowPass] = useState<boolean>(false);
+  const [messType, useMessType] = useState<string>('WhatsApp');
+  const [searchFrom, useSearchFrom] = useState<string>('');
 
   const { user, registrationError, loading } = useSelector((state: any) => ({
     user: state.register.user,
@@ -27,14 +29,48 @@ const Register = () => {
     loading: state.register.loading
   }));
 
+  const messTypeChangeHandler = (e: any) => {
+    useMessType(e.target);
+  }
+
   // handleValidSubmit
   const handleValidSubmit = (values: any) => {
-    dispatch(registerUser(values));
+    console.log(values);
+    console.log("submit");
+    const regData = {
+      "username": values["username"],
+      "email": values["email"],
+      "password": values["password"],
+      "sub": [
+        {
+          "SubName": "ClientType",
+          "SubValue": "WebMaster"
+        },
+        {
+          "SubName": "MessangerType",
+          "SubValue": messType
+        },
+        {
+          "SubName": "MessangerLogin",
+          "SubValue": values["contact"]
+        },
+        {
+          "SubName": "HeardAboutFrom",
+          "SubValue": values["search-from"]
+        }
+      ],
+    };
+    console.log(regData);
+    dispatch(registerUser(regData));
   };
 
   const passToggleHandler = () => {
     useShowPass(prev => !prev);
   };
+
+  const searchFromHandler = (e: any) => {
+    useSearchFrom(e.target.value);
+  }
 
   useEffect(() => {
     dispatch(apiError(""));
@@ -104,14 +140,15 @@ const Register = () => {
                       />
                     </div>
                   </div>
-                  <div className="mess-types">
+                  <div className="mess-types" onChange={messTypeChangeHandler}>
                     <div className="mess-type">
                       <input
                         className="mess-type-checkbox"
                         type="radio"
                         name="message"
+                        value="WhatsApp"
                         id="wa"
-                        checked={true}
+                        defaultChecked
                       />
                       <label
                         className="mess-type-checkbox-label"
@@ -121,7 +158,7 @@ const Register = () => {
                         <span className="descr">WhatsApp</span>
                         <span className="icon">
                           <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd" clip-rule="evenodd"
+                            <path fillRule="evenodd" clipRule="evenodd"
                                   d="M6.06494 4.56206C5.91756 4.23583 5.76239 4.2293 5.62218 4.2236C5.5075 4.2187 5.3762 4.219 5.24512 4.219C5.11393 4.219 4.90075 4.26808 4.72047 4.4641C4.54009 4.66012 4.03174 5.13399 4.03174 6.09775C4.03174 7.06162 4.73687 7.99294 4.83516 8.12374C4.93355 8.25435 6.19634 10.2954 8.19623 11.0805C9.85831 11.7331 10.1965 11.6033 10.5573 11.5706C10.9181 11.538 11.7214 11.0969 11.8854 10.6394C12.0494 10.1821 12.0494 9.79005 12.0002 9.7081C11.951 9.62647 11.8198 9.57749 11.623 9.47953C11.4262 9.38158 10.4589 8.9076 10.2785 8.8423C10.0981 8.77699 9.96696 8.74434 9.83577 8.94046C9.70459 9.13638 9.32772 9.57749 9.21293 9.7081C9.09814 9.83901 8.98335 9.85534 8.78657 9.75738C8.58979 9.65912 7.95609 9.45248 7.20433 8.78514C6.61942 8.26596 6.22452 7.62475 6.10973 7.42863C5.99494 7.23272 6.09742 7.1266 6.19613 7.02894C6.28447 6.94118 6.39291 6.80027 6.4913 6.68588C6.58948 6.57149 6.62228 6.48986 6.68787 6.35925C6.75346 6.22843 6.72067 6.11405 6.67147 6.01609C6.62228 5.91814 6.23989 4.9494 6.06494 4.56206Z" />
                             <path
                               d="M13.6033 2.29991C12.1165 0.818604 10.1394 0.00239218 8.03304 0.00146484C3.69247 0.00146484 0.160135 3.51713 0.158391 7.8384C0.157879 9.21972 0.52039 10.5681 1.20943 11.7566L0.0922852 15.8178L4.26672 14.728C5.41687 15.3525 6.71183 15.6816 8.02965 15.6821H8.033H8.03304C12.3729 15.6821 15.9057 12.1658 15.9076 7.84472C15.9083 5.75047 15.0899 3.78132 13.6033 2.29991ZM8.03304 14.3584H8.03048C6.85584 14.3578 5.70395 14.0438 4.69923 13.4503L4.46011 13.3091L1.98292 13.9558L2.64429 11.552L2.48851 11.3056C1.83329 10.2684 1.48739 9.06971 1.4879 7.83892C1.48933 4.24723 4.42527 1.32523 8.03551 1.32523C9.78379 1.32595 11.4269 2.0044 12.6627 3.23562C13.8985 4.46683 14.5785 6.10354 14.578 7.84423C14.5764 11.436 11.6404 14.3584 8.03304 14.3584Z" />
@@ -135,6 +172,7 @@ const Register = () => {
                         className="mess-type-checkbox"
                         type="radio"
                         name="message"
+                        value="Telegram"
                         id="tg"
                       />
                       <label
@@ -145,7 +183,7 @@ const Register = () => {
                         <span className="descr">Telegram</span>
                         <span className="icon">
                           <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd" clip-rule="evenodd" d="M16 8C16 12.4183 12.4183 16 8 16C3.58172 16 0 12.4183 0 8C0 3.58172 3.58172 0 8 0C12.4183 0 16 3.58172 16 8ZM8.71677 5.71098L3.32948 7.93063C2.3815 8.30057 2.93642 8.64739 2.93642 8.64739C2.93642 8.64739 3.74567 8.92485 4.43931 9.13294C5.13295 9.34103 5.50289 9.10982 5.50289 9.10982L8.76301 6.91329C9.91908 6.12716 9.64162 6.77456 9.36416 7.05202C8.76301 7.65317 7.76879 8.60115 6.93642 9.36416C6.56648 9.68786 6.75145 9.96531 6.9133 10.104C7.3838 10.5022 8.49167 11.226 8.99533 11.5551C9.13519 11.6465 9.22846 11.7075 9.24856 11.7225C9.36416 11.815 10.0116 12.2312 10.4046 12.1387C10.7977 12.0462 10.8439 11.5144 10.8439 11.5144L11.422 7.88439C11.4733 7.54407 11.5247 7.21088 11.5726 6.90018C11.6972 6.0921 11.7983 5.43611 11.815 5.20231C11.8844 4.41618 11.052 4.73988 11.052 4.73988C11.052 4.73988 9.24856 5.47976 8.71677 5.71098Z" />
+                            <path fillRule="evenodd" clipRule="evenodd" d="M16 8C16 12.4183 12.4183 16 8 16C3.58172 16 0 12.4183 0 8C0 3.58172 3.58172 0 8 0C12.4183 0 16 3.58172 16 8ZM8.71677 5.71098L3.32948 7.93063C2.3815 8.30057 2.93642 8.64739 2.93642 8.64739C2.93642 8.64739 3.74567 8.92485 4.43931 9.13294C5.13295 9.34103 5.50289 9.10982 5.50289 9.10982L8.76301 6.91329C9.91908 6.12716 9.64162 6.77456 9.36416 7.05202C8.76301 7.65317 7.76879 8.60115 6.93642 9.36416C6.56648 9.68786 6.75145 9.96531 6.9133 10.104C7.3838 10.5022 8.49167 11.226 8.99533 11.5551C9.13519 11.6465 9.22846 11.7075 9.24856 11.7225C9.36416 11.815 10.0116 12.2312 10.4046 12.1387C10.7977 12.0462 10.8439 11.5144 10.8439 11.5144L11.422 7.88439C11.4733 7.54407 11.5247 7.21088 11.5726 6.90018C11.6972 6.0921 11.7983 5.43611 11.815 5.20231C11.8844 4.41618 11.052 4.73988 11.052 4.73988C11.052 4.73988 9.24856 5.47976 8.71677 5.71098Z" />
                           </svg>
                         </span>
                       </label>
@@ -156,6 +194,7 @@ const Register = () => {
                         className="mess-type-checkbox"
                         type="radio"
                         name="message"
+                        value="Skype"
                         id="sk"
                       />
                       <label
@@ -185,21 +224,49 @@ const Register = () => {
                   <div className="mb-3">
                     <AvField
                       type="select"
-                      name="select"
+                      name="search-from"
+                      value={searchFrom}
+                      onChange={searchFromHandler}
+                      required
                     >
                       <option value="" disabled>I heard about FoxOffers from...</option>
-                      <option>1</option>
-                      <option>2</option>
-                      <option>3</option>
-                      <option>4</option>
-                      <option>5</option>
+                      <option value="AffiliateFix">AffiliateFix</option>
+                      <option value="AffLIFT">AffLIFT</option>
+                      <option value="Affpaying">Affpaying</option>
+                      <option value="Make-cash.pl">Make-cash.pl</option>
+                      <option value="MyMediaAds">MyMediaAds</option>
+                      <option value="OfferVault">OfferVault</option>
+                      <option value="STM Forum">STM Forum</option>
+                      <option value="Social Media">Social Media (FB, IG, TG, Twitter, LinkedIn, Reddit, Quora)</option>
+                      <option value="Zarabiam">Zarabiam</option>
+                      <option value="Gdetraffic">Gdetraffic</option>
+                      <option value="Partnerkin">Partnerkin</option>
+                      <option value="AffTimes">AffTimes</option>
+                      <option value="CPAMonstro">CPAMonstro</option>
+                      <option value="CPA rip">CPA rip</option>
+                      <option value="youpartner.pro">youpartner.pro</option>
+                      <option value="Protraffic">Protraffic</option>
+                      <option value="other">(other)</option>
                     </AvField>
                   </div>
+                  {
+                    searchFrom === 'other' &&
+                    <div className="mb-3">
+                      <AvField
+                        name="search-from-custom"
+                        value=""
+                        className="form-control"
+                        placeholder="I heard about FoxOffers from..."
+                        type="text"
+                        required
+                      />
+                    </div>
+                  }
                   <div className="form-checkbox">
                     <input
                       className="form-checkbox-input"
                       type="checkbox"
-                      name="remember-check"
+                      name="terms"
                       id="terms"
                     />
                     <label
