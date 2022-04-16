@@ -3,13 +3,14 @@ import MetaTags from "react-meta-tags";
 import Breadcrumbs from "../../components/Common/Breadcrumb";
 import { Card, CardBody, Col, Row } from "reactstrap";
 
-import { clearPostbackLogs, getPostbackLogs, getRegistrations as onGetRegistrations } from "../../store/actions";
+import { clearPostbackLogs, getPostbackLogs } from "../../store/actions";
 import { useDispatch, useSelector } from "react-redux";
 import TableLogs from "./components/table/index";
 import { Link } from "react-router-dom";
 import ModalDetail from "./components/detail/ModalDetail";
 import Filter from "./components/filter/Filter";
 import { toast, ToastContainer } from "react-toastify";
+import Loader from "../../components/UI/loader";
 
 const PostbackLogs: React.FC = () => {
   const dispatch = useDispatch();
@@ -17,19 +18,20 @@ const PostbackLogs: React.FC = () => {
   const [modal, setModal] = useState<boolean>(false);
   const [ID, setID] = useState(null);
 
-  const {logs, nextURL, loading, errorLog, layoutMode } = useSelector((state: any ) => {
+  const {logs, nextURL, loading, errorLog, layoutMode, loaded } = useSelector((state: any ) => {
     return {
       logs: state.PostbackLogs.logs.items,
       nextURL: state.PostbackLogs.logs.pagination.nextUrl,
       errorLog: state.PostbackLogs.error,
       loading: state.PostbackLogs.loading,
+      loaded: state.PostbackLogs.loaded,
       layoutMode: state.Layout.layoutMode
     }
   });
 
   let filter = {
     order: 1, //DESC
-    //limit: 12,
+    limit: 50,
   }
 
   useEffect(() => {
@@ -41,7 +43,7 @@ const PostbackLogs: React.FC = () => {
 
   async function loadMore() {
     if(nextURL) {
-      dispatch(onGetRegistrations(nextURL, {}));
+      dispatch(getPostbackLogs(nextURL, {}));
     }
   }
 
@@ -80,6 +82,8 @@ const PostbackLogs: React.FC = () => {
 
   return (
     <React.Fragment>
+      { !loaded && loading && <Loader /> }
+
       <div className="page-content">
 
         <MetaTags>

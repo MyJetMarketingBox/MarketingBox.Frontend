@@ -37,9 +37,9 @@ function* fetchAffiliates({ nextUrl, filter } : any) {
 function* fetchAffiliateProfile({ affiliateId } : any) {
   try {
     const response : Promise<any> = yield call(getAffiliateProfile, affiliateId)
+    console.log(response);
     yield put(getAffiliateProfileSuccess(response))
   } catch (error) {
-    console.log(error);
     yield put(getAffiliateProfileFail(error))
   }
 }

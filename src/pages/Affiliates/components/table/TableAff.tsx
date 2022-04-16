@@ -57,7 +57,13 @@ export default ({ affiliates = [] }: any) => {
     {
       dataField: "username",
       text: "Username",
-      sort: true
+      sort: true,
+      headerStyle: () => {
+        return { width: "200px" };
+      },
+      style: () => {
+        return { width: "200px"}
+      }
     },
     {
       dataField: "role",

@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import ReactDOM from 'react-dom';
 import { useSelector } from "react-redux";
 import c from './ConfirmDelete.module.scss';
+import { AvField, AvForm } from "availity-reactstrap-validation";
 
 export default ({ close, handleDelete }: any) => {
   const [value, setValue] = useState("");
@@ -33,10 +34,13 @@ export default ({ close, handleDelete }: any) => {
   return ReactDOM.createPortal(
     <div className={classesContainer.join(' ')} onClick={close}>
       <div className={c["popup-wrapper"]} onClick={e => e.stopPropagation()}>
-        <div className={c['popup-btn-close']} onClick={close} />
+
         <div className={c['popup-content']}>
+          <div className={c['popup-btn-close']} onClick={close} />
+
+
           <div className={c['popup-img']}>
-            <img src="/images/deletePrompt.svg" alt="i" />
+            <img src="/images/trashBin.png" alt="i" />
           </div>
           <div className={c['popup-title']}>
             Permanently Delete
@@ -46,27 +50,27 @@ export default ({ close, handleDelete }: any) => {
             You will not be able to recover these contents.
           </div>
           <div className={c['popup-descr']}>
-            This operation cannot be undone
+            *This operation cannot be undone
           </div>
           <div className={c['popup-input']}>
-            <div className={c['popup-input-descr']}>
-              Type DELETE to confirm
-            </div>
-            <input
-              type="text"
-              name="confirm"
-              placeholder="DELETE"
-              value={value.toUpperCase()}
-              onChange={handleChange}
-            />
+            <AvForm className="needs-validation">
+              <AvField
+                name="confirm"
+                type="text"
+                autoComplete="off"
+                placeholder="Type DELETE to confirm"
+                value={value.toUpperCase()}
+                onChange={handleChange}
+              />
+            </AvForm>
           </div>
           <div className={c['popup-btns']}>
-            <button type="button" className="btn btn-light" onClick={close}>
+            <button type="button" className="btn custom-btn-light" onClick={close}>
               Cancel
             </button>
             <button
               type="button"
-              className="btn btn-danger"
+              className="btn custom-btn-success"
               onClick={handleBtnDelete}
               disabled={!canDelete}
             >

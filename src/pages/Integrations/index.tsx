@@ -27,7 +27,7 @@ const Integrations: React.FC = () => {
   });
 
   useEffect(() => {
-    dispatch(getIntegrations(null, {order: 1}));
+    dispatch(getIntegrations(null, {order: 1, limit: 50}));
     return () => {
       dispatch(clearIntegrations());
     }
@@ -35,7 +35,7 @@ const Integrations: React.FC = () => {
 
   async function loadMore() {
     if (nextUrl) {
-      dispatch(getIntegrations(nextUrl, {order: 1}));
+      dispatch(getIntegrations(nextUrl, {}));
     }
   }
 

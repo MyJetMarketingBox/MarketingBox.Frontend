@@ -35,7 +35,8 @@ const Affiliates: React.FC = () => {
   const [modal, setModal] = useState<boolean>(false);
 
   let filter = {
-    order: 1
+    order: 1,
+    limit: 50
   };
 
   useEffect(() => {
@@ -47,7 +48,7 @@ const Affiliates: React.FC = () => {
 
   async function loadMore() {
     if (nextUrl) {
-      dispatch(getAffiliates(nextUrl, filter));
+      dispatch(getAffiliates(nextUrl, {}));
     }
   }
 

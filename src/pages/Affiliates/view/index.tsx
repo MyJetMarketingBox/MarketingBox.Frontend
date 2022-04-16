@@ -27,38 +27,40 @@ import {
 import classnames from "classnames";
 import { useDispatch, useSelector } from "react-redux";
 
-import { getAffiliateProfile as onGetAffiliateProfile  } from "../../../store/affiliates/actions";
+import { getAffiliateProfile } from "../../../store/affiliates/actions";
 
 const Affiliate = (props: any) => {
-
   const dispatch = useDispatch();
-
-  const { affiliateProfile } = useSelector((state: any) => ({
-    affiliateProfile: state.Affiliates.affiliateProfile,
-  }));
-
-  const [getAffiliate, setAffiliate] = useState(null);
-  const [customActiveTab, setcustomActiveTab] = useState("1");
-  const [isLoading, setLoading] = useState(false);
 
   const {
     match: { params },
   } = props;
 
-  useEffect(() => {
-    if (params && params.id) {
-      dispatch(onGetAffiliateProfile(params.id));
-    } /*else {
-      dispatch(onGetAffiliateProfile(1)); //удалите после полной интеграции
-    }*/
-  }, [dispatch, params]);
+  const { affiliate, loading, loaded } = useSelector((state: any) => ({
+    affiliate: state.Affiliates.affiliateProfile,
+    loading: state.Affiliates.loading,
+    loaded: state.Affiliates.loaded
+  }));
+
+   //const [getAffiliate, setAffiliate] = useState(null);
+  const [customActiveTab, setcustomActiveTab] = useState("1");
+  //const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
+    if (params && params.id) {
+      dispatch(getAffiliateProfile(params.id));
+    }
+    /*else {
+      dispatch(onGetAffiliateProfile(1)); //удалите после полной интеграции
+    }*/
+  }, []);
+
+  /*useEffect(() => {
     if(affiliateProfile && affiliateProfile.affiliateId) {
       setAffiliate(affiliateProfile);
       setLoading(true)
     }
-  }, [affiliateProfile]);
+  }, [affiliateProfile]);*/
 
   const toggleCustom = (tab: any) => {
     if (customActiveTab !== tab) {
@@ -78,15 +80,13 @@ const Affiliate = (props: any) => {
             <Col className="col-12">
 
               <Card>
-                {!isLoading ? (
+                {!loaded ? (
                   <div style={{ textAlign: "center" }}>
                     <h1>Loading...</h1>
                   </div>
                 ):( <>
 
                   <CardHeader className="align-items-center d-flex">
-                    {/*<CardTitle className="h4">Custom Tabs</CardTitle>
-                  <p className="card-title-desc">Example of custom tabs</p>*/}
                     <div className="flex-shrink-0">
                       <Nav tabs className="justify-content-start nav-tabs-custom rounded card-header-tabs">
                         <NavItem>

@@ -168,3 +168,47 @@ span.flatpickr-weekday {
 span.flatpickr-weekday {
   background-color: #42a5f5 !important;
 }
+
+.custom-btn-success{
+  background: #E74A18;
+  width: 100%;
+  color: white;
+  max-width: 248px;
+  height: 48px;
+  font-family: 'Gilroy';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 24px;
+  border-radius: 8px;
+  border: unset;
+  box-shadow: unset;
+  letter-spacing: 0.15px;
+  &:hover,
+  &:focus{
+    color: white;
+    background: #E74A18;
+  }
+}
+
+.custom-btn-light{
+  background: #F2F2F2;
+  width: 100%;
+  color: #050121;
+  max-width: 248px;
+  height: 48px;
+  font-family: 'Gilroy';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 24px;
+  border-radius: 8px;
+  border: unset;
+  box-shadow: unset;
+  letter-spacing: 0.15px;
+  &:hover,
+  &:focus {
+    background: #F2F2F2;
+    color: #050121;
+  }
+}

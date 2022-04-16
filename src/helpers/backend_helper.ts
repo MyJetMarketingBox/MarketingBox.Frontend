@@ -115,8 +115,15 @@ export const getRegistrations = (nextUrl: any, filter: object) => get(nextUrl ||
 // get postback logs
 export const getPostbackLogs = (nextUrl: any, filter: object) => get(nextUrl || url.POSTBACKLOGS, { params: filter });
 
-// get postback
-export const getPostback = () => get(url.POSTBACK)
+/** POSTBACK **/
+export const getPostback = () => get(url.POSTBACK);
+
+export const addPostback = (postback: any) => post(url.POSTBACK, postback);
+
+export const updatePostback = (postback: object) => put(url.POSTBACK, postback);
+
+export const delPostback = () => del(`${url.POSTBACK}`);
+/** END POSTBACK **/
 
 // get reports
 export const getReports = (filter: any) => get(`${url.GET_REPORTS}`,  { params: filter } )

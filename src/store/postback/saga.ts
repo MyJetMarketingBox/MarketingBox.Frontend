@@ -4,10 +4,16 @@ import {PostbackTypes} from "./actionTypes";
 
 import {
   getPostbackSuccess,
-  getPostbackFail
+  getPostbackFail,
+  addPostbackSuccess,
+  addPostbackFail,
+  delPostbackSuccess,
+  delPostbackFail,
+  updatePostbackSuccess,
+  updatePostbackFail
 } from "./actions";
 
-import { getPostback } from "../../helpers/backend_helper";
+import { getPostback, addPostback, delPostback, updatePostback } from "../../helpers/backend_helper";
 
 function* fetchPostback({ nextUrl, filter } : any) {
   try{
@@ -18,8 +24,38 @@ function* fetchPostback({ nextUrl, filter } : any) {
   }
 }
 
-function* contactsSaga() {
-  yield takeEvery(PostbackTypes.GET_POSTBACK, fetchPostback)
+function* addPostbackSaga({payload: postback} : any) {
+  try{
+    const response : Promise<any> = yield call(addPostback, postback);
+    yield put(addPostbackSuccess(response));
+  }catch (error) {
+    yield put(addPostbackFail(error));
+  }
 }
 
-export default contactsSaga;
+function* updatePostbackSaga({payload: postback}: any) {
+  try{
+    const response : Promise<any> = yield call(updatePostback, postback);
+    yield put(updatePostbackSuccess(response))
+  }catch (error) {
+    yield put(updatePostbackFail(error))
+  }
+}
+
+function* delPostbackSaga() {
+  try{
+    const response : Promise<any> = yield call(delPostback);
+    yield put(delPostbackSuccess(response))
+  }catch (error) {
+    yield put(delPostbackFail(error));
+  }
+}
+
+function* postbackSaga() {
+  yield takeEvery(PostbackTypes.GET_POSTBACK, fetchPostback);
+  yield takeEvery(PostbackTypes.ADD_POSTBACK, addPostbackSaga);
+  yield takeEvery(PostbackTypes.UPDATE_POSTBACK, updatePostbackSaga);
+  yield takeEvery(PostbackTypes.DEL_POSTBACK, delPostbackSaga);
+}
+
+export default postbackSaga;

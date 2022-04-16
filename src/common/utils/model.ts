@@ -46,8 +46,8 @@ export const eventType = [
 ]
 
 export const httpQueryType = [
-    "Get",
-    "Post",
+    "GET",
+    "POST",
 ]
 
 export const plan = [

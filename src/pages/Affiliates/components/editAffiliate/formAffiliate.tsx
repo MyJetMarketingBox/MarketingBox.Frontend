@@ -28,6 +28,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 
 const FormAffiliate = (props: any) => {
+
     const dispatch = useDispatch();
 
     const { affiliate, errorAff, loading, success } = useSelector((state: any) => {
@@ -39,8 +40,8 @@ const FormAffiliate = (props: any) => {
         };
     });
 
-    const { affiliateId, generalInfo, company, bank, sequence } = affiliate;
-
+    const { id, generalInfo, company, bank } = affiliate;
+    debugger
     /*const [newPass, setNewPass] = useState("");
     const [confirmPass, setConfirmPass] = useState("");
     const [sendForm, setSendForm] = useState(false);*/
@@ -84,7 +85,7 @@ const FormAffiliate = (props: any) => {
                 phone: values["phone"],
                 skype: values["skype"],
                 zipCode: values["zipCode"],
-                role: +values["role"],
+                //role: +values["role"],
                 state: +state,
                 currency: +values["currency"],
                 createdAt: generalInfo.createdAt,
@@ -104,10 +105,9 @@ const FormAffiliate = (props: any) => {
                 accountNumber: values["accountNumber"],
                 swift: values["swift"],
                 iban: values["iban"]
-            },
-            sequence: sequence
+            }
         };
-        dispatch(onUpdateAff(updateAff, affiliateId))
+        dispatch(onUpdateAff(updateAff, id))
     }
 
     const bg = [ "bg-success", "bg-danger", "bg-warning" ];
@@ -224,7 +224,7 @@ const FormAffiliate = (props: any) => {
                             />
                         </FormGroup>
                     </Col>
-                    <Col md="3">
+                    {/*<Col md="3">
                         <FormGroup className="mb-3">
                             <AvField
                               type="select"
@@ -239,7 +239,7 @@ const FormAffiliate = (props: any) => {
                                 {AffiliateRole.map((val, i) => <option key={i} value={i} >{val}</option>)}
                             </AvField>
                         </FormGroup>
-                    </Col>
+                    </Col>*/}
                     <Col md="3">
                         <FormGroup className="mb-3">
                             <Label htmlFor="validationZip">Zip Code</Label>
@@ -286,7 +286,7 @@ const FormAffiliate = (props: any) => {
                                 className="form-control"
                                 //validate={{ required: { value: true } }}
                                 id="validationCompanyName"
-                                value={company.name}
+                                value={company?.name}
                             />
                         </FormGroup>
                     </Col>
@@ -301,7 +301,7 @@ const FormAffiliate = (props: any) => {
                                 className="form-control"
                                 //validate={{ required: { value: true } }}
                                 id="validationCompanyAddress"
-                                value={company.address}
+                                value={company?.address}
                             />
                         </FormGroup>
                     </Col>
@@ -316,7 +316,7 @@ const FormAffiliate = (props: any) => {
                                 className="form-control"
                                 //validate={{ required: { value: true } }}
                                 id="validationCompanyRegNumber"
-                                value={company.regNumber}
+                                value={company?.regNumber}
                             />
                         </FormGroup>
                     </Col>
@@ -331,7 +331,7 @@ const FormAffiliate = (props: any) => {
                               className="form-control"
                               //validate={{ required: { value: true } }}
                               id="validationVatIt"
-                              value={company.vatId}
+                              value={company?.vatId}
                             />
                         </FormGroup>
                     </Col>
@@ -350,7 +350,7 @@ const FormAffiliate = (props: any) => {
                               className="form-control"
                               //validate={{ required: { value: true } }}
                               id="validationBeneficiaryName"
-                              value={bank.beneficiaryName}
+                              value={bank?.beneficiaryName}
                             />
                         </FormGroup>
                     </Col>
@@ -365,7 +365,7 @@ const FormAffiliate = (props: any) => {
                               className="form-control"
                               //validate={{ required: { value: true } }}
                               id="validationBeneficiaryAddress"
-                              value={bank.beneficiaryAddress}
+                              value={bank?.beneficiaryAddress}
                             />
                         </FormGroup>
                     </Col>
@@ -380,7 +380,7 @@ const FormAffiliate = (props: any) => {
                               className="form-control"
                               //validate={{ required: { value: true } }}
                               id="validationBankName"
-                              value={bank.bankName}
+                              value={bank?.bankName}
                             />
                         </FormGroup>
                     </Col>
@@ -395,7 +395,7 @@ const FormAffiliate = (props: any) => {
                               className="form-control"
                               //validate={{ required: { value: true } }}
                               id="validationBankAddress"
-                              value={bank.bankAddress}
+                              value={bank?.bankAddress}
                             />
                         </FormGroup>
                     </Col>
@@ -410,7 +410,7 @@ const FormAffiliate = (props: any) => {
                               className="form-control"
                               //validate={{ required: { value: true } }}
                               id="validationAccountNumber"
-                              value={bank.accountNumber}
+                              value={bank?.accountNumber}
                             />
                         </FormGroup>
                     </Col>
@@ -425,7 +425,7 @@ const FormAffiliate = (props: any) => {
                               className="form-control"
                               //validate={{ required: { value: true } }}
                               id="validationSwift"
-                              value={bank.swift}
+                              value={bank?.swift}
                             />
                         </FormGroup>
                     </Col>
@@ -440,7 +440,7 @@ const FormAffiliate = (props: any) => {
                               className="form-control"
                               //validate={{ required: { value: true } }}
                               id="validationIBAN"
-                              value={bank.iban}
+                              value={bank?.iban}
                             />
                         </FormGroup>
                     </Col>
@@ -462,7 +462,7 @@ const FormAffiliate = (props: any) => {
                                     className="form-control"
                                     //validate={{ required: { value: true } }}
                                     id="validationAPIKey"
-                                    value={generalInfo.apiKey}
+                                    value={generalInfo?.apiKey}
                                     disabled="disabled"
                                     />
                                 </FormGroup>
