@@ -5,6 +5,10 @@
   background-color: #ffffff;
   border-right: 4px solid #e5e5e5;
 }
+body[data-sidebar="dark"] .sidebar {
+  background-color: #313533;
+  border-right: 4px solid #3b403d;
+}
 .toggleWrapper {
   margin-bottom: 24px;
   padding: 0 24px;
@@ -23,6 +27,9 @@
   svg {
     fill: #050121;
   }
+}
+body[data-sidebar="dark"] .toggle svg {
+  fill: #ffffff;
 }
 .userInfo {
   margin-bottom: 24px;
@@ -49,6 +56,9 @@
   font-weight: 700;
   color: #050121;
   text-align: center;
+}
+body[data-sidebar="dark"] .userName {
+  color: #ffffff;
 }
 body[data-sidebar-size="sm"] .userName {
   display: none;
@@ -88,7 +98,11 @@ body[data-sidebar-size="sm"] .balanceItems {
     display: block;
     width: 16px;
     height: 16px;
+    fill: #050121;
   }
+}
+body[data-sidebar="dark"] .balanceItemIcon svg {
+  fill: #ffffff;
 }
 .balanceItemContent {
   flex-grow: 1;
@@ -99,6 +113,9 @@ body[data-sidebar-size="sm"] .balanceItems {
   line-height: 1.6;
   font-weight: 700;
   color: #050121;
+}
+body[data-sidebar="dark"] .balanceItemVal {
+  color: #ffffff;
 }
 .balanceItemDescr {
   font-size: 12px;
@@ -129,6 +146,13 @@ body[data-sidebar-size="sm"] .balanceItems {
     border-left: 4px solid #e74a18;
   }
 }
+body[data-sidebar-size="sm"] .menuItemLink {
+  position: relative;
+  padding: 14px 20px;
+}
+.menuItemLink:hover {
+
+}
 .menuItemIcon {
   width: 16px;
   margin-right: 12px;
@@ -138,9 +162,14 @@ body[data-sidebar-size="sm"] .balanceItems {
     width: 16px;
     height: 16px;
     fill: #050121;
+    transition: fill .3s;
   }
 }
-.active .menuItemIcon svg {
+body[data-sidebar="dark"] .menuItemIcon svg {
+  fill: #ffffff;
+}
+.menuItemLink.active .menuItemIcon svg,
+.menuItemLink:hover .menuItemIcon svg {
   fill: #e74a18;
 }
 .menuItemDescr {
@@ -148,7 +177,29 @@ body[data-sidebar-size="sm"] .balanceItems {
   line-height: 20px;
   font-weight: 400;
   color: #050121;
+  transition: color .3s;
 }
-.active .menuItemDescr {
+body[data-sidebar="dark"] .menuItemDescr {
+  color: #ffffff;
+}
+body[data-sidebar-size="sm"] .menuItemDescr {
+  display: none;
+}
+body[data-sidebar-size="sm"] .menuItem:hover .menuItemDescr {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 100%;
+  width: auto;
+  min-width: 160px;
+  padding: 0 12px;
+  background-color: #ffffff;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, .1);
+  white-space: nowrap;
+}
+.menuItemLink.active .menuItemDescr,
+.menuItemLink:hover .menuItemDescr {
   color: #e74a18;
 }

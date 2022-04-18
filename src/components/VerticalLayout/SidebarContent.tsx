@@ -11,6 +11,9 @@ import { ReactComponent as IconBrands } from '../../assets/images/icon-brands.sv
 import { ReactComponent as IconRegistrations } from '../../assets/images/icon-registration.svg';
 import { ReactComponent as IconCampaigns } from '../../assets/images/icon-campaigns.svg';
 import { ReactComponent as IconLeads } from '../../assets/images/icon-leads.svg';
+import { ReactComponent as IconMarketingTools } from '../../assets/images/icon-marketing-tools.svg';
+import { ReactComponent as IconConversions } from '../../assets/images/icon-conversions.svg';
+import { ReactComponent as IconSettings } from '../../assets/images/icons-settings.svg';
 
 // //Import Scrollbar
 import SimpleBar from "simplebar-react";
@@ -204,25 +207,23 @@ const SidebarContent = (props: any) => {
                 <div className={c.menuItemDescr}>{props.t("Affiliates")}</div>
               </NavLink>
             </li>
+            <li className={c.menuItem}>
+              <NavLink to="/marketing_tools" className={c.menuItemLink} activeClassName={c.active}>
+                <div className={c.menuItemIcon}><IconMarketingTools /></div>
+                <div className={c.menuItemDescr}>{props.t("Marketing Tools")}</div>
+              </NavLink>
+            </li>
+            <li className={c.menuItem}>
+              <NavLink to="/conversions" className={c.menuItemLink} activeClassName={c.active}>
+                <div className={c.menuItemIcon}><IconConversions /></div>
+                <div className={c.menuItemDescr}>{props.t("Conversions")}</div>
+              </NavLink>
+            </li>
           </ul>
         </nav>
 
         <div id="sidebar-menu">
           <ul className="metismenu list-unstyled" id="side-menu">
-            <li>
-              <Link to="/marketing_tools" className="">
-                <Icon name="cpu" />
-                <span>{props.t("Marketing Tools")}</span>
-              </Link>
-            </li>
-
-            {user && user.role != "Affiliate" ? (<li>
-              <Link to="/conversions" className="">
-                <Icon name="filter" />
-                <span>{props.t("Conversions")}</span>
-              </Link>
-            </li>):(<li></li>)}
-
             <li>
               <Link to="/settings" className="">
                 <Icon name="settings" />
