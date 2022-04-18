@@ -170,7 +170,6 @@ const Layout = (props: any) => {
           isMobile={isMobile}
         />
         <div className="main-content">{props.children}</div>
-        <Footer />
       </div>
     </React.Fragment>
   );

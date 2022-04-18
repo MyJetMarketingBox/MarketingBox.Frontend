@@ -1,0 +1,29 @@
+.body {
+  display: flex;
+  min-height: 66px;
+}
+.logo {
+  display: flex;
+  align-items: center;
+  width: 164px;
+  margin-right: auto;
+  padding: 0 20px;
+
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .dark {
+    display: none;
+  }
+}
+body[data-sidebar="dark"] .logo {
+  .light {
+    display: none;
+  }
+  .dark {
+    display: block;
+  }
+}

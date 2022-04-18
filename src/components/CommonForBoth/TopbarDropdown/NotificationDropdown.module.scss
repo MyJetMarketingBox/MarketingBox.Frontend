@@ -1,0 +1,22 @@
+.toggle {
+  position: relative;
+  padding: 10px 20px;
+  background: none;
+  border: none;
+  color: #050121;
+}
+body[data-sidebar="dark"] .toggle {
+  color: #ffffff;
+}
+.count {
+  position: absolute;
+  left: 50%;
+  top: 14px;
+  padding: 3px 8px;
+  background-color: #e74a18;
+  border-radius: 10px;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+  color: #ffffff;
+}

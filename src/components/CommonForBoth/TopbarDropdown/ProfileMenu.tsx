@@ -18,6 +18,8 @@ import user1 from "../../../assets/images/users/avatar-1.jpg";
 //redux
 import { useSelector } from "react-redux";
 
+import c from './ProfileMenu.module.scss';
+
 const ProfileMenu = (props: any) => {
   const { success } = useSelector((state: any) => ({
     success: state.profile.success,
@@ -27,6 +29,10 @@ const ProfileMenu = (props: any) => {
   const [menu, setMenu] = useState<boolean>(false);
 
   const [username, setusername] = useState("Admin");
+
+  const dropdownClickHandler = () => {
+    setMenu(prev => !prev);
+  }
 
   useEffect(() => {
     const getAuthUser = localStorage.getItem("authUser");
@@ -40,21 +46,18 @@ const ProfileMenu = (props: any) => {
     <React.Fragment>
       <Dropdown
         isOpen={menu}
-        toggle={() => setMenu(!menu)}
-        className="d-inline-block"
+        toggle={dropdownClickHandler}
+        className="d-flex"
       >
         <DropdownToggle
-          className="btn header-item bg-soft-light border-start border-end"
+          className={c.toggle}
           id="page-header-user-dropdown"
           tag="button"
         >
           <img
-            className="rounded-circle header-profile-user"
             src={user1}
             alt="Header Avatar"
           />
-          <span className="d-none d-xl-inline-block ms-2 me-1">{username}</span>
-          <i className="mdi mdi-chevron-down d-none d-xl-inline-block" />
         </DropdownToggle>
         <DropdownMenu className="dropdown-menu-end">
           <DropdownItem tag="a" href="/profile">

@@ -1,5 +1,7 @@
 import React from "react";
 
+import c from "./LightDark.module.scss";
+
 //Import Icons
 import Icon from "@ailibs/feather-react-ts";
 
@@ -16,19 +18,26 @@ const LightDark = ({ layoutMode, onChangeLayoutMode }: LightDarkState) => {
     layoutMode === layoutTheme["DARKMODE"]
       ? layoutTheme["LIGHTMODE"]
       : layoutTheme["DARKMODE"];
-  //console.log(layoutMode)
+
+  const classes = [c.btnWrapper];
+  if (layoutMode === layoutTheme["DARKMODE"]) {
+    classes.push(c.dark);
+  }
+
   return (
-    <div className="dropdown d-none d-sm-inline-block">
+    <div className={classes.join(" ")}>
       <button
         onClick={() => onChangeLayoutMode(mode)}
         type="button"
-        className="btn header-item"
+        className={c.btn}
       >
-        {layoutMode === layoutTheme["DARKMODE"] ? (
-          <Icon name="sun" className="icon-lg layout-mode-light" />
-        ) : (
-          <Icon name="moon" className="icon-lg layout-mode-dark" />
-        )}
+        <span className={c.iconDark}>
+          <Icon name="moon" className="icon-sm" />
+        </span>
+        <span className={c.iconLight}>
+          <Icon name="sun" className="icon-sm" />
+        </span>
+        <span className={c.circle} />
       </button>
     </div>
   );

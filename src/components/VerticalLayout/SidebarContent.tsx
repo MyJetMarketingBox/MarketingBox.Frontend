@@ -1,8 +1,16 @@
 import PropTypes from "prop-types";
-import React, { useEffect, useRef, useCallback } from "react";
+import React, { useEffect, useRef, useCallback, useState } from "react";
 
 //Import Icons
 import Icon from "@ailibs/feather-react-ts";
+import { ReactComponent as IconMenu } from '../../assets/images/icon-menu.svg';
+import { ReactComponent as IconBalance } from '../../assets/images/icon-account-balance.svg';
+import { ReactComponent as IconDashboard } from '../../assets/images/icon-dashboard.svg';
+import { ReactComponent as IconReports } from '../../assets/images/icon-reports.svg';
+import { ReactComponent as IconBrands } from '../../assets/images/icon-brands.svg';
+import { ReactComponent as IconRegistrations } from '../../assets/images/icon-registration.svg';
+import { ReactComponent as IconCampaigns } from '../../assets/images/icon-campaigns.svg';
+import { ReactComponent as IconLeads } from '../../assets/images/icon-leads.svg';
 
 // //Import Scrollbar
 import SimpleBar from "simplebar-react";
@@ -19,8 +27,12 @@ import { NavLink, withRouter } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
+import c from './SidebarContent.module.scss';
+
 const SidebarContent = (props: any) => {
   const ref = useRef<any>();
+
+  const [isClick, setClick] = useState<boolean>(true);
 
   const activateParentDropdown = useCallback(item => {
     item.classList.add("active");
@@ -95,65 +107,108 @@ const SidebarContent = (props: any) => {
     }
   }
 
-
   const { user } = useSelector((state: any) => ({
     user: state.login.userInfo
   }));
 
+  /*** Sidebar menu icon and default menu set */
+  function tToggle() {
+    var body = document.body;
+    if (isClick) {
+      body.classList.add("sidebar-enable");
+      document.body.setAttribute("data-sidebar-size", "sm");
+    } else {
+      body.classList.remove("sidebar-enable");
+      document.body.setAttribute("data-sidebar-size", "lg");
+    }
+    setClick(prev => !prev);
+  }
 
   return (
     <React.Fragment>
-      <SimpleBar style={{ maxHeight: "100%" }} ref={ref}>
+      <SimpleBar className={c.sidebar} ref={ref}>
+        <div className={c.toggleWrapper}>
+          <button
+            onClick={() => { tToggle(); }}
+            type="button"
+            className={c.toggle}
+          >
+            <IconMenu />
+          </button>
+        </div>
+
+        <div className={c.userInfo}>
+          <div className={c.userPhoto}>
+            <img src={giftBox} width="200" height="200" alt="img"/>
+          </div>
+          <div className={c.userName}>
+            User Name
+          </div>
+          <div className={c.userId}>
+            ID #13408424
+          </div>
+        </div>
+
+        <ul className={c.balanceItems}>
+          <li className={c.balanceItem}>
+            <div className={c.balanceItemIcon}><IconBalance /></div>
+            <div className={c.balanceItemContent}>
+              <div className={c.balanceItemVal}>$15,000.00</div>
+              <div className={c.balanceItemDescr}>Approved balance</div>
+            </div>
+          </li>
+          <li className={c.balanceItem}>
+            <div className={c.balanceItemIcon}><IconBalance /></div>
+            <div className={c.balanceItemContent}>
+              <div className={c.balanceItemVal}>$2,000.00</div>
+              <div className={c.balanceItemDescr}>Hold balance</div>
+            </div>
+          </li>
+        </ul>
+
+        <nav className={c.menu}>
+          <ul className={c.menuList}>
+            <li className={c.menuItem}>
+              <NavLink to="/dashboard" className={c.menuItemLink} activeClassName={c.active}>
+                <div className={c.menuItemIcon}><IconDashboard /></div>
+                <div className={c.menuItemDescr}>{props.t("Dashboard")}</div>
+              </NavLink>
+            </li>
+            <li className={c.menuItem}>
+              <NavLink to="/reports" className={c.menuItemLink} activeClassName={c.active}>
+                <div className={c.menuItemIcon}><IconReports /></div>
+                <div className={c.menuItemDescr}>{props.t("Reports")}</div>
+              </NavLink>
+            </li>
+            <li className={c.menuItem}>
+              <NavLink to="/brands" className={c.menuItemLink} activeClassName={c.active}>
+                <div className={c.menuItemIcon}><IconBrands /></div>
+                <div className={c.menuItemDescr}>{props.t("Brands")}</div>
+              </NavLink>
+            </li>
+            <li className={c.menuItem}>
+              <NavLink to="/registrations" className={c.menuItemLink} activeClassName={c.active}>
+                <div className={c.menuItemIcon}><IconRegistrations /></div>
+                <div className={c.menuItemDescr}>{props.t("Registrations")}</div>
+              </NavLink>
+            </li>
+            <li className={c.menuItem}>
+              <NavLink to="/campaigns" className={c.menuItemLink} activeClassName={c.active}>
+                <div className={c.menuItemIcon}><IconCampaigns /></div>
+                <div className={c.menuItemDescr}>{props.t("Campaigns")}</div>
+              </NavLink>
+            </li>
+            <li className={c.menuItem}>
+              <NavLink to="/affiliates" className={c.menuItemLink} activeClassName={c.active}>
+                <div className={c.menuItemIcon}><IconLeads /></div>
+                <div className={c.menuItemDescr}>{props.t("Affiliates")}</div>
+              </NavLink>
+            </li>
+          </ul>
+        </nav>
+
         <div id="sidebar-menu">
           <ul className="metismenu list-unstyled" id="side-menu">
-
-            <li className="menu-title">{props.t("Menu")} </li>
-
-            <li>
-              <Link to="/dashboard" className="">
-                <Icon name="home" />
-                <span>{props.t("Dashboard")}</span>
-              </Link>
-            </li>
-
-            <li>
-              <Link to="/reports" className="">
-                <Icon name="file-text" />
-                <span>{props.t("Reports")}</span>
-              </Link>
-            </li>
-
-            {(user && user.role != "affiliatesManager" && user.role != "Affiliate") ?
-              (<li>
-                <Link to="/brands" className="">
-                  <Icon name="grid" />
-                  <span>{props.t("Brands")}</span>
-                </Link>
-              </li>)
-              : (<li></li>)
-            }
-
-            <li>
-              <Link to="/registrations" className="">
-                <Icon name="user-plus" />
-                <span>{props.t("Registrations")}</span>
-              </Link>
-            </li>
-
-            <li>
-              <Link to="/campaigns" className="">
-                <Icon name="box" />
-                <span>{props.t("Campaigns")}</span>
-              </Link>
-            </li>
-
-            {user && user.role != "Affiliate" ? (<li>
-              <NavLink to="/Affiliates" className="">
-                <Icon name="briefcase"/>
-                <span>{props.t("Affiliates")}</span>
-              </NavLink>
-            </li>):(<li></li>)}
-
             <li>
               <Link to="/marketing_tools" className="">
                 <Icon name="cpu" />
@@ -192,22 +247,6 @@ const SidebarContent = (props: any) => {
             </li>
 
           </ul>
-          <div className="card sidebar-alert border-0 text-center mx-4 mb-0 mt-5">
-            <div className="card-body">
-              <img src={giftBox} alt="" width="100"/>
-              <div className="mt-4">
-                <h5 className="text-orange font-size-16">
-                  Your manager
-                </h5>
-                <p className="font-size-13">
-                  Write for all questions.
-                </p>
-                <a href="#!" className="btn btn-success mt-2">
-                  Write!
-                </a>
-              </div>
-            </div>
-          </div>
         </div>
       </SimpleBar>
     </React.Fragment>

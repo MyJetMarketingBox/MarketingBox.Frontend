@@ -248,7 +248,7 @@ const Postback: React.FC = () => {
 
                   </CardBody>
                   <CardFooter>
-                    <Button className="btn custom-btn-success" style={{'marginRight': '25px'}} type="submit" onClick={handleUpdatePostback}>
+                    <Button className="btn custom-btn-success" style={{'marginRight': '25px'}} type="submit">
                       {upLoading && <i className="bx bx-hourglass bx-spin me-2" />}
                       Update
                     </Button>
