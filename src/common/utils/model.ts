@@ -70,3 +70,9 @@ export const responseStatus = [
     "Ok",
     "Failed",
 ]
+
+export const PayoutType = [
+    "CPA",
+    "CPL",
+    "CPC",
+]

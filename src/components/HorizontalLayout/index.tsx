@@ -6,7 +6,7 @@ import {
   changeTopbarTheme,
   changeLayoutWidth,
   changelayoutMode,
-  changeLayoutPosition,
+  changeLayoutPosition, changeRootBlur
 } from "../../store/actions";
 
 //redux
@@ -31,6 +31,7 @@ const Layout = (props: LayoutProps) => {
     layoutType,
     layoutMode,
     layoutPosition,
+    isBlur
   } = useSelector((state: any) => ({
     topbarTheme: state.Layout.topbarTheme,
     layoutWidth: state.Layout.layoutWidth,
@@ -38,6 +39,7 @@ const Layout = (props: LayoutProps) => {
     layoutType: state.Layout.layoutType,
     layoutMode: state.Layout.layoutMode,
     layoutPosition: state.Layout.layoutPosition,
+    isBlur: state.Layout.isBlur,
   }));
 
   /*
@@ -83,6 +85,13 @@ const Layout = (props: LayoutProps) => {
       status.style.display = "none";
     }
   }, [isPreloader]);
+
+  useEffect(() => {
+    const rootBlur: any = document.getElementById("root");
+    (isBlur)
+      ? rootBlur.style.filter = 'blur(3px)'
+      : rootBlur.removeAttribute('style');
+  }, [isBlur]);
 
   useEffect(() => {
     if (topbarTheme) {

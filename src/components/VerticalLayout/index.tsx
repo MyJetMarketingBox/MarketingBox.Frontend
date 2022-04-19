@@ -31,7 +31,8 @@ const Layout = (props: any) => {
     layoutMode,
     layoutType,
     leftSidebarTypes,
-    loadedCountries
+    loadedCountries,
+    isBlur,
   } = useSelector((state: any) => ({
     isPreloader: state.Layout.isPreloader,
     leftSideBarType: state.Layout.leftSideBarType,
@@ -42,6 +43,7 @@ const Layout = (props: any) => {
     layoutType: state.Layout.layoutType,
     leftSidebarTypes: state.Layout.leftSidebarTypes,
     loadedCountries: state.Countries.loaded,
+    isBlur: state.Layout.isBlur,
   }));
 
   const isMobile: any = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
@@ -58,20 +60,23 @@ const Layout = (props: any) => {
   layout  settings
   */
 
-  // useEffect(() => {
-  //   if (isPreloader === true) {
-  //     document.getElementById("preloader").style.display = "block";
-  //     document.getElementById("status").style.display = "block";
+  useEffect(() => {
+    const preloader: any = document.getElementById("preloader");
+    const status: any = document.getElementById("status");
 
-  //     setTimeout(function () {
-  //       document.getElementById("preloader").style.display = "none";
-  //       document.getElementById("status").style.display = "none";
-  //     }, 2500)
-  //   } else {
-  //     document.getElementById("preloader").style.display = "none";
-  //     document.getElementById("status").style.display = "none";
-  //   }
-  // }, [isPreloader])
+    if (isPreloader === true) {
+      preloader.style.display = "block";
+      status.style.display = "block";
+
+      setTimeout(function () {
+        preloader.style.display = "none";
+        status.style.display = "none";
+      }, 2500);
+    } else {
+      preloader.style.display = "none";
+      status.style.display = "none";
+    }
+  }, [isPreloader]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -80,6 +85,13 @@ const Layout = (props: any) => {
   useEffect(() => {
     dispatch(changeLayout("vertical"));
   }, [dispatch]);
+
+  useEffect(() => {
+    const rootBlur: any = document.getElementById("root");
+    (isBlur)
+      ? rootBlur.style.filter = 'blur(3px)'
+      : rootBlur.removeAttribute('style');
+  }, [isBlur]);
 
   useEffect(() => {
     if (leftSideBarTheme) {

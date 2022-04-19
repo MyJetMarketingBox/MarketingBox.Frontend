@@ -9,7 +9,7 @@ import {
 } from "reactstrap";
 import { AvField, AvForm } from "availity-reactstrap-validation";
 import { addNewAffiliate } from "../../../../store/actions";
-import { AffiliateRole, AffiliateState, Currency } from "../../../../common/utils/model";
+import { AffiliateRole, AffiliateState, Currency, PayoutType } from "../../../../common/utils/model";
 import Loader from "../../../../components/UI/loader";
 
 export default ({ isOpen, toggle }: any) => {
@@ -36,36 +36,15 @@ export default ({ isOpen, toggle }: any) => {
   }, [addAffError]);
 
   const handleValidAffiliateSubmit = (values: any) => {
-    const date = new Date();
     const newAffiliate = {
       generalInfo: {
         username: values["username"],
-        email: values["email"],
         password: values["password"],
-        phone: "",
-        skype: "",
-        zipCode: "",
-        role: +values["role"],
+        email: values["email"],
         state: +values["state"],
-        currency: +values["currency"],
-        createdAt: date,
-        apiKey: ""
+        currency: +values["currency"]
       },
-      company: {
-        name: "",
-        address: "",
-        regNumber: "",
-        vatId: ""
-      },
-      bank: {
-        beneficiaryName: "",
-        beneficiaryAddress: "",
-        bankName: "",
-        bankAddress: "",
-        accountNumber: "",
-        swift: "",
-        iban: ""
-      }
+      affiliatePayoutIds: [+values['payoutType']]
     };
     // save new aff
     dispatch(addNewAffiliate(newAffiliate));
@@ -93,7 +72,7 @@ export default ({ isOpen, toggle }: any) => {
                 <div className="mb-3">
                   <AvField
                     name="username"
-                    label="Name"
+                    label="Name*"
                     type="text"
                     errorMessage="Invalid name"
                     validate={{
@@ -105,7 +84,7 @@ export default ({ isOpen, toggle }: any) => {
                 <div className="mb-3">
                   <AvField
                     name="email"
-                    label="Email"
+                    label="Email*"
                     type="email"
                     errorMessage="Invalid Email"
                     validate={{
@@ -117,7 +96,7 @@ export default ({ isOpen, toggle }: any) => {
                 <div className="mb-3">
                   <AvField
                     name="password"
-                    label="Password"
+                    label="Password*"
                     type="password"
                     errorMessage="Invalid Designation"
                     validate={{
@@ -130,15 +109,15 @@ export default ({ isOpen, toggle }: any) => {
                 <div className="mb-3">
                   <AvField
                     type="select"
-                    name="role"
+                    name="payoutType"
                     className="form-select"
-                    label="Role"
+                    label="Payout Type"
                     required
                     value={""}
                   >
-                    <option value={""}>Select role</option>
+                    <option value={""}>Select payout type</option>
                     {
-                      AffiliateRole.map((val, i) => <option key={i} value={i}>{val}</option>)
+                      PayoutType.map((val, i) => <option key={i} value={i}>{val}</option>)
                     }
                   </AvField>
                 </div>
@@ -150,7 +129,7 @@ export default ({ isOpen, toggle }: any) => {
                     className="form-select"
                     label="State"
                     required
-                    value={""}
+                    value="0"
                   >
                     <option value={""}>Select sate</option>
                     {AffiliateState.map((val, i) => <option key={i}
@@ -165,7 +144,7 @@ export default ({ isOpen, toggle }: any) => {
                     className="form-select"
                     label="Currency"
                     required
-                    value={""}
+                    value="0"
                   >
                     <option value={""}>Select sate</option>
                     {Currency.map((val, i) => <option key={i} value={i}>{val}</option>)}

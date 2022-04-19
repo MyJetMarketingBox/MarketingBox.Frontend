@@ -5,6 +5,7 @@ import { DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown } from
 import { deleteAffiliate as onDeleteAffiliate } from "../../../../store/affiliates/actions";
 import ConfirmDeleteAff from "../../../../components/UI/confirmDelete/ConfirmDelete";
 import './ColumnActions.scss';
+import { changeRootBlur } from "../../../../store/layout/actions";
 
 export default ({ id }: any) => {
   const dispatch = useDispatch();
@@ -17,10 +18,12 @@ export default ({ id }: any) => {
 
   const popupDeleteConfirmOpen = () => {
     setIsDeleteConfirm(true);
+    dispatch(changeRootBlur(true));
   }
 
   const popupDeleteConfirmClose = () => {
     setIsDeleteConfirm(false);
+    dispatch(changeRootBlur(false));
   }
 
   const handleDeleteAffiliate = (id: number) => () => {

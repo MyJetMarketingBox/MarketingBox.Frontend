@@ -10,6 +10,11 @@ export const changePreloader = (layout : any) => ({
   payload: layout,
 })
 
+export const changeRootBlur = (layout : any) => ({
+  type: LayoutTypes.CHANGE_BLUR,
+  payload: layout,
+})
+
 export const changeLayoutWidth = (width : any) => ({
   type: LayoutTypes.CHANGE_LAYOUT_WIDTH,
   payload: width,

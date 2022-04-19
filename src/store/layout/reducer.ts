@@ -25,6 +25,7 @@ export const INIT_STATE : LayoytState = {
   isMobile: false,
   showSidebar: true,
   leftMenu: false,
+  isBlur: false,
 }
 
 const Layout = (state = INIT_STATE, action :any) => {
@@ -39,7 +40,11 @@ const Layout = (state = INIT_STATE, action :any) => {
         ...state,
         isPreloader: action.payload,
       }
-
+    case LayoutTypes.CHANGE_BLUR:
+      return {
+        ...state,
+        isBlur: action.payload,
+      }
     case LayoutTypes.CHANGE_LAYOUT_WIDTH:
       return {
         ...state,
