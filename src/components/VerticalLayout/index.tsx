@@ -12,7 +12,6 @@ import {
 // Layout Related Components
 import Header from "./Header";
 import Sidebar from "./Sidebar";
-import Footer from "./Footer";
 
 //redux
 import { useSelector, useDispatch } from "react-redux";
@@ -49,11 +48,11 @@ const Layout = (props: any) => {
   const isMobile: any = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
   const toggleMenuCallback = () => {
-    if (leftSideBarType === "default") {
-      dispatch(changeSidebarType("condensed"));
-    } else if (leftSideBarType === "condensed") {
-      dispatch(changeSidebarType("default"));
-    }
+    // if (leftSideBarType === "default") {
+    //   dispatch(changeSidebarType("condensed"));
+    // } else if (leftSideBarType === "condensed") {
+    //   dispatch(changeSidebarType("default"));
+    // }
   };
 
   /*
@@ -82,9 +81,9 @@ const Layout = (props: any) => {
     window.scrollTo(0, 0);
   }, []);
 
-  useEffect(() => {
-    dispatch(changeLayout("vertical"));
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(changeLayout("vertical"));
+  // }, [dispatch]);
 
   useEffect(() => {
     const rootBlur: any = document.getElementById("root");
@@ -93,41 +92,41 @@ const Layout = (props: any) => {
       : rootBlur.removeAttribute('style');
   }, [isBlur]);
 
-  useEffect(() => {
-    if (leftSideBarTheme) {
-      dispatch(changeSidebarTheme(leftSideBarTheme));
-    }
-  }, [leftSideBarTheme, dispatch]);
+  // useEffect(() => {
+  //   if (leftSideBarTheme) {
+  //     dispatch(changeSidebarTheme(leftSideBarTheme));
+  //   }
+  // }, [leftSideBarTheme, dispatch]);
 
-  useEffect(() => {
-    if (layoutMode) {
-      dispatch(changelayoutMode(layoutMode, layoutType));
-    }
-  }, [layoutMode, dispatch]);
+  // useEffect(() => {
+  //   if (layoutMode) {
+  //     dispatch(changelayoutMode(layoutMode, layoutType));
+  //   }
+  // }, [layoutMode, dispatch]);
 
-  useEffect(() => {
-    if (leftSidebarTypes) {
-      dispatch(changeSidebarType(leftSidebarTypes));
-    }
-  }, [leftSidebarTypes, dispatch]);
+  // useEffect(() => {
+    // if (leftSidebarTypes) {
+    //   dispatch(changeSidebarType(leftSidebarTypes));
+    // }
+  // }, [leftSidebarTypes, dispatch]);
 
-  useEffect(() => {
-    if (layoutWidth) {
-      dispatch(changeLayoutWidth(layoutWidth));
-    }
-  }, [layoutWidth, dispatch]);
+  // useEffect(() => {
+  //   if (layoutWidth) {
+  //     dispatch(changeLayoutWidth(layoutWidth));
+  //   }
+  // }, [layoutWidth, dispatch]);
 
-  useEffect(() => {
-    if (leftSideBarType) {
-      dispatch(changeSidebarType(leftSideBarType));
-    }
-  }, [leftSideBarType, dispatch]);
+  // useEffect(() => {
+    // if (leftSideBarType) {
+    //   dispatch(changeSidebarType(leftSideBarType));
+    // }
+  // }, [leftSideBarType, dispatch]);
 
-  useEffect(() => {
-    if (topbarTheme) {
-      dispatch(changeTopbarTheme(topbarTheme));
-    }
-  }, [topbarTheme, dispatch]);
+  // useEffect(() => {
+  //   if (topbarTheme) {
+  //     dispatch(changeTopbarTheme(topbarTheme));
+  //   }
+  // }, [topbarTheme, dispatch]);
 
   /*
   call dark/light mode
@@ -138,10 +137,10 @@ const Layout = (props: any) => {
     }
   };
 
-  useEffect(() => {
-    if(!loadedCountries)
-      dispatch(getCountries("", { limit: 300 }))
-  }, [])
+  // useEffect(() => {
+  //   if(!loadedCountries)
+  //     dispatch(getCountries("", { limit: 300 }))
+  // }, [])
 
 
   if(localStorage.getItem("authUser")){

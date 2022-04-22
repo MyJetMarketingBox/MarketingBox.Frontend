@@ -1,8 +1,7 @@
 import PropTypes from "prop-types";
-import React, { useEffect, useRef, useCallback, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 //Import Icons
-import Icon from "@ailibs/feather-react-ts";
 import { ReactComponent as IconMenu } from '../../assets/images/icon-menu.svg';
 import { ReactComponent as IconBalance } from '../../assets/images/icon-account-balance.svg';
 import { ReactComponent as IconDashboard } from '../../assets/images/icon-dashboard.svg';
@@ -25,77 +24,18 @@ import giftBox from "../../assets/images/users/avatar-3.jpg";
 import { withTranslation } from "react-i18next";
 
 // MetisMenu
-import MetisMenu from "metismenujs";
 import { NavLink, withRouter } from "react-router-dom";
-import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 import c from './SidebarContent.module.scss';
+import ReactDOM from "react-dom";
 
 const SidebarContent = (props: any) => {
   const ref = useRef<any>();
 
+  const [isOpenSubmenu, setIsOpenSubmenu] = useState(false);
   const [isClick, setClick] = useState<boolean>(true);
-
-  const activateParentDropdown = useCallback(item => {
-    item.classList.add("active");
-    const parent = item.parentElement;
-    const parent2El = parent.childNodes[1];
-    if (parent2El && parent2El.id !== "side-menu") {
-      parent2El.classList.add("mm-show");
-    }
-
-    if (parent) {
-      parent.classList.add("mm-active");
-      const parent2 = parent.parentElement;
-
-      if (parent2) {
-        parent2.classList.add("mm-show"); // ul tag
-
-        const parent3 = parent2.parentElement; // li tag
-
-        if (parent3) {
-          parent3.classList.add("mm-active"); // li
-          parent3.childNodes[0].classList.add("mm-active"); //a
-          const parent4 = parent3.parentElement; // ul
-          if (parent4) {
-            parent4.classList.add("mm-show"); // ul
-            const parent5 = parent4.parentElement;
-            if (parent5) {
-              parent5.classList.add("mm-show"); // li
-              parent5.childNodes[0].classList.add("mm-active"); // a tag
-            }
-          }
-        }
-      }
-      scrollElement(item);
-      return false;
-    }
-    scrollElement(item);
-    return false;
-  }, []);
-
-
-  useEffect(() => {
-    const pathName = props.location.pathname;
-
-    const initMenu = () => {
-      new MetisMenu("#side-menu");
-      let matchingMenuItem = null;
-      const ul: any = document.getElementById("side-menu");
-      const items = ul.getElementsByTagName("a");
-      for (let i = 0; i < items.length; ++i) {
-        if (pathName === items[i].pathname) {
-          matchingMenuItem = items[i];
-          break;
-        }
-      }
-      if (matchingMenuItem) {
-        activateParentDropdown(matchingMenuItem);
-      }
-    };
-    initMenu();
-  }, [props.location.pathname, activateParentDropdown]);
+  const [isClickMob, setClickMob] = useState<boolean>(true);
 
   useEffect(() => {
     ref.current.recalculate();
@@ -114,9 +54,21 @@ const SidebarContent = (props: any) => {
     user: state.login.userInfo
   }));
 
+  const subMemuClickHandler = () => {
+    setIsOpenSubmenu(prev => !prev);
+  }
+
+  const resizeHandler = () => {
+
+  }
+
+  useEffect(() => {
+
+  }, []);
+
   /*** Sidebar menu icon and default menu set */
   function tToggle() {
-    var body = document.body;
+    const body = document.body;
     if (isClick) {
       body.classList.add("sidebar-enable");
       document.body.setAttribute("data-sidebar-size", "sm");
@@ -127,12 +79,17 @@ const SidebarContent = (props: any) => {
     setClick(prev => !prev);
   }
 
+  function tToggleMob() {
+    const body = document.body;
+    body.classList.toggle("mob-menu-opened");
+  }
+
   return (
     <React.Fragment>
       <SimpleBar className={c.sidebar} ref={ref}>
         <div className={c.toggleWrapper}>
           <button
-            onClick={() => { tToggle(); }}
+            onClick={tToggle}
             type="button"
             className={c.toggle}
           >
@@ -219,37 +176,105 @@ const SidebarContent = (props: any) => {
                 <div className={c.menuItemDescr}>{props.t("Conversions")}</div>
               </NavLink>
             </li>
-          </ul>
-        </nav>
-
-        <div id="sidebar-menu">
-          <ul className="metismenu list-unstyled" id="side-menu">
-            <li>
-              <Link to="/settings" className="">
-                <Icon name="settings" />
-                <span>{props.t("Settings")}</span>
-              </Link>
-              <ul className="sub-menu">
-                <li>
-                  <Link to="/postback">{props.t("Postback")}</Link>
+            <li className={`${c.menuItem} ${isOpenSubmenu && c.isOpen}`}>
+              <div className={c.menuItemLink} onClick={subMemuClickHandler}>
+                <div className={c.menuItemIcon}><IconSettings /></div>
+                <div className={c.menuItemDescr}>{props.t("Settings")}</div>
+              </div>
+              <ul className={c.subMenu}>
+                <li className={c.subMenuItem}>
+                  <NavLink to="/postback" activeClassName={c.active}>
+                    {props.t("Postback")}
+                  </NavLink>
                 </li>
-                <li>
-                  <Link to="/postback_logs">{props.t("Postback Logs")}</Link>
+                <li className={c.subMenuItem}>
+                  <NavLink to="/postback_logs" activeClassName={c.active}>
+                    {props.t("Postback Logs")}
+                  </NavLink>
                 </li>
-                {( user && user.role != "affiliatesManager" && user.role != "Affiliate") ?
-                (<li>
-                  <Link to="/re_registering">{props.t("Registering")}</Link>
-                </li>) : (<li></li>)
-                }
-                <li>
-                  <Link to="/integrations">{props.t("Integrations")}</Link>
+                <li className={c.subMenuItem}>
+                  <NavLink to="/re_registering" activeClassName={c.active}>
+                    {props.t("Registering")}
+                  </NavLink>
+                </li>
+                <li className={c.subMenuItem}>
+                  <NavLink to="/integrations" activeClassName={c.active}>
+                    {props.t("Integrations")}
+                  </NavLink>
                 </li>
               </ul>
             </li>
-
           </ul>
-        </div>
+        </nav>
       </SimpleBar>
+
+      {ReactDOM.createPortal(
+        <div>
+          <div className={c.mobMenuWrapper}>
+            <SimpleBar className={c.mobMenu}>
+              <ul className={c.mobMenuList}>
+                <li className={c.mobMenuItem}>
+                  <NavLink to="/dashboard" className={c.mobMenuItemLink} activeClassName={c.active}>
+                    <div className={c.icon}><IconDashboard /></div>
+                    <div className={c.descr}>{props.t("Dashboard")}</div>
+                  </NavLink>
+                </li>
+                <li className={c.mobMenuItem}>
+                  <NavLink to="/reports" className={c.mobMenuItemLink} activeClassName={c.active}>
+                    <div className={c.icon}><IconReports /></div>
+                    <div className={c.descr}>{props.t("Reports")}</div>
+                  </NavLink>
+                </li>
+                <li className={c.mobMenuItem}>
+                  <NavLink to="/brands" className={c.mobMenuItemLink} activeClassName={c.active}>
+                    <div className={c.icon}><IconBrands /></div>
+                    <div className={c.descr}>{props.t("Brands")}</div>
+                  </NavLink>
+                </li>
+                <li className={c.mobMenuItem}>
+                  <NavLink to="/registrations" className={c.mobMenuItemLink} activeClassName={c.active}>
+                    <div className={c.icon}><IconRegistrations /></div>
+                    <div className={c.descr}>{props.t("Registrations")}</div>
+                  </NavLink>
+                </li>
+                <li className={c.mobMenuItem}>
+                  <NavLink to="/campaigns" className={c.mobMenuItemLink} activeClassName={c.active}>
+                    <div className={c.icon}><IconCampaigns /></div>
+                    <div className={c.descr}>{props.t("Campaigns")}</div>
+                  </NavLink>
+                </li>
+                <li className={c.mobMenuItem}>
+                  <NavLink to="/affiliates" className={c.mobMenuItemLink} activeClassName={c.active}>
+                    <div className={c.icon}><IconLeads /></div>
+                    <div className={c.descr}>{props.t("Affiliates")}</div>
+                  </NavLink>
+                </li>
+                <li className={c.mobMenuItem}>
+                  <NavLink to="/marketing_tools" className={c.mobMenuItemLink} activeClassName={c.active}>
+                    <div className={c.icon}><IconMarketingTools /></div>
+                    <div className={c.descr}>{props.t("Marketing Tools")}</div>
+                  </NavLink>
+                </li>
+                <li className={c.mobMenuItem}>
+                  <NavLink to="/conversions" className={c.mobMenuItemLink} activeClassName={c.active}>
+                    <div className={c.icon}><IconConversions /></div>
+                    <div className={c.descr}>{props.t("Conversions")}</div>
+                  </NavLink>
+                </li>
+              </ul>
+            </SimpleBar>
+
+            <button
+              onClick={tToggleMob}
+              type="button"
+              className={c.mobMenuToggle}
+            >
+              <IconMenu />
+            </button>
+          </div>
+        </div>,
+        document.body
+      )}
     </React.Fragment>
   );
 };

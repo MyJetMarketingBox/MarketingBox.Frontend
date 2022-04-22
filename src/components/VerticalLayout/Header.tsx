@@ -2,11 +2,9 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 //import drawer
-import ReactDrawer from "react-drawer";
 import "react-drawer/lib/react-drawer.css";
 
 //import component
-import RightSidebar from "../CommonForBoth/RightSidebar";
 import NotificationDropdown from "../CommonForBoth/TopbarDropdown/NotificationDropdown";
 import ProfileMenu from "../CommonForBoth/TopbarDropdown/ProfileMenu";
 import LightDark from "../CommonForBoth/Menus/LightDark";
@@ -24,23 +22,6 @@ const Header = (props: any) => {
   const { layoutMode } = useSelector((state: any) => ({
     layoutMode: state.Layout.layoutMode,
   }));
-
-  const [search, setsearch] = useState<boolean>(false);
-  const [socialDrp, setsocialDrp] = useState<boolean>(false);
-  const [position, setPosition] = useState<string>();
-  const [open, setOpen] = useState<boolean>(false);
-
-  /**
-   * Rightsidebar drawer
-   */
-  const toggleTopDrawer = () => {
-    setPosition("right");
-    setOpen(!open);
-  };
-
-  const onDrawerClose = () => {
-    setOpen(false);
-  };
 
   return (
     <React.Fragment>
@@ -60,12 +41,6 @@ const Header = (props: any) => {
           </div>
         </div>
       </header>
-      <ReactDrawer open={open} position={position}>
-        <RightSidebar
-          onClose={onDrawerClose}
-          onChangeLayoutMode={props.onChangeLayoutMode}
-        />
-      </ReactDrawer>
     </React.Fragment>
   );
 };
