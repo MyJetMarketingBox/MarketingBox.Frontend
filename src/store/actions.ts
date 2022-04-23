@@ -4,6 +4,12 @@ export * from "./layout/actions";
 /** Affiliates */
 export * from "./affiliates/actions";
 
+/** AFF PROFILE */
+export * from "./affiliates/profile/actions";
+
+/** AFF PAYOUTS **/
+export * from "./affiliatePayouts/actions"
+
 /** Registrations */
 export * from "./registrations/actions";
 

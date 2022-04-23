@@ -173,7 +173,6 @@ const Postback: React.FC = () => {
                           <TabPane tabId="1">
                             <Row>
                               <Col sm="12">
-                                <CardText className="mb-0">
                                   <AvField
                                     name="registrationReference"
                                     label="URL"
@@ -189,15 +188,12 @@ const Postback: React.FC = () => {
                                     placeholder="Enter lead URL TG"
                                     value={postback.registrationTGReference}
                                   />
-
-                                </CardText>
                               </Col>
                             </Row>
                           </TabPane>
                           <TabPane tabId="2">
                             <Row>
                               <Col sm="12">
-                                <CardText className="mb-0">
                                   <AvField
                                     name="depositReference"
                                     label="URL"
@@ -213,7 +209,6 @@ const Postback: React.FC = () => {
                                     placeholder="Enter deposit URL TG"
                                     value={postback.depositTGReference}
                                   />
-                                </CardText>
                               </Col>
                             </Row>
                           </TabPane>

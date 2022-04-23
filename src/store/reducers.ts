@@ -6,6 +6,12 @@ import Layout from "./layout/reducer";
 //Affiliates
 import Affiliates from "./affiliates/reducer"
 
+//AffProfile
+import AffProfile from "./affiliates/profile/reducer"
+
+//AffPayouts
+import AffPayouts from "./affiliatePayouts/reducer"
+
 //Campaigns
 import Campaigns from "./campaigns/reducer"
 
@@ -46,6 +52,8 @@ const rootReducer = combineReducers({
   // public
   Layout,
   Affiliates,
+  AffProfile,
+  AffPayouts,
   Campaigns,
   Registrations,
   PostbackLogs,

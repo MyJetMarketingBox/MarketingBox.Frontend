@@ -41,7 +41,7 @@ const userRoutes: Array<RouteProps> = [
   { path: "/dashboard", component: Dashboard },
 
   { path: "/Affiliates", component: Affiliates },
-  { path: "/Affiliates/view/:id", component: Affiliate },
+  { path: "/Affiliates/:id", component: Affiliate },
 
   { path: "/Reports", component: Reports },
 

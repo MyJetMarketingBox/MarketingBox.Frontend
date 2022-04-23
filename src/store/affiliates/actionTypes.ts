@@ -4,11 +4,6 @@ export enum AffiliatesTypes {
   GET_AFFILIATES_SUCCESS = '@@affiliates/GET_AFFILIATES_SUCCESS',
   GET_AFFILIATES_FAIL = '@@affiliates/GET_AFFILIATES_FAIL',
 
-  /* AFFILIATE PROFILE */
-  GET_AFFILIATE_PROFILE = '@@affiliates/GET_AFFILIATE_PROFILE',
-  GET_AFFILIATE_PROFILE_SUCCESS = '@@affiliates/GET_AFFILIATE_PROFILE_SUCCESS',
-  GET_AFFILIATE_PROFILE_FAIL = '@@affiliates/GET_AFFILIATE_PROFILE_FAIL',
-
   /* ADD AFFILIATE */
   ADD_NEW_AFFILIATE = '@@affiliates/ADD_NEW_AFFILIATE',
   ADD_AFFILIATE_SUCCESS = '@@affiliates/ADD_AFFILIATE_SUCCESS',
@@ -39,7 +34,6 @@ interface iAffiliates {
 
 export interface AffiliatesState {
   affiliates  : iAffiliates;
-  affiliateProfile : Object;
   error : Object;
   loading: boolean;
   addAffLoading: boolean;

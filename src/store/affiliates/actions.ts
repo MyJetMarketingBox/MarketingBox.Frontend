@@ -16,20 +16,6 @@ export const getAffiliatesFail = (error : any) => ({
   payload: error,
 })
 
-export const getAffiliateProfile = (affiliateId : number) => ({
-  type: AffiliatesTypes.GET_AFFILIATE_PROFILE,
-  affiliateId
-})
-
-export const getAffiliateProfileSuccess = (affiliateProfile : any) => ({
-  type: AffiliatesTypes.GET_AFFILIATE_PROFILE_SUCCESS,
-  payload: affiliateProfile,
-})
-
-export const getAffiliateProfileFail = (error : any) => ({
-  type: AffiliatesTypes.GET_AFFILIATE_PROFILE_FAIL,
-  payload: error,
-})
 
 export const addNewAffiliate = (affiliate : any) => ({
   type: AffiliatesTypes.ADD_NEW_AFFILIATE,

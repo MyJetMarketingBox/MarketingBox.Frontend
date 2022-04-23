@@ -165,7 +165,7 @@
 body[data-layout-mode="dark"]:not([data-topbar="light"]) {
   // Form Control
   .form-control {
-    color: #050121;
+    color: #e0e0e0;
     background-color: lighten($gray-dark-200, 2%);
     border: 1px solid $gray-dark-300;
   }

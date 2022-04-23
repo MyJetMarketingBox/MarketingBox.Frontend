@@ -4,8 +4,6 @@ import { call, put, takeEvery } from "redux-saga/effects"
 import { AffiliatesTypes } from "./actionTypes"
 
 import {
-  getAffiliateProfileFail,
-  getAffiliateProfileSuccess,
   getAffiliatesFail,
   getAffiliatesSuccess,
   addAffiliateFail,
@@ -31,16 +29,6 @@ function* fetchAffiliates({ nextUrl, filter } : any) {
     yield put(getAffiliatesSuccess(response))
   }catch (error) {
     yield put(getAffiliatesFail(error))
-  }
-}
-
-function* fetchAffiliateProfile({ affiliateId } : any) {
-  try {
-    const response : Promise<any> = yield call(getAffiliateProfile, affiliateId)
-    console.log(response);
-    yield put(getAffiliateProfileSuccess(response))
-  } catch (error) {
-    yield put(getAffiliateProfileFail(error))
   }
 }
 
@@ -73,7 +61,6 @@ function* onDeleteAffiliate({ payload: id } : any) {
 
 function* contactsSaga() {
   yield takeEvery(AffiliatesTypes.GET_AFFILIATES, fetchAffiliates)
-  yield takeEvery(AffiliatesTypes.GET_AFFILIATE_PROFILE, fetchAffiliateProfile)
   yield takeEvery(AffiliatesTypes.ADD_NEW_AFFILIATE, onAddNewAffiliate)
   yield takeEvery(AffiliatesTypes.UPDATE_AFFILIATE, onUpdateAffiliate)
   yield takeEvery(AffiliatesTypes.DELETE_AFFILIATE, onDeleteAffiliate)

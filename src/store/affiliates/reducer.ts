@@ -1,15 +1,14 @@
-import {AffiliatesTypes, AffiliatesState} from "../affiliates/actionTypes";
+import {AffiliatesTypes, AffiliatesState} from "./actionTypes";
 
 export const INIT_STATE : AffiliatesState = {
   affiliates: {items: [], pagination: {}},
-  affiliateProfile: {},
   error: {},
   loading: false,
   loaded: false,
   success: false,
   addAffLoading: false,
   addAffSuccess: false,
-  addAffError: false,
+  addAffError: false
 }
 
 const affiliates = (state = INIT_STATE, action :any) => {
@@ -45,28 +44,6 @@ const affiliates = (state = INIT_STATE, action :any) => {
         ...state,
         affiliates: {items: [], pagination: {}},
         loaded: false,
-      }
-
-    case AffiliatesTypes.GET_AFFILIATE_PROFILE:
-      return {
-        ...state,
-        loading: true,
-      }
-
-    case AffiliatesTypes.GET_AFFILIATE_PROFILE_SUCCESS:
-      return {
-        ...state,
-        affiliateProfile: action.payload,
-        loading: false,
-        loaded: true,
-      }
-
-    case AffiliatesTypes.GET_AFFILIATE_PROFILE_FAIL:
-      return {
-        ...state,
-        error: action.payload,
-        loading: false,
-        loaded: true,
       }
 
     case AffiliatesTypes.ADD_NEW_AFFILIATE:

@@ -1,5 +1,5 @@
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { connectAdvanced, useDispatch, useSelector } from "react-redux";
 import {
   Col,
   Row,
@@ -11,10 +11,12 @@ import { AvField, AvForm } from "availity-reactstrap-validation";
 import { addNewAffiliate } from "../../../../store/actions";
 import { AffiliateRole, AffiliateState, Currency, PayoutType } from "../../../../common/utils/model";
 import Loader from "../../../../components/UI/loader";
+import Select from "react-select";
 
 export default ({ isOpen, toggle }: any) => {
 
   const dispatch = useDispatch();
+
   const { addAffLoading, addAffSuccess, addAffError } = useSelector((state: any) => {
     return {
       addAffLoading: state.Affiliates.addAffLoading,
@@ -43,8 +45,7 @@ export default ({ isOpen, toggle }: any) => {
         email: values["email"],
         state: +values["state"],
         currency: +values["currency"]
-      },
-      affiliatePayoutIds: [+values['payoutType']]
+      }
     };
     // save new aff
     dispatch(addNewAffiliate(newAffiliate));
@@ -109,22 +110,6 @@ export default ({ isOpen, toggle }: any) => {
                 <div className="mb-3">
                   <AvField
                     type="select"
-                    name="payoutType"
-                    className="form-select"
-                    label="Payout Type"
-                    required
-                    value={""}
-                  >
-                    <option value={""}>Select payout type</option>
-                    {
-                      PayoutType.map((val, i) => <option key={i} value={i}>{val}</option>)
-                    }
-                  </AvField>
-                </div>
-
-                <div className="mb-3">
-                  <AvField
-                    type="select"
                     name="state"
                     className="form-select"
                     label="State"
@@ -132,8 +117,9 @@ export default ({ isOpen, toggle }: any) => {
                     value="0"
                   >
                     <option value={""}>Select sate</option>
-                    {AffiliateState.map((val, i) => <option key={i}
-                                                            value={i}>{val}</option>)}
+                    {AffiliateState.map((val, i) =>
+                      <option key={i} value={i}>{val}</option>
+                    )}
                   </AvField>
                 </div>
 
@@ -160,6 +146,7 @@ export default ({ isOpen, toggle }: any) => {
                     type="submit"
                     className="btn btn-success save-user"
                   >
+                    {addAffLoading && <i className="bx bx-hourglass bx-spin me-2" />}
                     Save
                   </button>
                 </div>

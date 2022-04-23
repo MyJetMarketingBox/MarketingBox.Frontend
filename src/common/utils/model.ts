@@ -72,7 +72,7 @@ export const responseStatus = [
 ]
 
 export const PayoutType = [
-    "CPA",
-    "CPL",
-    "CPC",
+    {label: "CPA", value: 0},
+    {label: "CPL", value: 1},
+    {label: "CPC", value: 2},
 ]

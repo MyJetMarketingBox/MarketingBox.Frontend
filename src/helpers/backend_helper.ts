@@ -3,6 +3,8 @@ import { del, get, post, put } from "./api_helper"
 import * as url from "./url_helper"
 import { log } from "util";
 import integrations from "../store/integrations/reducer";
+import { AFF_PAYOUTS } from "./url_helper";
+import config from "../config";
 
 // Gets the logged in user data from local session
 const getLoggedInUser = () => {
@@ -124,6 +126,14 @@ export const updatePostback = (postback: object) => put(url.POSTBACK, postback);
 
 export const delPostback = () => del(`${url.POSTBACK}`);
 /** END POSTBACK **/
+
+/** AFF PAYOUTS **/
+export const getAffPayouts = (nextUrl: any, filter: object) => get(nextUrl || url.AFF_PAYOUTS, {params: filter});
+
+export const addAffPayouts = (affPayouts: any) => post(url.AFF_PAYOUTS, affPayouts);
+
+export const delAffPayouts = (id : number) => del(`${url.AFF_PAYOUTS}/${id}`);
+/** END AFF PAYOUTS **/
 
 // get reports
 export const getReports = (filter: any) => get(`${url.GET_REPORTS}`,  { params: filter } )

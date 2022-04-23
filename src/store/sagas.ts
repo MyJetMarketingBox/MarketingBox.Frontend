@@ -9,6 +9,12 @@ import authSaga from "./auth/login/saga";
 //Affiliates
 import affiliatesSaga from "./affiliates/saga";
 
+//AffProfile
+import affProfileSaga from "./affiliates/profile/saga";
+
+//AffPayouts
+import affPayoutsSaga from "./affiliatePayouts/saga";
+
 //Campaigns
 import campaignsSaga from "./campaigns/saga";
 
@@ -49,6 +55,8 @@ export default function* rootSaga() {
     fork(LayoutSaga),
     fork(authSaga),
     fork(affiliatesSaga),
+    fork(affProfileSaga),
+    fork(affPayoutsSaga),
     fork(campaignsSaga),
     fork(reportsSaga),
     fork(registrationsSaga),

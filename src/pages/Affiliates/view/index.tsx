@@ -27,7 +27,9 @@ import {
 import classnames from "classnames";
 import { useDispatch, useSelector } from "react-redux";
 
-import { getAffiliateProfile } from "../../../store/affiliates/actions";
+import { clearAffProfile, getAffiliateProfile } from "../../../store/affiliates/profile/actions";
+import Loader from "../../../components/UI/loader";
+import Payouts from "../components/payouts";
 
 const Affiliate = (props: any) => {
   const dispatch = useDispatch();
@@ -36,40 +38,32 @@ const Affiliate = (props: any) => {
     match: { params },
   } = props;
 
-  const { affiliate, loading, loaded } = useSelector((state: any) => ({
-    affiliate: state.Affiliates.affiliateProfile,
-    loading: state.Affiliates.loading,
-    loaded: state.Affiliates.loaded
+  const { affProfile, affLoaded, affLoading } = useSelector((state: any) => ({
+    affProfile: state.AffProfile.affProfile,
+    affLoading: state.AffProfile.loading,
+    affLoaded: state.AffProfile.loaded
   }));
 
-   //const [getAffiliate, setAffiliate] = useState(null);
-  const [customActiveTab, setcustomActiveTab] = useState("1");
-  //const [isLoading, setLoading] = useState(false);
+  const [customActiveTab, setCustomActiveTab] = useState<string>("1");
 
   useEffect(() => {
     if (params && params.id) {
       dispatch(getAffiliateProfile(params.id));
+      return () => {
+        dispatch(clearAffProfile());
+      }
     }
-    /*else {
-      dispatch(onGetAffiliateProfile(1)); //удалите после полной интеграции
-    }*/
   }, []);
-
-  /*useEffect(() => {
-    if(affiliateProfile && affiliateProfile.affiliateId) {
-      setAffiliate(affiliateProfile);
-      setLoading(true)
-    }
-  }, [affiliateProfile]);*/
 
   const toggleCustom = (tab: any) => {
     if (customActiveTab !== tab) {
-      setcustomActiveTab(tab);
+      setCustomActiveTab(tab);
     }
   };
 
   return (
     <React.Fragment>
+      { !affLoaded && affLoading && <Loader /> }
       <div className="page-content">
         <MetaTags>
           <title>Affiliate {params.id} | TraffMe </title>
@@ -80,11 +74,11 @@ const Affiliate = (props: any) => {
             <Col className="col-12">
 
               <Card>
-                {!loaded ? (
+                {/*{!loaded ? (
                   <div style={{ textAlign: "center" }}>
                     <h1>Loading...</h1>
                   </div>
-                ):( <>
+                ):(<>*/}
 
                   <CardHeader className="align-items-center d-flex">
                     <div className="flex-shrink-0">
@@ -102,7 +96,7 @@ const Affiliate = (props: any) => {
                           <span className="d-block d-sm-none">
                             <i className="fas fa-home"></i>
                           </span>
-                            <span className="d-none d-sm-block">Home</span>
+                            <span className="d-none d-sm-block">Settings</span>
                           </NavLink>
                         </NavItem>
                         <NavItem>
@@ -118,7 +112,7 @@ const Affiliate = (props: any) => {
                           <span className="d-block d-sm-none">
                             <i className="far fa-user"></i>
                           </span>
-                            <span className="d-none d-sm-block">Profile</span>
+                            <span className="d-none d-sm-block">Payouts</span>
                           </NavLink>
                         </NavItem>
                         <NavItem>
@@ -158,7 +152,6 @@ const Affiliate = (props: any) => {
                   </CardHeader>
                   <CardBody>
 
-
                     <TabContent
                       activeTab={customActiveTab}
                       className="p-3 text-muted"
@@ -166,18 +159,14 @@ const Affiliate = (props: any) => {
                       <TabPane tabId="1">
                         <Row>
                           <Col sm="12">
-                            <CardText className="mb-0">
-                              <FormAffiliate />
-                            </CardText>
+                            {affLoaded && <FormAffiliate affiliate={affProfile}/>}
                           </Col>
                         </Row>
                       </TabPane>
                       <TabPane tabId="2">
                         <Row>
                           <Col sm="12">
-                            <CardText className="mb-0">
-                              2
-                            </CardText>
+                            {affLoaded && <Payouts payouts={affProfile.payouts} id={affProfile.id} />}
                           </Col>
                         </Row>
                       </TabPane>
@@ -202,7 +191,7 @@ const Affiliate = (props: any) => {
                     </TabContent>
                   </CardBody>
 
-                </>)}
+                {/*</>)}*/}
               </Card>
 
             </Col>

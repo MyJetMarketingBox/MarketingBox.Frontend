@@ -17,123 +17,75 @@ import {
 } from 'reactstrap';
 
 import {
-    updateAffiliate as onUpdateAff
+    updateAffiliate
 } from "../../../../store/actions";
 
 import { AvForm, AvField } from "availity-reactstrap-validation"
-import { AffiliateRole, AffiliateState, Currency } from "../../../../common/utils/model";
+import { AffiliateRole, AffiliateState, Currency, PayoutType } from "../../../../common/utils/model";
 import { useDispatch, useSelector } from "react-redux";
-import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 
 const FormAffiliate = (props: any) => {
-
     const dispatch = useDispatch();
 
-    const { affiliate, errorAff, loading, success } = useSelector((state: any) => {
+    const [stateAff, setStateAff] = useState(0);
+    const bg = [ "bg-success", "bg-danger", "bg-warning" ];
+    const bx = [ "bx-check-double", "bx-block", "bx-error" ];
+
+    const {errorAff, loading} = useSelector((state: any) => {
         return {
-            affiliate: state.Affiliates.affiliateProfile,
             errorAff: state.Affiliates.error,
-            loading: state.Affiliates.loading,
-            success: state.Affiliates.success
+            loading: state.Affiliates.loading
         };
     });
 
-    const { id, generalInfo, company, bank } = affiliate;
-    debugger
-    /*const [newPass, setNewPass] = useState("");
-    const [confirmPass, setConfirmPass] = useState("");
-    const [sendForm, setSendForm] = useState(false);*/
-    const [state, setState] = useState(generalInfo.state);
+    const { id, generalInfo, company, bank, offerAffiliates, payouts } = props.affiliate;
+
 
     useEffect(() => {
-        if(errorAff.message) {
-            toast.error(errorAff.message + "\n" + "Something went wrong! try a little later...", {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined
-            });
-        }
-    }, [errorAff]);
-
-    useEffect(() => {
-        if(success){
-            toast.success("Affiliate update success", {
-                position: "top-right",
-                autoClose: 2500,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined
-            });
-        }
-    }, [success]);
-
+        setStateAff(generalInfo.state)
+    }, [generalInfo.state])
 
     const handleValidAffiliateSubmit = (values: any) => {
         const updateAff = {
             generalInfo: {
-                username: values["username"],
-                email: values["email"],
-                password: values["new_password"] || generalInfo.password,
-                phone: values["phone"],
-                skype: values["skype"],
-                zipCode: values["zipCode"],
+                username: values["username"] || null,
+                email: values["email"] || null,
+                password: values["new_password"] || generalInfo.password || null,
+                phone: values["phone"] || null,
+                skype: values["skype"] || null,
+                zipCode: values["zipCode"] || null,
                 //role: +values["role"],
-                state: +state,
-                currency: +values["currency"],
-                createdAt: generalInfo.createdAt,
-                apiKey: generalInfo.apiKey
+                state: +stateAff,
+                currency: +values["currency"] || null,
             },
             company: {
-                name: values["name"],
-                address: values["address"],
-                regNumber: values["regNumber"],
-                vatId: values["vatId"]
+                name: values["name"] || null,
+                address: values["address"] || null,
+                regNumber: values["regNumber"] || null,
+                vatId: values["vatId"] || null
             },
             bank: {
-                beneficiaryName: values["beneficiaryName"],
-                beneficiaryAddress: values["beneficiaryAddress"],
-                bankName: values["bankName"],
-                bankAddress: values["bankAddress"],
-                accountNumber: values["accountNumber"],
-                swift: values["swift"],
-                iban: values["iban"]
-            }
+                beneficiaryName: values["beneficiaryName"] || null,
+                beneficiaryAddress: values["beneficiaryAddress"] || null,
+                bankName: values["bankName"] || null,
+                bankAddress: values["bankAddress"] || null,
+                accountNumber: values["accountNumber"] || null,
+                swift: values["swift"] || null,
+                iban: values["iban"] || null
+            },
+            affiliatePayoutIds: values['affiliatePayoutIds'] || []
         };
-        dispatch(onUpdateAff(updateAff, id))
+        dispatch(updateAffiliate(updateAff, id))
     }
 
-    const bg = [ "bg-success", "bg-danger", "bg-warning" ];
-    const bx = [ "bx-check-double", "bx-block", "bx-error" ];
-
-    /*useEffect(() => {
-        console.log(confirmPass, newPass);
-        // @ts-ignore
-        if(!confirmPass && !newPass){
-            setSendForm(true)
-        }else if(newPass === confirmPass && confirmPass.length > 6){
-            alert("password confirmed")
-            setSendForm(true)
-        }else{
-            setSendForm(false)
-            console.log(212);
-        }
-    }, [newPass, confirmPass])*/
-
     const changeStateAff = (e: any) => {
-        setState(e.target.value)
+        setStateAff(e.target.value)
     }
 
     return (
         <React.Fragment>
-           <ToastContainer />
             <AvForm className="needs-validation" onValidSubmit={(
               e: any,
               values: any
@@ -147,14 +99,14 @@ const FormAffiliate = (props: any) => {
                         <UncontrolledDropdown>
                             <DropdownToggle
                               type="button"
-                              className={`btn-sm ${bg[state]} waves-effect btn-label waves-light`}
+                              className={`btn-sm ${bg[stateAff]} waves-effect btn-label waves-light`}
                             >
-                                <i className={`bx ${bx[state]} label-icon`}></i>{" "}
-                                {AffiliateState[state]} <i className="mdi mdi-chevron-down"></i>
+                                <i className={`bx ${bx[stateAff]} label-icon`}></i>{" "}
+                                {AffiliateState[stateAff]} <i className="mdi mdi-chevron-down"></i>
                             </DropdownToggle>
                             <DropdownMenu>
                                 {AffiliateState.map((item, i) => {
-                                    if(i !== state)
+                                    if(i !== stateAff)
                                         return <DropdownItem onClick={changeStateAff} key={i} value={i}>{item}</DropdownItem>
                                 })}
                             </DropdownMenu>
@@ -224,22 +176,6 @@ const FormAffiliate = (props: any) => {
                             />
                         </FormGroup>
                     </Col>
-                    {/*<Col md="3">
-                        <FormGroup className="mb-3">
-                            <AvField
-                              type="select"
-                              name="role"
-                              className="form-select"
-                              label="Role *"
-                              id="role"
-                              required
-                              value={generalInfo.role.toString()}
-                            >
-                                <option value="">Select role</option>
-                                {AffiliateRole.map((val, i) => <option key={i} value={i} >{val}</option>)}
-                            </AvField>
-                        </FormGroup>
-                    </Col>*/}
                     <Col md="3">
                         <FormGroup className="mb-3">
                             <Label htmlFor="validationZip">Zip Code</Label>
@@ -453,7 +389,7 @@ const FormAffiliate = (props: any) => {
                             <h5 className="text-orange">API Key</h5>
                             <Col md="12">
                                 <FormGroup className="mb-3">
-                                    {/*<Label htmlFor="validationAPIKey">API Key</Label>*/}
+                                    <Label htmlFor="validationAPIKey">API Key</Label>
                                     <AvField
                                     name="apiKey"
                                     placeholder="API Key"
@@ -490,7 +426,7 @@ const FormAffiliate = (props: any) => {
                               }}
                               id="validationNewPassword"
                               value=""
-                              autocomplete="off"
+                              autoComplete="off"
                               //onChange={(e: any) => setNewPass(e.target.value)}
                             />
                         </FormGroup>
@@ -512,7 +448,7 @@ const FormAffiliate = (props: any) => {
                               }}
                               id="validationConfirmPassword"
                               value=""
-                              autocomplete="off"
+                              autoComplete="off"
                               //onChange={(e: any) => setConfirmPass(e.target.value)}
                             />
                         </FormGroup>

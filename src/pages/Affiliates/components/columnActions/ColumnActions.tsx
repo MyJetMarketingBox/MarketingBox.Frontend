@@ -39,7 +39,7 @@ export default ({ id }: any) => {
 
         <DropdownMenu className="float-start">
           <DropdownItem tag={Link} to={{
-            pathname: `/Affiliates/view/${id}`,
+            pathname: `/Affiliates/${id}`,
             state: { id }
           }}>edit</DropdownItem>
           <DropdownItem onClick={popupDeleteConfirmOpen}>delete</DropdownItem>
