@@ -135,10 +135,16 @@ export const addAffPayouts = (affPayouts: any) => post(url.AFF_PAYOUTS, affPayou
 export const delAffPayouts = (id : number) => del(`${url.AFF_PAYOUTS}/${id}`);
 /** END AFF PAYOUTS **/
 
+
+/** GEO **/
+export const getGeo = (nextUrl: any, filter: object) => get(nextUrl || url.GEO, {params: filter})
+
+/** END GEO **/
+
 // get reports
 export const getReports = (filter: any) => get(`${url.GET_REPORTS}`,  { params: filter } )
 
-/** START BRANDS **/
+/** BRANDS **/
 export const getBrands = (nextUrl: any, filter: object) => get(nextUrl || url.BRANDS, { params: filter });
 
 export const updateBrand = (brand : object, id: number) => put(`${url.BRANDS}/${id}`, brand);

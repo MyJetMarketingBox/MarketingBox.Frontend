@@ -12,6 +12,9 @@ import AffProfile from "./affiliates/profile/reducer"
 //AffPayouts
 import AffPayouts from "./affiliatePayouts/reducer"
 
+//Geo
+import Geo from "./geo/reducer"
+
 //Campaigns
 import Campaigns from "./campaigns/reducer"
 
@@ -54,6 +57,7 @@ const rootReducer = combineReducers({
   Affiliates,
   AffProfile,
   AffPayouts,
+  Geo,
   Campaigns,
   Registrations,
   PostbackLogs,

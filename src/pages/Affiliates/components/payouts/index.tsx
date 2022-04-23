@@ -3,11 +3,14 @@ import { Col, Row } from "reactstrap";
 import SimpleSearch from "../../../../components/UI/simpleSearch"
 import TablePayouts from "./table"
 import AddModal from "./addModal"
+import { changeRootBlur } from "../../../../store/layout/actions";
+import { useDispatch } from "react-redux";
 
 
 const Payouts = (props: any) => {
 
   console.log(props);
+  const dispatch = useDispatch();
 
   const [modal, setModal] = useState<boolean>(false);
 
@@ -19,6 +22,7 @@ const Payouts = (props: any) => {
 
   const toggleModal = () => {
     setModal(prev => !prev);
+    //dispatch(changeRootBlur(!modal));
   };
 
   return (

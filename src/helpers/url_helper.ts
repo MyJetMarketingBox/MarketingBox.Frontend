@@ -21,6 +21,9 @@ export const AFFILIATES = "api/affiliates"
 //AFFILIATES PAYOUTS
 export const AFF_PAYOUTS = "api/AffiliatePayouts"
 
+//GEO
+export const GEO = "api/Geo"
+
 //REGISTRATIONS
 export const REGISTRATIONS = "api/registrations"
 

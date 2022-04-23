@@ -10,6 +10,9 @@ export * from "./affiliates/profile/actions";
 /** AFF PAYOUTS **/
 export * from "./affiliatePayouts/actions"
 
+/** GEO **/
+export * from "./geo/actions"
+
 /** Registrations */
 export * from "./registrations/actions";
 

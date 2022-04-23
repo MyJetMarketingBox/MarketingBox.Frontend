@@ -1,12 +1,32 @@
-import React from "react";
-import { useDispatch } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import { Col, Modal, ModalBody, ModalHeader, Row } from "reactstrap";
 import { AvField, AvForm } from "availity-reactstrap-validation";
 import { PayoutType, Currency } from "../../../../../common/utils/model";
+import { clearGeo, getGeo } from "../../../../../store/geo/actions";
 
 export default ({ isOpen, toggle }: any) => {
   const dispatch = useDispatch();
+
+  const { geo, loadingGeoList, loadedGeoList} = useSelector((state:any) => {
+    return {
+      geo: state.Geo.geo.items,
+      loadingGeoList: state.Geo.loading,
+      loadedGeoList: state.Geo.loaded
+    }
+  })
+
+  let filter = {
+    order: 1
+  };
+
+  useEffect(() => {
+    dispatch(getGeo('', filter))
+    return () => {
+      dispatch(clearGeo())
+    }
+  }, [])
 
   const handleValidAffPayoutSubmit = (values: any) => {
     console.log(values);
@@ -15,7 +35,7 @@ export default ({ isOpen, toggle }: any) => {
   return (
     <Modal isOpen={isOpen} toggle={toggle}>
       <ModalHeader toggle={toggle} tag="h4">
-        Add Affiliate
+        Add Payout
       </ModalHeader>
       <ModalBody>
 
