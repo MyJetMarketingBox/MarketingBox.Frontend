@@ -1,0 +1,20 @@
+.wrapper {
+  padding: 34px 40px;
+  border-right: 4px solid #e5e5e5;
+}
+body[data-layout-mode="dark"] .wrapper {
+  border-right: 4px solid #3b403d;
+}
+
+
+
+@media screen and (max-width: 767px) {
+  .wrapper {
+    border-right: none;
+    border-bottom: 4px solid #e5e5e5;
+  }
+  body[data-layout-mode="dark"] .wrapper {
+    border-right: none;
+    border-bottom: 4px solid #3b403d;
+  }
+}

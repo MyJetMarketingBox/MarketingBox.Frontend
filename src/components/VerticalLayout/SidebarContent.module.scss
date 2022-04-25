@@ -355,3 +355,14 @@ body[data-layout-mode="dark"] .subMenuItem a {
     display: none;
   }
 }
+
+
+
+@media screen and (max-width: 992px) {
+  .mobMenuToggle {
+    margin-left: 30px;
+  }
+  .mobMenuItem {
+    padding: 0 15px;
+  }
+}

@@ -58,12 +58,8 @@ export default ({ affiliates = [] }: any) => {
       dataField: "username",
       text: "Username",
       sort: true,
-      headerStyle: () => {
-        return { width: "200px" };
-      },
-      style: () => {
-        return { width: "200px"}
-      }
+      headerStyle: { width: "250px", minWidth: "250px" },
+      style: { width: "250px", minWidth: "250px", "word-break": "break-word" },
     },
     {
       dataField: "role",
@@ -78,7 +74,9 @@ export default ({ affiliates = [] }: any) => {
     {
       dataField: "email",
       text: "Email",
-      sort: true
+      sort: true,
+      headerStyle: { width: "250px", minWidth: "250px" },
+      style: { width: "250px", minWidth: "250px", "word-break": "break-word" },
     },
     {
       dataField: "reportto",
@@ -122,7 +120,7 @@ export default ({ affiliates = [] }: any) => {
         bordered={false}
         striped={false}
         defaultSorted={defaultSorted}
-        classes={"table align-middle table-nowrap"}
+        classes={"table align-middle"}
         headerWrapperClasses={"thead-light"}
       />
     </div>

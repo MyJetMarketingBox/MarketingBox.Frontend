@@ -11,12 +11,12 @@ const Breadcrumb = ({ breadcrumbItem, title }: BreadcrumbProps) => {
   return (
     <Row>
       <Col xs="12">
-        <div className="page-title-box d-sm-flex align-items-center justify-content-between">
-          <h4 className="mb-0 font-size-18">{breadcrumbItem}</h4>
+        <div className="page-title-box">
+          <h3 className="mb-2">{title}</h3>
           <div className="page-title-right">
             <ol className="breadcrumb m-0">
               <BreadcrumbItem>
-                <Link to="/dashboard">{title}</Link>
+                <Link to="/dashboard">Home</Link>
               </BreadcrumbItem>
               <BreadcrumbItem active>
                 <Link to="#">{breadcrumbItem}</Link>

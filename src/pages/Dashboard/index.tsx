@@ -3,56 +3,59 @@ import MetaTags from "react-meta-tags";
 
 //import Breadcrumbs
 import Breadcrumbs from "../../components/Common/Breadcrumb";
-import { Container, Row } from "reactstrap";
-import Widgets from "./Widgets";
+import { Col, Container, Row } from "reactstrap";
+// import Widgets from "./Widgets";
+import Indicators from "./Indicators";
+import TopOffers from "./TopOffers";
+import Map from "./Map";
 
 
-const options: Object = {
-  chart: {
-    height: 50,
-    type: "line",
-    toolbar: { show: false },
-  },
-  colors: ["#f1734f"],
-  stroke: {
-    curve: "smooth",
-    width: 2,
-  },
-  xaxis: {
-    labels: {
-      show: false,
-    },
-    axisTicks: {
-      show: false,
-    },
-    axisBorder: {
-      show: false,
-    },
-  },
-  yaxis: {
-    labels: {
-      show: false,
-    },
-  },
-  tooltip: {
-    fixed: {
-      enabled: false,
-    },
-    x: {
-      show: false,
-    },
-    y: {
-      title: {
-        formatter: function (seriesName: any) {
-          return "";
-        },
-      },
-    },
-    marker: {
-      show: false,
-    },
-  },
-};
+// const options: Object = {
+//   chart: {
+//     height: 50,
+//     type: "line",
+//     toolbar: { show: false },
+//   },
+//   colors: ["#f1734f"],
+//   stroke: {
+//     curve: "smooth",
+//     width: 2,
+//   },
+//   xaxis: {
+//     labels: {
+//       show: false,
+//     },
+//     axisTicks: {
+//       show: false,
+//     },
+//     axisBorder: {
+//       show: false,
+//     },
+//   },
+//   yaxis: {
+//     labels: {
+//       show: false,
+//     },
+//   },
+//   tooltip: {
+//     fixed: {
+//       enabled: false,
+//     },
+//     x: {
+//       show: false,
+//     },
+//     y: {
+//       title: {
+//         formatter: function (seriesName: any) {
+//           return "";
+//         },
+//       },
+//     },
+//     marker: {
+//       show: false,
+//     },
+//   },
+// };
 
 const Dashboard = () => {
   return (
@@ -61,21 +64,22 @@ const Dashboard = () => {
         <MetaTags>
           <title>Dashboard</title>
         </MetaTags>
-        <Container fluid>
-          {/* Render Breadcrumbs */}
-          <Breadcrumbs title="Dashboard" breadcrumbItem="Dashboard" />
-
-          <div className="text-center">
-            {/*<h1> FUCK I CAN </h1>*/}
-          </div>
+        <div>
+          <Breadcrumbs title="Your statistics (last week)" breadcrumbItem="Dashboard" />
 
           <Row>
-            <div className="text-left">
-              <h5>Your statistics</h5>
-            </div>
-            <Widgets  options={options}/>
+            {/*<Widgets options={options}/>*/}
+            <Indicators />
           </Row>
-        </Container>
+          <Row>
+            <Col md={6}>
+              <TopOffers />
+            </Col>
+            <Col md={6}>
+              <Map />
+            </Col>
+          </Row>
+        </div>
       </div>
     </React.Fragment>
   );

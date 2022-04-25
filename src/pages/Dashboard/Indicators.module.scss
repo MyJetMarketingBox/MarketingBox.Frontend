@@ -1,0 +1,59 @@
+.items {
+  border-bottom: 4px solid #e5e5e5;
+}
+body[data-layout-mode="dark"] .items {
+  border-bottom: 4px solid #3b403d;
+}
+.item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+.value {
+  position: relative;
+  padding: 20px 14px 0;
+  font-size: 48px;
+  font-weight: 700;
+  line-height: 52px;
+  color: #050121;
+  text-align: center;
+}
+body[data-layout-mode="dark"] .value {
+  color: #ffffff;
+                        }
+.name {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 20px;
+  color: #828282;
+  text-align: center;
+}
+.diff {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  height: 20px;
+  padding-left: 4px;
+  padding-right: 8px;
+  background-color: #E74A18;
+  border-radius: 20px;
+}
+.diffIcon {
+  width: 16px;
+
+  svg {
+    display: block;
+    width: 16px;
+    height: 16px;
+  }
+}
+.diffVal {
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 14px;
+  color: #ffffff;
+}
