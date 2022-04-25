@@ -1,19 +1,25 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { Col, Modal, ModalBody, ModalHeader, Row } from "reactstrap";
 import { AvField, AvForm } from "availity-reactstrap-validation";
 import { PayoutType, Currency } from "../../../../../common/utils/model";
 import { clearGeo, getGeo } from "../../../../../store/geo/actions";
+import Select from "react-select";
+import { addAffPayouts } from "../../../../../store/affiliatePayouts/actions";
 
 export default ({ isOpen, toggle }: any) => {
   const dispatch = useDispatch();
 
-  const { geo, loadingGeoList, loadedGeoList} = useSelector((state:any) => {
+  const [selectGeo, setSelectGeo] = useState([]);
+
+  const { geo, loadingGeoList, loadedGeoList, loadingItem, loadedItem} = useSelector((state:any) => {
     return {
       geo: state.Geo.geo.items,
       loadingGeoList: state.Geo.loading,
-      loadedGeoList: state.Geo.loaded
+      loadedGeoList: state.Geo.loaded,
+      loadingItem: state.AffPayouts.loadingItem,
+      loadedItem: state.AffPayouts.loadedItem
     }
   })
 
@@ -28,8 +34,26 @@ export default ({ isOpen, toggle }: any) => {
     }
   }, [])
 
-  const handleValidAffPayoutSubmit = (values: any) => {
-    console.log(values);
+
+  const geoList = geo.map((item:any) => {
+    return {
+      value: item.id,
+      label: item.name
+    }
+  });
+
+  const handleValidAffPayoutSubmit = (data: any) => {
+    const {value, lable} : any = selectGeo;
+    const addPayouts = {
+      amount: +data.amount,
+      payoutType:  +data.payoutType,
+      currency:  +data.currency,
+      geoId: +value
+    }
+
+    console.log(addPayouts);
+
+    dispatch(addAffPayouts(addPayouts))
   }
 
   return (
@@ -65,9 +89,9 @@ export default ({ isOpen, toggle }: any) => {
               <div className="mb-3">
                 <AvField
                   type="select"
-                  name="state"
+                  name="payoutType"
                   className="form-select"
-                  label="State"
+                  label="Payout Type"
                   required
                   value=""
                 >
@@ -92,6 +116,15 @@ export default ({ isOpen, toggle }: any) => {
                 </AvField>
               </div>
 
+              <div className="mb-3">
+                <Select
+                  isSearchable
+                  isLoading={loadingGeoList}
+                  options={geoList}
+                  onChange={setSelectGeo}
+                />
+              </div>
+
             </Col>
           </Row>
           <Row>
@@ -101,7 +134,7 @@ export default ({ isOpen, toggle }: any) => {
                   type="submit"
                   className="btn btn-success save-user"
                 >
-                  <i className="bx bx-hourglass bx-spin me-2" />
+                  {loadingItem && <i className="bx bx-hourglass bx-spin me-2"/>}
                   Save
                 </button>
               </div>

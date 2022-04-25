@@ -6,7 +6,7 @@ export const INIT_STATE : AffPayoutsState = {
   loadingList: false,
   loadedList: false,
   loadingItem: false,
-  loadedItem: false,
+  loadedItem: false
 }
 
 const affPayouts = (state = INIT_STATE, action : any) => {
