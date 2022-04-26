@@ -6,6 +6,53 @@ import { WidgetsData } from "../../common/data/";
 //import countup
 import CountUp from "react-countup";
 
+// const options: Object = {
+//   chart: {
+//     height: 50,
+//     type: "line",
+//     toolbar: { show: false },
+//   },
+//   colors: ["#f1734f"],
+//   stroke: {
+//     curve: "smooth",
+//     width: 2,
+//   },
+//   xaxis: {
+//     labels: {
+//       show: false,
+//     },
+//     axisTicks: {
+//       show: false,
+//     },
+//     axisBorder: {
+//       show: false,
+//     },
+//   },
+//   yaxis: {
+//     labels: {
+//       show: false,
+//     },
+//   },
+//   tooltip: {
+//     fixed: {
+//       enabled: false,
+//     },
+//     x: {
+//       show: false,
+//     },
+//     y: {
+//       title: {
+//         formatter: function (seriesName: any) {
+//           return "";
+//         },
+//       },
+//     },
+//     marker: {
+//       show: false,
+//     },
+//   },
+// };
+
 //import Charts
 import ReactApexChart from "react-apexcharts";
 

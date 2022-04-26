@@ -1,20 +1,16 @@
 .wrapper {
-  padding: 34px 40px;
-  border-right: 4px solid #e5e5e5;
+  width: 100%;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 34px 40px 30px;
 }
-body[data-layout-mode="dark"] .wrapper {
-  border-right: 4px solid #3b403d;
-}
 
 
 
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 992px) {
   .wrapper {
-    border-right: none;
-    border-bottom: 4px solid #e5e5e5;
-  }
-  body[data-layout-mode="dark"] .wrapper {
-    border-right: none;
-    border-bottom: 4px solid #3b403d;
+    max-width: 640px;
+    padding: 34px 20px 30px;
   }
 }

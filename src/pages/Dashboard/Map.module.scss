@@ -1,3 +1,18 @@
 .wrapper {
-  padding: 34px 40px;
+  padding: 30px 40px;
+}
+.mapBody {
+  svg {
+    display: block;
+    fill: #bdbdbd;
+    outline: none;
+  }
+}
+
+
+
+@media screen and (max-width: 992px) {
+  .wrapper {
+    padding: 34px 20px 30px;
+  }
 }

@@ -133,7 +133,9 @@ body[data-layout-mode="dark"] {
 }
 
 .page-content {
-    padding: calc(#{$header-height} + #{$grid-gutter-width}) calc(#{$grid-gutter-width} / 2) $footer-height calc(#{$grid-gutter-width} / 2);
+    box-sizing: border-box;
+    min-height: 100vh;
+    padding: calc(#{$header-height} + #{$grid-gutter-width}) 0 0;
 }
 
 .header-item {
@@ -336,6 +338,9 @@ body[data-layout="horizontal"] {
 }
 
 @media (max-width: 992px) {
+    .page-content {
+        padding: calc(#{$header-height} + #{$grid-gutter-width}) 0 56px;
+    }
     body[data-layout="horizontal"] {
         .page-content {
             margin-top: 15px;

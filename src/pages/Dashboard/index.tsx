@@ -3,82 +3,37 @@ import MetaTags from "react-meta-tags";
 
 //import Breadcrumbs
 import Breadcrumbs from "../../components/Common/Breadcrumb";
-import { Col, Container, Row } from "reactstrap";
-// import Widgets from "./Widgets";
+import { Col, Row } from "reactstrap";
 import Indicators from "./Indicators";
 import TopOffers from "./TopOffers";
 import Map from "./Map";
 
-
-// const options: Object = {
-//   chart: {
-//     height: 50,
-//     type: "line",
-//     toolbar: { show: false },
-//   },
-//   colors: ["#f1734f"],
-//   stroke: {
-//     curve: "smooth",
-//     width: 2,
-//   },
-//   xaxis: {
-//     labels: {
-//       show: false,
-//     },
-//     axisTicks: {
-//       show: false,
-//     },
-//     axisBorder: {
-//       show: false,
-//     },
-//   },
-//   yaxis: {
-//     labels: {
-//       show: false,
-//     },
-//   },
-//   tooltip: {
-//     fixed: {
-//       enabled: false,
-//     },
-//     x: {
-//       show: false,
-//     },
-//     y: {
-//       title: {
-//         formatter: function (seriesName: any) {
-//           return "";
-//         },
-//       },
-//     },
-//     marker: {
-//       show: false,
-//     },
-//   },
-// };
+import c from "./index.module.scss";
 
 const Dashboard = () => {
   return (
     <React.Fragment>
-      <div className="page-content">
-        <MetaTags>
-          <title>Dashboard</title>
-        </MetaTags>
-        <div>
-          <Breadcrumbs title="Your statistics (last week)" breadcrumbItem="Dashboard" />
-
-          <Row>
-            {/*<Widgets options={options}/>*/}
-            <Indicators />
-          </Row>
-          <Row>
-            <Col md={6}>
-              <TopOffers />
-            </Col>
-            <Col md={6}>
-              <Map />
-            </Col>
-          </Row>
+      <MetaTags>
+        <title>Dashboard</title>
+      </MetaTags>
+      <div className="page-content d-flex">
+        <div className={c.dashboard}>
+          <div className={c.top}>
+            <Breadcrumbs title="Your statistics (last week)" breadcrumbItem="Dashboard" />
+            <Row>
+              <Indicators />
+            </Row>
+          </div>
+          <div className={c.bottom}>
+            <div className={c.bottomContent}>
+              <div className={c.colLeft}>
+                <TopOffers />
+              </div>
+              <div className={c.colRight}>
+                <Map />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </React.Fragment>
