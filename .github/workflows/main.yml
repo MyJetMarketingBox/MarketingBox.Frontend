@@ -1,0 +1,73 @@
+name: NodeJS with Webpack
+
+on:
+  push:
+    branches: [ test ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    #strategy:
+    #  matrix:
+    #    node-version: [12.x, 14.x, 16.x]
+    
+    steps:
+    - uses: actions/checkout@v2
+    - name: Extract branch name
+      uses: vazco/github-actions-branch-name@v1
+      id: branch
+
+    - id: string
+      uses: ASzc/change-string-case-action@v1
+      with:
+        string: ${{ github.event.repository.name }}
+        
+    - name: Get current time
+      uses: MyJetTools/get-current-time@v2
+      id: current-time
+      with:
+        format: YYYY-MM-DD HH:mm:ss
+        utcOffset: "+00:00"
+        
+    - name: Use Node.js 14.x
+      uses: actions/setup-node@v1
+      with:
+    #    node-version: ${{ matrix.node-version }}
+        node-version: 14.x
+
+    - name: Install
+      run: |
+        npm install
+    - name: Build
+      run: |
+        CI=false
+        npm run build
+    - name: Publish image github
+      id: publish
+      uses: docker/build-push-action@v1
+      with:
+        username: ${{ secrets.MBOX_REGISTRY_USER }}
+        password: ${{ secrets.MBOX_REGISTRY_PASS }}
+        path: ./
+        registry: ${{ secrets.MBOX_REGISTRY_URL }} 
+        repository: marketingbox/${{ steps.string.outputs.lowercase }}-${{ steps.branch.outputs.branch_name }}
+        tags: latest
+        build_args: app_version=${{ steps.string.outputs.lowercase }}-${{ steps.branch.outputs.branch_name }}:latest,app_compilation_date=${{ steps.current-time.outputs.formattedTime }}
+        
+#     - name: deploy
+#       uses: Myjetwallet/kube-apply-all@master
+#       env:
+#         KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA_PROD }}
+
+    - name: deploy
+      env:
+        KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA_UAT }}
+      run: |
+        echo "$KUBE_CONFIG_DATA" | base64 --decode > /tmp/config
+        export KUBECONFIG=/tmp/config
+        ls -la /tmp
+        kubectl config current-context
+        kubectl get nodes
+        ls -la
+        kubectl apply -f deployment.yaml -f service.yaml
