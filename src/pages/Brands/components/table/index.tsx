@@ -1,4 +1,4 @@
-import ColumnActions from "../../../Affiliates/components/columnActions/ColumnActions";
+import ColumnActions from "../../../../components/UI/columnActions/ColumnActions";
 import BootstrapTable from "react-bootstrap-table-next";
 import { brandPrivacy, brandStatus, Currency, plan } from "../../../../common/utils/model";
 import { useDispatch } from "react-redux";

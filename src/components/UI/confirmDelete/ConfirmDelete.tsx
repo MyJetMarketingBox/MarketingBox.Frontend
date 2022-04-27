@@ -1,17 +1,31 @@
 import React, { useEffect, useState } from "react";
 import ReactDOM from 'react-dom';
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import c from './ConfirmDelete.module.scss';
 import { AvField, AvForm } from "availity-reactstrap-validation";
+import { changeRootBlur } from "../../../store/layout/actions";
 
-export default ({ close, handleDelete }: any) => {
+export default ({ isOpen, toggle, handleDelete, id }: any) => {
+  const dispatch = useDispatch();
   const [value, setValue] = useState("");
   const [canDelete, setCanDelete] = useState(false);
   const { theme } = useSelector((state: any) => {
     return {
       theme: state.Layout.layoutMode
     }
-  })
+  });
+
+  useEffect(() => {
+    if (isOpen) {
+      dispatch(changeRootBlur(true));
+    } else {
+      dispatch(changeRootBlur(false));
+    }
+  }, [isOpen]);
+
+  const close = () => {
+    toggle(false);
+  }
 
   const handleChange = (e: { target: { value: string } }) => {
     setValue(e.target.value);
@@ -23,7 +37,7 @@ export default ({ close, handleDelete }: any) => {
 
   const handleBtnDelete = () => {
     if (canDelete) {
-      handleDelete();
+      handleDelete(id);
       close();
     }
   }
@@ -31,13 +45,14 @@ export default ({ close, handleDelete }: any) => {
   const classesContainer = [c['popup']];
   if (theme === 'dark') classesContainer.push(c['dark'])
 
+  if (!isOpen) return null;
+
   return ReactDOM.createPortal(
     <div className={classesContainer.join(' ')} onClick={close}>
       <div className={c["popup-wrapper"]} onClick={e => e.stopPropagation()}>
 
         <div className={c['popup-content']}>
           <div className={c['popup-btn-close']} onClick={close} />
-
 
           <div className={c['popup-img']}>
             <img src="/images/trashBin.png" alt="i" />
