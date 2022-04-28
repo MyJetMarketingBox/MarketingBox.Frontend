@@ -48,7 +48,6 @@ export default ({ affiliates = [] }: any) => {
     return {
       id: affiliate.id,
       username: affiliate.generalInfo.username,
-      role: AffiliateRole[affiliate.generalInfo.role],
       ai: affiliate.id,
       email: affiliate.generalInfo.email,
       reportto: "Management",
@@ -83,6 +82,7 @@ export default ({ affiliates = [] }: any) => {
     {
       dataField: "actions",
       text: "Actions",
+      headerStyle: { width: "70px", minWidth: "70px" },
       sort: false,
       formatter: (cell: any, row: any) => (
         <ColumnActions
@@ -97,11 +97,6 @@ export default ({ affiliates = [] }: any) => {
       sort: true,
       headerStyle: { width: "250px", minWidth: "250px" },
       style: { width: "250px", minWidth: "250px", "word-break": "break-word" }
-    },
-    {
-      dataField: "role",
-      text: "Role",
-      sort: true
     },
     {
       dataField: "ai",

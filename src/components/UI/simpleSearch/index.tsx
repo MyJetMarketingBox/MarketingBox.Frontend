@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import c from './simpleSearch.module.scss';
-import SelectTypeSearch from "../../../pages/Affiliates/components/select/SelectTypeSearch";
+import SelectTypeSearch from "./SelectTypeSearch";
 
 export default (props: any) => {
   const dispatch = useDispatch();

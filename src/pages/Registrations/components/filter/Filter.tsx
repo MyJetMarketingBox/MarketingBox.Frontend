@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
-import SelectTypeSearch from "../../../Affiliates/components/select/SelectTypeSearch";
+import SelectTypeSearch from "../../../../components/UI/simpleSearch/SelectTypeSearch";
 import s from "../filter/FilterReg.module.scss";
 import {clearRegistrations, getRegistrations} from "../../../../store/registrations/actions";
 import { AffiliateRole, registrationModel } from "../../../../common/utils/model";

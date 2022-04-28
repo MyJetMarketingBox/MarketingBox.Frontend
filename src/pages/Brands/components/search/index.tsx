@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { clearBrands, getBrands } from "../../../../store/brands/actions";
 import c from "./SearchBrand.module.scss";
-import SelectTypeSearch from "../../../Affiliates/components/select/SelectTypeSearch";
+import SelectTypeSearch from "../../../../components/UI/simpleSearch";
 
 export default () => {
 

@@ -1,7 +1,7 @@
 .search-aff {
   display: flex;
   border: 1px solid #ced4da;
-  border-radius: 8px;
+  border-radius: 12px;
 
   &.dark {
     background-color: #363a38;
@@ -14,7 +14,7 @@
   input {
     display: block;
     width: 100%;
-    padding: 0.47rem 0.75rem;
+    padding: 12px;
     background: none;
     border: none;
     font-size: 0.875rem;
