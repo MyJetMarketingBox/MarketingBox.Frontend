@@ -7,12 +7,17 @@ import {
   getAffPayoutsFail,
   addAffPayoutsSuccess,
   addAffPayoutsFail,
+  addPayoutsSuccess,
+  addPayoutsFail
 } from "./actions";
+
+import { updateAffiliate } from "../affiliates/profile/actions";
 
 import {
   getAffPayouts,
   addAffPayouts
 } from "../../helpers/backend_helper";
+
 
 function* getAffPayoutsSaga({nextUrl, filter} : any) {
   try{
@@ -23,12 +28,34 @@ function* getAffPayoutsSaga({nextUrl, filter} : any) {
   }
 }
 
-function* addAffPayoutsSaga({payload: affPayouts} : any) {
+function* addAffPayoutsSaga({affPayouts, affiliate} : any) {
   try{
     const response : Promise<any> = yield call(addAffPayouts, affPayouts);
     yield put(addAffPayoutsSuccess(response))
+
+    const {id, payouts, generalInfo} = affiliate;
+    const affiliatePayoutIds = payouts.map((item : any) => item.id)
+
+    // @ts-ignore
+    affiliatePayoutIds.push(response.id)
+
+    const upAffiliate = {
+      generalInfo,
+      affiliatePayoutIds: affiliatePayoutIds
+    }
+    yield put(updateAffiliate(upAffiliate, id))
+
   }catch (error) {
     yield put(addAffPayoutsFail(error));
+  }
+}
+
+function* addPayoutsSaga({payload: payouts} : any) {
+  try{
+    const response : Promise<any> = yield call(addAffPayouts, payouts);
+    yield put(addPayoutsSuccess(response))
+  }catch (error) {
+    yield put(addPayoutsFail(error));
   }
 }
 

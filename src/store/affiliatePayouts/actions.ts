@@ -17,10 +17,11 @@ export const getAffPayoutsFail = (error : any) => ({
   payload: error
 })
 
-/** ADD **/
-export const addAffPayouts = (data: any) => ({
+/** ADD AFF PAYOUTS **/
+export const addAffPayouts = (affPayouts: any, affiliate: any) => ({
   type: AffPayoutsTypes.ADD_AFF_PAYOUTS,
-  payload: data
+  affPayouts,
+  affiliate
 })
 
 export const addAffPayoutsSuccess = (data: any) => ({
@@ -30,6 +31,22 @@ export const addAffPayoutsSuccess = (data: any) => ({
 
 export const addAffPayoutsFail = (error: any) => ({
   type: AffPayoutsTypes.ADD_AFF_PAYOUTS_FAIL,
+  payload: error
+})
+
+/** ADD AFF PAYOUTS **/
+export const addPayouts = (data: any) => ({
+  type: AffPayoutsTypes.ADD_PAYOUTS,
+  payload: data
+})
+
+export const addPayoutsSuccess = (data: any) => ({
+  type: AffPayoutsTypes.ADD_PAYOUTS_SUCCESS,
+  payload: data
+})
+
+export const addPayoutsFail = (error: any) => ({
+  type: AffPayoutsTypes.ADD_PAYOUTS_FAIL,
   payload: error
 })
 

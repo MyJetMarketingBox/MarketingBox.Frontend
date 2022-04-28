@@ -68,18 +68,13 @@ const Affiliate = (props: any) => {
         <MetaTags>
           <title>Affiliate {params.id} | TraffMe </title>
         </MetaTags>
-        <div className="container-fluid">
+        <Container fluid>
           <Breadcrumbs title="TraffMe" breadcrumbItem="Affiliate" />
+
           <Row>
-            <Col className="col-12">
+            <Col xs={12}>
 
               <Card>
-                {/*{!loaded ? (
-                  <div style={{ textAlign: "center" }}>
-                    <h1>Loading...</h1>
-                  </div>
-                ):(<>*/}
-
                   <CardHeader className="align-items-center d-flex">
                     <div className="flex-shrink-0">
                       <Nav tabs className="justify-content-start nav-tabs-custom rounded card-header-tabs">
@@ -115,38 +110,6 @@ const Affiliate = (props: any) => {
                             <span className="d-none d-sm-block">Payouts</span>
                           </NavLink>
                         </NavItem>
-                        <NavItem>
-                          <NavLink
-                            style={{ cursor: "pointer" }}
-                            className={classnames({
-                              active: customActiveTab === "3",
-                            })}
-                            onClick={() => {
-                              toggleCustom("3");
-                            }}
-                          >
-                          <span className="d-block d-sm-none">
-                            <i className="far fa-envelope"></i>
-                          </span>
-                            <span className="d-none d-sm-block">Messages</span>
-                          </NavLink>
-                        </NavItem>
-                        <NavItem>
-                          <NavLink
-                            style={{ cursor: "pointer" }}
-                            className={classnames({
-                              active: customActiveTab === "4",
-                            })}
-                            onClick={() => {
-                              toggleCustom("4");
-                            }}
-                          >
-                          <span className="d-block d-sm-none">
-                            <i className="fas fa-cog"></i>
-                          </span>
-                            <span className="d-none d-sm-block">Settings</span>
-                          </NavLink>
-                        </NavItem>
                       </Nav>
                     </div>
                   </CardHeader>
@@ -170,33 +133,14 @@ const Affiliate = (props: any) => {
                           </Col>
                         </Row>
                       </TabPane>
-                      <TabPane tabId="3">
-                        <Row>
-                          <Col sm="12">
-                            <CardText className="mb-0">
-                              3
-                            </CardText>
-                          </Col>
-                        </Row>
-                      </TabPane>
-                      <TabPane tabId="4">
-                        <Row>
-                          <Col sm="12">
-                            <CardText className="mb-0">
-                              4
-                            </CardText>
-                          </Col>
-                        </Row>
-                      </TabPane>
                     </TabContent>
                   </CardBody>
 
-                {/*</>)}*/}
               </Card>
 
             </Col>
           </Row>
-        </div>
+        </Container>
       </div>
     </React.Fragment>
   )

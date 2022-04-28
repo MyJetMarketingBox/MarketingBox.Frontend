@@ -33,10 +33,10 @@ const FormAffiliate = (props: any) => {
     const bg = [ "bg-success", "bg-danger", "bg-warning" ];
     const bx = [ "bx-check-double", "bx-block", "bx-error" ];
 
-    const {errorAff, loading} = useSelector((state: any) => {
+    const {upLoading, currentAffProfile} = useSelector((state: any) => {
         return {
-            errorAff: state.Affiliates.error,
-            loading: state.Affiliates.loading
+            currentAffProfile: state.AffProfile.affProfile,
+            upLoading: state.AffProfile.upLoading
         };
     });
 
@@ -47,7 +47,10 @@ const FormAffiliate = (props: any) => {
         setStateAff(generalInfo.state)
     }, [generalInfo.state])
 
+    const arrAffPayId = currentAffProfile.payouts.map((item : any) => item.id)
+
     const handleValidAffiliateSubmit = (values: any) => {
+        //console.log(currentAffProfile);
         const updateAff = {
             generalInfo: {
                 username: values["username"] || null,
@@ -56,7 +59,6 @@ const FormAffiliate = (props: any) => {
                 phone: values["phone"] || null,
                 skype: values["skype"] || null,
                 zipCode: values["zipCode"] || null,
-                //role: +values["role"],
                 state: +stateAff,
                 currency: +values["currency"] || null,
             },
@@ -75,8 +77,9 @@ const FormAffiliate = (props: any) => {
                 swift: values["swift"] || null,
                 iban: values["iban"] || null
             },
-            affiliatePayoutIds: values['affiliatePayoutIds'] || []
+            affiliatePayoutIds: arrAffPayId,
         };
+        //console.log(updateAff);
         dispatch(updateAffiliate(updateAff, id))
     }
 
@@ -222,7 +225,7 @@ const FormAffiliate = (props: any) => {
                                 className="form-control"
                                 //validate={{ required: { value: true } }}
                                 id="validationCompanyName"
-                                value={company?.name}
+                                value={company?.name || ''}
                             />
                         </FormGroup>
                     </Col>
@@ -237,7 +240,7 @@ const FormAffiliate = (props: any) => {
                                 className="form-control"
                                 //validate={{ required: { value: true } }}
                                 id="validationCompanyAddress"
-                                value={company?.address}
+                                value={company?.address || ''}
                             />
                         </FormGroup>
                     </Col>
@@ -252,7 +255,7 @@ const FormAffiliate = (props: any) => {
                                 className="form-control"
                                 //validate={{ required: { value: true } }}
                                 id="validationCompanyRegNumber"
-                                value={company?.regNumber}
+                                value={company?.regNumber || ''}
                             />
                         </FormGroup>
                     </Col>
@@ -267,7 +270,7 @@ const FormAffiliate = (props: any) => {
                               className="form-control"
                               //validate={{ required: { value: true } }}
                               id="validationVatIt"
-                              value={company?.vatId}
+                              value={company?.vatId || ''}
                             />
                         </FormGroup>
                     </Col>
@@ -286,7 +289,7 @@ const FormAffiliate = (props: any) => {
                               className="form-control"
                               //validate={{ required: { value: true } }}
                               id="validationBeneficiaryName"
-                              value={bank?.beneficiaryName}
+                              value={bank?.beneficiaryName || ''}
                             />
                         </FormGroup>
                     </Col>
@@ -301,7 +304,7 @@ const FormAffiliate = (props: any) => {
                               className="form-control"
                               //validate={{ required: { value: true } }}
                               id="validationBeneficiaryAddress"
-                              value={bank?.beneficiaryAddress}
+                              value={bank?.beneficiaryAddress || ''}
                             />
                         </FormGroup>
                     </Col>
@@ -316,7 +319,7 @@ const FormAffiliate = (props: any) => {
                               className="form-control"
                               //validate={{ required: { value: true } }}
                               id="validationBankName"
-                              value={bank?.bankName}
+                              value={bank?.bankName || ''}
                             />
                         </FormGroup>
                     </Col>
@@ -331,7 +334,7 @@ const FormAffiliate = (props: any) => {
                               className="form-control"
                               //validate={{ required: { value: true } }}
                               id="validationBankAddress"
-                              value={bank?.bankAddress}
+                              value={bank?.bankAddress || ''}
                             />
                         </FormGroup>
                     </Col>
@@ -346,7 +349,7 @@ const FormAffiliate = (props: any) => {
                               className="form-control"
                               //validate={{ required: { value: true } }}
                               id="validationAccountNumber"
-                              value={bank?.accountNumber}
+                              value={bank?.accountNumber || ''}
                             />
                         </FormGroup>
                     </Col>
@@ -361,7 +364,7 @@ const FormAffiliate = (props: any) => {
                               className="form-control"
                               //validate={{ required: { value: true } }}
                               id="validationSwift"
-                              value={bank?.swift}
+                              value={bank?.swift || ''}
                             />
                         </FormGroup>
                     </Col>
@@ -376,7 +379,7 @@ const FormAffiliate = (props: any) => {
                               className="form-control"
                               //validate={{ required: { value: true } }}
                               id="validationIBAN"
-                              value={bank?.iban}
+                              value={bank?.iban || ''}
                             />
                         </FormGroup>
                     </Col>
@@ -427,7 +430,6 @@ const FormAffiliate = (props: any) => {
                               id="validationNewPassword"
                               value=""
                               autoComplete="off"
-                              //onChange={(e: any) => setNewPass(e.target.value)}
                             />
                         </FormGroup>
                     </Col>
@@ -449,15 +451,14 @@ const FormAffiliate = (props: any) => {
                               id="validationConfirmPassword"
                               value=""
                               autoComplete="off"
-                              //onChange={(e: any) => setConfirmPass(e.target.value)}
                             />
                         </FormGroup>
                     </Col>
                 </Row>
 
                 <hr />
-                <Button className="btnOrange float-end" type="submit" disabled={loading}>
-                    {loading && <i className="bx bx-hourglass bx-spin me-2" />}
+                <Button className="btnOrange float-end" type="submit" disabled={upLoading}>
+                    {upLoading && <i className="bx bx-hourglass bx-spin me-2" />}
                     Save
                 </Button>
             </AvForm>
