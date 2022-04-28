@@ -16,7 +16,7 @@ const Dashboard = () => {
       <MetaTags>
         <title>Dashboard</title>
       </MetaTags>
-      <div className="page-content d-flex">
+      <div className="page-content full d-flex">
         <div className={c.dashboard}>
           <div className={c.top}>
             <Breadcrumbs title="Your statistics (last week)" breadcrumbItem="Dashboard" />

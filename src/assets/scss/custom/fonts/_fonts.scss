@@ -11,10 +11,23 @@
   font-weight: 400;
   src: url('./Gilroy-Regular.woff2');
   src: local(''),
-  url('./Gilroy-Bold.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('./Gilroy-Regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
   url('./Gilroy-Regular.woff2') format('woff2'), /* Super Modern Browsers */
   url('./Gilroy-Regular.woff') format('woff'), /* Modern Browsers */
   url('./Gilroy-Regular.ttf') format('truetype'), /* Safari, Android, iOS */
+}
+
+@font-face {
+  font-family: 'Gilroy';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 500;
+  src: url('./Gilroy-Medium.woff2');
+  src: local(''),
+  url('./Gilroy-Medium.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('./Gilroy-Medium.woff2') format('woff2'), /* Super Modern Browsers */
+  url('./Gilroy-Medium.woff') format('woff'), /* Modern Browsers */
+  url('./Gilroy-Medium.ttf') format('truetype'), /* Safari, Android, iOS */
 }
 
 @font-face {

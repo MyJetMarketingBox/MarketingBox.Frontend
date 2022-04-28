@@ -73,6 +73,7 @@ const TopOffers = () => {
 
   return (
     <div className={c.wrapper}>
+      <h3>Top offers</h3>
       <SimpleBar>
         <BootstrapTable
           keyField="id"

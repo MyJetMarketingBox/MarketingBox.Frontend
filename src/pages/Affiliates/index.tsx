@@ -77,7 +77,7 @@ const Affiliates: React.FC = () => {
         </div>
         <Row>
           <Col className="col-12">
-            <Card>
+            <div>
               <CardBody>
                 <Row className="mb-2">
                   <Col className="col-md-4">
@@ -121,7 +121,7 @@ const Affiliates: React.FC = () => {
                   </Row>
                 }
               </CardBody>
-            </Card>
+            </div>
           </Col>
         </Row>
       </div>

@@ -2,3 +2,42 @@
   top: auto !important;
   bottom: 100% !important;
 }
+.table .btn-light {
+  background-color: transparent;
+  border: none;
+  border-radius: 8px;
+  box-shadow: none;
+  color: #E74A18;
+}
+body[data-layout-mode="dark"] .table .btn-light {
+  background-color: transparent;
+  border: none;
+  color: #E74A18;
+  box-shadow: none;
+}
+.table .btn-light:hover,
+.table .dropdown.show .btn-light {
+  background-color: #fce9e3;
+  border: none;
+  color: #E74A18;
+}
+body[data-layout-mode="dark"] .table .btn-light:hover,
+body[data-layout-mode="dark"] .dropdown.show .btn-light {
+  background-color: #3b403d;
+  border: none;
+  color: #E74A18;
+}
+.table .dropdown-menu {
+  padding: 8px 4px;
+  border-radius: 12px;
+}
+.table .dropdown-menu.show {
+  top: calc(100% + 5px) !important;
+}
+.table .dropdown-item {
+  padding: 0.72rem 1rem;
+  color: #050121;
+}
+.table .dropdown-item:hover {
+  background-color: #f2f2f2;
+}
