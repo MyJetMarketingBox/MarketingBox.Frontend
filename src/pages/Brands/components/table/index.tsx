@@ -2,11 +2,18 @@ import ColumnActions from "../../../../components/UI/columnActions/ColumnActions
 import BootstrapTable from "react-bootstrap-table-next";
 import { brandPrivacy, brandStatus, Currency, plan } from "../../../../common/utils/model";
 import { useDispatch } from "react-redux";
+import { useHistory } from 'react-router-dom';
 
 import {updateBrand as onUpdateBrand} from "../../../../store/actions";
+import React, { useState } from "react";
+import ConfirmDelete from "../../../../components/UI/confirmDelete/ConfirmDelete";
 
 export default ({ brands = []} : any ) => {
   const dispatch = useDispatch()
+  const history = useHistory();
+
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectId, setSelectId] = useState(false);
 
   // @ts-ignore
   const brandsData = brands.map( brand  => {
@@ -33,6 +40,22 @@ export default ({ brands = []} : any ) => {
 
   });
 
+  const listActions: any = [
+    {
+      label: "edit",
+      handler: (id: any) => {
+        history.push(`/brand/${id}`);
+      },
+    },
+    {
+      label: "delete",
+      handler: (id: any) => {
+        setIsOpen(true);
+        setSelectId(id);
+      },
+    }
+  ];
+
   const handleChangePrivacy = (e: any) => {
     e.preventDefault();
 
@@ -46,13 +69,19 @@ export default ({ brands = []} : any ) => {
     dispatch(onUpdateBrand(newBrand, id))
   }
 
+  const toggleAction = () => {
+    setIsOpen(prev => !prev);
+  }
+
   const columns = [
     {
       dataField: "actions",
       text: "Actions",
       sort: false,
       formatter: (cell: any, row: any) => (
-        <ColumnActions id={row.id} />
+        <ColumnActions
+          id={row.id}
+          items={listActions}/>
       )
     },
     {
@@ -143,6 +172,8 @@ export default ({ brands = []} : any ) => {
         classes={"table align-middle table-nowrap"}
         headerWrapperClasses={"thead-light"}
       />
+
+      <ConfirmDelete isOpen={isOpen} toggle={toggleAction} handleDelete={'handleDeleteAffiliate'} id={selectId} />
     </>
   );
 }

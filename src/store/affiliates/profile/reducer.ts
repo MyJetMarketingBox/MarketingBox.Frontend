@@ -5,6 +5,8 @@ export const INIT_STATE : AffProfileState = {
   error: {},
   loading: false,
   loaded: false,
+  upLoading: false,
+  upLoaded: false,
 }
 
 const affProfile = (state = INIT_STATE, action: any) => {
@@ -29,6 +31,28 @@ const affProfile = (state = INIT_STATE, action: any) => {
         error: action.payload,
         loading: false,
         loaded: false,
+      }
+
+    case AffProfileTypes.UPDATE_AFFILIATE:
+      return {
+        ...state,
+        error: {},
+        upLoading: true
+      }
+
+    case AffProfileTypes.UPDATE_AFFILIATE_SUCCESS:
+      return {
+        ...state,
+        affProfile: action.payload,
+        upLoading: false,
+        upLoaded: true
+      }
+
+    case AffProfileTypes.UPDATE_AFFILIATE_FAIL:
+      return {
+        ...state,
+        error: action.payload,
+        upLoading: false
       }
 
     case AffProfileTypes.CLEAR_AFFILIATE_PROFILE:

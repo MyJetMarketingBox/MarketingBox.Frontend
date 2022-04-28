@@ -10,8 +10,7 @@ import {
   addAffiliateSuccess,
   deleteAffiliateFail,
   deleteAffiliateSuccess,
-  updateAffiliateSuccess,
-  updateAffiliateFail
+
 } from "./actions";
 
 //Включите оба файла-помощника с необходимыми методами
@@ -41,14 +40,6 @@ function* onAddNewAffiliate({ payload: affiliate } : any) {
   }
 }
 
-function* onUpdateAffiliate({ payload: affiliate, id: id } : any) {
-  try {
-    const response : Promise<any> = yield call(updateAffiliate, affiliate, id)
-    yield put(updateAffiliateSuccess(response))
-  } catch (error) {
-    yield put(updateAffiliateFail(error))
-  }
-}
 
 function* onDeleteAffiliate({ payload: id } : any) {
   try {
@@ -62,7 +53,6 @@ function* onDeleteAffiliate({ payload: id } : any) {
 function* contactsSaga() {
   yield takeEvery(AffiliatesTypes.GET_AFFILIATES, fetchAffiliates)
   yield takeEvery(AffiliatesTypes.ADD_NEW_AFFILIATE, onAddNewAffiliate)
-  yield takeEvery(AffiliatesTypes.UPDATE_AFFILIATE, onUpdateAffiliate)
   yield takeEvery(AffiliatesTypes.DELETE_AFFILIATE, onDeleteAffiliate)
 }
 

@@ -74,29 +74,6 @@ const affiliates = (state = INIT_STATE, action :any) => {
         addAffError: true,
       }
 
-    case AffiliatesTypes.UPDATE_AFFILIATE:
-      return {
-        ...state,
-        error: {},
-        loading: true,
-        success: false
-      }
-
-    case AffiliatesTypes.UPDATE_AFFILIATE_SUCCESS:
-      return {
-        ...state,
-        affiliateProfile: action.payload,
-        error: {},
-        loading: false,
-        success: true
-      }
-
-    case AffiliatesTypes.UPDATE_AFFILIATE_FAIL:
-      return {
-        ...state,
-        error: action.payload,
-        loading: false
-      }
 
     case AffiliatesTypes.DELETE_AFFILIATE_SUCCESS:
       return {
