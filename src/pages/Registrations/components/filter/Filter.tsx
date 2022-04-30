@@ -105,7 +105,7 @@ export default (props: any) => {
           required
           value={""}
         >
-          <option value={""}>Select role</option>
+          <option value={""}>select role</option>
           {
             registrationModel.map((val, i) => {
               return (
