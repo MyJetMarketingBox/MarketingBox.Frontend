@@ -1,10 +1,24 @@
 import { call, put, takeEvery } from "redux-saga/effects"
+// import { createBrowserHistory } from "history";
+// const history = createBrowserHistory();
+//import { push } from 'react-router-redux';
 
 import {BrandsTypes} from "./actionTypes";
 
-import { getBrandsSuccess, getBrandsFail, updateBrandFail, updateBrandSuccess } from "./actions";
+import {
+  getBrandsSuccess,
+  getBrandsFail,
+  addBrandSuccess,
+  addBrandFail,
+  delBrandSuccess,
+  delBrandFail,
+} from "./actions";
 
-import {getBrands, updateBrand} from "../../helpers/backend_helper";
+import {getBrands, addBrand, delBrand} from "../../helpers/backend_helper";
+
+// function forwardTo(location : any) {
+//   history.push(location);
+// }
 
 
 function* fetchBrands({nextUrl, filter} : any) {
@@ -16,18 +30,31 @@ function* fetchBrands({nextUrl, filter} : any) {
   }
 }
 
-function* onUpdateBrand({payload: brand, id: id} : any) {
+function* addBrandSaga({payload: brand} : any) {
   try{
-    const response: Promise<any> = yield call(updateBrand, brand, id);
-    yield put(updateBrandSuccess(response));
+    const response : Promise<any> = yield call(addBrand, brand)
+    yield put(addBrandSuccess(response))
+    // @ts-ignore
+    //yield call(forwardTo,`/brands/${response.id}`);
+    //yield call(push(`/brands/${response.id}`));
   }catch (error) {
-    yield put(updateBrandFail(error))
+    yield put(addBrandFail(error))
   }
 }
 
-function* contactsSaga() {
-  yield takeEvery(BrandsTypes.GET_BRANDS, fetchBrands)
-  yield takeEvery(BrandsTypes.UPDATE_BRAND, onUpdateBrand)
+function* delBrandSaga({payload : id} : any) {
+  try{
+    yield call(delBrand, id);
+    yield put(delBrandSuccess(id))
+  }catch (error) {
+   yield put(delBrandFail(error))
+  }
 }
 
-export default contactsSaga;
+function* brandsSaga() {
+  yield takeEvery(BrandsTypes.GET_BRANDS, fetchBrands)
+  yield takeEvery(BrandsTypes.ADD_BRAND, addBrandSaga)
+  yield takeEvery(BrandsTypes.DEL_BRAND, delBrandSaga)
+}
+
+export default brandsSaga;

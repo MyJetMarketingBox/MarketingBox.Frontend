@@ -20,6 +20,7 @@ import Postbacklogs from "../pages/PostbackLogs"
 import Postback from "../pages/Postback";
 
 import Brands from "../pages/Brands";
+import Brand from "../pages/Brands/components/detail"
 
 //Authentication pages
 import Login from "src/pages/Authentication/Login";
@@ -54,6 +55,7 @@ const userRoutes: Array<RouteProps> = [
   { path: "/Postback_logs", component: Postbacklogs },
   { path: "/Postback", component: Postback},
   { path: "/Brands", component: Brands },
+  { path: "/Brands/:id", component: Brand },
 
   // this route should be at the end of all components routes
   { path: "/", exact: true, component: () => <Redirect to="/dashboard" /> },

@@ -1,12 +1,13 @@
 import ColumnActions from "../../../../components/UI/columnActions/ColumnActions";
 import BootstrapTable from "react-bootstrap-table-next";
-import { brandPrivacy, brandStatus, Currency, plan } from "../../../../common/utils/model";
+import { brandPrivacy, brandStatus, Currency, IntegrationType, plan } from "../../../../common/utils/model";
 import { useDispatch } from "react-redux";
 import { useHistory } from 'react-router-dom';
 
-import {updateBrand as onUpdateBrand} from "../../../../store/actions";
+import {delBrand} from "../../../../store/actions";
 import React, { useState } from "react";
 import ConfirmDelete from "../../../../components/UI/confirmDelete/ConfirmDelete";
+import { updateBrand } from "../../../../store/brands/profile/actions";
 
 export default ({ brands = []} : any ) => {
   const dispatch = useDispatch()
@@ -15,8 +16,10 @@ export default ({ brands = []} : any ) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectId, setSelectId] = useState(false);
 
-  // @ts-ignore
-  const brandsData = brands.map( brand  => {
+  const brandsData = brands.map( (brand : any)  => {
+    //console.log(brand.integration.name);
+    //debugger
+
     let color;
     switch (brand.status) {
       case 0:
@@ -27,13 +30,19 @@ export default ({ brands = []} : any ) => {
         break;
     }
 
+    let integrationName = (brand.integration?.name && brand.integration?.name.length > 15)
+      ? brand.integration.name.substring(0, 15)+' ...'
+      : brand.integration?.name
+
     return {
       id: brand.id,
       name: brand.name,
-      integrationId: brand.integrationId,
+      integration: integrationName,
+      integrationID: brand.integration?.id,
+      //integrationType: IntegrationType[brand.integrationType],
       status: brand.status,
       color: color,
-      payout: brand.payout,
+      payout: brand.payouts?.payoutType,
       revenue: brand.revenue,
       privacy: brand.privacy
     }
@@ -44,7 +53,7 @@ export default ({ brands = []} : any ) => {
     {
       label: "edit",
       handler: (id: any) => {
-        history.push(`/brand/${id}`);
+        history.push(`/brands/${id}`);
       },
     },
     {
@@ -66,11 +75,15 @@ export default ({ brands = []} : any ) => {
     const {id, ...newBrand} = brand;
 
     newBrand.privacy = (newBrand.privacy === 0 ) ? 1 : 0;
-    dispatch(onUpdateBrand(newBrand, id))
+    dispatch(updateBrand(newBrand, id))
   }
 
   const toggleAction = () => {
     setIsOpen(prev => !prev);
+  }
+
+  const handleDeleteBrand = (id: number) => {
+    dispatch(delBrand(id))
   }
 
   const columns = [
@@ -90,10 +103,22 @@ export default ({ brands = []} : any ) => {
       sort: true
     },
     {
-      dataField: "integrationId",
+      dataField: "integration",
+      text: "Integration",
+      headerStyle: { width: "250px", minWidth: "250px" },
+      style: { width: "250px", minWidth: "250px", "word-break": "break-word" },
+      sort: true
+    },
+    {
+      dataField: "integrationID",
       text: "Integration ID",
       sort: true
     },
+    /*{
+      dataField: "integrationType",
+      text: "Type",
+      sort: true
+    },*/
     {
       dataField: "revenue",
       text: "Revenue",
@@ -169,11 +194,11 @@ export default ({ brands = []} : any ) => {
         bordered={false}
         striped={false}
         defaultSorted={defaultSorted}
-        classes={"table align-middle table-nowrap"}
+        classes={"table align-middle"}
         headerWrapperClasses={"thead-light"}
       />
 
-      <ConfirmDelete isOpen={isOpen} toggle={toggleAction} handleDelete={'handleDeleteAffiliate'} id={selectId} />
+      <ConfirmDelete isOpen={isOpen} toggle={toggleAction} handleDelete={handleDeleteBrand} id={selectId} />
     </>
   );
 }

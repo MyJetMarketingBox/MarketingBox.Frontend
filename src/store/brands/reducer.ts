@@ -3,14 +3,11 @@ import { AffiliatesTypes } from "../affiliates/actionTypes";
 
 export const INIT_STATE : BrandsState = {
   brands: {items: [], pagination: {}},
-  brand: {},
   error: {},
   loading: false,
-  addBrandsLoading: false,
-  addBrandsSuccess: false,
-  addBrandsError: false,
   loaded: false,
-  success: false
+  addBrandsLoading: false,
+  addBrandsLoaded: false
 }
 
 const brands = (state = INIT_STATE, action :any) => {
@@ -27,9 +24,9 @@ const brands = (state = INIT_STATE, action :any) => {
         brands: {
           items: [...state.brands.items, ...action.payload.items],
           pagination: { ...action.payload.pagination },
-          loading: false,
-          loaded: true,
-        }
+        },
+        loading: false,
+        loaded: true,
       }
 
     case BrandsTypes.GET_BRANDS_FAIL:
@@ -40,13 +37,32 @@ const brands = (state = INIT_STATE, action :any) => {
         error: action.payload,
       }
 
-    case BrandsTypes.UPDATE_BRAND:
+    case BrandsTypes.ADD_BRAND:
       return {
         ...state,
-        error: {},
-        loading: true,
-        success: false
+        addBrandsLoading: true
       }
+
+    case BrandsTypes.ADD_BRAND_SUCCESS:
+      return {
+        ...state,
+        brands: {
+          ...state.brands,
+          items: [action.payload, ...state.brands.items]
+        },
+        addBrandsLoading: false,
+        addBrandsLoaded: true
+      }
+
+    case BrandsTypes.ADD_BRAND_FAIL:
+      return {
+        ...state,
+        error: action.payload,
+        addBrandsLoading: false,
+        addBrandsLoaded: false
+      }
+
+    /*
 
     case BrandsTypes.UPDATE_BRAND_SUCCESS:
       const idx = state.brands.items.findIndex(item => {
@@ -71,11 +87,32 @@ const brands = (state = INIT_STATE, action :any) => {
         success: true
       }
 
-    case BrandsTypes.UPDATE_BRAND_FAIL:
+    */
+
+    case BrandsTypes.DEL_BRAND:
+      return{
+        ...state,
+        loading: true
+      }
+
+    case BrandsTypes.DEL_BRAND_SUCCESS:
+      return {
+        ...state,
+        brands: {
+          ...state.brands,
+          items: state.brands.items.filter(item => item.id !== action.payload
+          ),
+        },
+        loading: false,
+        loaded: true
+      }
+
+    case BrandsTypes.DEL_BRAND_FAIL:
       return {
         ...state,
         error: action.payload,
-        loading: false
+        loading: false,
+        loaded: false
       }
 
     case BrandsTypes.CLEAR_BRANDS:

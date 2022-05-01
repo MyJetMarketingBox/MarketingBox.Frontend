@@ -32,6 +32,10 @@ import Reports from "./reports/reducer"
 
 //Brands
 import Brands from "./brands/reducer"
+import BrandProfile from "./brands/profile/reducer"
+
+//BrandPayouts
+import BrandPayouts from "./brandPayouts/reducer"
 
 //Countries
 import Countries from "./countries/reducer"
@@ -65,6 +69,8 @@ const rootReducer = combineReducers({
   Countries,
   Integrations,
   Brands,
+  BrandProfile,
+  BrandPayouts,
   Reports,
   login,
   register,

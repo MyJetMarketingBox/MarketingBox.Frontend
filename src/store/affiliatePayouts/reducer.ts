@@ -24,9 +24,9 @@ const affPayouts = (state = INIT_STATE, action : any) => {
         affPayouts : {
           items: [...state.affPayouts.items, ...action.payload.items],
           pagination: {...action.payload.pagination},
-          loadingList: false,
-          loadedList: true,
-        }
+        },
+        loadingList: false,
+        loadedList: true,
       }
 
     case AffPayoutsTypes.GET_AFF_PAYOUTS_FAIL:

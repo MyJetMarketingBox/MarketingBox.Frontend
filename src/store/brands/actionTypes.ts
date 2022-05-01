@@ -5,27 +5,34 @@ export enum BrandsTypes {
   GET_BRANDS_FAIL = '@@brands/GET_BRANDS_FAIL',
 
   /** CLEAR BRANDS */
-  CLEAR_BRANDS = '@@contact/CLEAR_BRANDS',
+  CLEAR_BRANDS = '@@brand/CLEAR_BRANDS',
 
-  /** UPDATE BRAND */
-  UPDATE_BRAND = '@@contact/UPDATE_BRAND',
-  UPDATE_BRAND_SUCCESS = '@@contact/UPDATE_BRAND_SUCCESS',
-  UPDATE_BRAND_FAIL = '@@contact/UPDATE_BRAND_FAIL',
+  /** ADD **/
+  ADD_BRAND = "@@brand/ADD_BRAND",
+  ADD_BRAND_SUCCESS = "@@brand/ADD_BRAND_SUCCESS",
+  ADD_BRAND_FAIL = "@@brand/ADD_BRAND_FAIL",
+
+  /** DEL **/
+  DEL_BRAND = '@@brand/DEL_BRAND',
+  DEL_BRAND_SUCCESS = '@@brand/DEL_BRAND_SUCCESS',
+  DEL_BRAND_FAIL = '@@brand/DEL_BRAND_FAIL',
+
+}
+
+interface iBrand {
+  id: number
 }
 
 interface iBrands {
-  items  : Array<Object>;
+  items  : Array<iBrand>;
   pagination : Object;
 }
 
 export interface BrandsState {
   brands: iBrands,
-  brand: Object,
   error: Object,
   loading: boolean;
-  addBrandsLoading: boolean;
-  addBrandsSuccess: boolean;
-  addBrandsError: boolean;
   loaded: boolean;
-  success: boolean;
+  addBrandsLoading: boolean;
+  addBrandsLoaded: boolean;
 }

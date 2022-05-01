@@ -41,6 +41,7 @@ export const CAMPAIGNS = "api/campaigns"
 
 //BRANDS
 export const BRANDS = "api/brands"
+export const BRAND_PAYOUTS = "api/BrandPayouts"
 
 export const COUNTRIES = "api/countries"
 
