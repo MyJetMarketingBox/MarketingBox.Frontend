@@ -109,7 +109,7 @@ export const addNewAffiliate = (affiliate : any) => post(url.AFFILIATES,  affili
 export const deleteAffiliate = (id : number) => del(`${url.AFFILIATES}/${id}`);
 
 export const updateAffiliate = (affiliate : object, id: number) =>
-  put(`${url.AFFILIATES}/${id}`, affiliate)
+  put(`${url.AFFILIATES}/${id}`, affiliate, { notification: 'Success!' })
 
 // get registrations
 export const getRegistrations = (nextUrl: any, filter: object) => get(nextUrl || url.REGISTRATIONS, { params: filter });

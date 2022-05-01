@@ -26,11 +26,10 @@ axiosApi.interceptors.response.use(
   response => {
     console.log("success response");
     console.log(response);
-    console.log(localStorage.getItem('layoutTheme'));
     // @ts-ignore
     if (response.config.notification) {
       // @ts-ignore
-      toast("load Aff", { theme: localStorage.getItem('layoutTheme') });
+      toast(response.config.notification, { theme: localStorage.getItem('layoutTheme') });
     }
     return response;
   },
@@ -43,7 +42,7 @@ axiosApi.interceptors.response.use(
     // @ts-ignore
     if(error.response.status === 401) optionToast.onClose = () => location.replace('/logout');
     // @ts-ignore
-    toast("load Aff", optionToast);
+    toast(error.response.statusText, optionToast);
     return Promise.reject(error);
   }
 )

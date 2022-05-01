@@ -1,26 +1,19 @@
-import { call, put, takeEvery } from "redux-saga/effects"
+import { call, put, takeEvery } from "redux-saga/effects";
 
 // Crypto Redux States
-import { AffiliatesTypes } from "./actionTypes"
+import { AffiliatesTypes } from "./actionTypes";
 
 import {
-  getAffiliatesFail,
-  getAffiliatesSuccess,
   addAffiliateFail,
   addAffiliateSuccess,
   deleteAffiliateFail,
   deleteAffiliateSuccess,
-
+  getAffiliatesFail,
+  getAffiliatesSuccess
 } from "./actions";
 
 //Включите оба файла-помощника с необходимыми методами
-import {
-  getAffiliates,
-  getAffiliateProfile,
-  addNewAffiliate,
-  deleteAffiliate,
-  updateAffiliate
-} from "../../helpers/backend_helper";
+import { addNewAffiliate, deleteAffiliate, getAffiliates } from "../../helpers/backend_helper";
 
 function* fetchAffiliates({ nextUrl, filter } : any) {
   try{

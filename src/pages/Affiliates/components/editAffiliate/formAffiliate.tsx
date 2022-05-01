@@ -1,29 +1,22 @@
 import React, { useEffect, useState } from "react";
 import {
-    Card,
-    CardBody,
-    CardHeader,
-    Col,
-    Row,
-    FormGroup,
-    Label,
-    Input,
     Button,
-    Badge,
-    UncontrolledDropdown,
+    Col,
     DropdownItem,
     DropdownMenu,
     DropdownToggle,
-} from 'reactstrap';
+    FormGroup,
+    Label,
+    Row,
+    UncontrolledDropdown
+} from "reactstrap";
 
-import {
-    updateAffiliate
-} from "../../../../store/actions";
+import { updateAffiliate } from "../../../../store/actions";
 
-import { AvForm, AvField } from "availity-reactstrap-validation"
-import { AffiliateRole, AffiliateState, Currency, PayoutType } from "../../../../common/utils/model";
+import { AvField, AvForm } from "availity-reactstrap-validation";
+import { AffiliateState, Currency } from "../../../../common/utils/model";
 import { useDispatch, useSelector } from "react-redux";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 
 
 const FormAffiliate = (props: any) => {
