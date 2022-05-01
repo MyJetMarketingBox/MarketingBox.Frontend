@@ -11,9 +11,9 @@ import {
 } from "reactstrap";
 import Breadcrumbs from "../../components/Common/Breadcrumb";
 import SearchBrand from "./components/search";
-
 import TableBrands from "./components/table"
 import BtnLoadMore from "../../components/UI/btns/BtnLoadMore";
+import AddBrandModal from "./components/modal/add";
 
 const Brands: React.FC = () => {
 
@@ -22,7 +22,7 @@ const Brands: React.FC = () => {
   const { brands, nextUrl, error, loaded, loading } = useSelector((state: any) => {
     return {
       brands: state.Brands.brands.items,
-      nextUrl: state.Brands.brands.nextUrl,
+      nextUrl: state.Brands.brands.pagination.nextUrl,
       error: state.Brands.error,
       loading: state.Brands.loading,
       loaded: state.Brands.loaded
@@ -32,7 +32,8 @@ const Brands: React.FC = () => {
   const [modal, setModal] = useState<boolean>(false);
 
   let filter = {
-    order: 1
+    order: 1,
+    limit: 50
   };
 
   useEffect(() => {
@@ -48,6 +49,10 @@ const Brands: React.FC = () => {
     }
   }
 
+  const toggleModal = () => {
+    setModal(prev => !prev);
+  };
+
   return (
     <>
       {!loaded && loading && <Loader />}
@@ -61,7 +66,7 @@ const Brands: React.FC = () => {
 
         <Row>
           <Col className="col-12">
-            <Card>
+            <div>
               <CardBody>
 
                 <Row className="mb-2">
@@ -71,8 +76,8 @@ const Brands: React.FC = () => {
                   <Col className="col-md-4 offset-4 text-end">
                     <button
                       type="button"
-                      className="btn btn-success"
-                      /*onClick={toggleModal}*/
+                      className="btn btnOrange"
+                      onClick={toggleModal}
                     >
                       <i className="bx bx-plus me-1" /> Add New
                     </button>
@@ -109,12 +114,11 @@ const Brands: React.FC = () => {
                 }
 
               </CardBody>
-            </Card>
+            </div>
           </Col>
         </Row>
-
-
       </div>
+      <AddBrandModal isOpen={modal} toggle={toggleModal} />
     </>
   )
 

@@ -18,7 +18,8 @@ export default (props: any) => {
   const [value, setValue] = useState('');
 
   const filter = {
-    order: 1
+    order: 1,
+    limit: 50
   };
 
   const handleChangeSelect = (typeFilter: any) => {

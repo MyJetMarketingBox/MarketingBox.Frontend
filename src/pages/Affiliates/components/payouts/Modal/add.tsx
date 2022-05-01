@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { Col, Modal, ModalBody, ModalHeader, Row } from "reactstrap";
+import { Col, Label, Modal, ModalBody, ModalHeader, Row } from "reactstrap";
 import { AvField, AvForm } from "availity-reactstrap-validation";
 import { PayoutType, Currency } from "../../../../../common/utils/model";
 import { clearGeo, getGeo } from "../../../../../store/geo/actions";
@@ -141,6 +141,7 @@ export default ({ isOpen, toggle }: any) => {
               </Row>
 
               <div className="mb-3">
+                <Label>Geo</Label>
                 <Select
                   isSearchable
                   isLoading={loadingGeoList}

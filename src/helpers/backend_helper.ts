@@ -147,9 +147,20 @@ export const getReports = (filter: any) => get(`${url.GET_REPORTS}`,  { params: 
 /** BRANDS **/
 export const getBrands = (nextUrl: any, filter: object) => get(nextUrl || url.BRANDS, { params: filter });
 
+export const addBrand = (brand : any) => post(url.BRANDS, brand)
+
 export const updateBrand = (brand : object, id: number) => put(`${url.BRANDS}/${id}`, brand);
 
+export const delBrand = (id: number) => del(`${url.BRANDS}/${id}`);
+
+export const getBrand = (id: number) => get(`${url.BRANDS}/${id}`);
+
 /** END BRANDS **/
+
+/** BRAND PAYOUTS **/
+export const getBrandPayouts = (nextUrl: any, filter: object) => get(nextUrl || url.BRAND_PAYOUTS, { params: filter })
+
+/** END PAYOUTS **/
 
 // get countries
 export const getCountries = (nextUrl: any, filter: object) => get(nextUrl || url.COUNTRIES, { params: filter });

@@ -65,9 +65,7 @@ const Affiliates: React.FC = () => {
 
   return (
     <>
-      {
-        !loaded && loading && <Loader />
-      }
+      { !loaded && loading && <Loader /> }
       <div className="page-content">
         <MetaTags>
           <title>Affiliates | TraffMe </title>
@@ -75,6 +73,7 @@ const Affiliates: React.FC = () => {
         <div className="container-fluid">
           <Breadcrumbs title="TraffMe" breadcrumbItem="Affiliates" />
         </div>
+
         <Row>
           <Col className="col-12">
             <div>

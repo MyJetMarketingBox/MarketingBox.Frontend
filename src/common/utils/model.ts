@@ -76,3 +76,8 @@ export const PayoutType = [
     {label: "CPL", value: 1},
     {label: "CPC", value: 2},
 ]
+
+export const IntegrationType = [
+    "API",
+    "S2S",
+]

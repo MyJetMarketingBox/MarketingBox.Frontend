@@ -1,28 +1,26 @@
 import React, { useState } from "react";
+import ColumnActions from "../../../../../../components/UI/columnActions/ColumnActions";
 import BootstrapTable from "react-bootstrap-table-next";
-import { Currency, PayoutType } from "../../../../../common/utils/model";
-import ConfirmDelete from "../../../../../components/UI/confirmDelete/ConfirmDelete";
-import ColumnActions from "../../../../../components/UI/columnActions/ColumnActions";
-import { useHistory } from "react-router-dom";
+import { Currency, PayoutType } from "../../../../../../common/utils/model";
 import { useDispatch, useSelector } from "react-redux";
-import { updateAffiliate } from "../../../../../store/affiliates/profile/actions";
-//import ColumnActions from "../../columnActions/ColumnActions";
+import ConfirmDelete from "../../../../../../components/UI/confirmDelete/ConfirmDelete";
+import { updateBrand } from "../../../../../../store/brands/profile/actions";
 
-const tablePayouts = (props:any) => {
+export default (props : any ) => {
+
+  console.log(props);
+  const { payouts } = props
 
   const dispatch = useDispatch();
-  const history = useHistory();
 
   const [isOpen, setIsOpen] = useState(false);
   const [selectId, setSelectId] = useState(false);
 
-  const {affProfile} = useSelector((state: any) => {
+  const { brandProfile } = useSelector((state: any) => {
     return {
-      affProfile: state.AffProfile.affProfile
+      brandProfile: state.BrandProfile.brand
     }
   })
-
-  const { payouts } = props
 
   const resPayouts = payouts.map((payout : any) => {
     return {
@@ -49,18 +47,19 @@ const tablePayouts = (props:any) => {
     setIsOpen(prev => !prev);
   };
 
-  const handleDeleteAffPayout = (id: number) => {
-    const {payouts, offerAffiliates, bank, company, ...affClear} = affProfile
+  const handleDeleteBrandPayout = (payoutId : number) => {
+    const {payouts, campaignRows, integration, id, ...currBrand} = brandProfile
 
     const currPayouts = payouts.filter((item : any) => {
-      return item.id != id
+      return item.id != payoutId
     }).map((item : any) => {
       return item.id
     })
 
-    affClear.affiliatePayoutIds = currPayouts;
+    currBrand.brandPayoutIds = currPayouts;
+    currBrand.integrationId = integration?.id;
 
-    dispatch(updateAffiliate(affClear, affClear.id))
+    dispatch(updateBrand(currBrand, id))
   }
 
   const listActions: any = [
@@ -151,10 +150,8 @@ const tablePayouts = (props:any) => {
         headerWrapperClasses={"thead-light"}
       />
 
-      <ConfirmDelete isOpen={isOpen} toggle={toggleAction} handleDelete={handleDeleteAffPayout} id={selectId} />
+      <ConfirmDelete isOpen={isOpen} toggle={toggleAction} handleDelete={handleDeleteBrandPayout} id={selectId} />
 
     </React.Fragment>
   )
 }
-
-export default tablePayouts

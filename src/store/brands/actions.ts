@@ -16,22 +16,34 @@ export const getBrandsFail = (error : any) => ({
   payload: error,
 })
 
-export const updateBrand = (brand: object, id: number) => {
-  return {
-    type: BrandsTypes.UPDATE_BRAND,
-    payload: brand,
-    id: id
-  }
-}
-
-export const updateBrandSuccess = (brand: object) => ({
-  type: BrandsTypes.UPDATE_BRAND_SUCCESS,
+export const addBrand = (brand : any) => ({
+  type: BrandsTypes.ADD_BRAND,
   payload: brand
 })
 
-export const updateBrandFail = (error: any) => ({
-  type: BrandsTypes.UPDATE_BRAND_FAIL,
+export const addBrandSuccess = (brand : any) => ({
+  type: BrandsTypes.ADD_BRAND_SUCCESS,
+  payload: brand
+})
+
+export const addBrandFail = (error : any) => ({
+  type: BrandsTypes.ADD_BRAND,
   payload: error
+})
+
+export const delBrand = (id: number) => ({
+  type: BrandsTypes.DEL_BRAND,
+  payload: id
+})
+
+export const delBrandSuccess = (brand : any) => ({
+  type: BrandsTypes.DEL_BRAND_SUCCESS,
+  payload: brand
+})
+
+export const delBrandFail = (error: any) => ({
+  type: BrandsTypes.DEL_BRAND_FAIL,
+  payload: error,
 })
 
 export const clearBrands = () => ({

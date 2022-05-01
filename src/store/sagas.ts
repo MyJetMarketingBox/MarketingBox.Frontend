@@ -23,6 +23,10 @@ import reportsSaga from "./reports/saga";
 
 //Brands
 import brandsSaga from "./brands/saga";
+import brandSaga from "./brands/profile/saga";
+
+//BrandPayouts
+import brandPayoutsSaga from "./brandPayouts/saga";
 
 //Countries
 import countriesSaga from "./countries/saga";
@@ -65,7 +69,9 @@ export default function* rootSaga() {
     fork(registrationsSaga),
     fork(postbackLogsSaga),
     fork(brandsSaga),
-    fork(postbackSaga),
+    fork(brandsSaga),
+    fork(brandSaga),
+    fork(brandPayoutsSaga),
     fork(countriesSaga),
     fork(integrationsSaga),
     fork(geoSaga),

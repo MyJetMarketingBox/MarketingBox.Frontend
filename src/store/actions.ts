@@ -27,6 +27,10 @@ export * from "./reports/actions"
 
 /** Brands */
 export * from "./brands/actions"
+export * from "./brands/profile/actions"
+
+/** Brand Payouts */
+export * from "./brandPayouts/actions"
 
 /** Countries */
 export * from "./countries/actions"

@@ -13,7 +13,6 @@ import {
 
 } from "./actions";
 
-//Включите оба файла-помощника с необходимыми методами
 import {
   getAffiliates,
   getAffiliateProfile,
@@ -50,10 +49,10 @@ function* onDeleteAffiliate({ payload: id } : any) {
   }
 }
 
-function* contactsSaga() {
+function* affiliatesSaga() {
   yield takeEvery(AffiliatesTypes.GET_AFFILIATES, fetchAffiliates)
   yield takeEvery(AffiliatesTypes.ADD_NEW_AFFILIATE, onAddNewAffiliate)
   yield takeEvery(AffiliatesTypes.DELETE_AFFILIATE, onDeleteAffiliate)
 }
 
-export default contactsSaga;
+export default affiliatesSaga;
