@@ -5,7 +5,7 @@ import { Col, Label, Modal, ModalBody, ModalHeader, Row } from "reactstrap";
 import { AvField, AvForm } from "availity-reactstrap-validation";
 import { PayoutType, Currency } from "../../../../../common/utils/model";
 import { clearGeo, getGeo } from "../../../../../store/geo/actions";
-import Select from "react-select";
+import Select from "../../../../../components/UI/select";
 import { addAffPayouts } from "../../../../../store/affiliatePayouts/actions";
 
 export default ({ isOpen, toggle }: any) => {
@@ -140,8 +140,10 @@ export default ({ isOpen, toggle }: any) => {
                 </Col>
               </Row>
 
-              <div className="mb-3">
-                <Label>Geo</Label>
+              <div className="mb-3 custom-react-select">
+                <div className="react-select-descr">
+                  Select GEO
+                </div>
                 <Select
                   isSearchable
                   isLoading={loadingGeoList}
@@ -150,6 +152,18 @@ export default ({ isOpen, toggle }: any) => {
                 />
               </div>
 
+              <div className="mb-3 custom-react-select">
+                <div className="react-select-descr">
+                  Select GEO
+                </div>
+                <Select
+                  isMulti
+                  isSearchable
+                  isLoading={loadingGeoList}
+                  options={geoList}
+                  onChange={setSelectGeo}
+                />
+              </div>
             </Col>
           </Row>
           <Row>

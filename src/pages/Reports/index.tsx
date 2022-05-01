@@ -136,7 +136,7 @@ const Reports = () => {
     custom: true,
   };
 
-  // Select All Button operation
+  // select All Button operation
   // const selectRow: any = {
   //   mode: "checkbox",
   // };

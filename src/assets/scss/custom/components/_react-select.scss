@@ -1,0 +1,122 @@
+.custom-react-select {
+  .react-select-descr {
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+  }
+  .react-select-container {
+
+  }
+  .react-select__control {
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    box-shadow: none;
+
+    &:hover {
+      border: 1px solid #e0e0e0;
+    }
+  }
+  .react-select__multi-value {
+    background-color: #E74A18;
+    border-radius: 100px;
+    overflow: hidden;
+  }
+  .react-select__multi-value__label {
+    padding: 2px 3px 4px 8px;
+    font-size: 10px;
+    line-height: 1;
+    font-weight: 500;
+    color: #ffffff;
+  }
+  .react-select__multi-value__remove {
+    color: #ffffff;
+  }
+  .react-select__value-container {
+    padding: 14px 16px 13px;
+  }
+  .react-select__placeholder {
+    font-family: "Gilroy", sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+  }
+  .react-select__indicators {
+
+  }
+  .react-select__indicator {
+    padding-right: 12px;
+
+    svg {
+      display: block;
+      width: 18px;
+      height: 18px;
+      fill: #050121;
+    }
+  }
+  .react-select__indicator-separator {
+    display: none;
+  }
+  .react-select__menu {
+    border-radius: 12px;
+  }
+  .react-select__menu-list {
+    border-radius: 12px;
+  }
+  .react-select__option {
+    cursor: pointer;
+  }
+}
+
+
+
+body[data-layout-mode="dark"] .custom-react-select {
+  .react-select__control {
+    background-color: #363a38;
+    border: 1px solid #3b403d;
+
+    &:hover {
+      border: 1px solid #3b403d;
+    }
+  }
+  .react-select__single-value {
+    color: #ffffff;
+  }
+  .react-select__input input {
+    color: #ffffff !important;
+  }
+  .react-select__multi-value {
+    //background-color: #E74A18;
+    //border-radius: 100px;
+  }
+  .react-select__multi-value__label {
+    //color: #ffffff;
+  }
+  .react-select__multi-value__remove {
+    //color: #ffffff;
+  }
+  .react-select__value-container {
+
+  }
+  .react-select__placeholder {
+
+  }
+  .react-select__indicators {
+
+  }
+  .react-select__indicator {
+    svg {
+      fill: #ffffff;
+    }
+  }
+  .react-select__indicator-separator {
+
+  }
+  .react-select__menu {
+    background-color: #363a38;
+  }
+  .react-select__menu-list {
+
+  }
+  .react-select__option {
+
+  }
+}
