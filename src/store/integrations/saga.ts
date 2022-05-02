@@ -65,7 +65,6 @@ function* deleteIntegrationSaga({ payload: id } : any) {
 
 function* integrationsSaga() {
   yield takeEvery(IntegrationsTypes.GET_INTEGRATIONS, fetchIntegrations)
-  // @ts-ignore
   yield takeEvery(IntegrationsTypes.GET_INTEGRATION, fetchIntegration)
   yield takeEvery(IntegrationsTypes.ADD_INTEGRATION, addIntegrationSaga)
   yield takeEvery(IntegrationsTypes.DELETE_INTEGRATION, deleteIntegrationSaga)

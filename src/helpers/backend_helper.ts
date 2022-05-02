@@ -160,6 +160,7 @@ export const getBrand = (id: number) => get(`${url.BRANDS}/${id}`);
 /** BRAND PAYOUTS **/
 export const getBrandPayouts = (nextUrl: any, filter: object) => get(nextUrl || url.BRAND_PAYOUTS, { params: filter })
 
+export const addBrandPayout = (brandPayout: any) => post(url.BRAND_PAYOUTS, brandPayout);
 /** END PAYOUTS **/
 
 // get countries

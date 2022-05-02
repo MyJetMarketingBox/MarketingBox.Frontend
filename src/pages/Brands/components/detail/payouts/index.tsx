@@ -3,7 +3,7 @@ import { Col, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Row } from "
 import SimpleSearch from "../../../../../components/UI/simpleSearch";
 import TablePayouts from "./table";
 import AssignModal from "./modal/assign"
-import AddModal from "./modal/add"
+import AddModal from "../../../../../components/UI/modal/payouts/addBrand"
 
 
 export default (props: any) => {
@@ -61,7 +61,7 @@ export default (props: any) => {
         {payouts.length > 0 && <TablePayouts payouts={payouts}/>}
       </Row>
 
-      <AddModal isOpen={modalAdd} toggle={toggleModalAdd} />
+      <AddModal isOpen={modalAdd} toggle={toggleModalAdd} isBrand={true}/>
       <AssignModal isOpen={modalAssign} toggle={toggleModalAssign}/>
 
     </React.Fragment>

@@ -22,6 +22,8 @@ import Postback from "../pages/Postback";
 import Brands from "../pages/Brands";
 import Brand from "../pages/Brands/components/detail"
 
+import Payouts from "../pages/Payouts"
+
 //Authentication pages
 import Login from "src/pages/Authentication/Login";
 import Logout from "src/pages/Authentication/Logout";
@@ -56,6 +58,7 @@ const userRoutes: Array<RouteProps> = [
   { path: "/Postback", component: Postback},
   { path: "/Brands", component: Brands },
   { path: "/Brands/:id", component: Brand },
+  {path: "/Payouts", component: Payouts},
 
   // this route should be at the end of all components routes
   { path: "/", exact: true, component: () => <Redirect to="/dashboard" /> },

@@ -34,19 +34,19 @@ export const addAffPayoutsFail = (error: any) => ({
   payload: error
 })
 
-/** ADD AFF PAYOUTS **/
-export const addPayouts = (data: any) => ({
-  type: AffPayoutsTypes.ADD_PAYOUTS,
+/** ADD PAYOUT **/
+export const addPayout = (data: any) => ({
+  type: AffPayoutsTypes.ADD_PAYOUT,
   payload: data
 })
 
-export const addPayoutsSuccess = (data: any) => ({
-  type: AffPayoutsTypes.ADD_PAYOUTS_SUCCESS,
+export const addPayoutSuccess = (data: any) => ({
+  type: AffPayoutsTypes.ADD_PAYOUT_SUCCESS,
   payload: data
 })
 
-export const addPayoutsFail = (error: any) => ({
-  type: AffPayoutsTypes.ADD_PAYOUTS_FAIL,
+export const addPayoutFail = (error: any) => ({
+  type: AffPayoutsTypes.ADD_PAYOUT_FAIL,
   payload: error
 })
 

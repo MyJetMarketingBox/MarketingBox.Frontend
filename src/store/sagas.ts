@@ -69,7 +69,6 @@ export default function* rootSaga() {
     fork(registrationsSaga),
     fork(postbackLogsSaga),
     fork(brandsSaga),
-    fork(brandsSaga),
     fork(brandSaga),
     fork(brandPayoutsSaga),
     fork(countriesSaga),

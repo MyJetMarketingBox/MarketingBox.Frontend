@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Col, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Row } from "reactstrap";
 import SimpleSearch from "../../../../components/UI/simpleSearch"
 import TablePayouts from "./table"
-import AddModal from "./Modal/add"
+import AddModal from "../../../../components/UI/modal/payouts/addAffiliate"
 import AssignModal from "./Modal/assign"
 import { changeRootBlur } from "../../../../store/layout/actions";
 import { useDispatch } from "react-redux";
@@ -64,7 +64,7 @@ const Payouts = (props: any) => {
         {payouts.length > 0 && <TablePayouts payouts={payouts}/>}
       </Row>
 
-      <AddModal isOpen={modalAdd} toggle={toggleModalAdd} />
+      <AddModal isOpen={modalAdd} toggle={toggleModalAdd} isAff={true}/>
       <AssignModal isOpen={modalAssign} toggle={toggleModalAssign}/>
 
     </React.Fragment>

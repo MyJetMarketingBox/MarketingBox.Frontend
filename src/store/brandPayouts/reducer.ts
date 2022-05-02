@@ -36,6 +36,56 @@ const brandPayouts = (state = INIT_STATE, action: any) => {
         loadedList: false,
       }
 
+    case BrandPayoutsType.ADD_BRAND_PAYOUT:
+      return {
+        ...state,
+        loadedItem: true
+      }
+
+    case BrandPayoutsType.ADD_BRAND_PAYOUT_SUCCESS:
+      return {
+        ...state,
+        brandPayouts: {
+          ...state.brandPayouts,
+          items: [action.payload, ...state.brandPayouts.items]
+        },
+        loadingItem: false,
+        loadedItem: true
+      }
+
+    case BrandPayoutsType.ADD_BRAND_PAYOUT_FAIL:
+      return {
+        ...state,
+        error: action.payload,
+        loadingItem: false,
+        loadedItem: false,
+      }
+
+    case BrandPayoutsType.ADD_PAYOUT:
+      return {
+        ...state,
+        loadedItem: true
+      }
+
+    case BrandPayoutsType.ADD_PAYOUT_SUCCESS:
+      return {
+        ...state,
+        brandPayouts: {
+          ...state.brandPayouts,
+          items: [action.payload, ...state.brandPayouts.items]
+        },
+        loadingItem: false,
+        loadedItem: true
+      }
+
+    case BrandPayoutsType.ADD_PAYOUT_FAIL:
+      return {
+        ...state,
+        error: action.payload,
+        loadingItem: false,
+        loadedItem: false,
+      }
+
     case BrandPayoutsType.CLEAR_BRAND_PAYOUTS:
       return INIT_STATE
 

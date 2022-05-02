@@ -18,7 +18,7 @@ import { ReactComponent as IconSettings } from '../../assets/images/icons-settin
 import SimpleBar from "simplebar-react";
 
 //Import images
-import giftBox from "../../assets/images/users/avatar-3.jpg";
+import giftBox from "../../assets/images/users/joker-1.gif";
 
 //i18n
 import { withTranslation } from "react-i18next";
@@ -102,10 +102,10 @@ const SidebarContent = (props: any) => {
             <img src={giftBox} width="200" height="200" alt="img"/>
           </div>
           <div className={c.userName}>
-            User Name
+            {user['user-name']}
           </div>
           <div className={c.userId}>
-            ID #13408424
+            ID #{user['user-id']}
           </div>
         </div>
 
@@ -182,6 +182,11 @@ const SidebarContent = (props: any) => {
                 <div className={c.menuItemDescr}>{props.t("Settings")}</div>
               </div>
               <ul className={c.subMenu}>
+                <li className={c.subMenuItem}>
+                  <NavLink to="/payouts" activeClassName={c.active}>
+                    {props.t("Payouts")}
+                  </NavLink>
+                </li>
                 <li className={c.subMenuItem}>
                   <NavLink to="/postback" activeClassName={c.active}>
                     {props.t("Postback")}

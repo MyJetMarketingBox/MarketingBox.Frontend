@@ -9,10 +9,10 @@ export enum AffPayoutsTypes {
   ADD_AFF_PAYOUTS_SUCCESS = '@@affiliatePayouts/ADD_AFF_PAYOUTS_SUCCESS',
   ADD_AFF_PAYOUTS_FAIL = '@@affiliatePayouts/ADD_AFF_PAYOUTS_FAIL',
 
-  /** ADD PAYOUTS **/
-  ADD_PAYOUTS = '@@affiliatePayouts/ADD_PAYOUTS',
-  ADD_PAYOUTS_SUCCESS = '@@affiliatePayouts/ADD_PAYOUTS_SUCCESS',
-  ADD_PAYOUTS_FAIL = '@@affiliatePayouts/ADD_PAYOUTS_FAIL',
+  /** ADD PAYOUT **/
+  ADD_PAYOUT = '@@affiliatePayouts/ADD_PAYOUTS',
+  ADD_PAYOUT_SUCCESS = '@@affiliatePayouts/ADD_PAYOUTS_SUCCESS',
+  ADD_PAYOUT_FAIL = '@@affiliatePayouts/ADD_PAYOUTS_FAIL',
 
 
   /** CLEAR **/

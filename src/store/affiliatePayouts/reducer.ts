@@ -62,13 +62,13 @@ const affPayouts = (state = INIT_STATE, action : any) => {
         loadedItem: false,
       }
 
-    case AffPayoutsTypes.ADD_PAYOUTS:
+    case AffPayoutsTypes.ADD_PAYOUT:
       return {
         ...state,
         loadingItem: true,
       }
 
-    case AffPayoutsTypes.ADD_PAYOUTS_SUCCESS:
+    case AffPayoutsTypes.ADD_PAYOUT_SUCCESS:
       return{
         ...state,
         affPayouts: {
@@ -79,7 +79,7 @@ const affPayouts = (state = INIT_STATE, action : any) => {
         loadedItem: true
       }
 
-    case AffPayoutsTypes.ADD_PAYOUTS_FAIL:
+    case AffPayoutsTypes.ADD_PAYOUT_FAIL:
       return {
         ...state,
         error: action.payload,
