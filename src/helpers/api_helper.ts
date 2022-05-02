@@ -24,25 +24,21 @@ axiosApi.defaults.headers.common["accept"] = 'text/plain'
 
 axiosApi.interceptors.response.use(
   response => {
-    console.log("success response");
-    console.log(response);
     // @ts-ignore
     if (response.config.notification) {
       // @ts-ignore
-      toast(response.config.notification, { theme: localStorage.getItem('layoutTheme') });
+      toast.success(response.config.notification, { theme: localStorage.getItem('layoutTheme') });
     }
     return response;
   },
   error => {
-    console.log("error response");
-    console.log(error.response);
     const optionToast = {
       theme: localStorage.getItem('layoutTheme')
     };
     // @ts-ignore
     if(error.response.status === 401) optionToast.onClose = () => location.replace('/logout');
     // @ts-ignore
-    toast(error.response.statusText, optionToast);
+    toast.error(error.response.data.error.errorMessage, optionToast);
     return Promise.reject(error);
   }
 )
