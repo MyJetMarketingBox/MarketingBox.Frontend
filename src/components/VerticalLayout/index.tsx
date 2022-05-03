@@ -6,7 +6,9 @@ import {
   changeSidebarType,
   changeTopbarTheme,
   changeLayoutWidth,
-  changelayoutMode, loginSuccess, getCountries
+  changelayoutMode,
+  loginSuccess,
+  getCountries,
 } from "../../store/actions";
 
 // Layout Related Components
@@ -17,6 +19,7 @@ import Sidebar from "./Sidebar";
 import { useSelector, useDispatch } from "react-redux";
 import parseJwt from "../../common/utils/parse";
 import { ToastContainer } from "react-toastify";
+import { LOCAL_STORAGE_AUTH_USER } from "../../constants/localStorageKeys";
 
 const Layout = (props: any) => {
   const dispatch = useDispatch();
@@ -87,9 +90,9 @@ const Layout = (props: any) => {
 
   useEffect(() => {
     const rootBlur: any = document.getElementById("root");
-    (isBlur)
-      ? rootBlur.style.filter = 'blur(3px)'
-      : rootBlur.removeAttribute('style');
+    isBlur
+      ? (rootBlur.style.filter = "blur(3px)")
+      : rootBlur.removeAttribute("style");
   }, [isBlur]);
 
   // useEffect(() => {
@@ -105,9 +108,9 @@ const Layout = (props: any) => {
   // }, [layoutMode, dispatch]);
 
   // useEffect(() => {
-    // if (leftSidebarTypes) {
-    //   dispatch(changeSidebarType(leftSidebarTypes));
-    // }
+  // if (leftSidebarTypes) {
+  //   dispatch(changeSidebarType(leftSidebarTypes));
+  // }
   // }, [leftSidebarTypes, dispatch]);
 
   // useEffect(() => {
@@ -117,9 +120,9 @@ const Layout = (props: any) => {
   // }, [layoutWidth, dispatch]);
 
   // useEffect(() => {
-    // if (leftSideBarType) {
-    //   dispatch(changeSidebarType(leftSideBarType));
-    // }
+  // if (leftSideBarType) {
+  //   dispatch(changeSidebarType(leftSideBarType));
+  // }
   // }, [leftSideBarType, dispatch]);
 
   // useEffect(() => {
@@ -142,17 +145,15 @@ const Layout = (props: any) => {
   //     dispatch(getCountries("", { limit: 300 }))
   // }, [])
 
-
-  if(localStorage.getItem("authUser")){
+  if (localStorage.getItem(LOCAL_STORAGE_AUTH_USER)) {
     // @ts-ignore
-    const authUser = JSON.parse(localStorage.getItem("authUser"));
-    const userInfo = parseJwt(JSON.stringify(authUser.token))
+    const authUser = JSON.parse(localStorage.getItem(LOCAL_STORAGE_AUTH_USER));
+    const userInfo = parseJwt(JSON.stringify(authUser.token));
 
-    useSelector((state : any) => {
+    useSelector((state: any) => {
       state.login.userInfo = userInfo;
-    })
+    });
   }
-
 
   return (
     <React.Fragment>

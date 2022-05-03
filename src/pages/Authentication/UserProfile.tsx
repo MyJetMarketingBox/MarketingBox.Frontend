@@ -16,6 +16,7 @@ import Breadcrumb from "../../components/Common/Breadcrumb";
 import avatar from "../../assets/images/users/avatar-1.jpg";
 // actions
 import { editProfile, resetProfileFlag } from "../../store/actions";
+import { LOCAL_STORAGE_AUTH_USER } from "../../constants/localStorageKeys";
 
 const UserProfile = () => {
   const dispatch = useDispatch();
@@ -30,7 +31,7 @@ const UserProfile = () => {
   const [idx, setidx] = useState<number>(1);
 
   useEffect(() => {
-    const authUser: any = localStorage.getItem("authUser");
+    const authUser: any = localStorage.getItem(LOCAL_STORAGE_AUTH_USER);
     if (authUser) {
       const obj = JSON.parse(authUser);
 
