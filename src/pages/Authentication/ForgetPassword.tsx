@@ -16,7 +16,6 @@ import { userForgetPassword } from "../../store/actions";
 
 // import images
 import logo from "../../assets/images/logo-sm.svg";
-import CarouselPage from "./CarouselPage";
 
 interface ForgetPasswordProps {
   history: object;
@@ -37,7 +36,7 @@ const ForgetPasswordPage = ({ history }: ForgetPasswordProps) => {
     <React.Fragment>
       <MetaTags>
         <title>
-          Forget Password | Minia - React Admin & Dashboard Template
+          Forget Password | TraffMe
         </title>
       </MetaTags>
       <div className="auth-page">
@@ -113,16 +112,14 @@ const ForgetPasswordPage = ({ history }: ForgetPasswordProps) => {
                     </div>
                     <div className="mt-4 mt-md-5 text-center">
                       <p className="mb-0">
-                        © {new Date().getFullYear()} Minia . Crafted with{" "}
-                        <i className="mdi mdi-heart text-danger"></i> by
-                        Themesbrand
+                        © {new Date().getFullYear()}
                       </p>
                     </div>
                   </div>
                 </div>
               </div>
             </Col>
-            <CarouselPage />
+
           </Row>
         </Container>
       </div>
