@@ -32,6 +32,7 @@ const ForgetPasswordPage = ({ history }: ForgetPasswordProps) => {
   function handleValidSubmit(event: any, values: any) {
     dispatch(userForgetPassword(values, history));
   }
+
   return (
     <React.Fragment>
       <MetaTags>
@@ -49,14 +50,14 @@ const ForgetPasswordPage = ({ history }: ForgetPasswordProps) => {
                     <div className="mb-4 mb-md-5 text-center">
                       <Link to="/dashboard" className="d-block auth-logo">
                         <img src={logo} alt="" height="28" />{" "}
-                        <span className="logo-txt">Minia</span>
+                        <span className="logo-txt">TraffMe</span>
                       </Link>
                     </div>
                     <div className="auth-content my-auto">
                       <div className="text-center">
                         <h5 className="mb-0">Reset Password</h5>
                         <p className="text-muted mt-2">
-                          Reset Password with Minia.
+                          Reset Password with TraffMe.
                         </p>
                       </div>
 
