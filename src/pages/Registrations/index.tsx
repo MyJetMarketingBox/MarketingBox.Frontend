@@ -20,12 +20,12 @@ import {
 import { isEmpty, size, map } from "lodash";
 
 import { useDispatch, useSelector } from "react-redux";
-import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import TableReg from "./components/table/TableRegistrations";
 import ModalDetail from "./components/detail/ModalDetail";
 import { Link } from "react-router-dom";
 import Filter from "./components/filter/Filter";
+import BtnLoadMore from "../../components/UI/btns/BtnLoadMore";
 
 //import Loader from "../../components/UI/loader";
 
@@ -43,13 +43,13 @@ const Registrations: React.FC = () => {
     }
   });
 
-  const [errorRegList, setErrorRegList] = useState<any>(null);
   const [modal, setModal] = useState<boolean>(false);
   const [regId, setRegId] = useState(null);
 
   let filter = {
     order: 1, //DESC
-    ReportType: 2
+    type: 2,
+    limit: 50
   }
 
   useEffect(() => {
@@ -59,47 +59,12 @@ const Registrations: React.FC = () => {
     }
   }, []);
 
-
-  /** toast error **/
-  useEffect(() => {
-    if(errorReg.message) {
-      console.log(errorReg.status);
-      let autoClose : any = 5000;
-      let message : any = errorReg.message + " \n " + "Something went wrong! try a little later...";
-
-      if(errorReg.message == "Network Error"){
-        autoClose = false;
-        message = errorReg.message;
-      }
-
-      let optionToast : any = {
-        position: "top-right",
-        autoClose: autoClose,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined
-      }
-
-      if(layoutMode && layoutMode != 'light') optionToast.theme = "dark";
-
-      toast.error(message, optionToast);
-    }
-  }, [errorReg]);
-
   async function loadMore() {
     if(nextURL) {
       dispatch(onGetRegistrations(nextURL, {}));
     }
   }
 
-  if(errorRegList){
-    console.log(errorRegList);
-    // if(errorAffList.status === 401){
-    //   location.replace('/logout');
-    // }
-  }
 
   const toggleModal = () => {
     setModal(prev => !prev);
@@ -107,7 +72,6 @@ const Registrations: React.FC = () => {
 
   return (
     <React.Fragment>
-      <ToastContainer />
       <div className="page-content">
         <MetaTags>
           <title>Registrations | TraffMe </title>
@@ -124,7 +88,7 @@ const Registrations: React.FC = () => {
                       <Filter />
                   </Row>
 
-                  <Row>
+                  <Row className="mb-4">
                     <Col xl="12">
                       <div className="table-responsive">
                         {registrations.length ? <TableReg registrations={registrations} setRegId={setRegId} toggle={toggleModal}/> : null }
@@ -132,18 +96,18 @@ const Registrations: React.FC = () => {
                     </Col>
                   </Row>
 
-                  {nextURL && (
+                  {nextURL &&
                     <Row>
                       <Col xs="12">
-                        <div className="text-center my-3">
-                          <Link to="#" onClick={loadMore} className="text-success">
-                            <i className={`${!loading ? 'mdi mdi-download' : 'bx bx-hourglass bx-spin'} me-2 font-size-16`}></i> {" "}
-                            Load more
-                          </Link>
+                        <div className="text-center">
+                          <BtnLoadMore
+                            loading={loading}
+                            handeClick={loadMore}
+                          />
                         </div>
                       </Col>
                     </Row>
-                  )}
+                  }
 
                 </CardBody>
               </Card>

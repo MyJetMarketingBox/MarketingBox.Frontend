@@ -8,14 +8,14 @@ import { registrationModel, RegistrationStatus } from "../../../../common/utils/
 export default ({registrations = [], setRegId, toggle} : any) => {
 
   const columns = [
-    {
-      dataField: "actions",
-      text: "Actions",
-      sort:false,
-      formatter: (cell: any, row: any) => (
-        <ColumnActions id={row.id} />
-      )
-    },
+    // {
+    //   dataField: "actions",
+    //   text: "Actions",
+    //   sort:false,
+    //   formatter: (cell: any, row: any) => (
+    //     <ColumnActions id={row.id} />
+    //   )
+    // },
     {
       dataField: "affiliate",
       text: "Affiliate",
@@ -78,10 +78,13 @@ export default ({registrations = [], setRegId, toggle} : any) => {
   const registrationData = registrations.map((registration : any) => {
     return {
       id: registration.registrationId,
-      affiliate: registration.routeInfo.affiliateId,
+      affiliateId: registration.routeInfo.affiliateId,
+      affiliate: registration.routeInfo.affiliateNane,
       campaign: registration.routeInfo.campaignId,
-      brand: registration.routeInfo.brandId,
-      integration: registration.routeInfo.integrationIdId,
+      brandId: registration.routeInfo.brandId,
+      brand: registration.routeInfo.brandName,
+      integrationId: registration.routeInfo.integrationIdId,
+      integration: registration.routeInfo.integrationName,
       status: RegistrationStatus[registration.status],
       email: registration.generalInfo.email,
       country: registration.generalInfo.country,
