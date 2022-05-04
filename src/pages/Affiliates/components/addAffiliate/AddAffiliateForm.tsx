@@ -1,29 +1,29 @@
 import React, { useEffect, useState } from "react";
 import { connectAdvanced, useDispatch, useSelector } from "react-redux";
-import {
-  Col,
-  Row,
-  Modal,
-  ModalHeader,
-  ModalBody
-} from "reactstrap";
+import { Col, Row, Modal, ModalHeader, ModalBody } from "reactstrap";
 import { AvField, AvForm } from "availity-reactstrap-validation";
 import { addNewAffiliate } from "../../../../store/actions";
-import { AffiliateRole, AffiliateState, Currency, PayoutType } from "../../../../common/utils/model";
+import {
+  AffiliateRole,
+  AffiliateState,
+  Currency,
+  PayoutType,
+} from "../../../../common/utils/model";
 import Loader from "../../../../components/UI/loader";
 import Select from "react-select";
 
 export default ({ isOpen, toggle }: any) => {
-
   const dispatch = useDispatch();
 
-  const { addAffLoading, addAffSuccess, addAffError } = useSelector((state: any) => {
-    return {
-      addAffLoading: state.Affiliates.addAffLoading,
-      addAffSuccess: state.Affiliates.addAffSuccess,
-      addAffError: state.Affiliates.addAffError,
+  const { addAffLoading, addAffSuccess, addAffError } = useSelector(
+    (state: any) => {
+      return {
+        addAffLoading: state.Affiliates.addAffLoading,
+        addAffSuccess: state.Affiliates.addAffSuccess,
+        addAffError: state.Affiliates.addAffError,
+      };
     }
-  });
+  );
 
   useEffect(() => {
     if (addAffSuccess) {
@@ -44,8 +44,8 @@ export default ({ isOpen, toggle }: any) => {
         password: values["password"],
         email: values["email"],
         state: +values["state"],
-        currency: +values["currency"]
-      }
+        currency: +values["currency"],
+      },
     };
     // save new aff
     dispatch(addNewAffiliate(newAffiliate));
@@ -59,12 +59,8 @@ export default ({ isOpen, toggle }: any) => {
           Add Affiliate
         </ModalHeader>
         <ModalBody>
-
           <AvForm
-            onValidSubmit={(
-              e: any,
-              values: any
-            ) => {
+            onValidSubmit={(e: any, values: any) => {
               handleValidAffiliateSubmit(values);
             }}
           >
@@ -77,7 +73,7 @@ export default ({ isOpen, toggle }: any) => {
                     type="text"
                     errorMessage="Invalid name"
                     validate={{
-                      required: { value: true }
+                      required: { value: true },
                     }}
                     value={""}
                   />
@@ -89,7 +85,7 @@ export default ({ isOpen, toggle }: any) => {
                     type="email"
                     errorMessage="Invalid Email"
                     validate={{
-                      required: { value: true }
+                      required: { value: true },
                     }}
                     value={""}
                   />
@@ -101,7 +97,7 @@ export default ({ isOpen, toggle }: any) => {
                     type="password"
                     errorMessage="Invalid Designation"
                     validate={{
-                      required: { value: true }
+                      required: { value: true },
                     }}
                     value={""}
                   />
@@ -117,9 +113,11 @@ export default ({ isOpen, toggle }: any) => {
                     value="0"
                   >
                     <option value={""}>Select sate</option>
-                    {AffiliateState.map((val, i) =>
-                      <option key={i} value={i}>{val}</option>
-                    )}
+                    {AffiliateState.map((val, i) => (
+                      <option key={i} value={i}>
+                        {val}
+                      </option>
+                    ))}
                   </AvField>
                 </div>
 
@@ -133,20 +131,22 @@ export default ({ isOpen, toggle }: any) => {
                     value="0"
                   >
                     <option value={""}>Select sate</option>
-                    {Currency.map((val, i) => <option key={i} value={i}>{val}</option>)}
+                    {Currency.map((val, i) => (
+                      <option key={i} value={i}>
+                        {val}
+                      </option>
+                    ))}
                   </AvField>
                 </div>
-
               </Col>
             </Row>
             <Row>
               <Col>
                 <div className="text-end">
-                  <button
-                    type="submit"
-                    className="btn btn-success save-user"
-                  >
-                    {addAffLoading && <i className="bx bx-hourglass bx-spin me-2" />}
+                  <button type="submit" className="btn btn-success save-user">
+                    {addAffLoading && (
+                      <i className="bx bx-hourglass bx-spin me-2" />
+                    )}
                     Save
                   </button>
                 </div>
@@ -157,4 +157,4 @@ export default ({ isOpen, toggle }: any) => {
       </Modal>
     </>
   );
-}
+};

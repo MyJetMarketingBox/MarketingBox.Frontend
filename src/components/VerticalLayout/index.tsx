@@ -62,31 +62,27 @@ const Layout = (props: any) => {
   layout  settings
   */
 
-  useEffect(() => {
-    const preloader: any = document.getElementById("preloader");
-    const status: any = document.getElementById("status");
+  // useEffect(() => {
+  //   const preloader: any = document.getElementById("preloader");
+  //   const status: any = document.getElementById("status");
 
-    if (isPreloader === true) {
-      preloader.style.display = "block";
-      status.style.display = "block";
+  //   if (isPreloader === true) {
+  //     preloader.style.display = "block";
+  //     status.style.display = "block";
 
-      setTimeout(function () {
-        preloader.style.display = "none";
-        status.style.display = "none";
-      }, 2500);
-    } else {
-      preloader.style.display = "none";
-      status.style.display = "none";
-    }
-  }, [isPreloader]);
+  //     setTimeout(function () {
+  //       preloader.style.display = "none";
+  //       status.style.display = "none";
+  //     }, 2500);
+  //   } else {
+  //     preloader.style.display = "none";
+  //     status.style.display = "none";
+  //   }
+  // }, [isPreloader]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-
-  // useEffect(() => {
-  //   dispatch(changeLayout("vertical"));
-  // }, [dispatch]);
 
   useEffect(() => {
     const rootBlur: any = document.getElementById("root");
@@ -95,55 +91,11 @@ const Layout = (props: any) => {
       : rootBlur.removeAttribute("style");
   }, [isBlur]);
 
-  // useEffect(() => {
-  //   if (leftSideBarTheme) {
-  //     dispatch(changeSidebarTheme(leftSideBarTheme));
-  //   }
-  // }, [leftSideBarTheme, dispatch]);
-
-  // useEffect(() => {
-  //   if (layoutMode) {
-  //     dispatch(changelayoutMode(layoutMode, layoutType));
-  //   }
-  // }, [layoutMode, dispatch]);
-
-  // useEffect(() => {
-  // if (leftSidebarTypes) {
-  //   dispatch(changeSidebarType(leftSidebarTypes));
-  // }
-  // }, [leftSidebarTypes, dispatch]);
-
-  // useEffect(() => {
-  //   if (layoutWidth) {
-  //     dispatch(changeLayoutWidth(layoutWidth));
-  //   }
-  // }, [layoutWidth, dispatch]);
-
-  // useEffect(() => {
-  // if (leftSideBarType) {
-  //   dispatch(changeSidebarType(leftSideBarType));
-  // }
-  // }, [leftSideBarType, dispatch]);
-
-  // useEffect(() => {
-  //   if (topbarTheme) {
-  //     dispatch(changeTopbarTheme(topbarTheme));
-  //   }
-  // }, [topbarTheme, dispatch]);
-
-  /*
-  call dark/light mode
-  */
   const onChangeLayoutMode = (value: any) => {
     if (changelayoutMode) {
       dispatch(changelayoutMode(value, layoutType));
     }
   };
-
-  // useEffect(() => {
-  //   if(!loadedCountries)
-  //     dispatch(getCountries("", { limit: 300 }))
-  // }, [])
 
   if (localStorage.getItem(LOCAL_STORAGE_AUTH_USER)) {
     // @ts-ignore
@@ -158,29 +110,13 @@ const Layout = (props: any) => {
   return (
     <React.Fragment>
       <ToastContainer autoClose={2000} />
-      <div id="preloader">
-        <div id="status">
-          <div className="spinner-chase">
-            <div className="chase-dot" />
-            <div className="chase-dot" />
-            <div className="chase-dot" />
-            <div className="chase-dot" />
-            <div className="chase-dot" />
-            <div className="chase-dot" />
-          </div>
-        </div>
-      </div>
 
       <div id="layout-wrapper">
         <Header
           toggleMenuCallback={toggleMenuCallback}
           onChangeLayoutMode={onChangeLayoutMode}
         />
-        <Sidebar
-          theme={leftSideBarTheme}
-          type={leftSideBarType}
-          isMobile={isMobile}
-        />
+        <Sidebar />
         <div className="main-content">{props.children}</div>
       </div>
     </React.Fragment>

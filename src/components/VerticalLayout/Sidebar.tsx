@@ -1,17 +1,17 @@
 import React from "react";
+import { layoutThemeEnum } from "src/enums/LayoutsEnum";
 
 //import components
 import SidebarContent from "./SidebarContent";
 
-const Sidebar = (props: any) => {
+
+const Sidebar = () => {
   return (
-    <React.Fragment>
-      <div className="vertical-menu">
-        <div data-simplebar className="h-100">
-          {props.type !== "condensed" ? <SidebarContent /> : <SidebarContent />}
-        </div>
+    <div className="vertical-menu">
+      <div data-simplebar className="h-100">
+        <SidebarContent />
       </div>
-    </React.Fragment>
+    </div>
   );
 };
 

@@ -9,7 +9,7 @@ import NotificationDropdown from "../CommonForBoth/TopbarDropdown/NotificationDr
 import ProfileMenu from "../CommonForBoth/TopbarDropdown/ProfileMenu";
 import LightDark from "../CommonForBoth/Menus/LightDark";
 
-import c from './Header.module.scss';
+import c from "./Header.module.scss";
 
 //import images
 import logoSvg from "../../assets/images/logo.svg";
@@ -17,6 +17,7 @@ import logoWhiteSvg from "../../assets/images/logo-white.svg";
 
 //redux
 import { useSelector } from "react-redux";
+import Page from "src/constants/pages";
 
 const Header = (props: any) => {
   const { layoutMode } = useSelector((state: any) => ({
@@ -27,9 +28,21 @@ const Header = (props: any) => {
     <React.Fragment>
       <header id="page-topbar">
         <div className={c.body}>
-          <Link to="/dashboard" className={c.logo}>
-            <img src={logoSvg} className={c.light} width="165" height="42" alt="FoxOffers" />
-            <img src={logoWhiteSvg} className={c.dark} width="165" height="42" alt="FoxOffers" />
+          <Link to={Page.DASHBOARD} className={c.logo}>
+            <img
+              src={logoSvg}
+              className={c.light}
+              width="165"
+              height="42"
+              alt="FoxOffers"
+            />
+            <img
+              src={logoWhiteSvg}
+              className={c.dark}
+              width="165"
+              height="42"
+              alt="FoxOffers"
+            />
           </Link>
           <div className="d-flex">
             <LightDark

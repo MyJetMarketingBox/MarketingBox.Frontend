@@ -6,18 +6,18 @@ import {
   layoutTypes,
   layoutWidthTypes,
   topBarThemeTypes,
-  layoutTheme,
   layoutPositions,
   leftSidebarTypes,
   leftSideBarThemeTypes,
 } from "../../constants/layout";
+import { layoutThemeEnum } from "src/enums/LayoutsEnum";
 
 export const INIT_STATE : LayoytState = {
   layoutType: layoutTypes.VERTICAL,
   layoutWidth: layoutWidthTypes.FLUID,
   leftSideBarTheme: leftSideBarThemeTypes.LIGHT,
   leftSideBarType: leftSidebarTypes.DEFAULT,
-  layoutMode: localStorage.getItem('layoutTheme') || layoutTheme.LIGHTMODE,
+  layoutMode: localStorage.getItem('layoutTheme') || layoutThemeEnum.LIGHTMODE,
   topbarTheme: topBarThemeTypes.LIGHT,
   isPreloader: true,
   showRightSidebar: false,

@@ -1,9 +1,6 @@
 import React, { useState } from "react";
 
-import {
-  Modal,
-} from "reactstrap";
-
+import { Modal } from "reactstrap";
 
 const UiModal = (props: any) => {
   const [modal_standard, setmodal_standard] = useState(false);
@@ -18,13 +15,7 @@ const UiModal = (props: any) => {
   }
 
   return (
-
-    <Modal
-      isOpen={modal_standard}
-      toggle={() => {
-        tog_standard();
-      }}
-    >
+    <Modal isOpen={modal_standard} toggle={tog_standard}>
       <div className="modal-header">
         <h5 className="modal-title mt-0" id="myModalLabel">
           Modal Heading
@@ -44,38 +35,32 @@ const UiModal = (props: any) => {
       <div className="modal-body">
         <h5>Overflowing text to show scroll behavior</h5>
         <p>
-          Cras mattis consectetur purus sit amet fermentum. Cras
-          justo odio, dapibus ac facilisis in, egestas eget
-          quam. Morbi leo risus, porta ac consectetur ac,
-          vestibulum at eros.
+          Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
+          dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac
+          consectetur ac, vestibulum at eros.
         </p>
         <p>
-          Praesent commodo cursus magna, vel scelerisque nisl
-          consectetur et. Vivamus sagittis lacus vel augue
-          laoreet rutrum faucibus dolor auctor.
+          Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
+          Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.
         </p>
         <p>
-          Aenean lacinia bibendum nulla sed consectetur.
-          Praesent commodo cursus magna, vel scelerisque nisl
-          consectetur et. Donec sed odio dui. Donec ullamcorper
-          nulla non metus auctor fringilla.
+          Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus
+          magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec
+          ullamcorper nulla non metus auctor fringilla.
         </p>
         <p>
-          Cras mattis consectetur purus sit amet fermentum. Cras
-          justo odio, dapibus ac facilisis in, egestas eget
-          quam. Morbi leo risus, porta ac consectetur ac,
-          vestibulum at eros.
+          Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
+          dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac
+          consectetur ac, vestibulum at eros.
         </p>
         <p>
-          Praesent commodo cursus magna, vel scelerisque nisl
-          consectetur et. Vivamus sagittis lacus vel augue
-          laoreet rutrum faucibus dolor auctor.
+          Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
+          Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.
         </p>
         <p>
-          Aenean lacinia bibendum nulla sed consectetur.
-          Praesent commodo cursus magna, vel scelerisque nisl
-          consectetur et. Donec sed odio dui. Donec ullamcorper
-          nulla non metus auctor fringilla.
+          Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus
+          magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec
+          ullamcorper nulla non metus auctor fringilla.
         </p>
       </div>
       <div className="modal-footer">

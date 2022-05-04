@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import ReactDOM from 'react-dom';
+import ReactDOM from "react-dom";
 import { useDispatch, useSelector } from "react-redux";
-import c from './ConfirmDelete.module.scss';
+import c from "./ConfirmDelete.module.scss";
 import { AvField, AvForm } from "availity-reactstrap-validation";
 import { changeRootBlur } from "../../../store/layout/actions";
 
@@ -11,8 +11,8 @@ export default ({ isOpen, toggle, handleDelete, id }: any) => {
   const [canDelete, setCanDelete] = useState(false);
   const { theme } = useSelector((state: any) => {
     return {
-      theme: state.Layout.layoutMode
-    }
+      theme: state.Layout.layoutMode,
+    };
   });
 
   useEffect(() => {
@@ -25,49 +25,47 @@ export default ({ isOpen, toggle, handleDelete, id }: any) => {
 
   const close = () => {
     toggle(false);
-  }
+  };
 
   const handleChange = (e: { target: { value: string } }) => {
     setValue(e.target.value);
-  }
+  };
 
   useEffect(() => {
-    setCanDelete(value.toLowerCase() === 'delete');
-  }, [value])
+    setCanDelete(value.toLowerCase() === "delete");
+  }, [value]);
 
   const handleBtnDelete = () => {
     if (canDelete) {
       handleDelete(id);
       close();
     }
-  }
+  };
 
-  const classesContainer = [c['popup']];
-  if (theme === 'dark') classesContainer.push(c['dark'])
+  const classesContainer = [c["popup"]];
+  if (theme === "dark") classesContainer.push(c["dark"]);
 
   if (!isOpen) return null;
 
   return ReactDOM.createPortal(
-    <div className={classesContainer.join(' ')} onClick={close}>
+    <div className={classesContainer.join(" ")} onClick={close}>
       <div className={c["popup-wrapper"]} onClick={e => e.stopPropagation()}>
+        <div className={c["popup-content"]}>
+          <div className={c["popup-btn-close"]} onClick={close} />
 
-        <div className={c['popup-content']}>
-          <div className={c['popup-btn-close']} onClick={close} />
-
-          <div className={c['popup-img']}>
+          <div className={c["popup-img"]}>
             <img src="/images/trashBin.png" alt="i" />
           </div>
-          <div className={c['popup-title']}>
-            Permanently Delete
-          </div>
-          <div className={c['popup-text']}>
-            You are about to permanently delete content<br/>
+          <div className={c["popup-title"]}>Permanently Delete</div>
+          <div className={c["popup-text"]}>
+            You are about to permanently delete content
+            <br />
             You will not be able to recover these contents.
           </div>
-          <div className={c['popup-descr']}>
+          <div className={c["popup-descr"]}>
             *This operation cannot be undone
           </div>
-          <div className={c['popup-input']}>
+          <div className={c["popup-input"]}>
             <AvForm className="needs-validation">
               <AvField
                 name="confirm"
@@ -79,8 +77,12 @@ export default ({ isOpen, toggle, handleDelete, id }: any) => {
               />
             </AvForm>
           </div>
-          <div className={c['popup-btns']}>
-            <button type="button" className="btn custom-btn-light" onClick={close}>
+          <div className={c["popup-btns"]}>
+            <button
+              type="button"
+              className="btn custom-btn-light"
+              onClick={close}
+            >
               Cancel
             </button>
             <button
@@ -97,4 +99,4 @@ export default ({ isOpen, toggle, handleDelete, id }: any) => {
     </div>,
     document.body
   );
-}
+};
