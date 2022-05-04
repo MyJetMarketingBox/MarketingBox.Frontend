@@ -20,9 +20,11 @@ export const AFFILIATES = "api/affiliates"
 
 //AFFILIATES PAYOUTS
 export const AFF_PAYOUTS = "api/AffiliatePayouts"
+export const AFF_PAYOUTS_SEARCH = "api/AffiliatePayouts/search"
 
 //GEO
 export const GEO = "api/Geo"
+export const GEO_SEARCH = "api/Geo/search"
 
 //REGISTRATIONS
 export const REGISTRATIONS = "api/registrations"
@@ -42,6 +44,7 @@ export const CAMPAIGNS = "api/campaigns"
 //BRANDS
 export const BRANDS = "api/brands"
 export const BRAND_PAYOUTS = "api/BrandPayouts"
+export const BRAND_PAYOUTS_SEARCH = "api/BrandPayouts/search"
 
 export const COUNTRIES = "api/countries"
 

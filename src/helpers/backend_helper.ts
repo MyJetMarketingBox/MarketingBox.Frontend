@@ -128,7 +128,9 @@ export const delPostback = () => del(`${url.POSTBACK}`);
 /** END POSTBACK **/
 
 /** AFF PAYOUTS **/
-export const getAffPayouts = (nextUrl: any, filter: object) => get(nextUrl || url.AFF_PAYOUTS, {params: filter});
+//export const getAffPayouts = (nextUrl: any, filter: object) => get(nextUrl || url.AFF_PAYOUTS, {params: filter});
+
+export const getAffPayouts = (nextUrl: any, filter: object) => post(nextUrl || url.AFF_PAYOUTS_SEARCH, filter);
 
 export const addAffPayouts = (affPayouts: any) => post(url.AFF_PAYOUTS, affPayouts);
 
@@ -137,7 +139,9 @@ export const delAffPayouts = (id : number) => del(`${url.AFF_PAYOUTS}/${id}`);
 
 
 /** GEO **/
-export const getGeo = (nextUrl: any, filter: object) => get(nextUrl || url.GEO, {params: filter})
+//export const getGeo = (nextUrl: any, filter: object) => get(nextUrl || url.GEO, {params: filter})
+
+export const getGeo = (nextUrl: any, filter: object) => post(nextUrl || url.GEO_SEARCH, filter)
 
 /** END GEO **/
 
@@ -158,7 +162,9 @@ export const getBrand = (id: number) => get(`${url.BRANDS}/${id}`);
 /** END BRANDS **/
 
 /** BRAND PAYOUTS **/
-export const getBrandPayouts = (nextUrl: any, filter: object) => get(nextUrl || url.BRAND_PAYOUTS, { params: filter })
+//export const getBrandPayouts = (nextUrl: any, filter: object) => get(nextUrl || url.BRAND_PAYOUTS, { params: filter })
+
+export const getBrandPayouts = (nextUrl: any, filter: object) => post(nextUrl || url.BRAND_PAYOUTS_SEARCH, filter)
 
 export const addBrandPayout = (brandPayout: any) => post(url.BRAND_PAYOUTS, brandPayout);
 /** END PAYOUTS **/
