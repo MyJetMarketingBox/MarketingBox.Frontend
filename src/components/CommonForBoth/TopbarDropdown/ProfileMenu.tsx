@@ -19,6 +19,7 @@ import user1 from "../../../assets/images/users/avatar-1.jpg";
 import { useSelector } from "react-redux";
 
 import c from './ProfileMenu.module.scss';
+import { LOCAL_STORAGE_AUTH_USER } from "../../../constants/localStorageKeys";
 
 const ProfileMenu = (props: any) => {
   const { success } = useSelector((state: any) => ({
@@ -35,7 +36,7 @@ const ProfileMenu = (props: any) => {
   }
 
   useEffect(() => {
-    const getAuthUser = localStorage.getItem("authUser");
+    const getAuthUser = localStorage.getItem(LOCAL_STORAGE_AUTH_USER);
     if (getAuthUser) {
         const obj = JSON.parse(getAuthUser);
         setusername(obj.username);

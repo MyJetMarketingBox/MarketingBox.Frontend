@@ -4,9 +4,9 @@ import { call, put, takeEvery, takeLatest } from "redux-saga/effects";
 import { LoginTypes } from "./actionTypes";
 import { apiError, loginSuccess, logoutUserSuccess } from "./actions";
 
-import { postLogin, } from "../../../helpers/backend_helper";
+import { postLogin } from "../../../helpers/backend_helper";
 import parseJwt from "../../../common/utils/parse";
-
+import { LOCAL_STORAGE_AUTH_USER } from "../../../constants/localStorageKeys";
 
 function* loginUser({ payload: { user, history } }: any) {
   try {
@@ -17,8 +17,8 @@ function* loginUser({ payload: { user, history } }: any) {
       });
       //console.log(response);
       //debugger
-      localStorage.setItem("authUser", JSON.stringify(response));
-      const userInfo = parseJwt(JSON.stringify(response))
+      localStorage.setItem(LOCAL_STORAGE_AUTH_USER, JSON.stringify(response));
+      const userInfo = parseJwt(JSON.stringify(response));
       yield put(loginSuccess(userInfo));
     }
     history.push("/dashboard");
@@ -30,9 +30,9 @@ function* loginUser({ payload: { user, history } }: any) {
 
 function* logoutUser({ payload: { history } }: any) {
   try {
-    localStorage.removeItem("authUser");
+    localStorage.removeItem(LOCAL_STORAGE_AUTH_USER);
     //history.push("/login");
-    location.replace('/login');
+    location.replace("/login");
   } catch (error) {
     yield put(apiError(error));
   }
