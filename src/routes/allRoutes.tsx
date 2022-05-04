@@ -147,7 +147,7 @@ const routesList: RouteItemsType[] = [
   {
     path: Page.SIGN_OUT,
     component: Logout,
-    layoutType: RouteLayoutTypeEnum.SignFlow,
+    layoutType: RouteLayoutTypeEnum.Public,
     strict: true,
     exact: true,
   },
