@@ -4,5 +4,6 @@ export interface RouteItemsType {
   path: string;
   component: any;
   layoutType: RouteLayoutTypeEnum;
-  exact?: boolean;
+  exact: boolean;
+  strict: boolean;
 }
