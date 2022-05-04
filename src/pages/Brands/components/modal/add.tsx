@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Col, Label, Modal, ModalBody, ModalHeader, Row } from "reactstrap";
-import Loader from "../../../../components/UI/loader";
 import { useDispatch, useSelector } from "react-redux";
 import { getIntegrations } from "../../../../store/integrations/actions";
 import { AvField, AvForm } from "availity-reactstrap-validation";
@@ -8,58 +7,51 @@ import Select from "react-select";
 import { addBrand } from "../../../../store/brands/actions";
 import { useHistory } from "react-router-dom";
 
-export default ({isOpen, toggle}:any) => {
+export default ({ isOpen, toggle }: any) => {
   const dispatch = useDispatch();
-  const history = useHistory();
 
   const [getIntegration, setIntegration] = useState([]);
 
-  const { integrations, upLoadingBrand, addLoaded } = useSelector((state: any) => {
-    return {
-      integrations: state.Integrations.value.items,
-      upLoadingBrand: state.Brands.addBrandsLoading,
-      addLoaded: state.Brands.addBrandsLoaded
+  const { integrations, upLoadingBrand, addLoaded } = useSelector(
+    (state: any) => {
+      return {
+        integrations: state.Integrations.value.items,
+        upLoadingBrand: state.Brands.addBrandsLoading,
+        addLoaded: state.Brands.addBrandsLoaded,
+      };
     }
-  })
+  );
 
   let filter = {
-    order: 1
+    order: 1,
   };
 
   useEffect(() => {
-    dispatch(getIntegrations('', filter));
-  }, [])
+    dispatch(getIntegrations("", filter));
+  }, []);
 
-
-  const resIntegrations = integrations.map((item:any) => {
+  const resIntegrations = integrations.map((item: any) => {
     return {
       value: item.id,
-      label: item.name
-    }
-  })
-
+      label: item.name,
+    };
+  });
 
   const handleValidBrandSubmit = (data: any) => {
-    const {value, lable} : any = getIntegration;
+    const { value, lable }: any = getIntegration;
 
     const sendBrand = {
       name: data.name,
       integrationType: 0,
       integrationId: +value,
-    }
+    };
 
     console.log(sendBrand);
 
-    dispatch(addBrand(sendBrand))
-  }
+    dispatch(addBrand(sendBrand));
+  };
 
-  /*useEffect(() => {
-    if(addLoaded) {
-      history.push(`/Brands/${id}`);
-    }
-  }, [addLoaded])*/
-
-  return(
+  return (
     <>
       <Modal isOpen={isOpen} toggle={toggle}>
         {/*{addAffLoading && <Loader />}*/}
@@ -67,12 +59,8 @@ export default ({isOpen, toggle}:any) => {
           Add Brand
         </ModalHeader>
         <ModalBody>
-
           <AvForm
-            onValidSubmit={(
-              e: any,
-              values: any
-            ) => {
+            onValidSubmit={(e: any, values: any) => {
               handleValidBrandSubmit(values);
             }}
           >
@@ -86,7 +74,7 @@ export default ({isOpen, toggle}:any) => {
                     autoComplete="off"
                     errorMessage="Invalid name"
                     validate={{
-                      required: { value: true }
+                      required: { value: true },
                     }}
                     value={""}
                   />
@@ -112,17 +100,17 @@ export default ({isOpen, toggle}:any) => {
                     className="btn btnOrange"
                     disabled={upLoadingBrand}
                   >
-                    {upLoadingBrand &&<i className="bx bx-hourglass bx-spin me-2"/>}
+                    {upLoadingBrand && (
+                      <i className="bx bx-hourglass bx-spin me-2" />
+                    )}
                     Save
                   </button>
                 </div>
               </Col>
             </Row>
-
           </AvForm>
-
         </ModalBody>
       </Modal>
     </>
-  )
-}
+  );
+};

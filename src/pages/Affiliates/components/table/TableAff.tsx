@@ -1,13 +1,13 @@
-import React from 'react';
-import { useHistory } from 'react-router-dom';
+import React from "react";
+import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
 import BootstrapTable from "react-bootstrap-table-next";
 import ColumnActions from "../../../../components/UI/columnActions/ColumnActions";
-import { AffiliateRole } from "../../../../common/utils/model";
 import { useState } from "react";
 import ConfirmDelete from "../../../../components/UI/confirmDelete/ConfirmDelete";
 import { deleteAffiliate } from "../../../../store/affiliates/actions";
+import Page from "../../../../constants/pages";
 
 export default ({ affiliates = [] }: any) => {
   const dispatch = useDispatch();
@@ -51,14 +51,17 @@ export default ({ affiliates = [] }: any) => {
       ai: affiliate.id,
       email: affiliate.generalInfo.email,
       reportto: "Management",
-      createdat: new Date(affiliate.generalInfo.createdAt).toLocaleDateString("ru-RU", {
-        day: "2-digit",
-        month: "2-digit",
-        year: "2-digit"
-      }),
+      createdat: new Date(affiliate.generalInfo.createdAt).toLocaleDateString(
+        "ru-RU",
+        {
+          day: "2-digit",
+          month: "2-digit",
+          year: "2-digit",
+        }
+      ),
       status: status,
       actions: "",
-      color: color
+      color: color,
     };
   });
 
@@ -66,7 +69,7 @@ export default ({ affiliates = [] }: any) => {
     {
       label: "edit",
       handler: (id: any) => {
-        history.push(`/Affiliates/${id}`);
+        history.push(`${Page.AFFILIATES}/${id}`);
       },
     },
     {
@@ -75,7 +78,7 @@ export default ({ affiliates = [] }: any) => {
         setIsOpen(true);
         setSelectId(id);
       },
-    }
+    },
   ];
 
   const columns = [
@@ -85,40 +88,37 @@ export default ({ affiliates = [] }: any) => {
       headerStyle: { width: "70px", minWidth: "70px" },
       sort: false,
       formatter: (cell: any, row: any) => (
-        <ColumnActions
-          id={row.id}
-          items={listActions}
-        />
-      )
+        <ColumnActions id={row.id} items={listActions} />
+      ),
     },
     {
       dataField: "username",
       text: "Username",
       sort: true,
       headerStyle: { width: "250px", minWidth: "250px" },
-      style: { width: "250px", minWidth: "250px", "word-break": "break-word" }
+      style: { width: "250px", minWidth: "250px", "word-break": "break-word" },
     },
     {
       dataField: "ai",
       text: "AI",
-      sort: true
+      sort: true,
     },
     {
       dataField: "email",
       text: "Email",
       sort: true,
       headerStyle: { width: "250px", minWidth: "250px" },
-      style: { width: "250px", minWidth: "250px", "word-break": "break-word" }
+      style: { width: "250px", minWidth: "250px", "word-break": "break-word" },
     },
     {
       dataField: "reportto",
       text: "Report To",
-      sort: true
+      sort: true,
     },
     {
       dataField: "createdat",
       text: "Created At",
-      sort: true
+      sort: true,
     },
     {
       dataField: "status",
@@ -127,20 +127,22 @@ export default ({ affiliates = [] }: any) => {
       formatter: (cellContent: any, productData: any) => (
         <>
           <div
-            className={"badge badge-soft-" + productData.color + " font-size-12"}
+            className={
+              "badge badge-soft-" + productData.color + " font-size-12"
+            }
           >
             {productData.status}
           </div>
         </>
-      )
-    }
+      ),
+    },
   ];
 
   const defaultSorted: any = [
     {
       dataField: "id",
-      order: "desc"
-    }
+      order: "desc",
+    },
   ];
 
   return (
@@ -156,7 +158,12 @@ export default ({ affiliates = [] }: any) => {
         headerWrapperClasses={"thead-light"}
       />
 
-      <ConfirmDelete isOpen={isOpen} toggle={toggleAction} handleDelete={handleDeleteAffiliate} id={selectId} />
+      <ConfirmDelete
+        isOpen={isOpen}
+        toggle={toggleAction}
+        handleDelete={handleDeleteAffiliate}
+        id={selectId}
+      />
     </div>
   );
-}
+};

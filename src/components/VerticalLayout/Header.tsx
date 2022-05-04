@@ -17,7 +17,7 @@ import logoWhiteSvg from "../../assets/images/logo-white.svg";
 
 //redux
 import { useSelector } from "react-redux";
-import Page from "src/constants/pages";
+import Page from "../../constants/pages";
 
 const Header = (props: any) => {
   const { layoutMode } = useSelector((state: any) => ({

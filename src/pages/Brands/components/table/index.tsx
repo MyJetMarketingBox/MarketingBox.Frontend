@@ -1,25 +1,26 @@
+import React, { useState } from "react";
+
 import ColumnActions from "../../../../components/UI/columnActions/ColumnActions";
 import BootstrapTable from "react-bootstrap-table-next";
-import { brandPrivacy, brandStatus, Currency, IntegrationType, plan } from "../../../../common/utils/model";
+import { brandPrivacy, brandStatus } from "../../../../common/utils/model";
 import { useDispatch } from "react-redux";
-import { useHistory } from 'react-router-dom';
+import { useHistory } from "react-router-dom";
 
-import {delBrand} from "../../../../store/actions";
-import React, { useState } from "react";
+import { delBrand } from "../../../../store/actions";
+
 import ConfirmDelete from "../../../../components/UI/confirmDelete/ConfirmDelete";
 import { updateBrand } from "../../../../store/brands/profile/actions";
+import Page from "../../../../constants/pages";
 
-export default ({ brands = []} : any ) => {
-  const dispatch = useDispatch()
+export default ({ brands = [] }: any) => {
+  const dispatch = useDispatch();
   const history = useHistory();
 
   const [isOpen, setIsOpen] = useState(false);
   const [selectId, setSelectId] = useState(false);
 
-  const brandsData = brands.map( (brand : any)  => {
-    //console.log(brand.integration.name);
-    //debugger
-
+  const brandsData = brands.map((brand: any) => {
+ 
     let color;
     switch (brand.status) {
       case 0:
@@ -30,9 +31,10 @@ export default ({ brands = []} : any ) => {
         break;
     }
 
-    let integrationName = (brand.integration?.name && brand.integration?.name.length > 15)
-      ? brand.integration.name.substring(0, 15)+' ...'
-      : brand.integration?.name
+    let integrationName =
+      brand.integration?.name && brand.integration?.name.length > 15
+        ? brand.integration.name.substring(0, 15) + " ..."
+        : brand.integration?.name;
 
     return {
       id: brand.id,
@@ -44,16 +46,15 @@ export default ({ brands = []} : any ) => {
       color: color,
       payout: brand.payouts?.payoutType,
       revenue: brand.revenue,
-      privacy: brand.privacy
-    }
-
+      privacy: brand.privacy,
+    };
   });
 
   const listActions: any = [
     {
       label: "edit",
       handler: (id: any) => {
-        history.push(`/brands/${id}`);
+        history.push(`${Page.BRANDS}/${id}`);
       },
     },
     {
@@ -62,29 +63,29 @@ export default ({ brands = []} : any ) => {
         setIsOpen(true);
         setSelectId(id);
       },
-    }
+    },
   ];
 
   const handleChangePrivacy = (e: any) => {
     e.preventDefault();
 
-    const brand = brands.find((item:any) => {
+    const brand = brands.find((item: any) => {
       return item.id == e.target.id;
-    })
+    });
 
-    const {id, ...newBrand} = brand;
+    const { id, ...newBrand } = brand;
 
-    newBrand.privacy = (newBrand.privacy === 0 ) ? 1 : 0;
-    dispatch(updateBrand(newBrand, id))
-  }
+    newBrand.privacy = newBrand.privacy === 0 ? 1 : 0;
+    dispatch(updateBrand(newBrand, id));
+  };
 
   const toggleAction = () => {
     setIsOpen(prev => !prev);
-  }
+  };
 
   const handleDeleteBrand = (id: number) => {
-    dispatch(delBrand(id))
-  }
+    dispatch(delBrand(id));
+  };
 
   const columns = [
     {
@@ -92,27 +93,25 @@ export default ({ brands = []} : any ) => {
       text: "Actions",
       sort: false,
       formatter: (cell: any, row: any) => (
-        <ColumnActions
-          id={row.id}
-          items={listActions}/>
-      )
+        <ColumnActions id={row.id} items={listActions} />
+      ),
     },
     {
       dataField: "name",
       text: "Name",
-      sort: true
+      sort: true,
     },
     {
       dataField: "integration",
       text: "Integration",
       headerStyle: { width: "250px", minWidth: "250px" },
       style: { width: "250px", minWidth: "250px", "word-break": "break-word" },
-      sort: true
+      sort: true,
     },
     {
       dataField: "integrationID",
       text: "Integration ID",
-      sort: true
+      sort: true,
     },
     /*{
       dataField: "integrationType",
@@ -153,13 +152,11 @@ export default ({ brands = []} : any ) => {
       sort: true,
       formatter: (cell: any, row: any) => (
         <>
-          <div
-            className={"badge badge-soft-" + row.color + " font-size-12"}
-          >
+          <div className={"badge badge-soft-" + row.color + " font-size-12"}>
             {brandStatus[row.status]}
           </div>
         </>
-      )
+      ),
     },
     {
       dataField: "privacy",
@@ -168,27 +165,31 @@ export default ({ brands = []} : any ) => {
       formatter: (cell: any, row: any) => {
         return (
           <div className="form-check form-switch" dir="ltr">
-            <input type="checkbox" className={"form-check-input"} id={row.id} defaultChecked={row.privacy} onClick={handleChangePrivacy}/>
+            <input
+              type="checkbox"
+              className={"form-check-input"}
+              id={row.id}
+              defaultChecked={row.privacy}
+              onClick={handleChangePrivacy}
+            />
             {brandPrivacy[row.privacy]}
           </div>
-        )
-      }
+        );
+      },
     },
   ];
 
   const defaultSorted: any = [
     {
       dataField: "id",
-      order: "desc"
-    }
+      order: "desc",
+    },
   ];
-
-
 
   return (
     <>
       <BootstrapTable
-        keyField='id'
+        keyField="id"
         data={brandsData}
         columns={columns}
         bordered={false}
@@ -198,7 +199,12 @@ export default ({ brands = []} : any ) => {
         headerWrapperClasses={"thead-light"}
       />
 
-      <ConfirmDelete isOpen={isOpen} toggle={toggleAction} handleDelete={handleDeleteBrand} id={selectId} />
+      <ConfirmDelete
+        isOpen={isOpen}
+        toggle={toggleAction}
+        handleDelete={handleDeleteBrand}
+        id={selectId}
+      />
     </>
   );
-}
+};
