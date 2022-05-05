@@ -13,10 +13,9 @@ const initialState: LanguagesStateType = {
 
 const Languages = (
   state: LanguagesStateType = initialState,
-  { type, payload }: LanguageActionType<LanguagesDTOType>
+  action: LanguageActionType
 ): LanguagesStateType => {
-
-  switch (type) {
+  switch (action.type) {
     case LanguagesActionsEnum.GET_LANGUAGES:
       return {
         ...state,
@@ -24,10 +23,11 @@ const Languages = (
       };
 
     case LanguagesActionsEnum.GET_LANGUAGES_SUCCESS:
+      const { pagination, items }: LanguagesDTOType = action.payload;
       return {
         ...state,
-        pagination: payload.pagination,
-        items: payload.items,
+        pagination,
+        items,
         loading: false,
       };
 

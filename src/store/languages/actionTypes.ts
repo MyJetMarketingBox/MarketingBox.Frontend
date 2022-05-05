@@ -8,9 +8,9 @@ export enum LanguagesActionsEnum {
 }
 
 
-export interface LanguageActionType<T> {
+export interface LanguageActionType {
   type: LanguagesActionsEnum;
-  payload: T;
+  payload?: any;
 }
 
 export interface LanguageItemType {

@@ -10,5 +10,5 @@ export const getLanguageSuccess = (payload: LanguagesDTOType) => ({
 });
 
 export const getLanguageFail = () => ({
-  type: LanguagesActionsEnum.GET_LANGUAGES_SUCCESS,
+  type: LanguagesActionsEnum.GET_LANGUAGES_FAIL,
 });
