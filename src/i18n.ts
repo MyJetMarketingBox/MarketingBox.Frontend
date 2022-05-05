@@ -16,13 +16,13 @@ const resources : any = {
   it: {
     translation: translationIT,
   },
-  rs: {
+  ru: {
     translation: translationRS,
   },
   sp: {
     translation: translationSP,
   },
-  eng: {
+  en: {
     translation: translationENG,
   },
 }

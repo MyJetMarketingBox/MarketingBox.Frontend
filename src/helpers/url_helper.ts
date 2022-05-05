@@ -27,7 +27,7 @@ export const GEO = "api/Geo";
 export const GEO_SEARCH = "api/Geo/search";
 
 //REGISTRATIONS
-export const REGISTRATIONS = "api/registrations";
+export const REGISTRATIONS = "api/registrations/search"
 
 //PostbackLogs
 export const POSTBACKLOGS = "api/PostbackLogs";

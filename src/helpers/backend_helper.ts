@@ -119,8 +119,7 @@ export const updateAffiliate = (affiliate: object, id: number) =>
   put(`${url.AFFILIATES}/${id}`, affiliate, { notification: "Success!" });
 
 // get registrations
-export const getRegistrations = (nextUrl: any, filter: object) =>
-  get(nextUrl || url.REGISTRATIONS, { params: filter });
+export const getRegistrations = (nextUrl: any, filter: object) => post(nextUrl || url.REGISTRATIONS, filter);
 
 // get postback logs
 export const getPostbackLogs = (nextUrl: any, filter: object) =>
