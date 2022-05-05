@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import MetaTags from "react-meta-tags";
 
 //import Breadcrumbs
@@ -9,8 +9,17 @@ import TopOffers from "./TopOffers";
 import Map from "./Map";
 
 import c from "./index.module.scss";
+import { useDispatch } from "react-redux";
+import { LanguagesActionsEnum } from "src/store/languages/actionTypes";
+import { getLanguages } from "src/store/actions";
 
 const Dashboard = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getLanguages());
+  }, []);
+
   return (
     <React.Fragment>
       <MetaTags>
@@ -19,7 +28,10 @@ const Dashboard = () => {
       <div className="page-content full d-flex">
         <div className={c.dashboard}>
           <div className={c.top}>
-            <Breadcrumbs title="Your statistics (last week)" breadcrumbItem="Dashboard" />
+            <Breadcrumbs
+              title="Your statistics (last week)"
+              breadcrumbItem="Dashboard"
+            />
             <Row>
               <Indicators />
             </Row>

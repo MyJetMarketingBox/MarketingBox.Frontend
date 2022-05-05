@@ -1,59 +1,42 @@
-import { combineReducers } from "redux"
-
+import { combineReducers } from "redux";
 // Layout
 import Layout from "./layout/reducer";
-
 //Affiliates
-import Affiliates from "./affiliates/reducer"
-
+import Affiliates from "./affiliates/reducer";
 //AffProfile
-import AffProfile from "./affiliates/profile/reducer"
-
+import AffProfile from "./affiliates/profile/reducer";
 //AffPayouts
-import AffPayouts from "./affiliatePayouts/reducer"
-
+import AffPayouts from "./affiliatePayouts/reducer";
 //Geo
-import Geo from "./geo/reducer"
-
+import Geo from "./geo/reducer";
 //Campaigns
-import Campaigns from "./campaigns/reducer"
-
+import Campaigns from "./campaigns/reducer";
 //Registrations
-import Registrations from "./registrations/reducer"
-
+import Registrations from "./registrations/reducer";
 //PostbackLogs
-import PostbackLogs from "./postback_logs/reducer"
-
+import PostbackLogs from "./postback_logs/reducer";
 //Postback
-import Postback from "./postback/reducer"
-
+import Postback from "./postback/reducer";
 //Reports
-import Reports from "./reports/reducer"
-
+import Reports from "./reports/reducer";
 //Brands
-import Brands from "./brands/reducer"
-import BrandProfile from "./brands/profile/reducer"
-
+import Brands from "./brands/reducer";
+import BrandProfile from "./brands/profile/reducer";
 //BrandPayouts
-import BrandPayouts from "./brandPayouts/reducer"
-
+import BrandPayouts from "./brandPayouts/reducer";
 //Countries
-import Countries from "./countries/reducer"
-
+import Countries from "./countries/reducer";
 //Integrations
-import Integrations from "./integrations/reducer"
-
+import Integrations from "./integrations/reducer";
 //login
 import login from "./auth/login/reducer";
-
 //register
 import register from "./auth/register/reducer";
-
 // User Profile
 import profile from "./auth/profile/reducer";
-
 // Forget Password
 import forgetPassword from "./auth/forgetpwd/reducer";
+import Languages from "./languages/reducer";
 
 const rootReducer = combineReducers({
   // public
@@ -76,6 +59,7 @@ const rootReducer = combineReducers({
   register,
   profile,
   forgetPassword,
-})
+  Languages,
+});
 
-export default rootReducer
+export default rootReducer;

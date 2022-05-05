@@ -55,6 +55,7 @@ import ProfileSaga from "./auth/profile/saga";
 
 // Forget Password
 import forgetPasswordSaga from "./auth/forgetpwd/saga"
+import languageSaga from "./languages/saga";
 
 export default function* rootSaga() {
   yield all([
@@ -74,6 +75,7 @@ export default function* rootSaga() {
     fork(countriesSaga),
     fork(integrationsSaga),
     fork(geoSaga),
+    fork(languageSaga),
     //fork(registerSaga),
     //fork(ProfileSaga),
     //fork(forgetPasswordSaga)

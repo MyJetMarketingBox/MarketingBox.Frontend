@@ -1,121 +1,130 @@
-import axios from "axios"
-import { del, get, post, put } from "./api_helper"
-import * as url from "./url_helper"
+import axios from "axios";
+import { del, get, post, put } from "./api_helper";
+import * as url from "./url_helper";
 import { log } from "util";
 import integrations from "../store/integrations/reducer";
 import { AFF_PAYOUTS } from "./url_helper";
 import config from "../config";
+import { LanguageParamsType } from "src/types/LanguagesTypes";
+import { LanguagesDTOType } from "src/store/languages/actionTypes";
 
 // Gets the logged in user data from local session
 const getLoggedInUser = () => {
-  const user = localStorage.getItem("userAuth")
-  if (user) return JSON.parse(user)
-  return null
-}
+  const user = localStorage.getItem("userAuth");
+  if (user) return JSON.parse(user);
+  return null;
+};
 
 //is user is logged in
 const isUserAuthenticated = () => {
-  return getLoggedInUser() !== null
-}
+  return getLoggedInUser() !== null;
+};
 
 // Register Method
-const postFakeRegister = (data : any) => {
+const postFakeRegister = (data: any) => {
   return axios
     .post(url.POST_FAKE_REGISTER, data)
     .then(response => {
-      if (response.status >= 200 || response.status <= 299) return response.data
-      throw response.data
+      if (response.status >= 200 || response.status <= 299)
+        return response.data;
+      throw response.data;
     })
     .catch(err => {
-      let message
+      let message;
       if (err.response && err.response.status) {
         switch (err.response.status) {
           case 404:
-            message = "Sorry! the page you are looking for could not be found"
-            break
+            message = "Sorry! the page you are looking for could not be found";
+            break;
           case 500:
             message =
-              "Sorry! something went wrong, please contact our support team"
-            break
+              "Sorry! something went wrong, please contact our support team";
+            break;
           case 401:
-            message = "Invalid credentials"
-            break
+            message = "Invalid credentials";
+            break;
           default:
-            message = err[1]
-            break
+            message = err[1];
+            break;
         }
       }
-      throw message
-    })
-}
+      throw message;
+    });
+};
 
 // Login Method
-const postLogin = (data : any) => post(url.POST_FAKE_LOGIN, data)
+const postLogin = (data: any) => post(url.POST_FAKE_LOGIN, data);
 
 // postForgetPwd
-const postFakeForgetPwd = (data : any) => post(url.POST_FAKE_PASSWORD_FORGET, data)
+const postFakeForgetPwd = (data: any) =>
+  post(url.POST_FAKE_PASSWORD_FORGET, data);
 
 // Edit profile
-const postJwtProfile = (data : any) => post(url.POST_EDIT_JWT_PROFILE, data)
+const postJwtProfile = (data: any) => post(url.POST_EDIT_JWT_PROFILE, data);
 
-const postFakeProfile = (data : any) => post(url.POST_EDIT_PROFILE, data)
+const postFakeProfile = (data: any) => post(url.POST_EDIT_PROFILE, data);
 
 // Register Method
-const postJwtRegister = (url : string, data : any) => {
+const postJwtRegister = (url: string, data: any) => {
   return axios
     .post(url, data)
     .then(response => {
-      if (response.status >= 200 || response.status <= 299) return response.data
-      throw response.data
+      if (response.status >= 200 || response.status <= 299)
+        return response.data;
+      throw response.data;
     })
     .catch(err => {
-      var message
+      var message;
       if (err.response && err.response.status) {
         switch (err.response.status) {
           case 404:
-            message = "Sorry! the page you are looking for could not be found"
-            break
+            message = "Sorry! the page you are looking for could not be found";
+            break;
           case 500:
             message =
-              "Sorry! something went wrong, please contact our support team"
-            break
+              "Sorry! something went wrong, please contact our support team";
+            break;
           case 401:
-            message = "Invalid credentials"
-            break
+            message = "Invalid credentials";
+            break;
           default:
-            message = err[1]
-            break
+            message = err[1];
+            break;
         }
       }
-      throw message
-    })
-}
+      throw message;
+    });
+};
 
 // Login Method
-const postJwtLogin = (data : any) => post(url.POST_FAKE_JWT_LOGIN, data)
+const postJwtLogin = (data: any) => post(url.POST_FAKE_JWT_LOGIN, data);
 
 // postForgetPwd
-const postJwtForgetPwd = (data : any) => post(url.POST_FAKE_JWT_PASSWORD_FORGET, data)
-
+const postJwtForgetPwd = (data: any) =>
+  post(url.POST_FAKE_JWT_PASSWORD_FORGET, data);
 
 // get affiliates
-export const getAffiliates = (nextUrl: any, filter: object) => get(nextUrl || url.AFFILIATES, { params: filter });
+export const getAffiliates = (nextUrl: any, filter: object) =>
+  get(nextUrl || url.AFFILIATES, { params: filter });
 
-export const getAffiliateProfile = (id : number) =>
-  get(`${url.AFFILIATES}/${id}` )
+export const getAffiliateProfile = (id: number) =>
+  get(`${url.AFFILIATES}/${id}`);
 
-export const addNewAffiliate = (affiliate : any) => post(url.AFFILIATES,  affiliate );
+export const addNewAffiliate = (affiliate: any) =>
+  post(url.AFFILIATES, affiliate);
 
-export const deleteAffiliate = (id : number) => del(`${url.AFFILIATES}/${id}`);
+export const deleteAffiliate = (id: number) => del(`${url.AFFILIATES}/${id}`);
 
-export const updateAffiliate = (affiliate : object, id: number) =>
-  put(`${url.AFFILIATES}/${id}`, affiliate, { notification: 'Success!' })
+export const updateAffiliate = (affiliate: object, id: number) =>
+  put(`${url.AFFILIATES}/${id}`, affiliate, { notification: "Success!" });
 
 // get registrations
-export const getRegistrations = (nextUrl: any, filter: object) => get(nextUrl || url.REGISTRATIONS, { params: filter });
+export const getRegistrations = (nextUrl: any, filter: object) =>
+  get(nextUrl || url.REGISTRATIONS, { params: filter });
 
 // get postback logs
-export const getPostbackLogs = (nextUrl: any, filter: object) => get(nextUrl || url.POSTBACKLOGS, { params: filter });
+export const getPostbackLogs = (nextUrl: any, filter: object) =>
+  get(nextUrl || url.POSTBACKLOGS, { params: filter });
 
 /** POSTBACK **/
 export const getPostback = () => get(url.POSTBACK);
@@ -130,30 +139,35 @@ export const delPostback = () => del(`${url.POSTBACK}`);
 /** AFF PAYOUTS **/
 //export const getAffPayouts = (nextUrl: any, filter: object) => get(nextUrl || url.AFF_PAYOUTS, {params: filter});
 
-export const getAffPayouts = (nextUrl: any, filter: object) => post(nextUrl || url.AFF_PAYOUTS_SEARCH, filter);
+export const getAffPayouts = (nextUrl: any, filter: object) =>
+  post(nextUrl || url.AFF_PAYOUTS_SEARCH, filter);
 
-export const addAffPayouts = (affPayouts: any) => post(url.AFF_PAYOUTS, affPayouts);
+export const addAffPayouts = (affPayouts: any) =>
+  post(url.AFF_PAYOUTS, affPayouts);
 
-export const delAffPayouts = (id : number) => del(`${url.AFF_PAYOUTS}/${id}`);
+export const delAffPayouts = (id: number) => del(`${url.AFF_PAYOUTS}/${id}`);
 /** END AFF PAYOUTS **/
-
 
 /** GEO **/
 //export const getGeo = (nextUrl: any, filter: object) => get(nextUrl || url.GEO, {params: filter})
 
-export const getGeo = (nextUrl: any, filter: object) => post(nextUrl || url.GEO_SEARCH, filter)
+export const getGeo = (nextUrl: any, filter: object) =>
+  post(nextUrl || url.GEO_SEARCH, filter);
 
 /** END GEO **/
 
 // get reports
-export const getReports = (filter: any) => get(`${url.GET_REPORTS}`,  { params: filter } )
+export const getReports = (filter: any) =>
+  get(`${url.GET_REPORTS}`, { params: filter });
 
 /** BRANDS **/
-export const getBrands = (nextUrl: any, filter: object) => get(nextUrl || url.BRANDS, { params: filter });
+export const getBrands = (nextUrl: any, filter: object) =>
+  get(nextUrl || url.BRANDS, { params: filter });
 
-export const addBrand = (brand : any) => post(url.BRANDS, brand)
+export const addBrand = (brand: any) => post(url.BRANDS, brand);
 
-export const updateBrand = (brand : object, id: number) => put(`${url.BRANDS}/${id}`, brand);
+export const updateBrand = (brand: object, id: number) =>
+  put(`${url.BRANDS}/${id}`, brand);
 
 export const delBrand = (id: number) => del(`${url.BRANDS}/${id}`);
 
@@ -164,35 +178,47 @@ export const getBrand = (id: number) => get(`${url.BRANDS}/${id}`);
 /** BRAND PAYOUTS **/
 //export const getBrandPayouts = (nextUrl: any, filter: object) => get(nextUrl || url.BRAND_PAYOUTS, { params: filter })
 
-export const getBrandPayouts = (nextUrl: any, filter: object) => post(nextUrl || url.BRAND_PAYOUTS_SEARCH, filter)
+export const getBrandPayouts = (nextUrl: any, filter: object) =>
+  post(nextUrl || url.BRAND_PAYOUTS_SEARCH, filter);
 
-export const addBrandPayout = (brandPayout: any) => post(url.BRAND_PAYOUTS, brandPayout);
+export const addBrandPayout = (brandPayout: any) =>
+  post(url.BRAND_PAYOUTS, brandPayout);
 /** END PAYOUTS **/
 
 // get countries
-export const getCountries = (nextUrl: any, filter: object) => get(nextUrl || url.COUNTRIES, { params: filter });
+export const getCountries = (nextUrl: any, filter: object) =>
+  get(nextUrl || url.COUNTRIES, { params: filter });
 
 /** INTEGRATIONS **/
-export const getIntegrations = (nextUrl: any, filter: object) => get(nextUrl || url.INTEGRATIONS, {params: filter})
+export const getIntegrations = (nextUrl: any, filter: object) =>
+  get(nextUrl || url.INTEGRATIONS, { params: filter });
 
-export const getIntegration = (id: number) => get(`${url.INTEGRATIONS}/${id}` )
+export const getIntegration = (id: number) => get(`${url.INTEGRATIONS}/${id}`);
 
-export const addIntegration = (integration : any) => post(url.INTEGRATIONS, integration)
+export const addIntegration = (integration: any) =>
+  post(url.INTEGRATIONS, integration);
 
-export const deleteIntegration = (id : number) => del(`${url.INTEGRATIONS}/${id}`);
+export const deleteIntegration = (id: number) =>
+  del(`${url.INTEGRATIONS}/${id}`);
 
-export const updateIntegration = (integration: object, id: number) => put(`${url.INTEGRATIONS}/${id}`, integration)
+export const updateIntegration = (integration: object, id: number) =>
+  put(`${url.INTEGRATIONS}/${id}`, integration);
 
 /** END INTEGRATIONS **/
 
 // campaigns
-export const getCampaignsApi = (nextUrl: any, filter: object) => get(nextUrl || url.CAMPAIGNS, { params: filter });
+export const getCampaignsApi = (nextUrl: any, filter: object) =>
+  get(nextUrl || url.CAMPAIGNS, { params: filter });
 
-export const addCampaignApi = (campaign : any) => post(url.CAMPAIGNS,  campaign );
+export const addCampaignApi = (campaign: any) => post(url.CAMPAIGNS, campaign);
 
-export const deleteCampaignApi = (id : number) => del(`${url.CAMPAIGNS}/${id}`);
+export const deleteCampaignApi = (id: number) => del(`${url.CAMPAIGNS}/${id}`);
 
-export const updateCampaignApi = (campaign : object, id: number) => put(`${url.CAMPAIGNS}/${id}`, campaign)
+export const updateCampaignApi = (campaign: object, id: number) =>
+  put(`${url.CAMPAIGNS}/${id}`, campaign);
+
+// Languages
+export const getLanguagesList = (nextUrl: any, filter: object) => get(nextUrl || url.LANGUAGES, { params: filter });
 
 export {
   getLoggedInUser,
@@ -204,5 +230,5 @@ export {
   postJwtRegister,
   postJwtLogin,
   postJwtForgetPwd,
-  postJwtProfile
-}
+  postJwtProfile,
+};

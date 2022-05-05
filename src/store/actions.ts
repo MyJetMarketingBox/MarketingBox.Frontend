@@ -8,10 +8,10 @@ export * from "./affiliates/actions";
 export * from "./affiliates/profile/actions";
 
 /** AFF PAYOUTS **/
-export * from "./affiliatePayouts/actions"
+export * from "./affiliatePayouts/actions";
 
 /** GEO **/
-export * from "./geo/actions"
+export * from "./geo/actions";
 
 /** Registrations */
 export * from "./registrations/actions";
@@ -23,23 +23,23 @@ export * from "./postback_logs/actions";
 export * from "./postback/actions";
 
 /** Reports */
-export * from "./reports/actions"
+export * from "./reports/actions";
 
 /** Brands */
-export * from "./brands/actions"
-export * from "./brands/profile/actions"
+export * from "./brands/actions";
+export * from "./brands/profile/actions";
 
 /** Brand Payouts */
-export * from "./brandPayouts/actions"
+export * from "./brandPayouts/actions";
 
 /** Countries */
-export * from "./countries/actions"
+export * from "./countries/actions";
 
 /** Integrations */
-export * from "./integrations/actions"
+export * from "./integrations/actions";
 
 /** Login */
-export * from "./auth/login/actions"
+export * from "./auth/login/actions";
 
 /** Register */
 export * from "./auth/register/actions";
@@ -49,3 +49,5 @@ export * from "./auth/profile/actions";
 
 /** Forget Password */
 export * from "./auth/forgetpwd/actions";
+
+export * from "./languages/actions";

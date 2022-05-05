@@ -3,6 +3,7 @@ import authHeader from "./jwt-token-access/auth-token-header"
 import config from "../config";
 
 import { toast } from "react-toastify";
+import Page from "../constants/pages";
 
 //pass new generated access token here
 //const token = accessToken
@@ -11,7 +12,7 @@ import { toast } from "react-toastify";
 const API_URL = config.traffme.affiliateUrlApi
 
 const axiosApi = axios.create({
-  baseURL: API_URL,
+  baseURL: API_URL
 })
 
 // const dispatch = useDispatch();
@@ -36,7 +37,7 @@ axiosApi.interceptors.response.use(
       theme: localStorage.getItem('layoutTheme')
     };
     // @ts-ignore
-    if(error.response.status === 401) optionToast.onClose = () => location.replace('/logout');
+    if(error.response.status === 401) optionToast.onClose = () => location.replace(Page.SIGN_OUT);
     // @ts-ignore
     toast.error(error.response.data.error.errorMessage, optionToast);
     return Promise.reject(error);
@@ -46,7 +47,7 @@ axiosApi.interceptors.response.use(
 export async function get(url : string, config = {}) {
   axiosApi.defaults.headers.common = authHeader();
   // @ts-ignore
-  return await axiosApi.get(url, { ...config }).then(response => response.data)
+  return await axiosApi.get<T>(url, { ...config }).then(response => response.data)
 }
 
 export async function post(url : string, data : any, config = {}) {
