@@ -84,6 +84,7 @@ export default ({regId}: any) => {
               <dt className="col-sm-5">Affiliate: </dt>
               <dd className="col-sm-7">
                 {routeInfo.affiliateId}
+                {routeInfo.affiliateNane}
               </dd>
 
               <dt className="col-sm-5">Brand: </dt>

@@ -26,6 +26,7 @@ import ModalDetail from "./components/detail/ModalDetail";
 import { Link } from "react-router-dom";
 import Filter from "./components/filter/Filter";
 import BtnLoadMore from "../../components/UI/btns/BtnLoadMore";
+import SearchRegistration from "./components/search/index";
 
 //import Loader from "../../components/UI/loader";
 
@@ -85,7 +86,10 @@ const Registrations: React.FC = () => {
                 <CardBody>
 
                   <Row className="mb-4">
-                      <Filter />
+                      {/*<Filter />*/}
+                    <Col className="col-md-4">
+                      <SearchRegistration />
+                    </Col>
                   </Row>
 
                   <Row className="mb-4">
