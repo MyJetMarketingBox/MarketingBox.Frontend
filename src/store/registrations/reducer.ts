@@ -1,16 +1,14 @@
-import {RegistrationsTypes, RegistrationsState} from "../registrations/actionTypes";
+import {RegistrationsTypes, RegistrationsState} from "./actionTypes";
 
 export const INIT_STATE : RegistrationsState = {
   registrations: {items: [], pagination: {}},
   error: {},
   loading: false,
+  loaded: false,
 }
 
 const registrations = (state = INIT_STATE, action :any) => {
   switch (action.type) {
-
-    case RegistrationsTypes.CLEAR_REGISTRATIONS:
-      return INIT_STATE
 
     case RegistrationsTypes.GET_REGISTRATIONS:
       return {
@@ -27,15 +25,20 @@ const registrations = (state = INIT_STATE, action :any) => {
           pagination: { ...action.payload.pagination }
         },
         error: {},
-        loading: false
+        loading: false,
+        loaded: true
       }
 
     case RegistrationsTypes.GET_REGISTRATIONS_FAIL:
       return {
         ...state,
         error: action.payload,
-        loading: false
+        loading: false,
+        loaded: false
       }
+
+    case RegistrationsTypes.CLEAR_REGISTRATIONS:
+      return INIT_STATE
 
     default:
       return state

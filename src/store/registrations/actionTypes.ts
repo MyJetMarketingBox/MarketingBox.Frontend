@@ -17,4 +17,5 @@ export interface RegistrationsState {
   registrations  : iRegistrations;
   error : Object;
   loading: boolean;
+  loaded: boolean;
 }

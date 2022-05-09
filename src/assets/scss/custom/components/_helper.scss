@@ -60,6 +60,51 @@
     font-weight: $font-weight-semibold;
 }
 
+.fw-bold {
+    font-weight: $font-weight-bold;
+}
+
+.mr-5 {
+    margin-right: 5px;
+}
+
+.mr-10 {
+    margin-right: 10px;
+}
+
+.mr-15 {
+    margin-right: 15px;
+}
+
+.ml-5{
+    margin-left: 5px;
+}
+
+.ml-10 {
+    margin-left: 10px;
+}
+
+.ml-15 {
+    margin-left: 15px;
+}
+
+.count-white {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2px 0px 0px;
+    width: 18px;
+    height: 18px;
+    left: 113px;
+    top: 12px;
+    background-color: #fff;
+    border-radius: 50%;
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 1;
+    color: #050121;
+}
 
 // Icons Sizes
 .icon-xs {

@@ -14,8 +14,7 @@ import Breadcrumbs from "../../components/Common/Breadcrumb";
 import "../../assets/scss/datatables.scss";
 
 import {
-  clearRegistrations,
-  getRegistrations as onGetRegistrations
+  clearRegistrations, getRegistrations
 } from "../../store/actions";
 import { isEmpty, size, map } from "lodash";
 
@@ -27,19 +26,19 @@ import { Link } from "react-router-dom";
 import Filter from "./components/filter/Filter";
 import BtnLoadMore from "../../components/UI/btns/BtnLoadMore";
 import SearchRegistration from "./components/search/index";
-
-//import Loader from "../../components/UI/loader";
+import Loader from "../../components/UI/loader";
 
 const Registrations: React.FC = () => {
 
   const dispatch = useDispatch();
 
-  const { registrations, errorReg, loading, layoutMode, nextURL } = useSelector((state: any) => {
+  const { registrations, errorReg, loading, loaded, layoutMode, nextURL } = useSelector((state: any) => {
     return {
       registrations: state.Registrations.registrations.items,
       nextURL: state.Registrations.registrations.pagination.nextUrl,
       errorReg: state.Registrations.error,
       loading: state.Registrations.loading,
+      loaded: state.Registrations.loaded,
       layoutMode: state.Layout.layoutMode
     }
   });
@@ -47,14 +46,15 @@ const Registrations: React.FC = () => {
   const [modal, setModal] = useState<boolean>(false);
   const [regId, setRegId] = useState(null);
 
+
   let filter = {
     order: 1, //DESC
-    type: 2,
+    type: 2, //all
     limit: 50
   }
 
   useEffect(() => {
-    dispatch(onGetRegistrations('', filter))
+    dispatch(getRegistrations('', filter))
     return () => {
       dispatch(clearRegistrations());
     }
@@ -62,17 +62,18 @@ const Registrations: React.FC = () => {
 
   async function loadMore() {
     if(nextURL) {
-      dispatch(onGetRegistrations(nextURL, {}));
+      dispatch(getRegistrations(nextURL, {}));
     }
   }
-
 
   const toggleModal = () => {
     setModal(prev => !prev);
   };
 
+
   return (
     <React.Fragment>
+      { !loaded && loading && <Loader /> }
       <div className="page-content">
         <MetaTags>
           <title>Registrations | TraffMe </title>
@@ -86,16 +87,19 @@ const Registrations: React.FC = () => {
                 <CardBody>
 
                   <Row className="mb-4">
-                      {/*<Filter />*/}
-                    <Col className="col-md-4">
-                      <SearchRegistration />
-                    </Col>
+                    <Filter />
                   </Row>
 
                   <Row className="mb-4">
                     <Col xl="12">
                       <div className="table-responsive">
                         {registrations.length ? <TableReg registrations={registrations} setRegId={setRegId} toggle={toggleModal}/> : null }
+                        {
+                          (!registrations.length && loaded) ?
+                            <div style={{ "textAlign": "center", "padding": "30px 0" }}>
+                              <h3>No Data Available</h3>
+                            </div> : null
+                        }
                       </div>
                     </Col>
                   </Row>
