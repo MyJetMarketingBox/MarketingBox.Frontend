@@ -15,6 +15,7 @@ import { clearCountries, getCountries } from "../../../../store/countries/action
 import { clearBrands, getBrands } from "../../../../store/brands/actions";
 import { clearIntegrations, getIntegrations } from "../../../../store/integrations/actions";
 import { clearCampaigns, getCampaigns } from "../../../../store/campaigns/actions";
+import "flatpickr/dist/themes/material_blue.css";
 import Flatpickr from "react-flatpickr";
 import SearchRegistration from "../search";
 
@@ -185,6 +186,8 @@ export default (props: any) => {
     setSelectCountry([]);
     setSelectIntegr([])
     setSelectStatus(null)
+    setFromDate('');
+    setToDate('');
 
     dispatch(clearRegistrations());
     dispatch(getRegistrations('', filter))

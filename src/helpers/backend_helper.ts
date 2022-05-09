@@ -156,8 +156,8 @@ export const getGeo = (nextUrl: any, filter: object) => get(nextUrl || url.GEO, 
 /** END GEO **/
 
 // get reports
-export const getReports = (filter: any) =>
-  get(`${url.GET_REPORTS}`, { params: filter });
+export const getReports = (nextUrl: any, filter: any) =>
+  get(nextUrl || url.GET_REPORTS, { params: filter });
 
 /** BRANDS **/
 export const getBrands = (nextUrl: any, filter: object) =>

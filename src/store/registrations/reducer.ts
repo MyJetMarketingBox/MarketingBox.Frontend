@@ -13,7 +13,6 @@ const registrations = (state = INIT_STATE, action :any) => {
     case RegistrationsTypes.GET_REGISTRATIONS:
       return {
         ...state,
-        error: {},
         loading: true
       }
 
@@ -24,7 +23,6 @@ const registrations = (state = INIT_STATE, action :any) => {
           items: [...state.registrations.items, ...action.payload.items],
           pagination: { ...action.payload.pagination }
         },
-        error: {},
         loading: false,
         loaded: true
       }

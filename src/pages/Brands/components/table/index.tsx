@@ -146,7 +146,7 @@ export default ({ brands = [] }: any) => {
         )
       }*/
     },
-    {
+    /*{
       dataField: "status",
       text: "Status",
       sort: true,
@@ -176,7 +176,7 @@ export default ({ brands = [] }: any) => {
           </div>
         );
       },
-    },
+    },*/
   ];
 
   const defaultSorted: any = [
