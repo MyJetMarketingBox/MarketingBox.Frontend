@@ -218,7 +218,7 @@ export const updateCampaignApi = (campaign: object, id: number) =>
   put(`${url.CAMPAIGNS}/${id}`, campaign);
 
 // Languages
-export const getLanguagesList = (nextUrl: any, filter: object) => get(nextUrl || url.LANGUAGES, { params: filter }, true);
+export const getLanguagesList = (nextUrl: any, filter: object) => get(nextUrl || url.LANGUAGES, { params: filter });
 
 export {
   getLoggedInUser,

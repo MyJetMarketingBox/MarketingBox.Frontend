@@ -31,8 +31,9 @@ import {
 import "flatpickr/dist/themes/material_blue.css";
 import Flatpickr from "react-flatpickr";
 import SearchRegistration from "../search";
+import { getUpdateDate } from "src/helpers/getUpdateDate";
 
-export default (props: any) => {
+export default () => {
   const dispatch = useDispatch();
 
   const [collapse, setCollapse] = useState(false);
@@ -166,10 +167,10 @@ export default (props: any) => {
   const setDateOnFilter = (data: any) => {
     if (data.length > 1) {
       const utcFrom = data[0].getTime();
-      const from = new Date(utcFrom + 3600000 * 3).toJSON().slice(0, 10);
+      const from = getUpdateDate(utcFrom);
 
       const utcTo = data[1].getTime();
-      const to = new Date(utcTo + 3600000 * 3).toJSON().slice(0, 10);
+      const to = getUpdateDate(utcTo);
 
       setFromDate(from);
       setToDate(to);
@@ -177,22 +178,15 @@ export default (props: any) => {
     }
   };
 
-  const handleFilterSubmit = (data: any) => {
-    const sendAff = selectAff.map((item: any) => item.value);
-    const sendCountries = selectCountry.map((item: any) => item.value);
-    const sendBrands = selectBrand.map((item: any) => item.value);
-    const sendCampaigns = selectCampaign.map((item: any) => item.value);
-    const sendIntegr = selectIntegr.map((item: any) => item.value);
-    const sendType = selectStatus || null;
-
+  const handleFilterSubmit = () => {
     const curFilter = {
       ...filter,
-      AffiliateIds: sendAff.join(","),
-      CountryIds: sendCountries.join(","),
-      BrandIds: sendBrands.join(","),
-      CampaignIds: sendCampaigns.join(","),
-      IntegrationIds: sendIntegr.join(","),
-      Statuses: sendType,
+      AffiliateIds: selectAff.map((item: any) => item.value).join(","),
+      CountryIds: selectCountry.map((item: any) => item.value).join(","),
+      BrandIds: selectBrand.map((item: any) => item.value).join(","),
+      CampaignIds: selectCampaign.map((item: any) => item.value).join(","),
+      IntegrationIds: selectIntegr.map((item: any) => item.value).join(","),
+      Statuses: selectStatus || null,
       DateFrom: fromDate,
       DateTo: toDate ? toDate + " 23:59:59" : null,
     };
@@ -258,11 +252,7 @@ export default (props: any) => {
       <div className="accordion mt-3" id="accordion">
         <Collapse isOpen={collapse} className="accordion-collapse">
           <div className="accordion-body">
-            <AvForm
-              onValidSubmit={(e: any, values: any) => {
-                handleFilterSubmit(values);
-              }}
-            >
+            <AvForm onValidSubmit={handleFilterSubmit}>
               <Row>
                 <Col lg={3}>
                   <div className="mb-3 custom-react-select">
@@ -275,7 +265,7 @@ export default (props: any) => {
                         dateFormat: "Y-m-d",
                       }}
                       value={dateFilter}
-                      onChange={(date: any) => setDateOnFilter(date)}
+                      onChange={setDateOnFilter}
                     />
                   </div>
                 </Col>
