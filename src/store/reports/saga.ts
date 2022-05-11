@@ -11,9 +11,9 @@ import {
 //Включите оба файла-помощника с необходимыми методами
 import { getReports } from "../../helpers/backend_helper";
 
-function* fetchReports({ filter } : any) {
+function* fetchReports({ nextUrl, filter } : any) {
   try{
-    const response : Promise<any> = yield call(getReports, filter)
+    const response : Promise<any> = yield call(getReports, nextUrl, filter)
     yield put(getReportsSuccess(response))
   }catch (error) {
     yield put(getReportsFail(error))

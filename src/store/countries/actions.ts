@@ -15,3 +15,7 @@ export const getCountriesFail = (error: any) => ({
   type: CountriesType.GET_COUNTRIES_FAIL,
   payload: error
 })
+
+export const clearCountries = () => ({
+  type: CountriesType.CLEAR_COUNTRIES,
+})

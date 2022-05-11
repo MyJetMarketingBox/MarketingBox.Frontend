@@ -7,6 +7,19 @@ a {
     outline: none !important;
 }
 
+.btn {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 8px;
+    .icon{
+        margin-left: 5px;
+    }
+}
+
+.btn-light {
+    box-shadow: unset !important;
+}
+
 @mixin button-shadow($color) {
     box-shadow: 0 2px 6px 0 rgba($color, 0.5);
 }

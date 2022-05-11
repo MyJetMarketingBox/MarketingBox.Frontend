@@ -4,6 +4,8 @@ export enum CountriesType{
   GET_COUNTRIES_SUCCESS = '@@countries/GET_COUNTRIES_SUCCESS',
   GET_COUNTRIES_FAIL = '@@countries/GET_COUNTRIES_FAIL',
 
+  CLEAR_COUNTRIES = '@@countries/CLEAR_COUNTRIES'
+
 }
 
 interface iCountry {

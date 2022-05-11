@@ -35,6 +35,9 @@ const countries = (state = INIT_STATE, action: any) => {
         error: action.payload
       }
 
+    case CountriesType.CLEAR_COUNTRIES:
+      return INIT_STATE
+
     default:
       return state
   }

@@ -120,7 +120,7 @@ export const updateAffiliate = (affiliate: object, id: number) =>
   put(`${url.AFFILIATES}/${id}`, affiliate, { notification: "Success!" });
 
 // get registrations
-export const getRegistrations = (nextUrl: any, filter: object) => post(nextUrl || url.REGISTRATIONS, filter);
+export const getRegistrations = (nextUrl: any, filter: object) => get(nextUrl || url.REGISTRATIONS, { params: filter });
 
 // get postback logs
 export const getPostbackLogs = (nextUrl: any, filter: object) =>
@@ -137,10 +137,10 @@ export const delPostback = () => del(`${url.POSTBACK}`);
 /** END POSTBACK **/
 
 /** AFF PAYOUTS **/
-//export const getAffPayouts = (nextUrl: any, filter: object) => get(nextUrl || url.AFF_PAYOUTS, {params: filter});
+export const getAffPayouts = (nextUrl: any, filter: object) => get(nextUrl || url.AFF_PAYOUTS, {params: filter});
 
-export const getAffPayouts = (nextUrl: any, filter: object) =>
-  post(nextUrl || url.AFF_PAYOUTS_SEARCH, filter);
+/*export const getAffPayouts = (nextUrl: any, filter: object) =>
+  post(nextUrl || url.AFF_PAYOUTS_SEARCH, filter);*/
 
 export const addAffPayouts = (affPayouts: any) =>
   post(url.AFF_PAYOUTS, affPayouts);
@@ -149,16 +149,16 @@ export const delAffPayouts = (id: number) => del(`${url.AFF_PAYOUTS}/${id}`);
 /** END AFF PAYOUTS **/
 
 /** GEO **/
-//export const getGeo = (nextUrl: any, filter: object) => get(nextUrl || url.GEO, {params: filter})
+export const getGeo = (nextUrl: any, filter: object) => get(nextUrl || url.GEO, {params: filter})
 
-export const getGeo = (nextUrl: any, filter: object) =>
-  post(nextUrl || url.GEO_SEARCH, filter);
+/*export const getGeo = (nextUrl: any, filter: object) =>
+  post(nextUrl || url.GEO_SEARCH, filter);*/
 
 /** END GEO **/
 
 // get reports
-export const getReports = (filter: any) =>
-  get(`${url.GET_REPORTS}`, { params: filter });
+export const getReports = (nextUrl: any, filter: any) =>
+  get(nextUrl || url.GET_REPORTS, { params: filter });
 
 /** BRANDS **/
 export const getBrands = (nextUrl: any, filter: object) =>
@@ -176,10 +176,10 @@ export const getBrand = (id: number) => get(`${url.BRANDS}/${id}`);
 /** END BRANDS **/
 
 /** BRAND PAYOUTS **/
-//export const getBrandPayouts = (nextUrl: any, filter: object) => get(nextUrl || url.BRAND_PAYOUTS, { params: filter })
+export const getBrandPayouts = (nextUrl: any, filter: object) => get(nextUrl || url.BRAND_PAYOUTS, { params: filter })
 
-export const getBrandPayouts = (nextUrl: any, filter: object) =>
-  post(nextUrl || url.BRAND_PAYOUTS_SEARCH, filter);
+/*export const getBrandPayouts = (nextUrl: any, filter: object) =>
+  post(nextUrl || url.BRAND_PAYOUTS_SEARCH, filter);*/
 
 export const addBrandPayout = (brandPayout: any) =>
   post(url.BRAND_PAYOUTS, brandPayout);

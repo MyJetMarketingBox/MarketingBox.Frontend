@@ -1,8 +1,10 @@
 export enum ReportsTypes {
   /** Get reports */
-  GET_REPORTS = '@@affiliates/GET_REPORTS',
-  GET_REPORTS_SUCCESS = '@@affiliates/GET_REPORTS_SUCCESS',
-  GET_REPORTS_FAIL = '@@affiliates/GET_REPORTS_FAIL',
+  GET_REPORTS = '@@reports/GET_REPORTS',
+  GET_REPORTS_SUCCESS = '@@reports/GET_REPORTS_SUCCESS',
+  GET_REPORTS_FAIL = '@@reports/GET_REPORTS_FAIL',
+
+  CLEAR_REPORTS = '@@reports/CLEAR_REPORTS'
 }
 
 interface iReports {
@@ -14,4 +16,6 @@ export interface ReportsState {
   reports  : iReports;
   reportProfile : Object;
   error : Object;
+  loading: boolean;
+  loaded: boolean;
 }

@@ -25,6 +25,7 @@ export const RegistrationStatus = [
     "Registered",
     "Deposited",
     "Approved",
+    "Declined"
 ]
 
 export const ReportType = [

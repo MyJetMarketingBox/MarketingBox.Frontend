@@ -85,7 +85,7 @@ const Affiliates: React.FC = () => {
                   <Col className="col-md-4 offset-4 text-end">
                     <button
                       type="button"
-                      className="btn btn-success"
+                      className="btn btnOrange"
                       onClick={toggleModal}
                     >
                       <i className="bx bx-plus me-1" /> Add New

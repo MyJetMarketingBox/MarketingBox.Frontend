@@ -152,7 +152,7 @@ export default ({ isOpen, toggle, isAff }: any) => {
                 />
               </div>
 
-              <div className="mb-3 custom-react-select">
+              {/*<div className="mb-3 custom-react-select">
                 <div className="react-select-descr">
                   Select GEO
                 </div>
@@ -163,7 +163,7 @@ export default ({ isOpen, toggle, isAff }: any) => {
                   options={geoList}
                   onChange={setSelectGeo}
                 />
-              </div>
+              </div>*/}
             </Col>
           </Row>
           <Row>

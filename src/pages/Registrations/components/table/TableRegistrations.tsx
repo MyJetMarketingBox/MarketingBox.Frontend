@@ -37,6 +37,11 @@ export default ({registrations = [], setRegId, toggle} : any) => {
       sort: true,
     },
     {
+      dataField: "country",
+      text: "Country",
+      sort: true,
+    },
+    {
       dataField: "status",
       text: "Status",
       sort: true,
@@ -87,7 +92,7 @@ export default ({registrations = [], setRegId, toggle} : any) => {
       integration: registration.routeInfo.integrationName,
       status: RegistrationStatus[registration.status],
       email: registration.generalInfo.email,
-      country: registration.generalInfo.country,
+      country: registration.generalInfo.countryId,
       createdAt: new Date(registration.generalInfo.createdAt).toLocaleDateString('ru-RU', {day:"2-digit", month:"2-digit", year:"2-digit", hour: "2-digit", minute: "2-digit", second: "numeric"}),
       depositedAt: (registration.generalInfo.depositedAt) ? new Date(registration.generalInfo.depositedAt).toLocaleDateString('ru-RU', {day:"2-digit", month:"2-digit", year:"2-digit", hour: "2-digit", minute: "2-digit", second: "numeric"}) : null,
     }

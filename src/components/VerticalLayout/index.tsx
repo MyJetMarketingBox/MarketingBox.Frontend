@@ -19,7 +19,7 @@ import Sidebar from "./Sidebar";
 import { useSelector, useDispatch } from "react-redux";
 import parseJwt from "../../common/utils/parse";
 import { ToastContainer } from "react-toastify";
-import { LOCAL_STORAGE_AUTH_USER } from "../../constants/localStorageKeys";
+import { LOCAL_STORAGE_AUTH_USER, LOCAL_STORAGE_LAYOUT_THEME } from "../../constants/localStorageKeys";
 
 const Layout = (props: any) => {
   const dispatch = useDispatch();
@@ -96,6 +96,12 @@ const Layout = (props: any) => {
       dispatch(changelayoutMode(value, layoutType));
     }
   };
+
+  useEffect(() => {
+    if(localStorage.getItem(LOCAL_STORAGE_LAYOUT_THEME)){
+      dispatch(changelayoutMode(localStorage.getItem(LOCAL_STORAGE_LAYOUT_THEME), layoutType));
+    }
+  }, [])
 
   if (localStorage.getItem(LOCAL_STORAGE_AUTH_USER)) {
     // @ts-ignore
