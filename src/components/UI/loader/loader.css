@@ -5,7 +5,7 @@
     right: -1px;
     bottom: -1px;
     background-color: rgba(0, 0, 0, 0.4);
-    z-index: 9999;
+    z-index: 9998;
     border-radius: 4px;
 }
 .modal .lds-facebook-wrapper {
