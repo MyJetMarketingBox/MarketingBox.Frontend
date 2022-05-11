@@ -159,7 +159,7 @@ export async function post(
   url: string,
   data: any,
   config = {},
-  isClientRequest = false
+  isClientRequest = true
 ) {
   axiosApi.defaults.headers.common = authHeader();
   return (
@@ -178,14 +178,14 @@ export async function put(
   url: string,
   data: any,
   config = {},
-  isClientRequest = false
+  isClientRequest = true
 ) {
   return axiosApi
     .put(url, { ...data }, { ...config, isClientRequest })
     .then(response => response.data);
 }
 
-export async function del(url: string, config = {}, isClientRequest = false) {
+export async function del(url: string, config = {}, isClientRequest = true) {
   return await axiosApi
     .delete(url, { ...config, isClientRequest })
     .then(response => response.data);

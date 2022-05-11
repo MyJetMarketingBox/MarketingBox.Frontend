@@ -97,11 +97,12 @@ const postJwtRegister = (url: string, data: any) => {
 };
 
 // Login Method
-const postJwtLogin = (data: any) => post(url.POST_FAKE_JWT_LOGIN, data, true);
+const postJwtLogin = (data: any) => post(url.POST_FAKE_JWT_LOGIN, data);
 
 // postForgetPwd
 const postJwtForgetPwd = (data: any) =>
   post(url.POST_FAKE_JWT_PASSWORD_FORGET, data);
+
 
 // get affiliates
 export const getAffiliates = (nextUrl: any, filter: object) =>
