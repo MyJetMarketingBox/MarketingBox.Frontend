@@ -212,3 +212,18 @@ span.flatpickr-weekday {
     color: #050121;
   }
 }
+
+.modal-backdrop {
+  &.show, &.fade {
+    opacity: unset;
+  }
+  background-color: rgba(0, 0, 0, 0.7);
+  @supports ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
+    background-color: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(4px);
+  }
+}
+
+body.modal-open {
+  overflow: hidden;
+}

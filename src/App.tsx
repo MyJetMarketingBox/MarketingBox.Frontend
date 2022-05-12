@@ -1,16 +1,18 @@
 import React, { useEffect } from "react";
-import { Switch, BrowserRouter as Router } from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
 // Lauouts
 import RouteLayout from "./routes/RouteLayout";
 // Import scss
 import "./assets/scss/theme.scss";
 import "./assets/scss/preloader.scss";
-import InternetConnectionModal from "./components/InternetConnectionModal/InternetConnectionModal";
+import BadRequestContainer from "./components/BadRequestContainer/BadRequestContainer";
+import { useSelector } from "react-redux";
+import { injectInterceptor } from "./helpers/api_helper";
 
 const App = () => {
   return (
     <React.Fragment>
-      <InternetConnectionModal />
+      <BadRequestContainer />
       <Router>
         <RouteLayout />
       </Router>

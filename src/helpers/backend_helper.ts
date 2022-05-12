@@ -1,12 +1,6 @@
 import axios from "axios";
 import { del, get, post, put } from "./api_helper";
 import * as url from "./url_helper";
-import { log } from "util";
-import integrations from "../store/integrations/reducer";
-import { AFF_PAYOUTS } from "./url_helper";
-import config from "../config";
-import { LanguageParamsType } from "src/types/LanguagesTypes";
-import { LanguagesDTOType } from "src/store/languages/actionTypes";
 
 // Gets the logged in user data from local session
 const getLoggedInUser = () => {
@@ -103,7 +97,6 @@ const postJwtLogin = (data: any) => post(url.POST_FAKE_JWT_LOGIN, data);
 const postJwtForgetPwd = (data: any) =>
   post(url.POST_FAKE_JWT_PASSWORD_FORGET, data);
 
-
 // get affiliates
 export const getAffiliates = (nextUrl: any, filter: object) =>
   get(nextUrl || url.AFFILIATES, { params: filter });
@@ -120,7 +113,8 @@ export const updateAffiliate = (affiliate: object, id: number) =>
   put(`${url.AFFILIATES}/${id}`, affiliate, { notification: "Success!" });
 
 // get registrations
-export const getRegistrations = (nextUrl: any, filter: object) => get(nextUrl || url.REGISTRATIONS, { params: filter });
+export const getRegistrations = (nextUrl: any, filter: object) =>
+  get(nextUrl || url.REGISTRATIONS, { params: filter });
 
 // get postback logs
 export const getPostbackLogs = (nextUrl: any, filter: object) =>
@@ -137,7 +131,8 @@ export const delPostback = () => del(`${url.POSTBACK}`);
 /** END POSTBACK **/
 
 /** AFF PAYOUTS **/
-export const getAffPayouts = (nextUrl: any, filter: object) => get(nextUrl || url.AFF_PAYOUTS, {params: filter});
+export const getAffPayouts = (nextUrl: any, filter: object) =>
+  get(nextUrl || url.AFF_PAYOUTS, { params: filter });
 
 /*export const getAffPayouts = (nextUrl: any, filter: object) =>
   post(nextUrl || url.AFF_PAYOUTS_SEARCH, filter);*/
@@ -149,7 +144,8 @@ export const delAffPayouts = (id: number) => del(`${url.AFF_PAYOUTS}/${id}`);
 /** END AFF PAYOUTS **/
 
 /** GEO **/
-export const getGeo = (nextUrl: any, filter: object) => get(nextUrl || url.GEO, {params: filter})
+export const getGeo = (nextUrl: any, filter: object) =>
+  get(nextUrl || url.GEO, { params: filter });
 
 /*export const getGeo = (nextUrl: any, filter: object) =>
   post(nextUrl || url.GEO_SEARCH, filter);*/
@@ -176,7 +172,8 @@ export const getBrand = (id: number) => get(`${url.BRANDS}/${id}`);
 /** END BRANDS **/
 
 /** BRAND PAYOUTS **/
-export const getBrandPayouts = (nextUrl: any, filter: object) => get(nextUrl || url.BRAND_PAYOUTS, { params: filter })
+export const getBrandPayouts = (nextUrl: any, filter: object) =>
+  get(nextUrl || url.BRAND_PAYOUTS, { params: filter });
 
 /*export const getBrandPayouts = (nextUrl: any, filter: object) =>
   post(nextUrl || url.BRAND_PAYOUTS_SEARCH, filter);*/
@@ -218,7 +215,8 @@ export const updateCampaignApi = (campaign: object, id: number) =>
   put(`${url.CAMPAIGNS}/${id}`, campaign);
 
 // Languages
-export const getLanguagesList = (nextUrl: any, filter: object) => get(nextUrl || url.LANGUAGES, { params: filter });
+export const getLanguagesList = (nextUrl: any, filter: object) =>
+  get(nextUrl || url.LANGUAGES, { params: filter });
 
 export {
   getLoggedInUser,

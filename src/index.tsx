@@ -7,6 +7,9 @@ import { configureStore } from "./store/index";
 import { injectInterceptor } from "./helpers/api_helper";
 
 let store = configureStore({});
+
+injectInterceptor(store);
+
 render(
   <Provider store={store}>
     <BrowserRouter>
@@ -15,4 +18,4 @@ render(
   </Provider>,
   document.getElementById("root")
 );
-injectInterceptor(store);
+

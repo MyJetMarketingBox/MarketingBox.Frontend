@@ -37,6 +37,7 @@ import profile from "./auth/profile/reducer";
 // Forget Password
 import forgetPassword from "./auth/forgetpwd/reducer";
 import Languages from "./languages/reducer";
+import badRequests from "./badRequests/reducer";
 
 const rootReducer = combineReducers({
   // public
@@ -60,6 +61,7 @@ const rootReducer = combineReducers({
   profile,
   forgetPassword,
   Languages,
+  badRequests,
 });
 
 export default rootReducer;

@@ -16,9 +16,8 @@ export function configureStore(initialState: any) {
   const store = createStore(
     reducers,
     initialState,
-    composeEnhancers(applyMiddleware(...middlewares ))
+    composeEnhancers(applyMiddleware(...middlewares, createLogger()))
   );
   sagaMiddleware.run(rootSaga);
   return store;
 }
-//createLogger()
