@@ -1,5 +1,5 @@
 import axios, { AxiosResponse, AxiosError, AxiosRequestConfig } from "axios";
-import authHeader from "./jwt-token-access/auth-token-header";
+import { authHeader, registerHeader } from "./jwt-token-access/auth-token-header";
 import config from "../config";
 import { toast, ToastOptions } from "react-toastify";
 import Page from "../constants/pages";
@@ -198,9 +198,12 @@ export async function post(
   url: string,
   data: any,
   config = {},
-  isClientRequest = true
+  isClientRequest = true,
+  isAffApi = true
 ) {
-  axiosApi.defaults.headers.common = authHeader();
+
+  axiosApi.defaults.headers.common = (isAffApi) ? authHeader() : registerHeader();
+
   return axiosApi
     .post(
       url,

@@ -1,10 +1,10 @@
 import {RegisterTypes} from "./actionTypes"
 
 const initialState = {
-  registrationError: null,
+  user: null,
+  error: {},
   message: null,
   loading: false,
-  user: null,
 }
 
 const register = (state = initialState, action : any) => {
@@ -13,25 +13,27 @@ const register = (state = initialState, action : any) => {
       state = {
         ...state,
         loading: true,
-        registrationError: null,
       }
       break
     case RegisterTypes.REGISTER_USER_SUCCESSFUL:
       state = {
         ...state,
+        error: {},
         loading: false,
         user: action.payload,
-        registrationError: null,
       }
       break
     case RegisterTypes.REGISTER_USER_FAILED:
       state = {
         ...state,
-        user: null,
         loading: false,
-        registrationError: action.payload,
+        error: action.payload,
       }
       break
+
+    case RegisterTypes.CLEAR_REGISTER_USER:
+      return initialState
+
     default:
       state = { ...state }
       break

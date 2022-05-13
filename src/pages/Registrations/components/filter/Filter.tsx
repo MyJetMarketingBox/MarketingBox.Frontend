@@ -6,7 +6,7 @@ import {
   clearRegistrations,
   getRegistrations,
 } from "../../../../store/registrations/actions";
-import { RegistrationStatus } from "../../../../common/utils/model";
+import { RegistrationStatus, ReportType } from "../../../../common/utils/model";
 
 import { Col, Collapse, Row } from "reactstrap";
 import { AvField, AvForm } from "availity-reactstrap-validation";
@@ -44,7 +44,11 @@ export default () => {
   const [selectBrand, setSelectBrand] = useState([]);
   const [selectIntegr, setSelectIntegr] = useState([]);
   const [selectCampaign, setSelectCampaign] = useState([]);
-  const [selectStatus, setSelectStatus] = useState(null);
+  const [selectStatus, setSelectStatus] = useState<any>();
+  const [selectType, setSelectType] = useState<any>({
+    value: 2,
+    label: "All",
+  })
 
   //const [fromDate, setFromDate] = useState(new Date(new Date().setDate(new Date().getDate() - 6)).toJSON().slice(0, 10))
   const [fromDate, setFromDate] = useState("");
@@ -61,6 +65,7 @@ export default () => {
     selectIntegr.length > 0 ? (count += 1) : null;
     selectCampaign.length > 0 ? (count += 1) : null;
     selectStatus ? (count += 1) : null;
+    selectType ? (count += 1) : null;
     fromDate || toDate ? (count += 1) : null;
 
     setCountFilter(count);
@@ -98,7 +103,6 @@ export default () => {
 
   const filter = {
     order: 1,
-    type: 2,
     limit: 50,
   };
 
@@ -164,6 +168,13 @@ export default () => {
     };
   });
 
+  const typeList = ReportType.map((item: any, idx: number) => {
+    return {
+      value: idx,
+      label: item,
+    };
+  })
+
   const setDateOnFilter = (data: any) => {
     if (data.length > 1) {
       const utcFrom = data[0].getTime();
@@ -178,6 +189,10 @@ export default () => {
     }
   };
 
+  console.log(selectType);
+  console.log(selectStatus);
+  console.log(selectCountry);
+
   const handleFilterSubmit = () => {
     const curFilter = {
       ...filter,
@@ -186,7 +201,8 @@ export default () => {
       BrandIds: selectBrand.map((item: any) => item.value).join(","),
       CampaignIds: selectCampaign.map((item: any) => item.value).join(","),
       IntegrationIds: selectIntegr.map((item: any) => item.value).join(","),
-      Statuses: selectStatus || null,
+      Statuses: selectStatus?.value || null,
+      type: selectType?.value || null,
       DateFrom: fromDate,
       DateTo: toDate ? toDate + " 23:59:59" : null,
     };
@@ -203,6 +219,9 @@ export default () => {
     setSelectCountry([]);
     setSelectIntegr([]);
     setSelectStatus(null);
+    setSelectType({
+      value: 2, label: "All",
+    });
     setFromDate("");
     setToDate("");
 
@@ -279,6 +298,7 @@ export default () => {
                       isLoading={loadingAffList}
                       options={affiliateList}
                       onChange={setSelectAff}
+                      value={selectAff}
                     />
                   </div>
                 </Col>
@@ -292,6 +312,7 @@ export default () => {
                       isLoading={loadingBrandList}
                       options={brandList}
                       onChange={setSelectBrand}
+                      value={selectBrand}
                     />
                   </div>
                 </Col>
@@ -305,6 +326,7 @@ export default () => {
                       isLoading={loadingIntegrList}
                       options={integrList}
                       onChange={setSelectIntegr}
+                      value={selectIntegr}
                     />
                   </div>
                 </Col>
@@ -320,6 +342,7 @@ export default () => {
                       isLoading={loadingCampaigns}
                       options={campaignList}
                       onChange={setSelectCampaign}
+                      value={selectCampaign}
                     />
                   </div>
                 </Col>
@@ -342,14 +365,27 @@ export default () => {
                   <div className="mb-3 custom-react-select">
                     <div className="react-select-descr">Status</div>
                     <Select
-                      isSearchable
                       options={statusList}
                       onChange={setSelectStatus}
+                      value={selectStatus}
                     />
                   </div>
                 </Col>
 
                 <Col lg={3}>
+                  <div className="mb-3 custom-react-select">
+                    <div className="react-select-descr">Type</div>
+                    <Select
+                      options={typeList}
+                      onChange={setSelectType}
+                      value={selectType}
+                    />
+                  </div>
+                </Col>
+              </Row>
+
+              <Row>
+                <Col className="col-md-12 text-end">
                   <button
                     type="submit"
                     className="btn btnOrange"
@@ -362,6 +398,7 @@ export default () => {
                   </button>
                 </Col>
               </Row>
+
             </AvForm>
           </div>
         </Collapse>

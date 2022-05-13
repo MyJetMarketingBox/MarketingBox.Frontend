@@ -1,7 +1,7 @@
 //REGISTER
 import config from "../config";
 
-export const POST_FAKE_REGISTER = "/post-fake-register";
+export const POST_REGISTER = config.traffme.registrationUrlApi+"api/affiliates/registration";
 
 //LOGIN
 //export const POST_FAKE_LOGIN = "/post-fake-login"

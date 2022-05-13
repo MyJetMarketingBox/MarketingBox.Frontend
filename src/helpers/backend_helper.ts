@@ -15,36 +15,7 @@ const isUserAuthenticated = () => {
 };
 
 // Register Method
-const postFakeRegister = (data: any) => {
-  return axios
-    .post(url.POST_FAKE_REGISTER, data)
-    .then(response => {
-      if (response.status >= 200 || response.status <= 299)
-        return response.data;
-      throw response.data;
-    })
-    .catch(err => {
-      let message;
-      if (err.response && err.response.status) {
-        switch (err.response.status) {
-          case 404:
-            message = "Sorry! the page you are looking for could not be found";
-            break;
-          case 500:
-            message =
-              "Sorry! something went wrong, please contact our support team";
-            break;
-          case 401:
-            message = "Invalid credentials";
-            break;
-          default:
-            message = err[1];
-            break;
-        }
-      }
-      throw message;
-    });
-};
+const postRegister = (data: any) => post(url.POST_REGISTER, data, {}, true, false);
 
 // Login Method
 const postLogin = (data: any) => post(url.POST_FAKE_LOGIN, data);
@@ -221,7 +192,7 @@ export const getLanguagesList = (nextUrl: any, filter: object) =>
 export {
   getLoggedInUser,
   isUserAuthenticated,
-  postFakeRegister,
+  postRegister,
   postLogin,
   postFakeProfile,
   postFakeForgetPwd,

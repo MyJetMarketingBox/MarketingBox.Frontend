@@ -4,19 +4,15 @@ import { takeEvery, fork, put, all, call } from "redux-saga/effects"
 import { RegisterTypes } from "./actionTypes"
 import { registerUserSuccessful, registerUserFailed } from "./actions"
 
-
 import {
-  postFakeRegister
+  postRegister
 } from "../../../helpers/backend_helper"
 
 
-// Is user register successfull then direct plot user in redux.
 function* registerUser({ payload: { user } } : any) {
   try {
-    if (process.env.REACT_APP_DEFAULTAUTH === "fake") {
-      const response: Promise<any>  = yield call(postFakeRegister, user)
-      yield put(registerUserSuccessful(response))
-    }
+    const response: Promise<any>  = yield call(postRegister, user)
+    yield put(registerUserSuccessful({ "Status": "Ok"}))
   } catch (error) {
     yield put(registerUserFailed(error))
   }

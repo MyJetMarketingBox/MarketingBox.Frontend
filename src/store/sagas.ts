@@ -46,7 +46,6 @@ import postbackSaga from "./postback/saga";
 //Geo
 import geoSaga from "./geo/saga";
 
-
 //Register
 import registerSaga from "./auth/register/saga";
 
@@ -55,6 +54,8 @@ import ProfileSaga from "./auth/profile/saga";
 
 // Forget Password
 import forgetPasswordSaga from "./auth/forgetpwd/saga"
+
+//
 import languageSaga from "./languages/saga";
 
 export default function* rootSaga() {
@@ -76,7 +77,7 @@ export default function* rootSaga() {
     fork(integrationsSaga),
     fork(geoSaga),
     fork(languageSaga),
-    //fork(registerSaga),
+    fork(registerSaga),
     //fork(ProfileSaga),
     //fork(forgetPasswordSaga)
   ])

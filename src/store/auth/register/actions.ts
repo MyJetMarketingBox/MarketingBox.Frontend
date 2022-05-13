@@ -14,9 +14,13 @@ export const registerUserSuccessful = (user : any) => {
   }
 }
 
-export const registerUserFailed = (user : any) => {
+export const registerUserFailed = (error : any) => {
   return {
     type: RegisterTypes.REGISTER_USER_FAILED,
-    payload: user,
+    payload: error,
   }
 }
+
+export const clearRegisterUser = () => ({
+  type: RegisterTypes.CLEAR_REGISTER_USER,
+})

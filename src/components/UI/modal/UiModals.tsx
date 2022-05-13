@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Modal } from "reactstrap";
 
 const UiModal = (props: any) => {
-  const [modal_standard, setmodal_standard] = useState(false);
+  const { isOpen } = props;
+
+  const [modal_standard, setmodal_standard] = useState(isOpen);
 
   function tog_standard() {
     setmodal_standard(!modal_standard);
@@ -13,6 +15,10 @@ const UiModal = (props: any) => {
   function removeBodyCss() {
     document.body.classList.add("no_padding");
   }
+
+  useEffect(() => {
+    setmodal_standard(isOpen);
+  }, [isOpen])
 
   return (
     <Modal isOpen={modal_standard} toggle={tog_standard}>

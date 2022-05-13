@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import MetaTags from "react-meta-tags";
-import { Row, Col, Alert, Container } from "reactstrap";
+import { Row, Col, Alert, Container, Label } from "reactstrap";
 
 // availity-reactstrap-validation
-import { AvForm, AvField, AvRadioGroup, AvRadio } from "availity-reactstrap-validation";
+import { AvForm, AvField, AvRadioGroup, AvRadio , AvGroup, AvInput } from "availity-reactstrap-validation";
 
 // action
 import { registerUser, apiError } from "../../store/actions";
@@ -15,6 +15,7 @@ import { Link } from "react-router-dom";
 
 // import images
 import logo from "../../assets/images/logo.svg";
+import Modal from "../../components/UI/modal/info"
 
 const Register = () => {
   const dispatch = useDispatch();
@@ -22,21 +23,42 @@ const Register = () => {
   const [showPass, useShowPass] = useState<boolean>(false);
   const [messType, useMessType] = useState<string>('WhatsApp');
   const [searchFrom, useSearchFrom] = useState<string>('');
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const formRef = useRef<HTMLFormElement>(null);
 
-  const { user, registrationError, loading } = useSelector((state: any) => ({
+  const { user, error, loading } = useSelector((state: any) => ({
     user: state.register.user,
-    registrationError: state.register.registrationError,
-    loading: state.register.loading
+    error: state.register.error.response?.data,
+    loading: state.register.loading,
   }));
 
   const messTypeChangeHandler = (e: any) => {
-    useMessType(e.target);
+    useMessType(e.target.value);
   }
+
+  const content = {
+    title: 'Congratulation!',
+    text: "You've created an account!<br>" +
+      "Please, check you email to complete verification",
+  }
+
+  const toggleAction = () => {
+    setIsOpen(prev => !prev);
+  };
+
+  useEffect(() => {
+    if(user?.Status == 'Ok'){
+      setIsOpen(prev => !prev);
+
+      if(formRef.current)
+          formRef.current.reset();
+    }
+  }, [user])
 
   // handleValidSubmit
   const handleValidSubmit = (values: any) => {
-    console.log(values);
-    console.log("submit");
+    //console.log(values);
+    //console.log("submit");
     const regData = {
       "username": values["username"],
       "email": values["email"],
@@ -60,7 +82,7 @@ const Register = () => {
         }
       ],
     };
-    console.log(regData);
+    //console.log(regData);
     dispatch(registerUser(regData));
   };
 
@@ -101,7 +123,9 @@ const Register = () => {
                   onValidSubmit={(e: any, v: any) => {
                     handleValidSubmit(v);
                   }}
+                  ref={formRef}
                 >
+                  {error?.isError ? <Alert color="danger">{error.error.errorMessage}</Alert> : null}
                   <div className="mb-3">
                     <AvField
                       name="email"
@@ -216,7 +240,7 @@ const Register = () => {
                       name="contact"
                       value=""
                       className="form-control"
-                      placeholder="WhatsApp contact"
+                      placeholder={messType+` contact`}
                       type="text"
                       required
                     />
@@ -262,12 +286,27 @@ const Register = () => {
                       />
                     </div>
                   }
+
+                  {/*<AvGroup check className="form-checkbox">
+                    <Label check className="form-checkbox-label" htmlFor="terms">
+                      <AvInput
+                        type="checkbox"
+                        name="terms"
+                        trueValue="User Agreed"
+                        className="form-checkbox-input"
+                        required
+                      />
+                      By registering you agree to the TraffMe <a href="#">Terms of Use</a>
+                    </Label>
+                  </AvGroup>*/}
+
                   <div className="form-checkbox">
                     <input
                       className="form-checkbox-input"
                       type="checkbox"
                       name="terms"
                       id="terms"
+                      required
                     />
                     <label
                       className="form-checkbox-label"
@@ -276,6 +315,7 @@ const Register = () => {
                       By registering you agree to the TraffMe <a href="#">Terms of Use</a>
                     </label>
                   </div>
+
                   <div>
                     <button
                       className="auth-page-btn"
@@ -306,6 +346,8 @@ const Register = () => {
           <div className="auth-page-img d-none d-lg-block col-lg-6" />
         </div>
       </div>
+
+      <Modal isOpen={isOpen} toggle={toggleAction} content={content}/>
     </React.Fragment>
   );
 };
