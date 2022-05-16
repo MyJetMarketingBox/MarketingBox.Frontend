@@ -1,5 +1,8 @@
 import axios, { AxiosResponse, AxiosError, AxiosRequestConfig } from "axios";
-import { authHeader, registerHeader } from "./jwt-token-access/auth-token-header";
+import {
+  authHeader,
+  registerHeader,
+} from "./jwt-token-access/auth-token-header";
 import config from "../config";
 import { toast, ToastOptions } from "react-toastify";
 import Page from "../constants/pages";
@@ -161,7 +164,7 @@ export const injectInterceptor = (store: any) => {
         switch (error.response?.status) {
           case 401:
           case 403:
-            optionToast.onClose = () => location.replace(Page.SIGN_OUT);
+            location.replace(Page.SIGN_OUT);
             break;
 
           case 500:
@@ -201,8 +204,7 @@ export async function post(
   isClientRequest = true,
   isAffApi = true
 ) {
-
-  axiosApi.defaults.headers.common = (isAffApi) ? authHeader() : registerHeader();
+  axiosApi.defaults.headers.common = isAffApi ? authHeader() : registerHeader();
 
   return axiosApi
     .post(
