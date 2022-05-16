@@ -81,7 +81,7 @@ export const addNewAffiliate = (affiliate: any) =>
 export const deleteAffiliate = (id: number) => del(`${url.AFFILIATES}/${id}`);
 
 export const updateAffiliate = (affiliate: object, id: number) =>
-  put(`${url.AFFILIATES}/${id}`, affiliate, { notification: "Success!" });
+  put(`${url.AFFILIATES}/${id}`, affiliate, { notification: "Update success!" });
 
 // get registrations
 export const getRegistrations = (nextUrl: any, filter: object) =>
@@ -134,7 +134,7 @@ export const getBrands = (nextUrl: any, filter: object) =>
 export const addBrand = (brand: any) => post(url.BRANDS, brand);
 
 export const updateBrand = (brand: object, id: number) =>
-  put(`${url.BRANDS}/${id}`, brand);
+  put(`${url.BRANDS}/${id}`, brand, { notification: "Update success!" });
 
 export const delBrand = (id: number) => del(`${url.BRANDS}/${id}`);
 

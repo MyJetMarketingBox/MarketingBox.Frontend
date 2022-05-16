@@ -7,10 +7,8 @@ export default (props: any) => {
   const { payouts } = props;
 
   return (
-    <React.Fragment>
-      <Row>
-        {payouts.length > 0 && <TablePayouts payouts={payouts} />}
-      </Row>
-    </React.Fragment>
+    <Row>
+      {payouts.length > 0 && <TablePayouts payouts={payouts} />}
+    </Row>
   )
 }

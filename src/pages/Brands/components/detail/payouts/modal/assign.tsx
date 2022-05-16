@@ -11,7 +11,7 @@ export default ({ isOpen, toggle }: any) => {
   const dispatch = useDispatch();
 
   const [selectPayouts, setSelectPayouts] = useState([])
-  const [modalStandard, setModalStandard] = useState(isOpen);
+  //const [modalStandard, setModalStandard] = useState(isOpen);
 
   const { payoutsList, brand, loadingPayouts, upLoadingBrand, upLoadedBrand} = useSelector((state: any) => {
     return{
@@ -32,15 +32,15 @@ export default ({ isOpen, toggle }: any) => {
     }
   }, []);
 
-  useEffect(() => {
-    if(upLoadedBrand) {
-      setModalStandard(!modalStandard)
-    }
-  }, [upLoadedBrand])
-
-  useEffect(() => {
-    setModalStandard(isOpen);
-  }, [isOpen])
+  // useEffect(() => {
+  //   if(upLoadedBrand) {
+  //     setModalStandard(!modalStandard)
+  //   }
+  // }, [upLoadedBrand])
+  //
+  // useEffect(() => {
+  //   setModalStandard(isOpen);
+  // }, [isOpen])
 
   const arrBrandPayoutsId = brand.payouts.map((item:any) => item.id)
 
@@ -71,7 +71,7 @@ export default ({ isOpen, toggle }: any) => {
   }
 
   return(
-    <Modal isOpen={modalStandard} toggle={toggle}>
+    <Modal isOpen={isOpen} toggle={toggle}>
       <ModalHeader toggle={toggle} tag="h4">
         Assign Payout
       </ModalHeader>

@@ -261,3 +261,19 @@ body[data-layout-mode="dark"] {
     }
 
 }
+
+.text-input{
+    background: transparent;
+    border: none;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 28px;
+    padding-left: 0;
+    box-shadow: none;
+    &:hover,
+    &:focus,
+    &:active {
+        outline: 0;
+        outline-offset: 0;
+    }
+}
