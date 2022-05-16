@@ -5,16 +5,25 @@ import { Currency, PayoutType } from "../../../../../../common/utils/model";
 import { useDispatch, useSelector } from "react-redux";
 import ConfirmDelete from "../../../../../../components/UI/confirmDelete/ConfirmDelete";
 import { updateBrand } from "../../../../../../store/brands/profile/actions";
+import ToolkitProvider, { Search } from "react-bootstrap-table2-toolkit";
+import { Col, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Row } from "reactstrap";
+import AddModal from "../../../../../../components/UI/modal/payouts/addBrand";
+import AssignModal from "../modal/assign";
 
 export default (props : any ) => {
 
-  console.log(props);
   const { payouts } = props
 
   const dispatch = useDispatch();
 
   const [isOpen, setIsOpen] = useState(false);
   const [selectId, setSelectId] = useState(false);
+
+  const [modalAdd, setAddModal] = useState<boolean>(false);
+  const [modalAssign, setAssignModal] = useState<boolean>(false);
+  const [plusBtn, setPlusBtn] = useState(false);
+
+  const { SearchBar } = Search;
 
   const { brandProfile } = useSelector((state: any) => {
     return {
@@ -45,6 +54,14 @@ export default (props : any ) => {
 
   const toggleAction = () => {
     setIsOpen(prev => !prev);
+  };
+
+  const toggleModalAdd = () => {
+    setAddModal(prev => !prev);
+  };
+
+  const toggleModalAssign = () => {
+    setAssignModal(prev => !prev);
   };
 
   const handleDeleteBrandPayout = (payoutId : number) => {
@@ -139,18 +156,76 @@ export default (props : any ) => {
 
   return (
     <React.Fragment>
-      <BootstrapTable
-        keyField='id'
+
+      <ToolkitProvider
+        keyField="id"
         data={resPayouts}
         columns={columns}
-        bordered={false}
-        striped={false}
-        defaultSorted={defaultSorted}
-        classes={"table align-middle"}
-        headerWrapperClasses={"thead-light"}
-      />
+        search
+      >
+        {(toolkitProps) => (
+          <React.Fragment>
 
-      <ConfirmDelete isOpen={isOpen} toggle={toggleAction} handleDelete={handleDeleteBrandPayout} id={selectId} />
+            <Row>
+              <Col sm="4" xs="12">
+                <div className="search-box d-inline-block">
+                  <div className="position-relative">
+                    <SearchBar {...toolkitProps.searchProps} />
+                    <i className="bx bx-search-alt search-icon-search" />
+                  </div>
+                </div>
+              </Col>
+
+              <Col className="col-md-4 offset-4 text-end">
+                <Dropdown
+                  isOpen={plusBtn}
+                  toggle={() => {
+                    setPlusBtn(!plusBtn);
+                  }}
+                  className="btn-group me-2 mb-2 mb-sm-0"
+                >
+                  <DropdownToggle
+                    className="btn btnOrange waves-light waves-effect dropdown-toggle"
+                    tag="i"
+                  >
+                    <i className="bx bx-list-plus"></i>
+                  </DropdownToggle>
+                  <DropdownMenu>
+                    <DropdownItem onClick={toggleModalAdd}>New Payout</DropdownItem>
+                    <DropdownItem onClick={toggleModalAssign}>Assign</DropdownItem>
+                  </DropdownMenu>
+                </Dropdown>
+              </Col>
+            </Row>
+
+            <div className="table-responsive">
+              {payouts.length > 0 ?
+                <BootstrapTable
+                  {...toolkitProps.baseProps}
+                  keyField='id'
+                  bordered={false}
+                  striped={false}
+                  defaultSorted={defaultSorted}
+                  classes={"table align-middle"}
+                  headerWrapperClasses={"thead-light"}
+                />
+                : <div style={{ "textAlign": "center", "padding": "30px 0" }}>
+                  <h3>No Data Available</h3>
+                </div>
+              }
+            </div>
+
+
+
+          </React.Fragment>
+        )}
+      </ToolkitProvider>
+
+    <ConfirmDelete isOpen={isOpen} toggle={toggleAction} handleDelete={handleDeleteBrandPayout} id={selectId} />
+
+    <AddModal isOpen={modalAdd} toggle={toggleModalAdd} isBrand={true}/>
+
+    <AssignModal isOpen={modalAssign} toggle={toggleModalAssign}/>
 
     </React.Fragment>
   )

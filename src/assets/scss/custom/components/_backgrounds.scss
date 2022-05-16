@@ -11,6 +11,10 @@ $value in $theme-colors {
 }
 
 
+.bg-orange{
+    background-color: $myOrange !important;
+}
+
 body[data-layout-mode="dark"] {
     // Background Colors
     .bg-light {

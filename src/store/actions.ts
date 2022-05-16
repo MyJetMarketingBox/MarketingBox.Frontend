@@ -38,6 +38,9 @@ export * from "./countries/actions";
 /** Integrations */
 export * from "./integrations/actions";
 
+/** Redistribution */
+export * from "./redistribution/actions"
+
 /** Login */
 export * from "./auth/login/actions";
 

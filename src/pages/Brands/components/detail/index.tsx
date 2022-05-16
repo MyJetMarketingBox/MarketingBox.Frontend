@@ -6,9 +6,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { getBrand, clearBrand } from "../../../../store/brands/profile/actions";
 import Loader from "../../../../components/UI/loader";
 import classnames from "classnames";
-import FormAffiliate from "../../../Affiliates/components/editAffiliate/formAffiliate";
-import Payouts from "./payouts";
-import Campaigns from "./campaign"
+import Payouts from "./payouts/table";
+import Campaigns from "./campaign/table"
+import Setting from "./settings"
 
 
 const Brand = (props : any) => {
@@ -37,8 +37,7 @@ const Brand = (props : any) => {
     }
   }, [])
 
-  console.log(brand);
-
+  const {campaignRows,  ...currentBrand} = brand;
 
   const toggleCustom = (tab: any) => {
     if (customActiveTab !== tab) {
@@ -109,7 +108,7 @@ const Brand = (props : any) => {
                   <TabPane tabId="1">
                     <Row>
                       <Col sm="12">
-                        {/*affLoaded && <FormAffiliate affiliate={affProfile}/>*/}
+                        {loaded && <Setting brand={currentBrand} /> }
                       </Col>
                     </Row>
                   </TabPane>

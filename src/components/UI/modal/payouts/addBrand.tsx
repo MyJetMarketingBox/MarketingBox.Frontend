@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { clearGeo, getGeo } from "../../../../store/geo/actions";
-import { Col, Modal, ModalBody, ModalHeader, Row } from "reactstrap";
+import { Col, Modal, ModalBody, ModalFooter, ModalHeader, Row } from "reactstrap";
 import { AvField, AvForm } from "availity-reactstrap-validation";
 import { Currency, PayoutType } from "../../../../common/utils/model";
 import Select from "../../select";
@@ -62,15 +62,15 @@ export default ({ isOpen, toggle, isBrand }: any) => {
       <ModalHeader toggle={toggle} tag="h4">
         Add Payout
       </ModalHeader>
-      <ModalBody>
-        <AvForm
-          onValidSubmit={(
-            e: any,
-            values: any
-          ) => {
-            handleValidBrandPayoutSubmit(values);
-          }}
-        >
+      <AvForm
+        onValidSubmit={(
+          e: any,
+          values: any
+        ) => {
+          handleValidBrandPayoutSubmit(values);
+        }}
+      >
+        <ModalBody>
           <Row form>
             <Col xs={12}>
               <Row>
@@ -152,12 +152,15 @@ export default ({ isOpen, toggle, isBrand }: any) => {
 
             </Col>
           </Row>
+        </ModalBody>
+
+        <ModalFooter>
           <Row>
             <Col>
               <div className="text-end">
                 <button
                   type="submit"
-                  className="btn btnOrange save-user"
+                  className="btn btnOrange"
                   disabled={loadingItem}
                 >
                   {loadingItem && <i className="bx bx-hourglass bx-spin me-2"/>}
@@ -166,8 +169,8 @@ export default ({ isOpen, toggle, isBrand }: any) => {
               </div>
             </Col>
           </Row>
-        </AvForm>
-      </ModalBody>
+        </ModalFooter>
+      </AvForm>
     </Modal>
   )
 }

@@ -16,6 +16,12 @@
   text-align: left /*rtl: right*/;
 }
 
+.disabled{
+  &:hover{
+    cursor: no-drop;
+  }
+}
+
 // checkbox input right
 
 .form-check-right {
@@ -153,8 +159,8 @@
 }
 
 .form-control {
-  padding: 17px 16px;
-  border: 1px solid #e0e0e0;
+  padding: 12px 16px;
+  border: 1px solid #ced4da;
   border-radius: 12px;
   font-family: "Gilroy", sans-serif;
   font-size: 14px;

@@ -1,20 +1,25 @@
 import React, { useEffect, useState } from "react";
-import { Col, Modal, ModalBody, ModalHeader, Row } from "reactstrap";
+import { Col, Modal, ModalBody, ModalFooter, ModalHeader, Row } from "reactstrap";
 import { AvForm } from "availity-reactstrap-validation";
-import Select from "react-select";
+//import Select from "react-select";
 import { useDispatch, useSelector } from "react-redux";
-import { getBrandPayouts } from "../../../../../../store/brandPayouts/actions";
+import { clearBrandPayouts, getBrandPayouts } from "../../../../../../store/brandPayouts/actions";
 import { updateBrand } from "../../../../../../store/brands/profile/actions";
+import Select from "../../../../../../components/UI/select";
 
 export default ({ isOpen, toggle }: any) => {
   const dispatch = useDispatch();
 
   const [selectPayouts, setSelectPayouts] = useState([])
+  const [modalStandard, setModalStandard] = useState(isOpen);
 
-  const { payoutsList, brand } = useSelector((state: any) => {
+  const { payoutsList, brand, loadingPayouts, upLoadingBrand, upLoadedBrand} = useSelector((state: any) => {
     return{
       payoutsList: state.BrandPayouts.brandPayouts.items,
+      loadingPayouts: state.BrandPayouts.loading,
       brand: state.BrandProfile.brand,
+      upLoadingBrand: state.BrandProfile.upLoading,
+      upLoadedBrand: state.BrandProfile.upLoaded
     }
   })
 
@@ -22,7 +27,20 @@ export default ({ isOpen, toggle }: any) => {
 
   useEffect(() => {
     dispatch(getBrandPayouts("", filter))
+    return () => {
+      dispatch(clearBrandPayouts())
+    }
   }, []);
+
+  useEffect(() => {
+    if(upLoadedBrand) {
+      setModalStandard(!modalStandard)
+    }
+  }, [upLoadedBrand])
+
+  useEffect(() => {
+    setModalStandard(isOpen);
+  }, [isOpen])
 
   const arrBrandPayoutsId = brand.payouts.map((item:any) => item.id)
 
@@ -53,50 +71,56 @@ export default ({ isOpen, toggle }: any) => {
   }
 
   return(
-    <Modal isOpen={isOpen} toggle={toggle}>
+    <Modal isOpen={modalStandard} toggle={toggle}>
       <ModalHeader toggle={toggle} tag="h4">
         Assign Payout
       </ModalHeader>
-      <ModalBody>
+      <AvForm
+        onValidSubmit={(
+          e: any,
+          values: any
+        ) => {
+          handleValidBrandPayoutSubmit(values);
+        }}
+      >
+        <ModalBody>
+            <Row form>
+              <Col xs={12}>
+                <div className="mb-3 custom-react-select">
+                  <div className="react-select-descr">
+                    Select Brand
+                  </div>
+                  <Select
+                    isMulti
+                    isSearchable
+                    isLoading={loadingPayouts}
+                    options={resBrandPayoutsList}
+                    onChange={setSelectPayouts}
+                    rules={{ required: 'Please select an option'}}
+                  />
+                </div>
+              </Col>
+            </Row>
+        </ModalBody>
 
-        <AvForm
-          onValidSubmit={(
-            e: any,
-            values: any
-          ) => {
-            handleValidBrandPayoutSubmit(values);
-          }}
-        >
-          <Row form>
-            <Col xs={12}>
-              <div className="mb-3">
-                <Select
-                  isMulti
-                  isSearchable
-                  isLoading={""}
-                  options={resBrandPayoutsList}
-                  onChange={setSelectPayouts}
-                  rules={{ required: 'Please select an option'}}
-                />
-              </div>
-            </Col>
-          </Row>
+        <ModalFooter>
           <Row>
             <Col>
               <div className="text-end">
                 <button
                   type="submit"
-                  className="btn btnOrange save-user"
-                  //disabled={upLoading}
+                  className="btn btnOrange"
+                  disabled={upLoadingBrand}
                 >
-                  {/*upLoading &&<i className="bx bx-hourglass bx-spin me-2"/>*/}
+                  {upLoadingBrand && <i className="bx bx-hourglass bx-spin me-2"/>}
                   Save
                 </button>
               </div>
             </Col>
           </Row>
-        </AvForm>
-      </ModalBody>
+        </ModalFooter>
+
+      </AvForm>
     </Modal>
   )
 }

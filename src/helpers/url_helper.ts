@@ -52,3 +52,6 @@ export const INTEGRATIONS = "api/integrations";
 
 //LANGUAGES
 export const LANGUAGES = "api/Languages";
+
+//REDISTRIBUTION
+export const REDISTRIBUTION = "api/redistribution";

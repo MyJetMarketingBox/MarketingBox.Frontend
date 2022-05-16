@@ -82,3 +82,13 @@ export const IntegrationType = [
     "API",
     "S2S",
 ]
+
+export const DayOfWeek = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+]

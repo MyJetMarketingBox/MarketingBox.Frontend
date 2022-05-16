@@ -189,6 +189,9 @@ export const updateCampaignApi = (campaign: object, id: number) =>
 export const getLanguagesList = (nextUrl: any, filter: object) =>
   get(nextUrl || url.LANGUAGES, { params: filter });
 
+export const getRedistribution = (nextUrl: any, filter: object) => get(nextUrl || url.REDISTRIBUTION, { params: filter })
+
+
 export {
   getLoggedInUser,
   isUserAuthenticated,

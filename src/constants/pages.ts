@@ -16,6 +16,7 @@ const Page = {
   PAYOUTS: "/payouts",
   CONVERSIONS: "/conversions",
   MARKETING_TOOLS: "/marketing_tools",
+  REDISTRIBUTION: "/redistribution",
 
   SIGN_IN: "/login",
   SIGN_UP: "/register",

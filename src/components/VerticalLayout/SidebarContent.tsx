@@ -13,6 +13,7 @@ import { ReactComponent as IconLeads } from "../../assets/images/icon-leads.svg"
 import { ReactComponent as IconMarketingTools } from "../../assets/images/icon-marketing-tools.svg";
 import { ReactComponent as IconConversions } from "../../assets/images/icon-conversions.svg";
 import { ReactComponent as IconSettings } from "../../assets/images/icons-settings.svg";
+import { ReactComponent as IconRedistribution } from "../../assets/images/icon-phone-flip.svg";
 
 // //Import Scrollbar
 import SimpleBar from "simplebar-react";
@@ -33,7 +34,6 @@ import Page from "src/constants/pages";
 
 const SidebarContent = (props: any) => {
   const ref = useRef<any>();
-
   const { t } = useTranslation();
 
   const [isOpenSubmenu, setIsOpenSubmenu] = useState(false);
@@ -215,6 +215,18 @@ const SidebarContent = (props: any) => {
                 <div className={c.menuItemDescr}>{t("Conversions")}</div>
               </NavLink>
             </li>
+            <li className={c.menuItem}>
+              <NavLink
+                to={Page.REDISTRIBUTION}
+                className={c.menuItemLink}
+                activeClassName={c.active}
+              >
+                <div className={c.menuItemIcon}>
+                  <IconRedistribution />
+                </div>
+                <div className={c.menuItemDescr}>{t("Redistribution")}</div>
+              </NavLink>
+            </li>
             <li className={`${c.menuItem} ${isOpenSubmenu && c.isOpen}`}>
               <div className={c.menuItemLink} onClick={subMemuClickHandler}>
                 <div className={c.menuItemIcon}>
@@ -348,6 +360,18 @@ const SidebarContent = (props: any) => {
                       <IconConversions />
                     </div>
                     <div className={c.descr}>{t("Conversions")}</div>
+                  </NavLink>
+                </li>
+                <li className={c.mobMenuItem}>
+                  <NavLink
+                    to={Page.REDISTRIBUTION}
+                    className={c.mobMenuItemLink}
+                    activeClassName={c.active}
+                  >
+                    <div className={c.icon}>
+                      <IconRedistribution />
+                    </div>
+                    <div className={c.descr}>{t("Redistribution")}</div>
                   </NavLink>
                 </li>
               </ul>

@@ -49,6 +49,9 @@ import geoSaga from "./geo/saga";
 //Register
 import registerSaga from "./auth/register/saga";
 
+//Redistribution
+import redistributionSaga from "./redistribution/saga"
+
 //User Profile
 import ProfileSaga from "./auth/profile/saga";
 
@@ -78,6 +81,8 @@ export default function* rootSaga() {
     fork(geoSaga),
     fork(languageSaga),
     fork(registerSaga),
+    fork(postbackSaga),
+    fork(redistributionSaga),
     //fork(ProfileSaga),
     //fork(forgetPasswordSaga)
   ])

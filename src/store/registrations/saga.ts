@@ -21,8 +21,8 @@ function* fetchRegistrations({ nextUrl, filter } : any) {
   }
 }
 
-function* contactsSaga() {
+function* registrationsSaga() {
   yield takeEvery(RegistrationsTypes.GET_REGISTRATIONS, fetchRegistrations)
 }
 
-export default contactsSaga;
+export default registrationsSaga;

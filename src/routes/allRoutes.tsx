@@ -30,6 +30,7 @@ import { RouteLayoutTypeEnum } from "../enums/RouteLayoutTypeEnum";
 import { RouteItemsType } from "../types/RouteItemsType";
 import Page from "../constants/pages";
 import UserProfile from "../pages/Authentication/UserProfile";
+import Redistribution from "../pages/Redistribution";
 
 const routesList: RouteItemsType[] = [
   {
@@ -77,6 +78,13 @@ const routesList: RouteItemsType[] = [
   {
     path: Page.INTEGRATIONS,
     component: Integrations,
+    layoutType: RouteLayoutTypeEnum.Authorized,
+    strict: true,
+    exact: true,
+  },
+  {
+    path: Page.REDISTRIBUTION,
+    component: Redistribution,
     layoutType: RouteLayoutTypeEnum.Authorized,
     strict: true,
     exact: true,

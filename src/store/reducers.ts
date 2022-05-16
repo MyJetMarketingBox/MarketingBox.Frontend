@@ -28,6 +28,8 @@ import BrandPayouts from "./brandPayouts/reducer";
 import Countries from "./countries/reducer";
 //Integrations
 import Integrations from "./integrations/reducer";
+//Redistribution
+import Redistribution from "./redistribution/reducer"
 //login
 import login from "./auth/login/reducer";
 //register
@@ -56,6 +58,7 @@ const rootReducer = combineReducers({
   BrandProfile,
   BrandPayouts,
   Reports,
+  Redistribution,
   login,
   register,
   profile,

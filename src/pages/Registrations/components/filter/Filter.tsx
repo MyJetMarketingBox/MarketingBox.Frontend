@@ -189,10 +189,6 @@ export default () => {
     }
   };
 
-  console.log(selectType);
-  console.log(selectStatus);
-  console.log(selectCountry);
-
   const handleFilterSubmit = () => {
     const curFilter = {
       ...filter,
