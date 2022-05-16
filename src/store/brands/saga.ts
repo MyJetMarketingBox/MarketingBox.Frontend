@@ -15,6 +15,7 @@ import {
 } from "./actions";
 
 import { getBrands, addBrand, delBrand } from "../../helpers/backend_helper";
+import Page from "src/constants/pages";
 
 function* fetchBrands({ nextUrl, filter }: any) {
   try {
@@ -25,10 +26,14 @@ function* fetchBrands({ nextUrl, filter }: any) {
   }
 }
 
-function* addBrandSaga({ payload: brand }: any) {
+function* addBrandSaga({ payload: brand, history }: any) {
   try {
-    const response: Promise<any> = yield call(addBrand, brand);
+    const response: Promise<{ id: number }> = yield call(addBrand, brand);
     yield put(addBrandSuccess(response));
+
+    response.then(res => {
+      history.push(`${Page.BRANDS}/${res.id}`);
+    });
   } catch (error) {
     yield put(addBrandFail(error));
   }

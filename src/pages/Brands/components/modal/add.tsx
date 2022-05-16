@@ -10,6 +10,8 @@ import { useHistory } from "react-router-dom";
 export default ({ isOpen, toggle }: any) => {
   const dispatch = useDispatch();
 
+  const history = useHistory();
+
   const [getIntegration, setIntegration] = useState([]);
 
   const { integrations, upLoadingBrand, addLoaded } = useSelector(
@@ -48,7 +50,7 @@ export default ({ isOpen, toggle }: any) => {
 
     console.log(sendBrand);
 
-    dispatch(addBrand(sendBrand));
+    dispatch(addBrand(sendBrand, history));
   };
 
   return (
