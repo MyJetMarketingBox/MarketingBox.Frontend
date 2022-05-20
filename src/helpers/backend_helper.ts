@@ -87,6 +87,11 @@ export const updateAffiliate = (affiliate: object, id: number) =>
 export const getRegistrations = (nextUrl: any, filter: object) =>
   get(nextUrl || url.REGISTRATIONS, { params: filter });
 
+export const getStatusLog = (filter: object) => get(url.REGISTRATIONS_STATUS_LOG, {params: filter});
+
+
+export const updateRegStatus = (id: number, request: object) => put(`${url.REGISTRATIONS}/${id}/update-status`, request)
+
 // get postback logs
 export const getPostbackLogs = (nextUrl: any, filter: object) =>
   get(nextUrl || url.POSTBACKLOGS, { params: filter });

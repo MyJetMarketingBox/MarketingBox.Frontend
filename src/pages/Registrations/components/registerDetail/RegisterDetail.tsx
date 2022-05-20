@@ -23,6 +23,7 @@ import { Link } from "react-router-dom";
 import classnames from "classnames";
 import { registrationModel } from "../../../../common/utils/model";
 import  RegTab1  from "./RegTab1"
+import RegTab2 from "./RegTab2";
 
 export default ({regId}: any) => {
 
@@ -162,8 +163,7 @@ export default ({regId}: any) => {
                   className={classnames(
                     {
                       active: activeTab === "1",
-                    },
-                    "px-3"
+                    }, "px-3"
                   )}
                   onClick={() => {
                     setActiveTab("1");
@@ -187,24 +187,7 @@ export default ({regId}: any) => {
                   }}
                   style={{cursor:"pointer"}}
                 >
-                  Tab 2
-                </NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink
-                  to="#"
-                  className={classnames(
-                    {
-                      active: activeTab === "3"
-                    },
-                    "px-3"
-                  )}
-                  onClick={() => {
-                    setActiveTab("3");
-                  }}
-                  style={{cursor:"pointer"}}
-                >
-                  Tab 3
+                  Log Status
                 </NavLink>
               </NavItem>
             </Nav>
@@ -214,8 +197,10 @@ export default ({regId}: any) => {
           <TabPane tabId="1">
             <RegTab1 additionalInfo={additionalInfo}/>
           </TabPane>
+          <TabPane tabId="2">
+            <RegTab2 regId={regId}/>
+          </TabPane>
         </TabContent>
-
       </Col>
     </Row>
   )
