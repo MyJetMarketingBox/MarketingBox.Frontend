@@ -1,33 +1,20 @@
-import React, { useState } from "react";
-import BootstrapTable from "react-bootstrap-table-next";
-import { Col, Row } from "reactstrap";
-
-import ColumnActions from "../../../../../../components/UI/columnActions/ColumnActions";
-import PopoverActivityHours from "../../../../../../components/UI/popover/bottom/activityHours";
+import React, { useMemo } from "react";
+import { ICampaignRowItem } from "src/store/campaignsRow/actionTypes";
 import ToolkitProvider, { Search } from "react-bootstrap-table2-toolkit";
+import PopoverActivityHours from "../../../../../components/UI/popover/bottom/activityHours";
+import ColumnActions from "../../../../../components/UI/columnActions/ColumnActions";
+import { Col } from "reactstrap";
+import BootstrapTable from "react-bootstrap-table-next";
+import { useDispatch } from "react-redux";
+import { deleteCampaignRow } from "src/store/actions";
 
-export default ({ campaigns }: any) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [selectId, setSelectId] = useState(false);
+interface Props {
+  items: ICampaignRowItem[];
+}
 
+const CamaignRowsTable = ({ items }: Props) => {
+  const dispatch = useDispatch();
   const { SearchBar } = Search;
-
-  //console.log(campaigns);
-
-  const resCampaigns = campaigns.map((item: any) => {
-    console.log(item);
-    return {
-      campaignName: item.campaign.name,
-      campaignId: item.campaign.id,
-      geo: item.geo.name,
-      priority: item.priority,
-      weight: item.weight,
-      capType: item.capType,
-      dailyCapValue: item.dailyCapValue,
-      campaignRowId: item.campaignRowId,
-      activityHours: item.activityHours,
-    };
-  });
 
   const listActions: any = [
     /*{
@@ -37,13 +24,30 @@ export default ({ campaigns }: any) => {
       },
     },*/
     {
-      label: "delete",
+      label: "Delete",
       handler: (id: any) => {
-        setIsOpen(true);
-        setSelectId(id);
+        console.log("delete ", id);
+        dispatch(deleteCampaignRow(id));
+        // setIsOpen(true);
+        // setSelectId(id);
       },
     },
   ];
+
+  const resCampaigns = useMemo(() => {
+    return items.map(campaignRow => ({
+      id: campaignRow.campaignRowId,
+      campaignName: campaignRow.campaign.name,
+      campaignId: campaignRow.campaign.id,
+      geo: campaignRow.geo.name,
+      priority: campaignRow.priority,
+      weight: campaignRow.weight,
+      capType: campaignRow.capType,
+      dailyCapValue: campaignRow.dailyCapValue,
+      campaignRowId: campaignRow.campaignRowId,
+      activityHours: campaignRow.activityHours,
+    }));
+  }, [items]);
 
   const columns = [
     {
@@ -125,7 +129,7 @@ export default ({ campaigns }: any) => {
           </Col>
 
           <div className="table-responsive">
-            {campaigns.length > 0 ? (
+            {items.length > 0 ? (
               <BootstrapTable
                 {...toolkitProps.baseProps}
                 keyField="id"
@@ -146,3 +150,5 @@ export default ({ campaigns }: any) => {
     </ToolkitProvider>
   );
 };
+
+export default CamaignRowsTable;

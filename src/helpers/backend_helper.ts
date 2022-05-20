@@ -1,4 +1,5 @@
 import axios from "axios";
+import { ICampaignRowParams } from "src/store/campaignsRow/actionTypes";
 import { del, get, post, put } from "./api_helper";
 import * as url from "./url_helper";
 
@@ -15,7 +16,8 @@ const isUserAuthenticated = () => {
 };
 
 // Register Method
-const postRegister = (data: any) => post(url.POST_REGISTER, data, {}, true, false);
+const postRegister = (data: any) =>
+  post(url.POST_REGISTER, data, {}, true, false);
 
 // Login Method
 const postLogin = (data: any) => post(url.POST_FAKE_LOGIN, data);
@@ -81,7 +83,9 @@ export const addNewAffiliate = (affiliate: any) =>
 export const deleteAffiliate = (id: number) => del(`${url.AFFILIATES}/${id}`);
 
 export const updateAffiliate = (affiliate: object, id: number) =>
-  put(`${url.AFFILIATES}/${id}`, affiliate, { notification: "Update success!" });
+  put(`${url.AFFILIATES}/${id}`, affiliate, {
+    notification: "Update success!",
+  });
 
 // get registrations
 export const getRegistrations = (nextUrl: any, filter: object) =>
@@ -185,12 +189,21 @@ export const deleteCampaignApi = (id: number) => del(`${url.CAMPAIGNS}/${id}`);
 export const updateCampaignApi = (campaign: object, id: number) =>
   put(`${url.CAMPAIGNS}/${id}`, campaign);
 
+// campaign rows
+export const getCampaignRowsApi = (
+  nextUrl: string | null = null,
+  params: ICampaignRowParams
+) => get(nextUrl || url.CAMPAIGN_ROWS, { params });
+
+export const deleteCampaignRowsApi = (id: number) =>
+  del(`${url.CAMPAIGN_ROWS}/${id}`);
+
 // Languages
 export const getLanguagesList = (nextUrl: any, filter: object) =>
   get(nextUrl || url.LANGUAGES, { params: filter });
 
-export const getRedistribution = (nextUrl: any, filter: object) => get(nextUrl || url.REDISTRIBUTION, { params: filter })
-
+export const getRedistribution = (nextUrl: any, filter: object) =>
+  get(nextUrl || url.REDISTRIBUTION, { params: filter });
 
 export {
   getLoggedInUser,

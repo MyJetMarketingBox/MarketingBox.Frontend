@@ -16,6 +16,14 @@
 // @import "custom/rtl/pages-rtl";
 
 /* close button **/
+@media (max-width: 575px) {
+  .modal {
+    .modal-dialog {
+      margin: 0;
+    }
+  }
+}
+
 .close {
   background: transparent;
   border: 0;
@@ -32,6 +40,21 @@
   z-index: 2;
   span {
     display: none;
+  }
+}
+
+.modal-header {
+  .close {
+    padding: 0;
+    span {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 48px;
+      height: 48px;
+      padding-top: 6px;
+      line-height: 1;
+    }
   }
 }
 
@@ -177,35 +200,13 @@ span.flatpickr-weekday {
   background-color: #42a5f5 !important;
 }
 
-.custom-btn-success{
-  background: #E74A18;
+.custom-btn-success {
+  background: #e74a18;
   width: 100%;
   color: white;
   max-width: 248px;
   height: 48px;
-  font-family: 'Gilroy';
-  font-style: normal;
-  font-weight: 700;
-  font-size: 16px;
-  line-height: 24px;
-  border-radius: 8px;
-  border: unset;
-  box-shadow: unset;
-  letter-spacing: 0.15px;
-  &:hover,
-  &:focus{
-    color: white;
-    background: #E74A18;
-  }
-}
-
-.custom-btn-light{
-  background: #F2F2F2;
-  width: 100%;
-  color: #050121;
-  max-width: 248px;
-  height: 48px;
-  font-family: 'Gilroy';
+  font-family: "Gilroy";
   font-style: normal;
   font-weight: 700;
   font-size: 16px;
@@ -216,13 +217,36 @@ span.flatpickr-weekday {
   letter-spacing: 0.15px;
   &:hover,
   &:focus {
-    background: #F2F2F2;
+    color: white;
+    background: #e74a18;
+  }
+}
+
+.custom-btn-light {
+  background: #f2f2f2;
+  width: 100%;
+  color: #050121;
+  max-width: 248px;
+  height: 48px;
+  font-family: "Gilroy";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 24px;
+  border-radius: 8px;
+  border: unset;
+  box-shadow: unset;
+  letter-spacing: 0.15px;
+  &:hover,
+  &:focus {
+    background: #f2f2f2;
     color: #050121;
   }
 }
 
 .modal-backdrop {
-  &.show, &.fade {
+  &.show,
+  &.fade {
     opacity: unset;
   }
   background-color: rgba(0, 0, 0, 0.7);
@@ -232,10 +256,41 @@ span.flatpickr-weekday {
   }
 }
 
+.accent-color {
+  color: #e74a18;
+}
+
+.btn-link-accent {
+  color: #e74a18;
+  font-weight: 500;
+  border-radius: 12px;
+
+  &:hover {
+    color: #e74a18;
+    background: rgba(231, 74, 24, 0.06);
+  }
+
+  &:active,
+  &:focus {
+    outline: none;
+  }
+}
+
 body.modal-open {
   overflow: hidden;
 }
 
 .hidden {
   display: none;
+}
+.react-select-container {
+  .react-select {
+    &__control {
+      border-radius: 12px !important;
+      height: 46px;
+    }
+    &__menu > div {
+      overflow-x: hidden;
+    }
+  }
 }

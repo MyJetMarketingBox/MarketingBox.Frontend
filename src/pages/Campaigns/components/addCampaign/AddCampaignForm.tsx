@@ -1,16 +1,9 @@
 import { useDispatch } from "react-redux";
-import {
-  Col,
-  Row,
-  Modal,
-  ModalHeader,
-  ModalBody
-} from "reactstrap";
+import { Col, Row, Modal, ModalHeader, ModalBody } from "reactstrap";
 import { AvField, AvForm } from "availity-reactstrap-validation";
 import { addCampaign } from "../../../../store/campaigns/actions";
 
 export default ({ isOpen, toggle }: any) => {
-
   const dispatch = useDispatch();
 
   const handleValidSubmit = (values: any) => {
@@ -23,17 +16,13 @@ export default ({ isOpen, toggle }: any) => {
   };
 
   return (
-    <Modal isOpen={isOpen} toggle={toggle}>
+    <Modal isOpen={isOpen} toggle={toggle} centered>
       <ModalHeader toggle={toggle} tag="h4">
         Add Campaign
       </ModalHeader>
       <ModalBody>
-
         <AvForm
-          onValidSubmit={(
-            e: any,
-            values: any
-          ) => {
+          onValidSubmit={(e: any, values: any) => {
             handleValidSubmit(values);
           }}
         >
@@ -46,7 +35,7 @@ export default ({ isOpen, toggle }: any) => {
                   type="text"
                   errorMessage="Invalid name"
                   validate={{
-                    required: { value: true }
+                    required: { value: true },
                   }}
                   value=""
                 />
@@ -55,12 +44,13 @@ export default ({ isOpen, toggle }: any) => {
           </Row>
           <Row>
             <Col>
-              <div className="text-end">
-                <button
-                  type="submit"
-                  className="btn btn-success save-user"
-                >
+              <div className="d-flex">
+                <button type="submit" className="mr-10 btn custom-btn-success">
                   Save
+                </button>
+
+                <button type="submit" className="btn custom-btn-light">
+                  Cancel
                 </button>
               </div>
             </Col>
@@ -69,4 +59,4 @@ export default ({ isOpen, toggle }: any) => {
       </ModalBody>
     </Modal>
   );
-}
+};

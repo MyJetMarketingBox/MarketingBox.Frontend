@@ -31,6 +31,7 @@ import { RouteItemsType } from "../types/RouteItemsType";
 import Page from "../constants/pages";
 import UserProfile from "../pages/Authentication/UserProfile";
 import Redistribution from "../pages/Redistribution";
+import CampaignDetail from "src/pages/Campaigns/components/detail/CampaignDetail";
 
 const routesList: RouteItemsType[] = [
   {
@@ -99,6 +100,13 @@ const routesList: RouteItemsType[] = [
   {
     path: Page.CAMPAIGNS,
     component: Campaigns,
+    layoutType: RouteLayoutTypeEnum.Authorized,
+    strict: true,
+    exact: true,
+  },
+  {
+    path: Page.CAMPAIGN,
+    component: CampaignDetail,
     layoutType: RouteLayoutTypeEnum.Authorized,
     strict: true,
     exact: true,

@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { clearBrandPayouts, getBrandPayouts } from "../../../../store/brandPayouts/actions";
+import {
+  clearBrandPayouts,
+  getBrandPayouts,
+} from "../../../../store/brandPayouts/actions";
 import { Col, Row } from "reactstrap";
 import BtnLoadMore from "../../../../components/UI/btns/BtnLoadMore";
 import { Currency, PayoutType } from "../../../../common/utils/model";
@@ -13,34 +16,36 @@ export default () => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectId, setSelectId] = useState(false);
 
-  const { brandPayouts, loadingList, loadedList, nextUrl } = useSelector((state : any ) => {
-    return {
-      brandPayouts: state.BrandPayouts.brandPayouts.items,
-      nextUrl: state.BrandPayouts.brandPayouts.pagination.nextUrl,
-      loadingList: state.BrandPayouts.brandPayouts.loadingList,
-      loadedList: state.BrandPayouts.brandPayouts.loadedList,
+  const { brandPayouts, loadingList, loadedList, nextUrl } = useSelector(
+    (state: any) => {
+      return {
+        brandPayouts: state.BrandPayouts.brandPayouts.items,
+        nextUrl: state.BrandPayouts.brandPayouts.pagination.nextUrl,
+        loadingList: state.BrandPayouts.brandPayouts.loadingList,
+        loadedList: state.BrandPayouts.brandPayouts.loadedList,
+      };
     }
-  })
+  );
 
   let filter = {
     order: 1,
-    limit: 50
-  }
+    limit: 50,
+  };
 
-  useEffect(() =>{
+  useEffect(() => {
     dispatch(getBrandPayouts("", filter));
     return () => {
-      dispatch(clearBrandPayouts())
-    }
-  }, [])
+      dispatch(clearBrandPayouts());
+    };
+  }, []);
 
   async function loadMore() {
-    if(nextUrl) {
-      dispatch(getBrandPayouts(nextUrl, {}))
+    if (nextUrl) {
+      dispatch(getBrandPayouts(nextUrl, {}));
     }
   }
 
-  const resPayouts = brandPayouts.map((payout : any) => {
+  const resPayouts = brandPayouts.map((payout: any) => {
     return {
       id: payout.id,
       name: payout.name,
@@ -51,15 +56,15 @@ export default () => {
       createdDate: new Date(payout.createdAt).toLocaleDateString("ru-RU", {
         day: "2-digit",
         month: "2-digit",
-        year: "2-digit"
+        year: "2-digit",
       }),
       updatedDate: new Date(payout.modifiedAt).toLocaleDateString("ru-RU", {
         day: "2-digit",
         month: "2-digit",
-        year: "2-digit"
-      }) ,
-    }
-  })
+        year: "2-digit",
+      }),
+    };
+  });
 
   const listActions: any = [
     /*{
@@ -74,7 +79,7 @@ export default () => {
         setIsOpen(true);
         setSelectId(id);
       },
-    }
+    },
   ];
 
   const columns = [
@@ -83,18 +88,15 @@ export default () => {
       text: "Actions",
       sort: false,
       formatter: (cell: any, row: any) => (
-        <ColumnActions
-          id={row.id}
-          items={listActions}
-        />
-      )
+        <ColumnActions id={row.id} items={listActions} />
+      ),
     },
     {
       dataField: "name",
       text: "Name",
       sort: true,
       headerStyle: { width: "250px", minWidth: "250px" },
-      style: { width: "250px", minWidth: "250px", "word-break": "break-word" },
+      style: { width: "250px", minWidth: "250px" },
     },
     {
       dataField: "currency",
@@ -116,7 +118,7 @@ export default () => {
       text: "Geo Box",
       sort: true,
       headerStyle: { width: "250px", minWidth: "250px" },
-      style: { width: "250px", minWidth: "250px", "word-break": "break-word" },
+      style: { width: "250px", minWidth: "250px" },
     },
     {
       dataField: "createdDate",
@@ -127,24 +129,22 @@ export default () => {
       dataField: "updatedDate",
       text: "Updated date",
       sort: true,
-    }
-
+    },
   ];
 
   const defaultSorted: any = [
     {
       dataField: "id",
-      order: "desc"
-    }
+      order: "desc",
+    },
   ];
-
 
   return (
     <React.Fragment>
       <Row className="mb-4">
         <div className="table-responsive">
           <BootstrapTable
-            keyField='id'
+            keyField="id"
             data={resPayouts}
             columns={columns}
             bordered={false}
@@ -156,20 +156,15 @@ export default () => {
         </div>
       </Row>
 
-      {
-        nextUrl &&
+      {nextUrl && (
         <Row>
           <Col className="col-12">
             <div className="text-center">
-              <BtnLoadMore
-                loading={loadingList}
-                handeClick={loadMore}
-              />
+              <BtnLoadMore loading={loadingList} handeClick={loadMore} />
             </div>
           </Col>
         </Row>
-      }
-
+      )}
     </React.Fragment>
-  )
-}
+  );
+};

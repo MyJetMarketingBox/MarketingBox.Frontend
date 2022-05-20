@@ -1,7 +1,7 @@
 import {CampaignsTypes, CampaignsState} from "./actionTypes";
 
 export const INIT_STATE : CampaignsState = {
-  campaigns : { items: [], pagination: {} },
+  campaigns : { items: [], pagination: null },
   error : null,
   loading: false,
   loaded: false,

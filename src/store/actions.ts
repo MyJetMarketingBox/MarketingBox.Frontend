@@ -39,7 +39,7 @@ export * from "./countries/actions";
 export * from "./integrations/actions";
 
 /** Redistribution */
-export * from "./redistribution/actions"
+export * from "./redistribution/actions";
 
 /** Login */
 export * from "./auth/login/actions";
@@ -55,3 +55,4 @@ export * from "./auth/forgetpwd/actions";
 
 export * from "./languages/actions";
 export * from "./badRequests/actions";
+export * from "./campaignsRow/actions";

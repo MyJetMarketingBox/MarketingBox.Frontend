@@ -29,7 +29,7 @@ import Countries from "./countries/reducer";
 //Integrations
 import Integrations from "./integrations/reducer";
 //Redistribution
-import Redistribution from "./redistribution/reducer"
+import Redistribution from "./redistribution/reducer";
 //login
 import login from "./auth/login/reducer";
 //register
@@ -40,6 +40,7 @@ import profile from "./auth/profile/reducer";
 import forgetPassword from "./auth/forgetpwd/reducer";
 import Languages from "./languages/reducer";
 import badRequests from "./badRequests/reducer";
+import CampaignRows from "./campaignsRow/reducer";
 
 const rootReducer = combineReducers({
   // public
@@ -65,6 +66,7 @@ const rootReducer = combineReducers({
   forgetPassword,
   Languages,
   badRequests,
+  CampaignRows,
 });
 
 export default rootReducer;

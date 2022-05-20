@@ -1,0 +1,26 @@
+.activity_hours_block {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 8px;
+
+  &-title {
+    display: flex;
+    align-items: center;
+    width: 100px;
+  }
+
+  &-checkbox {
+    display: flex;
+    align-items: center;
+    margin-right: 12px;
+    label {
+      margin: 0;
+    }
+  }
+}
+
+.enableTraffic-margin {
+  margin-bottom: 0 !important;
+  margin-right: 8px !important;
+}

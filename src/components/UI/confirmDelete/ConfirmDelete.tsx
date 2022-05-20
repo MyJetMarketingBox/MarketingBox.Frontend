@@ -1,11 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import { useDispatch, useSelector } from "react-redux";
 import c from "./ConfirmDelete.module.scss";
 import { AvField, AvForm } from "availity-reactstrap-validation";
 import { changeRootBlur } from "../../../store/layout/actions";
 
-export default ({ isOpen, toggle, handleDelete, id }: any) => {
+interface Props {
+  isOpen?: boolean;
+  toggle: (state: boolean) => void;
+  handleDelete: (id: number) => void;
+  id?: any;
+}
+
+export default ({ isOpen, toggle, handleDelete, id }: Props) => {
   const dispatch = useDispatch();
   const [value, setValue] = useState("");
   const [canDelete, setCanDelete] = useState(false);
@@ -24,10 +31,11 @@ export default ({ isOpen, toggle, handleDelete, id }: any) => {
   }, [isOpen]);
 
   const close = () => {
+    dispatch(changeRootBlur(false));
     toggle(false);
   };
 
-  const handleChange = (e: { target: { value: string } }) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
   };
 

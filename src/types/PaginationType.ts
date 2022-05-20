@@ -3,5 +3,5 @@ export interface PaginationType {
   count: number;
   total: number;
   order: number;
-  nextUrl: string;
+  nextUrl: string | null;
 }

@@ -73,12 +73,12 @@ const CardIntegration = (props : any) => {
 
         </Card>
       </Col>
-      {
+      {/* {
         isDeleteConfirm &&
         <ConfirmDelete
           close={popupDeleteConfirmClose}
           handleDelete={handleDeleteIntegration} />
-      }
+      } */}
     </>
   )
 }

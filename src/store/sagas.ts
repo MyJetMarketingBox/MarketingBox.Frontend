@@ -1,4 +1,4 @@
-import { all, fork } from "redux-saga/effects"
+import { all, fork } from "redux-saga/effects";
 
 //Layout
 import LayoutSaga from "./layout/saga";
@@ -32,13 +32,13 @@ import brandPayoutsSaga from "./brandPayouts/saga";
 import countriesSaga from "./countries/saga";
 
 //Integrations
-import integrationsSaga from "./integrations/saga"
+import integrationsSaga from "./integrations/saga";
 
 //Registrations
 import registrationsSaga from "./registrations/saga";
 
 //PostbackLogs
-import postbackLogsSaga from "./postback_logs/saga"
+import postbackLogsSaga from "./postback_logs/saga";
 
 //Postback
 import postbackSaga from "./postback/saga";
@@ -50,16 +50,17 @@ import geoSaga from "./geo/saga";
 import registerSaga from "./auth/register/saga";
 
 //Redistribution
-import redistributionSaga from "./redistribution/saga"
+import redistributionSaga from "./redistribution/saga";
 
 //User Profile
 import ProfileSaga from "./auth/profile/saga";
 
 // Forget Password
-import forgetPasswordSaga from "./auth/forgetpwd/saga"
+import forgetPasswordSaga from "./auth/forgetpwd/saga";
 
 //
 import languageSaga from "./languages/saga";
+import campaignRowsSaga from "./campaignsRow/saga";
 
 export default function* rootSaga() {
   yield all([
@@ -83,7 +84,8 @@ export default function* rootSaga() {
     fork(registerSaga),
     fork(postbackSaga),
     fork(redistributionSaga),
+    fork(campaignRowsSaga),
     //fork(ProfileSaga),
     //fork(forgetPasswordSaga)
-  ])
+  ]);
 }

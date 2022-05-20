@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import {
   Card,
   CardBody,
@@ -12,34 +12,42 @@ import {
 import { useDispatch } from "react-redux";
 import { deleteCampaign } from "../../../../store/campaigns/actions";
 import ConfirmDelete from "../../../../components/UI/confirmDelete/ConfirmDelete";
+import { CampaignType } from "src/types/CampaignsTypes";
+import Page from "src/constants/pages";
 
-const CardCampaigns = (props : any) => {
-  const { campaign } = props;
-
+interface Props {
+  campaign: CampaignType;
+}
+const CardCampaigns = ({ campaign }: Props) => {
   const dispatch = useDispatch();
+  const { push } = useHistory();
   const [isDeleteConfirm, setIsDeleteConfirm] = useState(false);
 
   const handleDelete = () => {
-    dispatch(deleteCampaign(campaign.id))
-  }
+    dispatch(deleteCampaign(campaign.id));
+  };
 
   const popupDeleteConfirmOpen = () => {
     setIsDeleteConfirm(true);
-  }
+  };
+
+  const handleOpenDetail = () => {
+    push(`${Page.CAMPAIGNS}/${campaign.id}`);
+  };
 
   const popupDeleteConfirmClose = () => {
     setIsDeleteConfirm(false);
-  }
+  };
 
   const handleDeleteCampaign = () => {
-    dispatch(deleteCampaign(campaign.id))
-  }
+    dispatch(deleteCampaign(campaign.id));
+  };
 
   return (
     <>
       <Col xl="3" sm="6">
         <Card className="text-center">
-          <CardBody>
+          <CardBody className="mb-0">
             <UncontrolledDropdown className="dropdown text-end">
               <DropdownToggle className="text-muted font-size-16" tag="a">
                 <i className="bx bx-dots-horizontal-rounded"></i>
@@ -47,8 +55,13 @@ const CardCampaigns = (props : any) => {
 
               <DropdownMenu className="dropdown-menu-end">
                 <DropdownItem to="#">Edit</DropdownItem>
-                <DropdownItem to="#">Action</DropdownItem>
-                <DropdownItem to="#">Remove</DropdownItem>
+                <DropdownItem onClick={handleOpenDetail}>Detail</DropdownItem>
+                <DropdownItem
+                  className="accent-color"
+                  onClick={popupDeleteConfirmOpen}
+                >
+                  Delete
+                </DropdownItem>
               </DropdownMenu>
             </UncontrolledDropdown>
 
@@ -58,7 +71,10 @@ const CardCampaigns = (props : any) => {
                   "avatar-title bg-soft-light text-light display-4 m-0 rounded-circle"
                 }
               >
-                <i className="bx bxs-user-circle" style={{"color":"#7b746f"}}></i>
+                <i
+                  className="bx bxs-user-circle"
+                  style={{ color: "#7b746f" }}
+                ></i>
               </span>
             </div>
 
@@ -67,35 +83,29 @@ const CardCampaigns = (props : any) => {
                 {campaign.name}
               </Link>
             </h5>
-            <p className="text-muted mb-2">
-              Campaign ID (gi): {campaign.id}
-            </p>
+            <p className="text-muted mb-2">Campaign ID (gi): {campaign.id}</p>
           </CardBody>
-          <div className="btn-group" role="group">
+          <div className="btn-group p-2" role="group">
             <button
               type="button"
-              className="btn btn-outline-light text-truncate"
+              onClick={handleOpenDetail}
+              className="btn btn-link-accent text-truncate"
             >
               <i className="uil uil-user me-1"></i> Detail
-            </button>
-            <button
-              type="button"
-              className="btn btn-outline-light text-truncate"
-              onClick={popupDeleteConfirmOpen}
-            >
-              <i className="uil uil-envelope-alt me-1"></i> Delete
             </button>
           </div>
         </Card>
       </Col>
-      {
-        isDeleteConfirm &&
+      {isDeleteConfirm && (
         <ConfirmDelete
-          close={popupDeleteConfirmClose}
-          handleDelete={handleDeleteCampaign} />
-      }
+          isOpen={isDeleteConfirm}
+          id={campaign.id}
+          handleDelete={handleDeleteCampaign}
+          toggle={popupDeleteConfirmClose}
+        />
+      )}
     </>
-  )
-}
+  );
+};
 
-export default CardCampaigns
+export default CardCampaigns;

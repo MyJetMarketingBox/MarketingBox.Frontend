@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { clearAffPayouts, getAffPayouts } from "../../../../store/affiliatePayouts/actions";
+import {
+  clearAffPayouts,
+  getAffPayouts,
+} from "../../../../store/affiliatePayouts/actions";
 import Loader from "../../../../components/UI/loader";
 import { Currency, PayoutType } from "../../../../common/utils/model";
 import ColumnActions from "../../../../components/UI/columnActions/ColumnActions";
@@ -9,39 +12,41 @@ import { Col, Row } from "reactstrap";
 import BtnLoadMore from "../../../../components/UI/btns/BtnLoadMore";
 
 export default () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const [isOpen, setIsOpen] = useState(false);
   const [selectId, setSelectId] = useState(false);
 
-  const {affPayouts, loadingList, loadedList, nextUrl} = useSelector((state:any) => {
-    return {
-      affPayouts: state.AffPayouts.affPayouts.items,
-      nextUrl: state.AffPayouts.affPayouts.pagination.nextUrl,
-      loadingList : state.AffPayouts.affPayouts.loadingList,
-      loadedList : state.AffPayouts.affPayouts.loadedList
+  const { affPayouts, loadingList, loadedList, nextUrl } = useSelector(
+    (state: any) => {
+      return {
+        affPayouts: state.AffPayouts.affPayouts.items,
+        nextUrl: state.AffPayouts.affPayouts.pagination.nextUrl,
+        loadingList: state.AffPayouts.affPayouts.loadingList,
+        loadedList: state.AffPayouts.affPayouts.loadedList,
+      };
     }
-  })
+  );
 
   let filter = {
     order: 1,
-    limit: 50
-  }
+    limit: 50,
+  };
 
   useEffect(() => {
-    dispatch(getAffPayouts('', filter))
+    dispatch(getAffPayouts("", filter));
     return () => {
-      dispatch(clearAffPayouts())
-    }
+      dispatch(clearAffPayouts());
+    };
   }, []);
 
-  async function loadMore () {
-    if(nextUrl){
-      dispatch(getAffPayouts(nextUrl, {}))
+  async function loadMore() {
+    if (nextUrl) {
+      dispatch(getAffPayouts(nextUrl, {}));
     }
   }
 
-  const resPayouts = affPayouts.map((payout : any) => {
+  const resPayouts = affPayouts.map((payout: any) => {
     return {
       id: payout.id,
       name: payout.name,
@@ -52,15 +57,15 @@ export default () => {
       createdDate: new Date(payout.createdAt).toLocaleDateString("ru-RU", {
         day: "2-digit",
         month: "2-digit",
-        year: "2-digit"
+        year: "2-digit",
       }),
       updatedDate: new Date(payout.modifiedAt).toLocaleDateString("ru-RU", {
         day: "2-digit",
         month: "2-digit",
-        year: "2-digit"
-      }) ,
-    }
-  })
+        year: "2-digit",
+      }),
+    };
+  });
 
   const toggleAction = () => {
     setIsOpen(prev => !prev);
@@ -73,7 +78,7 @@ export default () => {
         setIsOpen(true);
         setSelectId(id);
       },
-    }
+    },
   ];
 
   const columns = [
@@ -82,18 +87,15 @@ export default () => {
       text: "Actions",
       sort: false,
       formatter: (cell: any, row: any) => (
-        <ColumnActions
-          id={row.id}
-          items={listActions}
-        />
-      )
+        <ColumnActions id={row.id} items={listActions} />
+      ),
     },
     {
       dataField: "name",
       text: "Name",
       sort: true,
       headerStyle: { width: "250px", minWidth: "250px" },
-      style: { width: "250px", minWidth: "250px", "word-break": "break-word" },
+      style: { width: "250px", minWidth: "250px" },
     },
     {
       dataField: "currency",
@@ -115,7 +117,7 @@ export default () => {
       text: "Geo Box",
       sort: true,
       headerStyle: { width: "250px", minWidth: "250px" },
-      style: { width: "250px", minWidth: "250px", "word-break": "break-word" },
+      style: { width: "250px", minWidth: "250px" },
     },
     {
       dataField: "createdDate",
@@ -126,24 +128,23 @@ export default () => {
       dataField: "updatedDate",
       text: "Updated date",
       sort: true,
-    }
-
+    },
   ];
 
   const defaultSorted: any = [
     {
       dataField: "id",
-      order: "desc"
-    }
+      order: "desc",
+    },
   ];
 
   return (
     <React.Fragment>
-      { !loadedList && loadingList && <Loader /> }
+      {!loadedList && loadingList && <Loader />}
       <Row className="mb-4">
         <div className="table-responsive">
           <BootstrapTable
-            keyField='id'
+            keyField="id"
             data={resPayouts}
             columns={columns}
             bordered={false}
@@ -155,20 +156,15 @@ export default () => {
         </div>
       </Row>
 
-      {
-        nextUrl &&
+      {nextUrl && (
         <Row>
           <Col className="col-12">
             <div className="text-center">
-              <BtnLoadMore
-                loading={loadingList}
-                handeClick={loadMore}
-              />
+              <BtnLoadMore loading={loadingList} handeClick={loadMore} />
             </div>
           </Col>
         </Row>
-      }
-
+      )}
     </React.Fragment>
-  )
-}
+  );
+};

@@ -20,7 +20,6 @@ export default ({ brands = [] }: any) => {
   const [selectId, setSelectId] = useState(false);
 
   const brandsData = brands.map((brand: any) => {
- 
     let color;
     switch (brand.status) {
       case 0:
@@ -105,7 +104,7 @@ export default ({ brands = [] }: any) => {
       dataField: "integration",
       text: "Integration",
       headerStyle: { width: "250px", minWidth: "250px" },
-      style: { width: "250px", minWidth: "250px", "word-break": "break-word" },
+      style: { width: "250px", minWidth: "250px" },
       sort: true,
     },
     {

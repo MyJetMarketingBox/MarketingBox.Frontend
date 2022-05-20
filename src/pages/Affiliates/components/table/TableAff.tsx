@@ -96,7 +96,7 @@ export default ({ affiliates = [] }: any) => {
       text: "Username",
       sort: true,
       headerStyle: { width: "250px", minWidth: "250px" },
-      style: { width: "250px", minWidth: "250px", "word-break": "break-word" },
+      style: { width: "250px", minWidth: "250px" },
     },
     {
       dataField: "ai",
@@ -108,7 +108,7 @@ export default ({ affiliates = [] }: any) => {
       text: "Email",
       sort: true,
       headerStyle: { width: "250px", minWidth: "250px" },
-      style: { width: "250px", minWidth: "250px", "word-break": "break-word" },
+      style: { width: "250px", minWidth: "250px" },
     },
     {
       dataField: "reportto",

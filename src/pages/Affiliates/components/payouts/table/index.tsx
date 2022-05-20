@@ -8,23 +8,22 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateAffiliate } from "../../../../../store/affiliates/profile/actions";
 //import ColumnActions from "../../columnActions/ColumnActions";
 
-const tablePayouts = (props:any) => {
-
+const tablePayouts = (props: any) => {
   const dispatch = useDispatch();
   const history = useHistory();
 
   const [isOpen, setIsOpen] = useState(false);
   const [selectId, setSelectId] = useState(false);
 
-  const {affProfile} = useSelector((state: any) => {
+  const { affProfile } = useSelector((state: any) => {
     return {
-      affProfile: state.AffProfile.affProfile
-    }
-  })
+      affProfile: state.AffProfile.affProfile,
+    };
+  });
 
-  const { payouts } = props
+  const { payouts } = props;
 
-  const resPayouts = payouts.map((payout : any) => {
+  const resPayouts = payouts.map((payout: any) => {
     return {
       id: payout.id,
       name: payout.name,
@@ -35,33 +34,35 @@ const tablePayouts = (props:any) => {
       createdDate: new Date(payout.createdAt).toLocaleDateString("ru-RU", {
         day: "2-digit",
         month: "2-digit",
-        year: "2-digit"
+        year: "2-digit",
       }),
       updatedDate: new Date(payout.modifiedAt).toLocaleDateString("ru-RU", {
         day: "2-digit",
         month: "2-digit",
-        year: "2-digit"
-      }) ,
-    }
-  })
+        year: "2-digit",
+      }),
+    };
+  });
 
   const toggleAction = () => {
     setIsOpen(prev => !prev);
   };
 
   const handleDeleteAffPayout = (id: number) => {
-    const {payouts, offerAffiliates, bank, company, ...affClear} = affProfile
+    const { payouts, offerAffiliates, bank, company, ...affClear } = affProfile;
 
-    const currPayouts = payouts.filter((item : any) => {
-      return item.id != id
-    }).map((item : any) => {
-      return item.id
-    })
+    const currPayouts = payouts
+      .filter((item: any) => {
+        return item.id != id;
+      })
+      .map((item: any) => {
+        return item.id;
+      });
 
     affClear.affiliatePayoutIds = currPayouts;
 
-    dispatch(updateAffiliate(affClear, affClear.id))
-  }
+    dispatch(updateAffiliate(affClear, affClear.id));
+  };
 
   const listActions: any = [
     /*{
@@ -76,7 +77,7 @@ const tablePayouts = (props:any) => {
         setIsOpen(true);
         setSelectId(id);
       },
-    }
+    },
   ];
 
   const columns = [
@@ -85,18 +86,15 @@ const tablePayouts = (props:any) => {
       text: "Actions",
       sort: false,
       formatter: (cell: any, row: any) => (
-        <ColumnActions
-          id={row.id}
-          items={listActions}
-        />
-      )
+        <ColumnActions id={row.id} items={listActions} />
+      ),
     },
     {
       dataField: "name",
       text: "Name",
       sort: true,
       headerStyle: { width: "250px", minWidth: "250px" },
-      style: { width: "250px", minWidth: "250px", "word-break": "break-word" },
+      style: { width: "250px", minWidth: "250px" },
     },
     {
       dataField: "currency",
@@ -127,21 +125,20 @@ const tablePayouts = (props:any) => {
       dataField: "updatedDate",
       text: "Updated date",
       sort: true,
-    }
-
+    },
   ];
 
   const defaultSorted: any = [
     {
       dataField: "id",
-      order: "desc"
-    }
+      order: "desc",
+    },
   ];
 
   return (
     <React.Fragment>
       <BootstrapTable
-        keyField='id'
+        keyField="id"
         data={resPayouts}
         columns={columns}
         bordered={false}
@@ -151,10 +148,14 @@ const tablePayouts = (props:any) => {
         headerWrapperClasses={"thead-light"}
       />
 
-      <ConfirmDelete isOpen={isOpen} toggle={toggleAction} handleDelete={handleDeleteAffPayout} id={selectId} />
-
+      <ConfirmDelete
+        isOpen={isOpen}
+        toggle={toggleAction}
+        handleDelete={handleDeleteAffPayout}
+        id={selectId}
+      />
     </React.Fragment>
-  )
-}
+  );
+};
 
-export default tablePayouts
+export default tablePayouts;
