@@ -2,20 +2,43 @@ import BootstrapTable from "react-bootstrap-table-next";
 import React, { useState } from "react";
 import { DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown } from "reactstrap";
 import { Link } from "react-router-dom";
-import ColumnActions from "../columnActions/ColumnActions";
-import { registrationModel, RegistrationStatus } from "../../../../common/utils/model";
+import ColumnActions from "../../../../components/UI/columnActions/ColumnActions";
+import { registrationModel, RegistrationStatus, RegistrationStatusObj } from "../../../../common/utils/model";
+import Page from "../../../../constants/pages";
+import ChangeStatus from "../../../../components/UI/modal/changeStatus"
+import { RegistrationStatusEnum } from "../../../../enums/RegistrationStatusEnum";
+import { TableButtonHandlerEnum } from "../../../../enums/TableButtonHandlerEnum";
 
 export default ({registrations = [], setRegId, toggle} : any) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectId, setSelectId] = useState<number>();
+  const [selectStatus, setSelectStatus] = useState<RegistrationStatusEnum>(RegistrationStatusEnum.Registered);
+
+  const toggleAction = () => {
+    setIsOpen(prev => !prev);
+  };
+
+  const listActions: any = [
+    {
+      label: "change status",
+      type: TableButtonHandlerEnum.EditStatus,
+      handler: (id : number, status: RegistrationStatusEnum) => {
+        setIsOpen(true);
+        setSelectId(+id);
+        setSelectStatus(status)
+      },
+    },
+  ];
 
   const columns = [
-    // {
-    //   dataField: "actions",
-    //   text: "Actions",
-    //   sort:false,
-    //   formatter: (cell: any, row: any) => (
-    //     <ColumnActions id={row.id} />
-    //   )
-    // },
+    {
+      dataField: "actions",
+      text: "Actions",
+      sort:false,
+      formatter: (cell: any, row: any) => (
+        <ColumnActions id={row.id} items={listActions} data={{ status: +row.statusId }}/>
+      )
+    },
     {
       dataField: "affiliate",
       text: "Affiliate",
@@ -84,17 +107,18 @@ export default ({registrations = [], setRegId, toggle} : any) => {
     return {
       id: registration.registrationId,
       affiliateId: registration.routeInfo.affiliateId,
-      affiliate: registration.routeInfo.affiliateNane,
+      affiliate: registration.routeInfo.affiliateName,
       campaign: registration.routeInfo.campaignId,
       brandId: registration.routeInfo.brandId,
       brand: registration.routeInfo.brandName,
       integrationId: registration.routeInfo.integrationIdId,
       integration: registration.routeInfo.integrationName,
       status: RegistrationStatus[registration.status],
+      statusId: registration.status,
       email: registration.generalInfo.email,
       country: registration.generalInfo.countryId,
       createdAt: new Date(registration.generalInfo.createdAt).toLocaleDateString('ru-RU', {day:"2-digit", month:"2-digit", year:"2-digit", hour: "2-digit", minute: "2-digit", second: "numeric"}),
-      depositedAt: (registration.generalInfo.depositedAt) ? new Date(registration.generalInfo.depositedAt).toLocaleDateString('ru-RU', {day:"2-digit", month:"2-digit", year:"2-digit", hour: "2-digit", minute: "2-digit", second: "numeric"}) : null,
+      depositedAt: (registration.generalInfo.depositDate) ? new Date(registration.generalInfo.depositDate).toLocaleDateString('ru-RU', {day:"2-digit", month:"2-digit", year:"2-digit", hour: "2-digit", minute: "2-digit", second: "numeric"}) : null,
     }
   });
 
@@ -111,6 +135,16 @@ export default ({registrations = [], setRegId, toggle} : any) => {
         headerWrapperClasses={"thead-light"}
         rowEvents={tableRowEvents}
       />
+
+      {selectId &&
+        <ChangeStatus
+          isOpen={isOpen}
+          toggle={toggleAction}
+          id={selectId}
+          status={selectStatus}
+        />
+      }
+
     </>
   )
 }

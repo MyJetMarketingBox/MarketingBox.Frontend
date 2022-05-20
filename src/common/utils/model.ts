@@ -1,3 +1,5 @@
+import { RegistrationStatusEnum } from "../../enums/RegistrationStatusEnum";
+
 export const AffiliateRole = [
     "Affiliate",
     "AffiliateManager",
@@ -21,12 +23,20 @@ export const Currency = [
 ]
 
 export const RegistrationStatus = [
-    "Created",
+    "Failed",
     "Registered",
     "Deposited",
     "Approved",
-    "Declined"
+    "Declined",
 ]
+
+export const RegistrationStatusObj = {
+    [RegistrationStatusEnum.Failed] : "Failed",
+    [RegistrationStatusEnum.Registered] : "Registered",
+    [RegistrationStatusEnum.Deposited] : "Deposited",
+    [RegistrationStatusEnum.Approved] : "Approved",
+    [RegistrationStatusEnum.Declined] : "Declined",
+}
 
 export const ReportType = [
     'Registrations',
@@ -91,4 +101,10 @@ export const DayOfWeek = [
     "Thursday",
     "Friday",
     "Saturday",
+]
+
+export const DepositUpdateMode = [
+    { value: 0, label: "Unknown" },
+    { value: 2, label: "Automatically" },
+    { value: 3, label: "Manually" },
 ]

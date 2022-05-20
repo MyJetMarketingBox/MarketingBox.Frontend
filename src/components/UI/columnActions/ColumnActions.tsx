@@ -6,9 +6,44 @@ import {
   UncontrolledDropdown,
 } from "reactstrap";
 import "./ColumnActions.scss";
+import { TableButtonHandlerEnum } from "../../../enums/TableButtonHandlerEnum";
+import { RegistrationStatusEnum } from "../../../enums/RegistrationStatusEnum";
 
-export default ({ id, items }: any) => {
+interface EditStatusHandlerType {
+  status: RegistrationStatusEnum
+}
+
+interface Item {
+  label: string,
+  handler: (...args: any) => void,
+  type?: TableButtonHandlerEnum
+}
+
+interface Props {
+  id: number,
+  items: Item[],
+  data?: EditStatusHandlerType | any,
+}
+
+export default ({ id, items, data }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
+
+  const renderBtnByType = (item: Item) => {
+    switch (item.type) {
+      case TableButtonHandlerEnum.EditStatus:
+        return (
+          <DropdownItem onClick={() => item.handler(id, data?.status)}>
+            {item.label}
+          </DropdownItem>
+        )
+      default:
+        return (
+          <DropdownItem onClick={() => item.handler(id)}>
+            {item.label}
+          </DropdownItem>
+        )
+    }
+  }
 
   const toggleAction = () => {
     setIsOpen(prev => !prev);
@@ -26,12 +61,14 @@ export default ({ id, items }: any) => {
         </DropdownToggle>
 
         <DropdownMenu className="float-start">
-          {items.map((item: any, i: any) => (
-            <DropdownItem key={i} onClick={() => item.handler(id)}>
-              {item.label}
-            </DropdownItem>
+          {items.map((item) => (
+            <React.Fragment key={`${item.label}-${id}`}>
+              {renderBtnByType(item)}
+            </React.Fragment>
           ))}
         </DropdownMenu>
+
+
       </UncontrolledDropdown>
     </div>
   );

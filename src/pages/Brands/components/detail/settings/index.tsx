@@ -95,7 +95,6 @@ export default (props: any) => {
   }
 
   const changeName = (e: any) => {
-    console.log(e.target.value);
     setBrandName(e.target.value)
   }
 

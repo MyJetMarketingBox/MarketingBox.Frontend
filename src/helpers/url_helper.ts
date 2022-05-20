@@ -24,6 +24,9 @@ export const GEO = "api/Geo";
 export const GEO_SEARCH = "api/Geo/search";
 //REGISTRATIONS
 export const REGISTRATIONS = "api/registrations";
+
+export const REGISTRATIONS_STATUS_LOG = "api/Registrations/status-log";
+
 //PostbackLogs
 export const POSTBACKLOGS = "api/PostbackLogs";
 //Postback
