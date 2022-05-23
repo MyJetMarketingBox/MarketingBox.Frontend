@@ -49,7 +49,7 @@ const CardCampaigns = ({ campaign }: Props) => {
         <Card className="text-center">
           <CardBody className="mb-0">
             <UncontrolledDropdown className="dropdown text-end">
-              <DropdownToggle className="text-muted font-size-16" tag="a">
+              <DropdownToggle className="text-muted font-size-16 pointer" tag="a">
                 <i className="bx bx-dots-horizontal-rounded"></i>
               </DropdownToggle>
 

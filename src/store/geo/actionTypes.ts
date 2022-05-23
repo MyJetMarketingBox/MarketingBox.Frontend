@@ -4,6 +4,10 @@ export enum GeoTypes {
   GET_GEO_SUCCESS = "@geo/GET_GEO_SUCCESS",
   GET_GEO_FAIL = "@geo/GET_GEO_FAIL",
 
+  GET_GEO_PROFILE = "@@geo/GET_GEO_PROFILE",
+  GET_GEO_PROFILE_SUCCESS = "@@geo/GET_GEO_PROFILE_SUCCESS",
+  GET_GEO_PROFILE_FAIL = "@@geo/GET_GEO_PROFILE_FAIL",
+
   /** ADD **/
   ADD_GEO = "@geo/ADD_GEO",
   ADD_GEO_SUCCESS = "@geo/ADD_GEO_SUCCESS",
@@ -32,4 +36,7 @@ export interface GeoState {
   loaded: boolean;
   addLoading: boolean;
   addLoaded: boolean;
+  profile: Object;
+  loadingProfile: boolean;
+  loadedProfile: boolean;
 }

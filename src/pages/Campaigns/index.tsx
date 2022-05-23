@@ -24,6 +24,7 @@ import { clearCampaigns, getCampaigns } from "../../store/campaigns/actions";
 import AddCampaignForm from "./components/addCampaign/AddCampaignForm";
 import BtnLoadMore from "../../components/UI/btns/BtnLoadMore";
 import { RootStoreType } from "src/store/storeTypes";
+import Geo from "../Geo";
 
 enum TabsEnum {
   Campaign = "campaign",
@@ -82,7 +83,7 @@ const CampaignsGrid = () => {
     <React.Fragment>
       <div className="page-content">
         <MetaTags>
-          <title>Campaigns | TraffMe</title>
+          <title>{TAB_DATA[customActiveTab].tabTitle} | TraffMe</title>
         </MetaTags>
         <Container fluid>
           {/** Render Breadcrumbs **/}
@@ -106,7 +107,7 @@ const CampaignsGrid = () => {
                     className="btn btnOrange"
                     onClick={toggleModal}
                   >
-                    <i className="bx bx-plus me-1"></i> Add New
+                    Add {TAB_DATA[customActiveTab].tabTitle}
                   </button>
                 </div>
               </div>
@@ -171,22 +172,25 @@ const CampaignsGrid = () => {
                         <CardCampaigns campaign={campaign} key={campaign.id} />
                       ))}
                     </Row>
+
+                    <Row>
+                      <Col xs="12">
+                        <div className="text-center my-3">
+                          <BtnLoadMore />
+                        </div>
+                      </Col>
+                    </Row>
+
                   </TabPane>
                   <TabPane tabId={TabsEnum.Geo}>
-                    <Row>geo list</Row>
+                    <Geo />
                   </TabPane>
                 </TabContent>
               </CardBody>
             </Card>
           </Row>
 
-          <Row>
-            <Col xs="12">
-              <div className="text-center my-3">
-                <BtnLoadMore />
-              </div>
-            </Col>
-          </Row>
+
         </Container>
       </div>
       <AddCampaignForm isOpen={modal} toggle={toggleModal} />

@@ -131,6 +131,7 @@ $green: #2ab57d;
 $teal: #050505;
 $cyan: #4ba6ef;
 $myOrange: #E74A18;
+$darkBlue: #050121;
 
 // scss-docs-start colors-map
 $colors: (
@@ -147,6 +148,8 @@ $colors: (
   "white": $white,
   "gray": $gray-600,
   "gray-dark": $gray-800,
+  "dark-blue": $darkBlue,
+  "fx-orange": $myOrange,
 );
 // scss-docs-end colors-map
 
@@ -170,6 +173,8 @@ $theme-colors: (
   "pink": $pink,
   "light": $light,
   "dark": $dark,
+  "dark-blue": $darkBlue,
+  "fx-orange": $myOrange,
 );
 // scss-docs-end theme-colors-map
 

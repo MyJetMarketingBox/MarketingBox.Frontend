@@ -6,7 +6,10 @@ export const INIT_STATE : GeoState = {
   loading: false,
   loaded: false,
   addLoading: false,
-  addLoaded: false
+  addLoaded: false,
+  profile: {},
+  loadingProfile: false,
+  loadedProfile: false,
 }
 
 const geo = (state = INIT_STATE, action: any) => {
@@ -34,6 +37,29 @@ const geo = (state = INIT_STATE, action: any) => {
         loading: false,
         loaded: true,
         error: action.payload,
+      }
+
+    case GeoTypes.GET_GEO_PROFILE:
+      return {
+        ...state,
+        loadingProfile: true,
+      }
+
+    case GeoTypes.GET_GEO_PROFILE_SUCCESS:
+      return {
+        ...state,
+        profile: action.payload,
+        error: {},
+        loadingProfile: false,
+        loadedProfile: true,
+      }
+
+    case GeoTypes.GET_GEO_PROFILE_FAIL:
+      return {
+        ...state,
+        error: action.payload,
+        loadingProfile: false,
+        loadedProfile: false,
       }
 
     case GeoTypes.ADD_GEO:

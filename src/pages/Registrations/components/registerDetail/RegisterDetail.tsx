@@ -21,7 +21,7 @@ import {
 import { Link } from "react-router-dom";
 
 import classnames from "classnames";
-import { registrationModel } from "../../../../common/utils/model";
+import { registrationModel, RegistrationStatus } from "../../../../common/utils/model";
 import  RegTab1  from "./RegTab1"
 import RegTab2 from "./RegTab2";
 
@@ -40,6 +40,29 @@ export default ({regId}: any) => {
 
   const {generalInfo, additionalInfo, status, routeInfo, registrationId } = register;
   console.log(register);
+
+
+  let color;
+  switch (status) {
+    case 0:
+      color = "danger";
+      break;
+    case 1:
+      color = "dark-blue";
+      break;
+    case 2:
+      color = "fx-orange";
+      break;
+    case 3:
+      color = "success";
+      break;
+    case 4:
+      color = "dark";
+      break;
+    default:
+      color = "light";
+      break;
+  }
 
   return (
     <Row>
@@ -142,8 +165,8 @@ export default ({regId}: any) => {
                       <div className="d-flex flex-wrap align-items-start gap-2 gap-lg-3 text-muted font-size-13">
                         <div>
                           <b>Status:</b>
-                          <Badge pill className="rounded-pill badge-soft-info ms-1 font-size-13">
-                            {registrationModel[status]}
+                          <Badge className={`badge badge-soft-${color} ms-1 font-size-13`}>
+                            {RegistrationStatus[status]}
                           </Badge>
                         </div>
                         <div>

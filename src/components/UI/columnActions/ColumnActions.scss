@@ -1,7 +1,10 @@
+.card-dot tr:last-child .dropdown-menu.show,
 .table tr:last-child .dropdown-menu.show {
   top: auto !important;
   bottom: 100% !important;
 }
+
+.card-dot .btn-light,
 .table .btn-light {
   background-color: transparent;
   border: none;
@@ -9,35 +12,50 @@
   box-shadow: none;
   color: #E74A18;
 }
-body[data-layout-mode="dark"] .table .btn-light {
+
+body[data-layout-mode="dark"] .table .btn-light,
+body[data-layout-mode="dark"] .card-dot .btn-light,
+{
   background-color: transparent;
   border: none;
   color: #E74A18;
   box-shadow: none;
 }
+
+.card-dot .btn-light:hover,
 .table .btn-light:hover,
+.card-dot .dropdown.show .btn-light,
 .table .dropdown.show .btn-light {
   background-color: #fce9e3;
   border: none;
   color: #E74A18;
 }
+
 body[data-layout-mode="dark"] .table .btn-light:hover,
+body[data-layout-mode="dark"] .card-dot .btn-light:hover,
 body[data-layout-mode="dark"] .dropdown.show .btn-light {
   background-color: #3b403d;
   border: none;
   color: #E74A18;
 }
-.table .dropdown-menu {
+
+.card-dot .table .dropdown-menu {
   padding: 8px 4px;
   border-radius: 12px;
 }
+
+.card-dot .dropdown-menu.show,
 .table .dropdown-menu.show {
   top: calc(100% + 5px) !important;
 }
+
+.card-dot .dropdown-item,
 .table .dropdown-item {
   padding: 0.72rem 1rem;
   color: #050121;
 }
+
+.card-dot .dropdown-item:hover,
 .table .dropdown-item:hover {
   background-color: #f2f2f2;
 }

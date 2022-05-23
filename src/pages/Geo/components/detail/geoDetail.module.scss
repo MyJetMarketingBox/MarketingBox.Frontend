@@ -1,0 +1,32 @@
+.list-country{
+  padding-left: 0;
+  list-style: none;
+  height: 500px;
+  overflow-y: auto;
+
+  li{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    height: 35px;
+    position: relative;
+
+    span{
+      flex: 1 0 0;
+    }
+
+  }
+
+}
+
+.selected-country{
+  padding-left: 0;
+  list-style: none;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-content: flex-start;
+  flex-wrap: wrap;
+  height: 500px;
+  overflow-y: auto;
+}

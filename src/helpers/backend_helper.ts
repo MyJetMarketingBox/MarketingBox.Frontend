@@ -127,8 +127,7 @@ export const delAffPayouts = (id: number) => del(`${url.AFF_PAYOUTS}/${id}`);
 export const getGeo = (nextUrl: any, filter: object) =>
   get(nextUrl || url.GEO, { params: filter });
 
-/*export const getGeo = (nextUrl: any, filter: object) =>
-  post(nextUrl || url.GEO_SEARCH, filter);*/
+export const getGeoProfile = (id: number) => get(url.GEO, { params: { GeoId: id } });
 
 /** END GEO **/
 

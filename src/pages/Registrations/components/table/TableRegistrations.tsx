@@ -68,6 +68,17 @@ export default ({registrations = [], setRegId, toggle} : any) => {
       dataField: "status",
       text: "Status",
       sort: true,
+      formatter: (cellContent: any, data: any) => (
+        <>
+          <div
+            className={
+              "badge badge-soft-" + data.color + " font-size-12"
+            }
+          >
+            {data.status}
+          </div>
+        </>
+      ),
     },
     {
       dataField: "email",
@@ -104,6 +115,29 @@ export default ({registrations = [], setRegId, toggle} : any) => {
   }
 
   const registrationData = registrations.map((registration : any) => {
+
+    let color;
+    switch (registration.status) {
+      case 0:
+        color = "danger";
+        break;
+      case 1:
+        color = "dark-blue";
+        break;
+      case 2:
+        color = "fx-orange";
+        break;
+      case 3:
+        color = "success";
+        break;
+      case 4:
+        color = "dark";
+        break;
+      default:
+        color = "light";
+        break;
+    }
+
     return {
       id: registration.registrationId,
       affiliateId: registration.routeInfo.affiliateId,
@@ -119,6 +153,7 @@ export default ({registrations = [], setRegId, toggle} : any) => {
       country: registration.generalInfo.countryId,
       createdAt: new Date(registration.generalInfo.createdAt).toLocaleDateString('ru-RU', {day:"2-digit", month:"2-digit", year:"2-digit", hour: "2-digit", minute: "2-digit", second: "numeric"}),
       depositedAt: (registration.generalInfo.depositDate) ? new Date(registration.generalInfo.depositDate).toLocaleDateString('ru-RU', {day:"2-digit", month:"2-digit", year:"2-digit", hour: "2-digit", minute: "2-digit", second: "numeric"}) : null,
+      color: color,
     }
   });
 

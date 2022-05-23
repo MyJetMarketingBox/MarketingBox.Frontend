@@ -10,6 +10,7 @@ const Page = {
   INTEGRATION: "/Integrations/:id",
   CAMPAIGNS: "/campaigns",
   CAMPAIGN: "/campaigns/:id",
+  GEO_EDIT: "/geo/edit/:id?",
   POSTBACK_LOGS: "/postback_logs",
   POSTBACK: "/postback",
   BRANDS: "/brands",
