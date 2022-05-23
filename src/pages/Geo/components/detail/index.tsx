@@ -85,7 +85,9 @@ const GeoDetail = (props: any) => {
 
   useEffect(() => {
     dispatch(getCountries("", { order: 0 }));
-    dispatch(getGeoProfile(+id));
+    if (id) {
+      dispatch(getGeoProfile(+id));
+    }
 
     return () => {
       dispatch(clearCountries());
