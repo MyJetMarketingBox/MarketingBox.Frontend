@@ -129,6 +129,12 @@ export const getGeo = (nextUrl: any, filter: object) =>
 
 export const getGeoProfile = (id: number) => get(url.GEO, { params: { GeoId: id } });
 
+export const updateGeoProfile = (geo: object, id: number) => put(`${url.GEO}/${id}`, geo, { notification: "Update success!", })
+
+export const addGeo = (geo: object) => post(url.GEO, geo)
+
+export const delGeo = (id: number) => del(`${url.GEO}/${id}`, {notification: "Successfully deleted!"})
+
 /** END GEO **/
 
 // get reports

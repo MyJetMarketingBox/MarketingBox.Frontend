@@ -19,12 +19,13 @@ import {
 
 //Import Breadcrumb
 import Breadcrumbs from "../../components/Common/Breadcrumb";
-import CardCampaigns from "./components/card/CardCampaigns";
-import { clearCampaigns, getCampaigns } from "../../store/campaigns/actions";
+import { clearCampaigns, deleteCampaign, getCampaigns } from "../../store/campaigns/actions";
 import AddCampaignForm from "./components/addCampaign/AddCampaignForm";
 import BtnLoadMore from "../../components/UI/btns/BtnLoadMore";
 import { RootStoreType } from "src/store/storeTypes";
 import Geo from "../Geo";
+import MiniCard from "../../components/UI/miniCard/miniCard";
+import SearchCampaigns from "./components/search"
 
 enum TabsEnum {
   Campaign = "campaign",
@@ -61,6 +62,11 @@ const CampaignsGrid = () => {
     TabsEnum.Campaign
   );
 
+  let filter = {
+    order: 1,
+    limit: 50
+  };
+
   const toggleCustom = (tab: any) => {
     if (customActiveTab !== tab) {
       setCustomActiveTab(tab);
@@ -72,12 +78,22 @@ const CampaignsGrid = () => {
   };
 
   useEffect(() => {
-    dispatch(getCampaigns(null, { order: 1 }));
+    dispatch(getCampaigns(null, filter));
 
     return () => {
       dispatch(clearCampaigns());
     };
   }, []);
+
+  const handleDeleteCampaign = (id: number) => {
+    dispatch(deleteCampaign(id));
+  };
+
+  async function loadMore() {
+    if (nextUrl) {
+      dispatch(getCampaigns(nextUrl, filter))
+    }
+  }
 
   return (
     <React.Fragment>
@@ -167,19 +183,32 @@ const CampaignsGrid = () => {
                   className="p-3 text-muted"
                 >
                   <TabPane tabId={TabsEnum.Campaign}>
+
                     <Row>
-                      {campaigns.map((campaign: any) => (
-                        <CardCampaigns campaign={campaign} key={campaign.id} />
-                      ))}
+                      <Col className="col-md-4 mb-5">
+                        <SearchCampaigns />
+                      </Col>
                     </Row>
 
                     <Row>
-                      <Col xs="12">
-                        <div className="text-center my-3">
-                          <BtnLoadMore />
-                        </div>
-                      </Col>
+                      {campaigns.map((campaign: any) => (
+                        <MiniCard data={campaign} path={`/campaigns/${campaign.id}`} handleDelete={handleDeleteCampaign} key={campaign.id}/>
+                      ))}
                     </Row>
+
+                    {
+                      nextUrl &&
+                      <Row>
+                        <Col className="col-12">
+                          <div className="text-center">
+                            <BtnLoadMore
+                              loading={loading}
+                              handeClick={loadMore}
+                            />
+                          </div>
+                        </Col>
+                      </Row>
+                    }
 
                   </TabPane>
                   <TabPane tabId={TabsEnum.Geo}>

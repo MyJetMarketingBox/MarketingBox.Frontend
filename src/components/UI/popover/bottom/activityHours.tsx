@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Label, Popover, PopoverBody, PopoverHeader } from "reactstrap";
 import c from "./activityHours.module.scss";
 import { DayOfWeek } from "../../../../common/utils/model";
@@ -12,12 +12,27 @@ interface Props {
 export default ({ id, activityHours }: Props) => {
   const [popoverBottom, setPopoverBottom] = useState(false);
 
+  const wrapperRef = useRef<HTMLDivElement>(null);
+
   const handleTogglePopover = () => {
     setPopoverBottom(prev => !prev);
   };
+
+  const handleClickOutside = (e: any) => {
+    if(wrapperRef.current && !wrapperRef.current.contains(e.target)){
+      setPopoverBottom(false)
+    }
+  }
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside)
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside)
+    }
+  }, [])
   
   return (
-    <div>
+    <div ref={wrapperRef}>
       <a
         id={"popoverBottom" + id}
         onClick={handleTogglePopover}

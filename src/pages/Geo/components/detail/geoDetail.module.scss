@@ -10,6 +10,7 @@
     align-items: center;
     height: 35px;
     position: relative;
+    cursor: pointer;
 
     span{
       flex: 1 0 0;
@@ -29,4 +30,26 @@
   flex-wrap: wrap;
   height: 500px;
   overflow-y: auto;
+
+  button {
+    position: relative;
+    border: 1px solid var(--bs-fx-orange);
+    padding: 8px;
+    border-radius: 14px;
+    text-align: center;
+    margin: 0 15px 15px 0;
+    flex: 0 1 20%;
+    cursor: pointer;
+    display: inline-block;
+    background: rgba(255, 255, 255, 0);
+
+    /*span:last-of-type {
+      display: none;
+      position: absolute;
+      right: 10px;
+      top: 20%;
+      cursor: pointer;
+    }*/
+  }
+
 }

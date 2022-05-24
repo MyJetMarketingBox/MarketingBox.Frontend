@@ -1,11 +1,9 @@
 import { CampaignsTypes } from "./actionTypes";
 
-export const getCampaigns = (
-  nextUrl: string | null = null,
-  filter: object = {}
-) => ({
+export const getCampaigns = (nextUrl: string | null = null, filter: object = {}) => ({
   type: CampaignsTypes.GET_CAMPAIGNS,
-  payload: { nextUrl, filter },
+  nextUrl,
+  filter
 });
 
 export const getCampaignsSuccess = (campaigns: any) => ({
