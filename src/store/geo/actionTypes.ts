@@ -13,6 +13,16 @@ export enum GeoTypes {
   ADD_GEO_SUCCESS = "@geo/ADD_GEO_SUCCESS",
   ADD_GEO_FAIL = "@geo/ADD_GEO_FAIL",
 
+  /** UPDATE **/
+  UPDATE_GEO = "@@geo/UPDATE_GEO",
+  UPDATE_GEO_SUCCESS = "@@geo/UPDATE_GEO_SUCCESS",
+  UPDATE_GEO_FAIL = "@@geo/UPDATE_GEO_FAIL",
+
+  /** DEL **/
+  DEL_GEO = "@@geo/DEL_GEO",
+  DEL_GEO_SUCCESS = "@@geo/DEL_GEO_SUCCESS",
+  DEL_GEO_FAIL = "@@geo/DEL_GEO_FAIL",
+
   /** CLEAR **/
   CLEAR_GEO = "@@geo/CLEAR_GEO",
 }

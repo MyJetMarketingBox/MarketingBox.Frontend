@@ -9,17 +9,12 @@ import {
 } from "../../../../store/countries/actions";
 import c from "./geoDetail.module.scss";
 import { AvForm, AvField, AvInput } from "availity-reactstrap-validation";
-import { getGeoProfile } from "../../../../store/geo/actions";
+import { addGeo, getGeoProfile, updateGeo } from "../../../../store/geo/actions";
 import { useParams } from "react-router";
 
 const GeoDetail = (props: any) => {
-  const {
-    match: { params },
-  } = props;
 
   const { id } = useParams<{ id: string }>();
-
-  console.log(id);
 
   const dispatch = useDispatch();
 
@@ -30,6 +25,8 @@ const GeoDetail = (props: any) => {
     profile,
     loadingProfile,
     loadedProfile,
+    loaded,
+    loading
   } = useSelector((state: any) => {
     return {
       countries: state.Countries.value.items,
@@ -38,24 +35,25 @@ const GeoDetail = (props: any) => {
       profile: state.Geo.profile,
       loadingProfile: state.Geo.loadingProfile,
       loadedProfile: state.Geo.loadedProfile,
+      loaded: state.Geo.loaded,
+      loading: state.Geo.loading,
     };
   });
 
   const [search, setSearch] = useState("");
   const [selectedCountries, setSelectedCountries] = useState<number[]>([]);
   const [profileName, setProfileName] = useState("");
+  //const [napadenie, setNapadenie] = useState("");
 
   const changeName = (e: ChangeEvent<HTMLInputElement>) => {
     setProfileName(e.target.value);
   };
 
   const handleSelectCountry = (id: number) => {
-    console.log(id);
     setSelectedCountries((prev: any) => [...prev, id]);
   };
 
   const handleRemoveSelected = (id: number) => () => {
-    console.log("remove ", id);
     const arr = selectedCountries.filter(item => item !== id);
     setSelectedCountries(arr);
   };
@@ -94,6 +92,19 @@ const GeoDetail = (props: any) => {
     };
   }, []);
 
+  const handleBtnUpdate = () => {
+    const upGeo = {
+      "name": profileName.trim(),
+      "countryIds": selectedCountries
+    }
+
+    if (id) {
+      dispatch(updateGeo(upGeo, +id))
+    }else{
+      dispatch(addGeo(upGeo))
+    }
+  }
+
   return (
     <React.Fragment>
       <div className="page-content">
@@ -122,7 +133,7 @@ const GeoDetail = (props: any) => {
                 </Row>
 
                 <Row>
-                  <Col md={4}>
+                  <Col md={3}>
                     <Row>
                       <AvForm>
                         <div className="mb-5">
@@ -154,22 +165,44 @@ const GeoDetail = (props: any) => {
                   </Col>
 
                   {/* added countries  */}
-                  <Col md={8}>
+                  <Col md={9}>
+                    <p>Countries Added: {selectedCountries.length}</p>
                     <ul className={c["selected-country"]}>
-                      {loadedProfile && selectedCountries.length
+                      {/*loadedProfile &&*/}
+                      {selectedCountries.length
                         ? selectedCountries.map((itemId: number) => (
                             <button
                               key={`geo-${itemId}`}
-                              className="btn btn-primary mr-1"
                               onClick={handleRemoveSelected(itemId)}
+                              className="text-dark-blue"
                             >
-                              {countryName(itemId)}
+                              <span>{countryName(itemId)}</span>
+                              {/*{!napadenie && itemId === 20 && setNapadenie("Я сейчас вам покажу 4-ри точки от куда готовилось нападение !")}*/}
                             </button>
                           ))
                         : "Select some countries"}
                     </ul>
+
+                    {/*{napadenie.length > 0 && <h1>{napadenie}</h1>}*/}
                   </Col>
                   {/*  */}
+
+                  <Row>
+                    <Col>
+                      <div className="text-end">
+                        <button
+                          type="submit"
+                          className="btn btnOrange btn-width-250"
+                          onClick={handleBtnUpdate}
+                          disabled={!selectedCountries.length || loading}
+                        >
+                          {loading && <i className="bx bx-hourglass bx-spin me-2"/>}
+                          Save
+                        </button>
+                      </div>
+                    </Col>
+                  </Row>
+
                 </Row>
               </CardBody>
             </Card>

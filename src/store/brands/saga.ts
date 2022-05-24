@@ -1,8 +1,4 @@
 import { call, put, takeEvery } from "redux-saga/effects";
-// import { createBrowserHistory } from "history";
-// const history = createBrowserHistory();
-//import { push } from 'react-router-redux';
-
 import { BrandsTypes } from "./actionTypes";
 
 import {

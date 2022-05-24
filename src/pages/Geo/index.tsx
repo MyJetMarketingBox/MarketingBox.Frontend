@@ -1,10 +1,11 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { clearGeo, getGeo } from "../../store/geo/actions";
+import { clearGeo, delGeo, getGeo } from "../../store/geo/actions";
 import { Col, Row } from "reactstrap";
-import Card from "./components/card"
+import MiniCard from "../../components/UI/miniCard/miniCard"
 import BtnLoadMore from "../../components/UI/btns/BtnLoadMore";
 import SearchGeo from "./components/search";
+import { CardTypeEnum } from "../../enums/CardTypeEnum";
 
 const Geo = (props: any) => {
 
@@ -38,6 +39,10 @@ const Geo = (props: any) => {
     }
   }
 
+  const handleDelete = (id : number) => {
+    dispatch(delGeo(id));
+  };
+
   return (
     <React.Fragment>
 
@@ -49,9 +54,8 @@ const Geo = (props: any) => {
 
       <Row>
         { geoList.map((geo: any) =>
-            <Card data={geo} key={geo.id}/>
-            )
-        }
+          <MiniCard data={geo} path={`/geo/edit/${geo.id}`} handleDelete={handleDelete} cardType={CardTypeEnum.Geo} key={geo.id}/>
+        )}
       </Row>
 
       {
@@ -67,6 +71,7 @@ const Geo = (props: any) => {
           </Col>
         </Row>
       }
+
     </React.Fragment>
   )
 
