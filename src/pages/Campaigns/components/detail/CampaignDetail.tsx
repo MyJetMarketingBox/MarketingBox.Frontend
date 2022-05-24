@@ -63,8 +63,7 @@ const CampaignDetail = () => {
         <Col xs={12}>
           <div>
             <CardBody>
-              <Row className="mb-2">
-                <Col className="col-md-4">search</Col>
+              <Row className="mb-2 justify-content-end">
                 <Col className="col-md-4 offset-4 text-end">
                   <button
                     type="button"

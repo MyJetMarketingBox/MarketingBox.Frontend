@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { ICampaignRowItem } from "src/store/campaignsRow/actionTypes";
 import ToolkitProvider, { Search } from "react-bootstrap-table2-toolkit";
 import PopoverActivityHours from "../../../../../components/UI/popover/bottom/activityHours";
@@ -7,6 +7,7 @@ import { Col } from "reactstrap";
 import BootstrapTable from "react-bootstrap-table-next";
 import { useDispatch } from "react-redux";
 import { deleteCampaignRow, openEditCampaignRowModal } from "src/store/actions";
+import ConfirmDelete from "src/components/UI/confirmDelete/ConfirmDelete";
 
 interface Props {
   items: ICampaignRowItem[];
@@ -15,6 +16,17 @@ interface Props {
 const CamaignRowsTable = ({ items }: Props) => {
   const dispatch = useDispatch();
   const { SearchBar } = Search;
+
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectId, setSelectId] = useState(false);
+
+  const toggleAction = () => {
+    setIsOpen(prev => !prev);
+  };
+
+  const handleDeleteCampaignRow = (id: number) => {
+    dispatch(deleteCampaignRow(id));
+  };
 
   const listActions: any = [
     {
@@ -28,9 +40,9 @@ const CamaignRowsTable = ({ items }: Props) => {
       label: "Delete",
       handler: (id: any) => {
         console.log("delete ", id);
-        dispatch(deleteCampaignRow(id));
-        // setIsOpen(true);
-        // setSelectId(id);
+
+        setIsOpen(true);
+        setSelectId(id);
       },
     },
   ];
@@ -124,38 +136,52 @@ const CamaignRowsTable = ({ items }: Props) => {
   ];
 
   return (
-    <ToolkitProvider keyField="id" data={resCampaigns} columns={columns} search>
-      {toolkitProps => (
-        <React.Fragment>
-          <Col sm="4" xs="12">
-            <div className="search-box d-inline-block">
-              <div className="position-relative">
-                <SearchBar {...toolkitProps.searchProps} />
-                <i className="bx bx-search-alt search-icon-search" />
+    <>
+      <ToolkitProvider
+        keyField="id"
+        data={resCampaigns}
+        columns={columns}
+        search
+      >
+        {toolkitProps => (
+          <React.Fragment>
+            <Col sm="4" xs="12">
+              <div className="search-box d-inline-block">
+                <div className="position-relative">
+                  <SearchBar {...toolkitProps.searchProps} />
+                  <i className="bx bx-search-alt search-icon-search" />
+                </div>
               </div>
-            </div>
-          </Col>
+            </Col>
 
-          <div className="table-responsive">
-            {items.length > 0 ? (
-              <BootstrapTable
-                {...toolkitProps.baseProps}
-                keyField="id"
-                bordered={false}
-                striped={false}
-                defaultSorted={defaultSorted}
-                classes={"table align-middle"}
-                headerWrapperClasses={"thead-light"}
-              />
-            ) : (
-              <div style={{ textAlign: "center", padding: "30px 0" }}>
-                <h3>No Data Available</h3>
-              </div>
-            )}
-          </div>
-        </React.Fragment>
-      )}
-    </ToolkitProvider>
+            <div className="table-responsive">
+              {items.length > 0 ? (
+                <BootstrapTable
+                  {...toolkitProps.baseProps}
+                  keyField="id"
+                  bordered={false}
+                  striped={false}
+                  defaultSorted={defaultSorted}
+                  classes={"table align-middle"}
+                  headerWrapperClasses={"thead-light"}
+                />
+              ) : (
+                <div style={{ textAlign: "center", padding: "30px 0" }}>
+                  <h3>No Data Available</h3>
+                </div>
+              )}
+            </div>
+          </React.Fragment>
+        )}
+      </ToolkitProvider>
+
+      <ConfirmDelete
+        isOpen={isOpen}
+        toggle={toggleAction}
+        handleDelete={handleDeleteCampaignRow}
+        id={selectId}
+      />
+    </>
   );
 };
 

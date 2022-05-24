@@ -28,7 +28,7 @@ import AddCampaignForm from "./components/addCampaign/AddCampaignForm";
 import BtnLoadMore from "../../components/UI/btns/BtnLoadMore";
 import { RootStoreType } from "src/store/storeTypes";
 import Geo from "../Geo";
-import Loader from "src/components/UI/loader";
+import Loader from "../../components/UI/loader";
 import MiniCard from "../../components/UI/miniCard/miniCard";
 import SearchCampaigns from "./components/search";
 
