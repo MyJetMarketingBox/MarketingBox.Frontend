@@ -294,3 +294,7 @@ body.modal-open {
     }
   }
 }
+
+input[switch="success"]:checked + label {
+  background-color: #e74a18;
+}

@@ -1,5 +1,10 @@
+import { ICampaignItem } from "./../store/campaigns/actionTypes";
 import axios from "axios";
-import { ICampaignRowParams } from "src/store/campaignsRow/actionTypes";
+import {
+  CampaignRowValues,
+  ICampaignRowItem,
+  ICampaignRowParams,
+} from "src/store/campaignsRow/actionTypes";
 import { del, get, post, put } from "./api_helper";
 import * as url from "./url_helper";
 
@@ -91,10 +96,11 @@ export const updateAffiliate = (affiliate: object, id: number) =>
 export const getRegistrations = (nextUrl: any, filter: object) =>
   get(nextUrl || url.REGISTRATIONS, { params: filter });
 
-export const getStatusLog = (filter: object) => get(url.REGISTRATIONS_STATUS_LOG, {params: filter});
+export const getStatusLog = (filter: object) =>
+  get(url.REGISTRATIONS_STATUS_LOG, { params: filter });
 
-
-export const updateRegStatus = (id: number, request: object) => put(`${url.REGISTRATIONS}/${id}/update-status`, request)
+export const updateRegStatus = (id: number, request: object) =>
+  put(`${url.REGISTRATIONS}/${id}/update-status`, request);
 
 // get postback logs
 export const getPostbackLogs = (nextUrl: any, filter: object) =>
@@ -127,7 +133,8 @@ export const delAffPayouts = (id: number) => del(`${url.AFF_PAYOUTS}/${id}`);
 export const getGeo = (nextUrl: any, filter: object) =>
   get(nextUrl || url.GEO, { params: filter });
 
-export const getGeoProfile = (id: number) => get(url.GEO, { params: { GeoId: id } });
+export const getGeoProfile = (id: number) =>
+  get(url.GEO, { params: { GeoId: id } });
 
 /** END GEO **/
 
@@ -202,6 +209,11 @@ export const getCampaignRowsApi = (
 export const deleteCampaignRowsApi = (id: number) =>
   del(`${url.CAMPAIGN_ROWS}/${id}`);
 
+export const addCampaignRowsApi = (data: CampaignRowValues) =>
+  post(`${url.CAMPAIGN_ROWS}`, data);
+
+export const editCampaignRowsApi = (id: number, data: CampaignRowValues) =>
+  put(`${url.CAMPAIGN_ROWS}/${id}`, data);
 // Languages
 export const getLanguagesList = (nextUrl: any, filter: object) =>
   get(nextUrl || url.LANGUAGES, { params: filter });

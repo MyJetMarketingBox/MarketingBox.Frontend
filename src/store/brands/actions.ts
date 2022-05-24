@@ -1,6 +1,6 @@
 import { BrandsTypes } from "./actionTypes";
 
-export const getBrands = (nextUrl: any, filter: object) => ({
+export const getBrands = (nextUrl?: any, filter?: object) => ({
   type: BrandsTypes.GET_BRANDS,
   nextUrl,
   filter,

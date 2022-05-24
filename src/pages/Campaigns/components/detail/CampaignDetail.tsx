@@ -3,10 +3,16 @@ import MetaTags from "react-meta-tags";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
 import { CardBody, Col, Row } from "reactstrap";
+import Loader from "src/components/UI/loader";
 import {
+  closeEditCampaignRowModal,
   deleteCampaignRow,
+  getBrands,
   getCampaignRowByCampaignId,
+  getGeo,
+  openEditCampaignRowModal,
 } from "src/store/actions";
+import { getCampaigns } from "src/store/campaigns/actions";
 import { RootStoreType } from "src/store/storeTypes";
 import Breadcrumbs from "../../../../components/Common/Breadcrumb";
 import ModalCompaignRow from "./addCompaignRow/ModalCompaignRow";
@@ -19,28 +25,31 @@ const CampaignDetail = () => {
   const dispatch = useDispatch();
   const { id } = useParams<IParams>();
 
-  const [isOpenEditModal, toggleEditModal] = useState(false);
-
-  const { isLoading, pagination, campaignRows } = useSelector(
-    (state: RootStoreType) => {
+  const { isLoading, pagination, campaignRows, isOpenEditModal, editableCRid } =
+    useSelector((state: RootStoreType) => {
       return {
         isLoading: state.CampaignRows.isLoading,
         campaignRows: state.CampaignRows.items,
         pagination: state.CampaignRows.pagination,
+        isOpenEditModal: state.CampaignRows.isEditCRModal,
+        editableCRid: state.CampaignRows.editableCRid,
       };
-    }
-  );
+    });
 
   const handleOpenEditModal = () => {
-    toggleEditModal(true);
+    dispatch(openEditCampaignRowModal());
   };
   const handleCloseEditModal = () => {
-    toggleEditModal(false);
+    dispatch(closeEditCampaignRowModal());
   };
 
   useEffect(() => {
-    dispatch(getCampaignRowByCampaignId("", { Id: +id }));
+    dispatch(getCampaigns());
+    dispatch(getGeo());
+    dispatch(getBrands());
+    dispatch(getCampaignRowByCampaignId("", { CampaignIds: id }));
   }, []);
+
   return (
     <div className="page-content">
       <MetaTags>
@@ -80,7 +89,7 @@ const CampaignDetail = () => {
                       </div>
                     )}
 
-                    {isLoading && "...loading"}
+                    {isLoading && <Loader />}
                   </div>
                 </Col>
               </Row>
@@ -89,11 +98,17 @@ const CampaignDetail = () => {
         </Col>
       </Row>
 
-      <ModalCompaignRow
-        isOpen={isOpenEditModal}
-        toggleClose={handleCloseEditModal}
-        campaignRow={null}
-      />
+      {isOpenEditModal && (
+        <ModalCompaignRow
+          isOpen={isOpenEditModal}
+          activeCRId={+id}
+          toggleClose={handleCloseEditModal}
+          campaignRow={
+            campaignRows.find(item => item.campaignRowId === editableCRid) ||
+            null
+          }
+        />
+      )}
     </div>
   );
 };

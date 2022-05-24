@@ -10,8 +10,17 @@ export enum CampaignRowsActionEnum {
   GET_CAMPAIGN_ROW_SUCCESS = "@@campaignRows/get-campaign-rows-success",
   GET_CAMPAIGN_ROW_FAIL = "@@campaignRows/get-campaign-rows-fail",
 
+  ADD_CAMPAIGN_ROW = "@@campaignRows/add-campaign-row",
+  ADD_CAMPAIGN_ROW_SUCCESS = "@@campaignRows/add-campaign-row-success",
+
+  EDIT_CAMPAIGN_ROW = "@@campaignRows/edit-campaign-row",
+  EDIT_CAMPAIGN_ROW_SUCCESS = "@@campaignRows/edit-campaign-row-success",
+
   DELETE_CAMPAIGN_ROW = "@@campaignRows/delete-campaign-rows",
   DELETE_CAMPAIGN_ROW_SUCCESS = "@@campaignRows/delete-campaign-rows-success",
+
+  CAMPAIGN_ROW_OPEN_MODAL = "@@campaignRows/open-edit-modal",
+  CAMPAIGN_ROW_CLOSE_MODAL = "@@campaignRows/open-close-modal",
 }
 
 export interface IGetCampaignRowAction {
@@ -33,6 +42,37 @@ export interface IDeleteCampaignRowAction {
 export interface IDeleteCampaignRowSuccessAction {
   type: CampaignRowsActionEnum.DELETE_CAMPAIGN_ROW_SUCCESS;
   id: number;
+}
+
+export interface IAddCampaignRowAction {
+  type: CampaignRowsActionEnum.ADD_CAMPAIGN_ROW;
+  payload: CampaignRowValues;
+}
+
+export interface IAddCampaignRowSuccessAction {
+  type: CampaignRowsActionEnum.ADD_CAMPAIGN_ROW_SUCCESS;
+  payload: ICampaignRowItem;
+}
+
+export interface IOpenCampaignRowModalAction {
+  type: CampaignRowsActionEnum.CAMPAIGN_ROW_OPEN_MODAL;
+  payload?: number;
+}
+
+export interface ICloseCampaignRowModalAction {
+  type: CampaignRowsActionEnum.CAMPAIGN_ROW_CLOSE_MODAL;
+}
+
+export interface IEditCampaignRowAction {
+  type: CampaignRowsActionEnum.EDIT_CAMPAIGN_ROW;
+  payload: {
+    id: number;
+    data: CampaignRowValues;
+  };
+}
+export interface IEditCampaignRowSuccessAction {
+  type: CampaignRowsActionEnum.EDIT_CAMPAIGN_ROW_SUCCESS;
+  payload: ICampaignRowItem;
 }
 
 export interface ICampaignRowParams {
@@ -71,6 +111,19 @@ export interface ICampaignRowItem {
   enableTraffic: boolean;
   geo: IGeoItem;
 }
+
+export interface CampaignRowValues {
+  brandId: number | null;
+  campaignId: number | null;
+  priority: number | null;
+  weight: number | null;
+  capType: CapTypeEnum | null;
+  dailyCapValue?: number | null;
+  activityHours: ActivityHoursType[] | null;
+  information: string;
+  geoId: number | null;
+  enableTraffic: boolean;
+}
 //
 export interface ICampaignRowDTO {
   pagination: ICampaignRowPagination;
@@ -85,6 +138,8 @@ export interface ICRAction {
 
 export interface ICampaignRowStore {
   isLoading: boolean;
+  isEditCRModal: boolean;
+  editableCRid: number | null;
 
   pagination: ICampaignRowPagination | null;
   items: ICampaignRowItem[];

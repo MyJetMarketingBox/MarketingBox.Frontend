@@ -25,6 +25,7 @@ import AddCampaignForm from "./components/addCampaign/AddCampaignForm";
 import BtnLoadMore from "../../components/UI/btns/BtnLoadMore";
 import { RootStoreType } from "src/store/storeTypes";
 import Geo from "../Geo";
+import Loader from "src/components/UI/loader";
 
 enum TabsEnum {
   Campaign = "campaign",
@@ -180,7 +181,6 @@ const CampaignsGrid = () => {
                         </div>
                       </Col>
                     </Row>
-
                   </TabPane>
                   <TabPane tabId={TabsEnum.Geo}>
                     <Geo />
@@ -189,10 +189,9 @@ const CampaignsGrid = () => {
               </CardBody>
             </Card>
           </Row>
-
-
         </Container>
       </div>
+      {loading && <Loader />}
       <AddCampaignForm isOpen={modal} toggle={toggleModal} />
     </React.Fragment>
   );

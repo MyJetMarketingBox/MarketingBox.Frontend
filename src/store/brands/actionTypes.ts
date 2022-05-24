@@ -20,7 +20,8 @@ export enum BrandsTypes {
 }
 
 interface iBrand {
-  id: number
+  id: number;
+  name: string;
 }
 
 interface iBrands {

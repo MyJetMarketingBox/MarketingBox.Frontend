@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo } from "react";
 import { ICampaignRowItem } from "src/store/campaignsRow/actionTypes";
 import ToolkitProvider, { Search } from "react-bootstrap-table2-toolkit";
 import PopoverActivityHours from "../../../../../components/UI/popover/bottom/activityHours";
@@ -6,7 +6,7 @@ import ColumnActions from "../../../../../components/UI/columnActions/ColumnActi
 import { Col } from "reactstrap";
 import BootstrapTable from "react-bootstrap-table-next";
 import { useDispatch } from "react-redux";
-import { deleteCampaignRow } from "src/store/actions";
+import { deleteCampaignRow, openEditCampaignRowModal } from "src/store/actions";
 
 interface Props {
   items: ICampaignRowItem[];
@@ -17,12 +17,13 @@ const CamaignRowsTable = ({ items }: Props) => {
   const { SearchBar } = Search;
 
   const listActions: any = [
-    /*{
-      label: "edit",
+    {
+      label: "Edit",
       handler: (id: any) => {
-        history.push(`/some/${id}`);
+        console.log("edit ", id);
+        dispatch(openEditCampaignRowModal(id));
       },
-    },*/
+    },
     {
       label: "Delete",
       handler: (id: any) => {
@@ -46,6 +47,7 @@ const CamaignRowsTable = ({ items }: Props) => {
       dailyCapValue: campaignRow.dailyCapValue,
       campaignRowId: campaignRow.campaignRowId,
       activityHours: campaignRow.activityHours,
+      information: campaignRow.information,
     }));
   }, [items]);
 
@@ -105,6 +107,12 @@ const CamaignRowsTable = ({ items }: Props) => {
       dataField: "dailyCapValue",
       text: "Daily Cap",
       sort: true,
+    },
+
+    {
+      dataField: "information",
+      text: "Information",
+      sort: false,
     },
   ];
 
