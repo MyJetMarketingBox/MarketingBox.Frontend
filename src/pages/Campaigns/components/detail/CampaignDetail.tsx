@@ -78,15 +78,7 @@ const CampaignDetail = () => {
               <Row className="mb-4">
                 <Col xl="12">
                   <div className="table-responsive">
-                    {!isLoading && campaignRows.length && (
-                      <CamaignRowsTable items={campaignRows} />
-                    )}
-
-                    {!isLoading && !campaignRows.length && (
-                      <div style={{ textAlign: "center", padding: "30px 0" }}>
-                        <h3>No Data Available</h3>
-                      </div>
-                    )}
+                    {!isLoading && <CamaignRowsTable items={campaignRows} />}
 
                     {isLoading && <Loader />}
                   </div>
