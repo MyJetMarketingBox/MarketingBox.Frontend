@@ -24,26 +24,24 @@ import {
   deleteCampaign,
   getCampaigns,
 } from "../../store/campaigns/actions";
-import AddCampaignForm from "./components/addCampaign/AddCampaignForm";
+
 import BtnLoadMore from "../../components/UI/btns/BtnLoadMore";
 import { RootStoreType } from "src/store/storeTypes";
 import Geo from "../Geo";
 import Loader from "../../components/UI/loader";
 import MiniCard from "../../components/UI/miniCard/miniCard";
 import SearchCampaigns from "./components/search";
-
-enum TabsEnum {
-  Campaign = "campaign",
-  Geo = "geo",
-}
+import SearchGeo from "../Geo/components/search";
+import AddCampaignOrGeoForm from "./components/addCampaignOrGeo/AddCampaignOrGeoForm";
+import { CampaignTabsEnum } from "src/enums/CampaignTabsEnum";
 
 const TAB_DATA = {
-  [TabsEnum.Campaign]: {
+  [CampaignTabsEnum.Campaign]: {
     title: "Campaign List",
     tabTitle: "Campaign",
   },
 
-  [TabsEnum.Geo]: {
+  [CampaignTabsEnum.Geo]: {
     title: "Geo List",
     tabTitle: "Geo",
   },
@@ -63,8 +61,8 @@ const CampaignsGrid = () => {
 
   const [modal, setModal] = useState<boolean>(false);
 
-  const [customActiveTab, setCustomActiveTab] = useState<TabsEnum>(
-    TabsEnum.Campaign
+  const [customActiveTab, setCustomActiveTab] = useState<CampaignTabsEnum>(
+    CampaignTabsEnum.Campaign
   );
 
   let filter = {
@@ -110,31 +108,6 @@ const CampaignsGrid = () => {
           {/** Render Breadcrumbs **/}
           <Breadcrumbs title="TraffMe" breadcrumbItem="Campaigns" />
 
-          <Row className="align-items-center">
-            <Col md={6}>
-              <div className="mb-3">
-                <h5 className="card-title">
-                  {TAB_DATA[customActiveTab].title}
-                  <span className="text-muted fw-normal ms-2">(834)</span>
-                </h5>
-              </div>
-            </Col>
-
-            <Col md={6}>
-              <div className="d-flex flex-wrap align-items-center justify-content-end gap-2 mb-3">
-                <div>
-                  <button
-                    type="button"
-                    className="btn btnOrange"
-                    onClick={toggleModal}
-                  >
-                    Add {TAB_DATA[customActiveTab].tabTitle}
-                  </button>
-                </div>
-              </div>
-            </Col>
-          </Row>
-
           <Row>
             <Card>
               <CardHeader className="align-items-center d-flex">
@@ -147,17 +120,17 @@ const CampaignsGrid = () => {
                       <NavLink
                         style={{ cursor: "pointer" }}
                         className={classnames({
-                          active: customActiveTab === TabsEnum.Campaign,
+                          active: customActiveTab === CampaignTabsEnum.Campaign,
                         })}
                         onClick={() => {
-                          toggleCustom(TabsEnum.Campaign);
+                          toggleCustom(CampaignTabsEnum.Campaign);
                         }}
                       >
                         <span className="d-block d-sm-none">
                           <i className="fas fa-home"></i>
                         </span>
                         <span className="d-none d-sm-block">
-                          {TAB_DATA[TabsEnum.Campaign].tabTitle}
+                          {TAB_DATA[CampaignTabsEnum.Campaign].tabTitle}
                         </span>
                       </NavLink>
                     </NavItem>
@@ -165,17 +138,17 @@ const CampaignsGrid = () => {
                       <NavLink
                         style={{ cursor: "pointer" }}
                         className={classnames({
-                          active: customActiveTab === TabsEnum.Geo,
+                          active: customActiveTab === CampaignTabsEnum.Geo,
                         })}
                         onClick={() => {
-                          toggleCustom(TabsEnum.Geo);
+                          toggleCustom(CampaignTabsEnum.Geo);
                         }}
                       >
                         <span className="d-block d-sm-none">
                           <i className="far fa-user"></i>
                         </span>
                         <span className="d-none d-sm-block">
-                          {TAB_DATA[TabsEnum.Geo].tabTitle}
+                          {TAB_DATA[CampaignTabsEnum.Geo].tabTitle}
                         </span>
                       </NavLink>
                     </NavItem>
@@ -187,10 +160,20 @@ const CampaignsGrid = () => {
                   activeTab={customActiveTab}
                   className="p-3 text-muted"
                 >
-                  <TabPane tabId={TabsEnum.Campaign}>
-                    <Row>
-                      <Col className="col-md-4 mb-5">
+                  <TabPane tabId={CampaignTabsEnum.Campaign}>
+                    <Row className="align-items-center justify-content-between">
+                      <Col md={4} className="mb-5">
                         <SearchCampaigns />
+                      </Col>
+
+                      <Col className="mb-5 d-flex align-items-center justify-content-end">
+                        <button
+                          type="button"
+                          className="btn btnOrange"
+                          onClick={toggleModal}
+                        >
+                          Add {TAB_DATA[customActiveTab].tabTitle}
+                        </button>
                       </Col>
                     </Row>
 
@@ -218,7 +201,22 @@ const CampaignsGrid = () => {
                       </Row>
                     )}
                   </TabPane>
-                  <TabPane tabId={TabsEnum.Geo}>
+                  <TabPane tabId={CampaignTabsEnum.Geo}>
+                    <Row className="align-items-center justify-content-between">
+                      <Col className="col-md-4 mb-5">
+                        <SearchGeo />
+                      </Col>
+
+                      <Col className="mb-5 d-flex align-items-center justify-content-end">
+                        <button
+                          type="button"
+                          className="btn btnOrange"
+                          onClick={toggleModal}
+                        >
+                          Add {TAB_DATA[customActiveTab].tabTitle}
+                        </button>
+                      </Col>
+                    </Row>
                     <Geo />
                   </TabPane>
                 </TabContent>
@@ -228,7 +226,7 @@ const CampaignsGrid = () => {
         </Container>
       </div>
       {loading && <Loader />}
-      <AddCampaignForm isOpen={modal} toggle={toggleModal} />
+      <AddCampaignOrGeoForm isOpen={modal} toggle={toggleModal} formType={customActiveTab} />
     </React.Fragment>
   );
 };
