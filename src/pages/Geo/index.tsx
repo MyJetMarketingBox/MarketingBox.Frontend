@@ -24,7 +24,7 @@ const Geo = (props: any) => {
 
   let filter = {
     order: 1,
-    limit: 10,
+    limit: 12,
   };
 
   useEffect(() => {
