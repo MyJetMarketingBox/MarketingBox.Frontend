@@ -35,6 +35,8 @@ import SearchGeo from "../Geo/components/search";
 import AddCampaignOrGeoForm from "./components/addCampaignOrGeo/AddCampaignOrGeoForm";
 import EditCampaignForm from "./components/addCampaignOrGeo/EditCampaignForm";
 import { CampaignTabsEnum } from "src/enums/CampaignTabsEnum";
+import { useHistory, useParams } from "react-router";
+import Page from "src/constants/pages";
 
 const TAB_DATA = {
   [CampaignTabsEnum.Campaign]: {
@@ -49,6 +51,10 @@ const TAB_DATA = {
 };
 
 const CampaignsGrid = () => {
+  const { tab } = useParams<{ id: string; tab: string }>();
+  const { push } = useHistory();
+
+  console.log(tab);
   const dispatch = useDispatch();
   const { campaigns, pagination, nextUrl, loaded, loading, error } =
     useSelector((state: RootStoreType) => ({
@@ -63,7 +69,9 @@ const CampaignsGrid = () => {
   const [modal, setModal] = useState<boolean>(false);
   const [editableCampaign, setEditableCampaign] = useState(null);
   const [customActiveTab, setCustomActiveTab] = useState<CampaignTabsEnum>(
-    CampaignTabsEnum.Campaign
+    tab === CampaignTabsEnum.Geo
+      ? CampaignTabsEnum.Geo
+      : CampaignTabsEnum.Campaign
   );
 
   let filter = {
@@ -71,10 +79,18 @@ const CampaignsGrid = () => {
     limit: 50,
   };
 
-  const toggleCustom = (tab: any) => {
-    if (customActiveTab !== tab) {
-      setCustomActiveTab(tab);
+  const toggleCustom = (tabId: any) => {
+    console.log("tab: ", tabId);
+    switch (tabId) {
+      case CampaignTabsEnum.Geo:
+        push(`${Page.CAMPAIGNS}/geo`);
+        break;
+
+      default:
+        push(Page.CAMPAIGNS);
+        break;
     }
+    setCustomActiveTab(tabId);
   };
 
   const handleEditCampaign = (data: any) => {

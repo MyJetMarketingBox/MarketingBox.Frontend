@@ -32,7 +32,7 @@ import Page from "../constants/pages";
 import UserProfile from "../pages/Authentication/UserProfile";
 import Redistribution from "../pages/Redistribution";
 import CampaignDetail from "src/pages/Campaigns/components/detail/CampaignDetail";
-import GeoDetail from "src/pages/Geo/components/detail/index"
+import GeoDetail from "src/pages/Geo/components/detail/index";
 
 const routesList: RouteItemsType[] = [
   {
@@ -107,6 +107,14 @@ const routesList: RouteItemsType[] = [
   },
   {
     path: Page.CAMPAIGNS,
+    component: Campaigns,
+    layoutType: RouteLayoutTypeEnum.Authorized,
+    strict: true,
+    exact: true,
+  },
+
+  {
+    path: Page.CAMPAIGN_TAB,
     component: Campaigns,
     layoutType: RouteLayoutTypeEnum.Authorized,
     strict: true,
