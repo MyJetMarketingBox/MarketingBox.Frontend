@@ -33,6 +33,7 @@ import MiniCard from "../../components/UI/miniCard/miniCard";
 import SearchCampaigns from "./components/search";
 import SearchGeo from "../Geo/components/search";
 import AddCampaignOrGeoForm from "./components/addCampaignOrGeo/AddCampaignOrGeoForm";
+import EditCampaignForm from "./components/addCampaignOrGeo/EditCampaignForm";
 import { CampaignTabsEnum } from "src/enums/CampaignTabsEnum";
 
 const TAB_DATA = {
@@ -60,7 +61,7 @@ const CampaignsGrid = () => {
     }));
 
   const [modal, setModal] = useState<boolean>(false);
-
+  const [editableCampaign, setEditableCampaign] = useState(null);
   const [customActiveTab, setCustomActiveTab] = useState<CampaignTabsEnum>(
     CampaignTabsEnum.Campaign
   );
@@ -76,17 +77,17 @@ const CampaignsGrid = () => {
     }
   };
 
+  const handleEditCampaign = (data: any) => {
+    setEditableCampaign(data);
+  };
+
+  const handleCloseEditCampaign = () => {
+    setEditableCampaign(null);
+  };
+
   const toggleModal = () => {
     setModal(prev => !prev);
   };
-
-  useEffect(() => {
-    dispatch(getCampaigns(null, filter));
-
-    return () => {
-      dispatch(clearCampaigns());
-    };
-  }, []);
 
   const handleDeleteCampaign = (id: number) => {
     dispatch(deleteCampaign(id));
@@ -97,6 +98,14 @@ const CampaignsGrid = () => {
       dispatch(getCampaigns(nextUrl, filter));
     }
   }
+
+  useEffect(() => {
+    dispatch(getCampaigns(null, filter));
+
+    return () => {
+      dispatch(clearCampaigns());
+    };
+  }, []);
 
   return (
     <React.Fragment>
@@ -184,6 +193,7 @@ const CampaignsGrid = () => {
                           path={`/campaigns/${campaign.id}`}
                           handleDelete={handleDeleteCampaign}
                           key={campaign.id}
+                          openEditCampaign={handleEditCampaign}
                         />
                       ))}
                     </Row>
@@ -226,7 +236,19 @@ const CampaignsGrid = () => {
         </Container>
       </div>
       {loading && <Loader />}
-      <AddCampaignOrGeoForm isOpen={modal} toggle={toggleModal} formType={customActiveTab} />
+      <AddCampaignOrGeoForm
+        isOpen={modal}
+        toggle={toggleModal}
+        formType={customActiveTab}
+      />
+
+      {editableCampaign && (
+        <EditCampaignForm
+          isOpen={!!editableCampaign}
+          data={editableCampaign}
+          toggle={handleCloseEditCampaign}
+        />
+      )}
     </React.Fragment>
   );
 };

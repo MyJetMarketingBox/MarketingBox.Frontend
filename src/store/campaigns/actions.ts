@@ -1,9 +1,12 @@
 import { CampaignsTypes } from "./actionTypes";
 
-export const getCampaigns = (nextUrl: string | null = null, filter: object = {}) => ({
+export const getCampaigns = (
+  nextUrl: string | null = null,
+  filter: object = {}
+) => ({
   type: CampaignsTypes.GET_CAMPAIGNS,
   nextUrl,
-  filter
+  filter,
 });
 
 export const getCampaignsSuccess = (campaigns: any) => ({
@@ -29,6 +32,16 @@ export const addCampaignSuccess = (campaign: any) => ({
 export const addCampaignFail = (error: any) => ({
   type: CampaignsTypes.ADD_CAMPAIGN_FAIL,
   payload: error,
+});
+
+export const editCampaign = (campaign: any) => ({
+  type: CampaignsTypes.EDIT_CAMPAIGN,
+  payload: campaign,
+});
+
+export const editCampaignSuccess = (campaign: any) => ({
+  type: CampaignsTypes.EDIT_CAMPAIGN_SUCCESS,
+  payload: campaign,
 });
 
 export const deleteCampaign = (id: number) => ({

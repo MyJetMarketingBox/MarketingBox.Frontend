@@ -11,6 +11,11 @@ export enum CampaignsTypes {
   ADD_CAMPAIGN_SUCCESS = "@@campaigns/ADD_CAMPAIGN_SUCCESS",
   ADD_CAMPAIGN_FAIL = "@@campaigns/ADD_CAMPAIGN_FAIL",
 
+  /* Edit Campaign */
+  EDIT_CAMPAIGN = "@@campaigns/EDIT_CAMPAIGN",
+  EDIT_CAMPAIGN_SUCCESS = "@@campaigns/EDIT_CAMPAIGN_SUCCESS",
+  EDIT_CAMPAIGN_FAIL = "@@campaigns/EDIT_CAMPAIGN_FAIL",
+
   /** Delete Campaigns */
   DELETE_CAMPAIGN = "@@campaigns/DELETE_CAMPAIGN",
   DELETE_CAMPAIGN_SUCCESS = "@@campaigns/DELETE_CAMPAIGN_SUCCESS",
