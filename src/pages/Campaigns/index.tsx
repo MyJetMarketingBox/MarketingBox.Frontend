@@ -206,7 +206,7 @@ const CampaignsGrid = () => {
                       {campaigns.map((campaign: any) => (
                         <MiniCard
                           data={campaign}
-                          path={`/campaigns/${campaign.id}`}
+                          path={`${Page.CAMPAIGN_DETAILS}/${campaign.id}`}
                           handleDelete={handleDeleteCampaign}
                           key={campaign.id}
                           openEditCampaign={handleEditCampaign}

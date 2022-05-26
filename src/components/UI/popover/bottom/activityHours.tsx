@@ -53,8 +53,8 @@ export default ({ id, activityHours }: Props) => {
             {activityHours?.map(item => (
               <li key={item.day} className={c["list-hours"]}>
                 <Label className={c["day"]}>{DayOfWeek[item.day]}</Label>
-                <Label className={"mr-5"}>{item.from.slice(0, 5)}</Label>-
-                <Label className={"ml-5"}>{item.to.slice(0, 5)}</Label>
+                <Label className={"mr-5"}>{item?.from.slice(0, 5)}</Label>-
+                <Label className={"ml-5"}>{item?.to.slice(0, 5)}</Label>
               </li>
             ))}
           </ul>

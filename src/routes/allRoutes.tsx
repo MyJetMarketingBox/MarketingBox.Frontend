@@ -114,15 +114,15 @@ const routesList: RouteItemsType[] = [
   },
 
   {
-    path: Page.CAMPAIGN_TAB,
-    component: Campaigns,
+    path: Page.CAMPAIGN,
+    component: CampaignDetail,
     layoutType: RouteLayoutTypeEnum.Authorized,
     strict: true,
     exact: true,
   },
   {
-    path: Page.CAMPAIGN,
-    component: CampaignDetail,
+    path: Page.CAMPAIGN_TAB,
+    component: Campaigns,
     layoutType: RouteLayoutTypeEnum.Authorized,
     strict: true,
     exact: true,
