@@ -1,26 +1,23 @@
-import React, { useEffect, useState } from "react";
-import { connectAdvanced, useDispatch, useSelector } from "react-redux";
-import { Col, Row, Modal, ModalHeader, ModalBody } from "reactstrap";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Col, Row, Modal, ModalHeader, ModalBody, Alert } from "reactstrap";
 import { AvField, AvForm } from "availity-reactstrap-validation";
 import { addNewAffiliate } from "../../../../store/actions";
-import {
-  AffiliateRole,
-  AffiliateState,
-  Currency,
-  PayoutType,
-} from "../../../../common/utils/model";
+import { AffiliateState, Currency } from "../../../../common/utils/model";
 import Loader from "../../../../components/UI/loader";
-import Select from "react-select";
+
+import { RootStoreType } from "src/store/storeTypes";
 
 export default ({ isOpen, toggle }: any) => {
   const dispatch = useDispatch();
 
-  const { addAffLoading, addAffSuccess, addAffError } = useSelector(
-    (state: any) => {
+  const { addAffLoading, addAffSuccess, addAffError, error } = useSelector(
+    (state: RootStoreType) => {
       return {
         addAffLoading: state.Affiliates.addAffLoading,
         addAffSuccess: state.Affiliates.addAffSuccess,
         addAffError: state.Affiliates.addAffError,
+        error: state.Affiliates.error,
       };
     }
   );
@@ -33,7 +30,6 @@ export default ({ isOpen, toggle }: any) => {
 
   useEffect(() => {
     if (addAffError) {
-      // showError
     }
   }, [addAffError]);
 
@@ -66,6 +62,11 @@ export default ({ isOpen, toggle }: any) => {
           >
             <Row form>
               <Col xs={12}>
+                {error?.isError ? (
+                  <div className="mb-3">
+                    <Alert color="danger">{error?.error?.errorMessage}</Alert>
+                  </div>
+                ) : null}
                 <div className="mb-3">
                   <AvField
                     name="username"

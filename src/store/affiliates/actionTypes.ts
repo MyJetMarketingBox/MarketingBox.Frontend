@@ -29,7 +29,7 @@ interface iAffiliates {
 
 export interface AffiliatesState {
   affiliates: iAffiliates;
-  error: Object;
+  error: any;
   loading: boolean;
   addAffLoading: boolean;
   addAffSuccess: boolean;
