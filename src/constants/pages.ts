@@ -12,6 +12,7 @@ const Page = {
   CAMPAIGN_TAB: "/campaigns/:tab",
   CAMPAIGN_DETAILS: "/campaigns/details",
   CAMPAIGN: "/campaigns/details/:id",
+  GEO_ADD: "/geo/edit",
   GEO_EDIT: "/geo/edit/:id?",
   POSTBACK_LOGS: "/postback_logs",
   POSTBACK: "/postback",

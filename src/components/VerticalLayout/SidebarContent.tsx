@@ -36,7 +36,7 @@ const SidebarContent = (props: any) => {
   const ref = useRef<any>();
   const { t } = useTranslation();
 
-  const [isOpenSubmenu, setIsOpenSubmenu] = useState(false);
+  const [isOpenSubmenu, setIsOpenSubmenu] = useState<string | null>(null);
   const [isClick, setClick] = useState<boolean>(true);
   const [isClickMob, setClickMob] = useState<boolean>(true);
 
@@ -57,8 +57,12 @@ const SidebarContent = (props: any) => {
     user: state.login.userInfo,
   }));
 
-  const subMemuClickHandler = () => {
-    setIsOpenSubmenu(prev => !prev);
+  const subMemuClickHandler = (subMenu: string) => {
+    if (subMenu !== isOpenSubmenu) {
+      setIsOpenSubmenu(subMenu);
+    } else {
+      setIsOpenSubmenu(null);
+    }
   };
 
   /*** Sidebar menu icon and default menu set */
@@ -191,17 +195,32 @@ const SidebarContent = (props: any) => {
                 <div className={c.menuItemDescr}>{t("Affiliates")}</div>
               </NavLink>
             </li>
-            <li className={c.menuItem}>
-              <NavLink
-                to={Page.MARKETING_TOOLS}
+            <li
+              className={`${c.menuItem} ${
+                isOpenSubmenu === "marketing-tools" && c.isOpen
+              }`}
+            >
+              <div
                 className={c.menuItemLink}
-                activeClassName={c.active}
+                onClick={() => subMemuClickHandler("marketing-tools")}
               >
                 <div className={c.menuItemIcon}>
-                  <IconMarketingTools />
+                  <IconSettings />
                 </div>
                 <div className={c.menuItemDescr}>{t("Marketing Tools")}</div>
-              </NavLink>
+              </div>
+              <ul className={c.subMenu}>
+                <li className={c.subMenuItem}>
+                  <NavLink to={Page.PAYOUTS} activeClassName={c.active}>
+                    {t("Offers")}
+                  </NavLink>
+                </li>
+                <li className={c.subMenuItem}>
+                  <NavLink to={Page.POSTBACK} activeClassName={c.active}>
+                    {t("Offer Affiliates")}
+                  </NavLink>
+                </li>
+              </ul>
             </li>
             <li className={c.menuItem}>
               <NavLink
@@ -227,8 +246,15 @@ const SidebarContent = (props: any) => {
                 <div className={c.menuItemDescr}>{t("Redistribution")}</div>
               </NavLink>
             </li>
-            <li className={`${c.menuItem} ${isOpenSubmenu && c.isOpen}`}>
-              <div className={c.menuItemLink} onClick={subMemuClickHandler}>
+            <li
+              className={`${c.menuItem} ${
+                isOpenSubmenu === "settings" && c.isOpen
+              }`}
+            >
+              <div
+                className={c.menuItemLink}
+                onClick={() => subMemuClickHandler("settings")}
+              >
                 <div className={c.menuItemIcon}>
                   <IconSettings />
                 </div>

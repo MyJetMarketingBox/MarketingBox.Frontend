@@ -237,7 +237,7 @@ const CampaignsGrid = () => {
                         <button
                           type="button"
                           className="btn btnOrange"
-                          onClick={toggleModal}
+                          onClick={() => push(`${Page.GEO_ADD}`)}
                         >
                           Add {TAB_DATA[customActiveTab].tabTitle}
                         </button>
