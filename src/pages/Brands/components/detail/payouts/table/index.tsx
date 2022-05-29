@@ -117,8 +117,6 @@ export default (props: any) => {
       dataField: "name",
       text: "Name",
       sort: true,
-      headerStyle: { width: "250px", minWidth: "250px" },
-      style: { width: "250px", minWidth: "250px" },
     },
     {
       dataField: "currency",
@@ -137,7 +135,7 @@ export default (props: any) => {
     },
     {
       dataField: "geo",
-      text: "Geo Box",
+      text: "Geo",
       sort: true,
     },
     {
@@ -165,7 +163,7 @@ export default (props: any) => {
         {toolkitProps => (
           <React.Fragment>
             <Row>
-              <Col sm="4" xs="12">
+              <Col className="col-md-4 col-sm-4 col-xs-12">
                 <div className="search-box d-inline-block">
                   <div className="position-relative">
                     <SearchBar {...toolkitProps.searchProps} />
@@ -174,7 +172,7 @@ export default (props: any) => {
                 </div>
               </Col>
 
-              <Col className="col-md-4 offset-4 text-end">
+              <Col className="col-md-8 col-sm-8 col-xs-12 text-end">
                 <Dropdown
                   isOpen={plusBtn}
                   toggle={() => {
@@ -186,7 +184,7 @@ export default (props: any) => {
                     className="btn btnOrange waves-light waves-effect dropdown-toggle"
                     tag="i"
                   >
-                    <i className="bx bx-list-plus"></i>
+                    <i className="bx bx-list-plus font-size-20"></i>
                   </DropdownToggle>
                   <DropdownMenu>
                     <DropdownItem onClick={toggleModalAdd}>

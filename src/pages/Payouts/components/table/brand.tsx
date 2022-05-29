@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  clearBrandPayouts,
-  getBrandPayouts,
+  clearBrandPayouts, delBrandPayout,
+  getBrandPayouts
 } from "../../../../store/brandPayouts/actions";
 import { Col, Row } from "reactstrap";
 import BtnLoadMore from "../../../../components/UI/btns/BtnLoadMore";
 import { Currency, PayoutType } from "../../../../common/utils/model";
 import ColumnActions from "../../../../components/UI/columnActions/ColumnActions";
 import BootstrapTable from "react-bootstrap-table-next";
+import ConfirmDelete from "../../../../components/UI/confirmDelete/ConfirmDelete";
 
-export default () => {
+export default ({setPayoutId, toggle} : any) => {
   const dispatch = useDispatch();
 
   const [isOpen, setIsOpen] = useState(false);
@@ -45,6 +46,14 @@ export default () => {
     }
   }
 
+  const toggleDelAction = () => {
+    setIsOpen(prev => !prev);
+  };
+
+  const handleDeleteBrandPayout = (id: number) => {
+    dispatch(delBrandPayout(id))
+  }
+
   const resPayouts = brandPayouts.map((payout: any) => {
     return {
       id: payout.id,
@@ -66,13 +75,23 @@ export default () => {
     };
   });
 
+  const tableRowEvents = {
+    onClick: (e:any, row:any, rowIndex:any) => {
+      if(e.target.classList.length == 0) {
+        setPayoutId(row.id);
+        toggle();
+      }
+    }
+  }
+
   const listActions: any = [
-    /*{
+    {
       label: "edit",
       handler: (id: any) => {
-        history.push(`/some/${id}`);
+        setPayoutId(id);
+        toggle();
       },
-    },*/
+    },
     {
       label: "delete",
       handler: (id: any) => {
@@ -115,7 +134,7 @@ export default () => {
     },
     {
       dataField: "geo",
-      text: "Geo Box",
+      text: "Geo",
       sort: true,
       headerStyle: { width: "250px", minWidth: "250px" },
       style: { width: "250px", minWidth: "250px" },
@@ -152,6 +171,7 @@ export default () => {
             defaultSorted={defaultSorted}
             classes={"table align-middle"}
             headerWrapperClasses={"thead-light"}
+            rowEvents={tableRowEvents}
           />
         </div>
       </Row>
@@ -165,6 +185,13 @@ export default () => {
           </Col>
         </Row>
       )}
+
+      <ConfirmDelete
+        isOpen={isOpen}
+        toggle={toggleDelAction}
+        handleDelete={handleDeleteBrandPayout}
+        id={selectId}
+      />
     </React.Fragment>
   );
 };

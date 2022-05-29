@@ -6,10 +6,16 @@ import {
   getBrandPayoutsSuccess,
   getBrandPayoutsFail,
   addBPayoutFail,
-  addBPayoutSuccess
+  addBPayoutSuccess,
+  addBrandPayoutSuccess,
+  addBrandPayoutFail,
+  delBrandPayoutFail,
+  delBrandPayoutSuccess,
+  updateBrandPayoutFail,
+  updateBrandPayoutSuccess
 } from "./actions";
 
-import { getBrandPayouts, addBrandPayout} from "../../helpers/backend_helper";
+import { getBrandPayouts, addBrandPayout, delBrandPayout, updateBrandPayout} from "../../helpers/backend_helper";
 import { updateBrand } from "../brands/profile/actions";
 
 function* getBrandPayoutsSaga({nextUrl, filter} : any) {
@@ -24,7 +30,7 @@ function* getBrandPayoutsSaga({nextUrl, filter} : any) {
 function* addBrandPayoutSaga({brandPayout, brand} : any){
   try{
     const response : Promise<any> = yield call(addBrandPayout, brandPayout)
-    yield  put(addBPayoutSuccess(response))
+    yield put(addBrandPayoutSuccess(response))
 
     const {id, payouts, integration, integrationType, name, link, linkParameters} = brand;
     const brandPayoutIds = payouts.map((item : any) => item.id)
@@ -34,7 +40,7 @@ function* addBrandPayoutSaga({brandPayout, brand} : any){
     const upBrand = {
       name,
       brandPayoutIds: brandPayoutIds,
-      integrationId: integration.id,
+      integrationId: integration?.id || null,
       integrationType,
       link,
       linkParameters
@@ -43,7 +49,7 @@ function* addBrandPayoutSaga({brandPayout, brand} : any){
     yield put(updateBrand(upBrand, id));
 
   }catch(error){
-    yield put(addBPayoutFail(error))
+    yield put(addBrandPayoutFail(error))
   }
 }
 
@@ -56,10 +62,30 @@ function* addPayoutSaga({payload: payouts} : any){
   }
 }
 
+function* updatePayoutSaga({data, id} : any) {
+  try{
+    const response : Promise<any> = yield call(updateBrandPayout, data, id)
+    yield put(updateBrandPayoutSuccess(response))
+  }catch (error) {
+    yield put(updateBrandPayoutFail(error))
+  }
+}
+
+function* delPayoutSaga({payload: id} : any) {
+  try{
+    yield call(delBrandPayout, id)
+    yield put(delBrandPayoutSuccess(id))
+  }catch (error) {
+    yield put(delBrandPayoutFail(error))
+  }
+}
+
 function* brandPayoutsSaga() {
   yield takeEvery(BrandPayoutsType.GET_BRAND_PAYOUTS, getBrandPayoutsSaga)
   yield takeEvery(BrandPayoutsType.ADD_PAYOUT, addPayoutSaga)
   yield takeEvery(BrandPayoutsType.ADD_BRAND_PAYOUT, addBrandPayoutSaga)
+  yield takeEvery(BrandPayoutsType.DEL_PAYOUT, delPayoutSaga)
+  yield takeEvery(BrandPayoutsType.UPDATE_PAYOUT, updatePayoutSaga)
 }
 
 export default brandPayoutsSaga

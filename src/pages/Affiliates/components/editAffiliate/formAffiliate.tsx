@@ -64,8 +64,8 @@ const FormAffiliate = (props: any) => {
             bank: {
                 beneficiaryName: values["beneficiaryName"] || null,
                 beneficiaryAddress: values["beneficiaryAddress"] || null,
-                bankName: values["bankName"] || null,
-                bankAddress: values["bankAddress"] || null,
+                name: values["bankName"] || null,
+                address: values["bankAddress"] || null,
                 accountNumber: values["accountNumber"] || null,
                 swift: values["swift"] || null,
                 iban: values["iban"] || null
@@ -88,10 +88,12 @@ const FormAffiliate = (props: any) => {
             ) => {
                 handleValidAffiliateSubmit(values);
             }}>
-                <div style={{margin: '0 0 25px 0', display: "flex", justifyContent: "space-between"}}>
-                    <h4>{generalInfo.username}</h4>
+                <Row className="mb-3 col">
+                    <div className="col-md-9">
+                        <h4>{generalInfo.username}</h4>
+                    </div>
 
-                    <div>
+                    <div className="col-md-3 text-end">
                         <UncontrolledDropdown>
                             <DropdownToggle
                               type="button"
@@ -109,15 +111,15 @@ const FormAffiliate = (props: any) => {
                         </UncontrolledDropdown>
 
                     </div>
-                </div>
+                </Row>
                 <Row>
                     <h5 className="text-orange">General Info</h5>
                     <Col md="3">
                         <FormGroup className="mb-3">
-                            <Label htmlFor="validationUserName">User name *</Label>
+                            <Label htmlFor="validationUserName">User Name <span className="accent-color">*</span></Label>
                             <AvField
                                 name="username"
-                                placeholder="User name"
+                                placeholder="User Name"
                                 type="text"
                                 errorMessage="Enter User Name"
                                 className="form-control"
@@ -129,7 +131,7 @@ const FormAffiliate = (props: any) => {
                     </Col>
                     <Col md="3">
                         <FormGroup className="mb-3">
-                            <Label htmlFor="validationCustomEmail">Email *</Label>
+                            <Label htmlFor="validationCustomEmail">Email <span className="accent-color">*</span></Label>
                             <AvField
                                 name="email"
                                 placeholder="Email"
@@ -189,12 +191,14 @@ const FormAffiliate = (props: any) => {
                     </Col>
                     <Col md="3">
                         <FormGroup className="mb-3">
+                            <Label htmlFor="currency">
+                                Currency <span className="accent-color">*</span>
+                            </Label>
                             <AvField
                               type="select"
                               name="currency"
                               className="form-select"
                               id="currency"
-                              label="Currency *"
                               required
                               value={generalInfo.currency.toString()}
                             >
@@ -209,10 +213,10 @@ const FormAffiliate = (props: any) => {
                     <h5 className="text-orange">Company</h5>
                     <Col md="3">
                         <FormGroup className="mb-3">
-                            <Label htmlFor="validationCompanyName">Company name</Label>
+                            <Label htmlFor="validationCompanyName">Company Name</Label>
                             <AvField
                                 name="name"
-                                placeholder="Company name"
+                                placeholder="Company Name"
                                 type="text"
                                 errorMessage=" Please provide a company name."
                                 className="form-control"
@@ -273,10 +277,10 @@ const FormAffiliate = (props: any) => {
                     <h5 className="text-orange">Bank</h5>
                     <Col md="3">
                         <FormGroup className="mb-3">
-                            <Label htmlFor="validationBeneficiaryName">Beneficiary name</Label>
+                            <Label htmlFor="validationBeneficiaryName">Beneficiary Name</Label>
                             <AvField
                               name="beneficiaryName"
-                              placeholder="Beneficiary name"
+                              placeholder="Beneficiary Name"
                               type="text"
                               errorMessage=" Please provide a Beneficiary name."
                               className="form-control"
@@ -303,16 +307,16 @@ const FormAffiliate = (props: any) => {
                     </Col>
                     <Col md="3">
                         <FormGroup className="mb-3">
-                            <Label htmlFor="validationBankName">Bank name</Label>
+                            <Label htmlFor="validationBankName">Bank Name</Label>
                             <AvField
                               name="bankName"
-                              placeholder="Bank name"
+                              placeholder="Bank Name"
                               type="text"
                               errorMessage=" Please provide a Bank name."
                               className="form-control"
                               //validate={{ required: { value: true } }}
                               id="validationBankName"
-                              value={bank?.bankName || ''}
+                              value={bank?.name || ''}
                             />
                         </FormGroup>
                     </Col>
@@ -327,7 +331,7 @@ const FormAffiliate = (props: any) => {
                               className="form-control"
                               //validate={{ required: { value: true } }}
                               id="validationBankAddress"
-                              value={bank?.bankAddress || ''}
+                              value={bank?.address || ''}
                             />
                         </FormGroup>
                     </Col>
@@ -450,7 +454,7 @@ const FormAffiliate = (props: any) => {
                 </Row>
 
                 <hr />
-                <Button className="btnOrange float-end" type="submit" disabled={upLoading}>
+                <Button className="btnOrange float-end btn-width-250" type="submit" disabled={upLoading}>
                     {upLoading && <i className="bx bx-hourglass bx-spin me-2" />}
                     Save
                 </Button>

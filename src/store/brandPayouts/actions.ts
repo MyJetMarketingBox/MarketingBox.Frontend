@@ -52,6 +52,41 @@ export const addBPayoutFail = (error: any) => ({
   payload: error
 })
 
+/** UPDATE **/
+export const updateBrandPayout = (data: any, id: number) => ({
+  type: BrandPayoutsType.UPDATE_PAYOUT,
+  data,
+  id
+})
+
+export const updateBrandPayoutSuccess = (data: any) => ({
+  type: BrandPayoutsType.UPDATE_PAYOUT_SUCCESS,
+  payload: data
+})
+
+export const updateBrandPayoutFail = (error: any) => ({
+  type: BrandPayoutsType.UPDATE_PAYOUT_FAIL,
+  payload: error
+})
+
+
+/** DEL PAYOUT **/
+
+export const delBrandPayout = (id: number) => ({
+  type: BrandPayoutsType.DEL_PAYOUT,
+  payload: id
+})
+
+export const delBrandPayoutSuccess = (response: any) => ({
+  type: BrandPayoutsType.DEL_PAYOUT_SUCCESS,
+  payload: response
+})
+
+export const delBrandPayoutFail = (error: any) => ({
+  type: BrandPayoutsType.DEL_PAYOUT_FAIL,
+  payload: error
+})
+
 /** CLEAR **/
 export const clearBrandPayouts = () => ({
   type: BrandPayoutsType.CLEAR_BRAND_PAYOUTS

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { Col, Label, Modal, ModalBody, ModalFooter, ModalHeader, Row } from "reactstrap";
@@ -6,21 +6,24 @@ import { AvField, AvForm } from "availity-reactstrap-validation";
 import { PayoutType, Currency } from "../../../../common/utils/model";
 import { clearGeo, getGeo } from "../../../../store/geo/actions";
 import Select from "../../../../components/UI/select";
-import { addAffPayouts, addPayout } from "../../../../store/affiliatePayouts/actions";
+import { addAffPayouts, addPayout, updatePayout } from "../../../../store/affiliatePayouts/actions";
 
-export default ({ isOpen, toggle, isAff }: any) => {
+export default ({ isOpen, toggle, isAff, payoutId }: any) => {
   const dispatch = useDispatch();
 
-  const [selectGeo, setSelectGeo] = useState([]);
+  const [selectGeo, setSelectGeo] = useState<any>({});
 
-  const { geo, loadingGeoList, loadedGeoList, loadingItem, loadedItem, affiliate} = useSelector((state:any) => {
+  const { geo, loadingGeoList, loadedGeoList, loadingItem, loadedItem, affiliate, payout, loadingUpdate, loadedUpdate} = useSelector((state:any) => {
     return {
       geo: state.Geo.geo.items,
       loadingGeoList: state.Geo.loading,
       loadedGeoList: state.Geo.loaded,
       loadingItem: state.AffPayouts.loadingItem,
       loadedItem: state.AffPayouts.loadedItem,
-      affiliate: state.AffProfile.affProfile
+      affiliate: state.AffProfile.affProfile,
+      payout: state.AffPayouts.affPayouts.items.find((item: any) => item.id == payoutId ),
+      loadingUpdate: state.AffPayouts.loadingUpdate,
+      loadedUpdate: state.AffPayouts.loadedUpdate,
     }
   })
 
@@ -43,9 +46,31 @@ export default ({ isOpen, toggle, isAff }: any) => {
     }
   });
 
+  useEffect(() => {
+    if(payoutId > 0){
+      let findGeo = geo.find((item : any) => payout?.geo.id === item.id);
+
+      let sGeo = { value: findGeo.id, label: findGeo.name }
+      setSelectGeo( sGeo )
+    }else{
+      setSelectGeo({})
+    }
+  }, [payoutId])
+
+  useEffect(() => {
+    if((!loadingUpdate && loadedUpdate) || (!loadingItem && loadedItem)){
+      close();
+      setSelectGeo({})
+    }
+  }, [loadingUpdate, loadedUpdate, loadingItem, loadedItem])
+
+  const close = () => {
+    toggle(false);
+  };
+
   const handleValidAffPayoutSubmit = (data: any) => {
     const {value, lable} : any = selectGeo;
-    const addPayouts = {
+    const payouts = {
       name: data.name,
       amount: +data.amount,
       payoutType:  +data.payoutType,
@@ -53,15 +78,20 @@ export default ({ isOpen, toggle, isAff }: any) => {
       geoId: +value
     }
 
-    isAff
-      ? dispatch(addAffPayouts(addPayouts, affiliate))
-      : dispatch(addPayout(addPayouts));
+
+    if(payoutId > 0 ){
+      dispatch(updatePayout(payouts, payoutId))
+    }else{
+      isAff
+        ? dispatch(addAffPayouts(payouts, affiliate))
+        : dispatch(addPayout(payouts));
+    }
   }
 
   return (
     <Modal isOpen={isOpen} toggle={toggle}>
       <ModalHeader toggle={toggle} tag="h4">
-        Add Payout
+        {payoutId ? 'Change' : 'Add'} Payout
       </ModalHeader>
       <AvForm
         onValidSubmit={(
@@ -85,7 +115,7 @@ export default ({ isOpen, toggle, isAff }: any) => {
                       validate={{
                         required: { value: true }
                       }}
-                      value={""}
+                      value={payout?.name}
                     />
                   </div>
                 </Col>
@@ -99,7 +129,7 @@ export default ({ isOpen, toggle, isAff }: any) => {
                       validate={{
                         required: { value: true }
                       }}
-                      value={""}
+                      value={payout?.amount}
                     />
                   </div>
                 </Col>
@@ -113,7 +143,7 @@ export default ({ isOpen, toggle, isAff }: any) => {
                       className="form-select"
                       label="Payout Type*"
                       required
-                      value=""
+                      value={String(payout?.payoutType)}
                     >
                       <option value={""}>Select sate</option>
                       {PayoutType.map((val, i) =>
@@ -130,7 +160,7 @@ export default ({ isOpen, toggle, isAff }: any) => {
                       className="form-select"
                       label="Currency*"
                       required
-                      value="0"
+                      value={payout?.currency || "0"}
                     >
                       <option value={""}>Select sate</option>
                       {Currency.map((val, i) => <option key={i} value={i}>{val}</option>)}
@@ -148,6 +178,7 @@ export default ({ isOpen, toggle, isAff }: any) => {
                   isLoading={loadingGeoList}
                   options={geoList}
                   onChange={setSelectGeo}
+                  value={selectGeo}
                 />
               </div>
 
@@ -172,10 +203,10 @@ export default ({ isOpen, toggle, isAff }: any) => {
               <div className="text-end">
                 <button
                   type="submit"
-                  className="btn btnOrange"
-                  disabled={loadingItem}
+                  className="btn btnOrange btn-width-250"
+                  disabled={loadingItem || loadingUpdate}
                 >
-                  {loadingItem && <i className="bx bx-hourglass bx-spin me-2"/>}
+                  {(loadingItem || loadingUpdate) && <i className="bx bx-hourglass bx-spin me-2"/>}
                   Save
                 </button>
               </div>
