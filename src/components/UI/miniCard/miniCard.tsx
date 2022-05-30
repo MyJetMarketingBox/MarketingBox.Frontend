@@ -15,7 +15,7 @@ import { CardTypeEnum } from "../../../enums/CardTypeEnum";
 
 const miniCard = ({
   data,
-  path,
+  path = "",
   cardType = CardTypeEnum.Campaign,
   handleDelete,
   openEditCampaign,
@@ -45,6 +45,9 @@ const miniCard = ({
     switch (cardType) {
       case CardTypeEnum.Geo:
         return "Geo ID (li):";
+      case CardTypeEnum.Offer:
+        return "Offer ID:";
+
       default:
         return "Campaign ID (gi):";
     }
@@ -97,6 +100,7 @@ const miniCard = ({
             <p className="text-muted mb-2">
               {cardTypeTitle} {data.id}
             </p>
+
             <Row style={{ display: "inline-block" }}>
               <span className="text-start">Created: </span>
               <span className="text-end">

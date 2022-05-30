@@ -1,4 +1,5 @@
 export enum CardTypeEnum {
   Campaign,
-  Geo
+  Geo,
+  Offer,
 }

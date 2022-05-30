@@ -56,3 +56,4 @@ export * from "./auth/forgetpwd/actions";
 export * from "./languages/actions";
 export * from "./badRequests/actions";
 export * from "./campaignsRow/actions";
+export * from "./offers/actions";

@@ -22,6 +22,7 @@ const Page = {
   CONVERSIONS: "/conversions",
   MARKETING_TOOLS: "/marketing_tools",
   REDISTRIBUTION: "/redistribution",
+  OFFERS: "/offers",
 
   SIGN_IN: "/login",
   SIGN_UP: "/register",

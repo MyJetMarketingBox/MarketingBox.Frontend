@@ -42,6 +42,8 @@ import Languages from "./languages/reducer";
 import badRequests from "./badRequests/reducer";
 import CampaignRows from "./campaignsRow/reducer";
 
+import Offers from "./offers/reducer";
+
 const rootReducer = combineReducers({
   // public
   Layout,
@@ -67,6 +69,7 @@ const rootReducer = combineReducers({
   Languages,
   badRequests,
   CampaignRows,
+  Offers,
 });
 
 export default rootReducer;

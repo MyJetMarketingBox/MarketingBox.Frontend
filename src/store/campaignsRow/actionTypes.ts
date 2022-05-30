@@ -4,6 +4,7 @@ import { CapTypeEnum } from "../../enums/CapTypeEnum";
 import { DayOfWorkEnum } from "../../enums/DayOfWorkEnum";
 import { IGeoItem } from "../geo/actionTypes";
 import { ActivityHoursType } from "src/types/ActivityHoursType";
+import { PaginationType } from "src/types/PaginationType";
 
 export enum CampaignRowsActionEnum {
   GET_CAMPAIGN_ROW = "@@campaignRows/get-campaign-rows",
@@ -90,14 +91,6 @@ export interface ICampaignRowParams {
   Limit?: number;
 }
 
-export interface ICampaignRowPagination {
-  cursor: number;
-  count: number;
-  total: number;
-  order: OrderEnum;
-  nextUrl: string;
-}
-
 export interface ICampaignRowItem {
   campaignRowId: number;
   brandId: number;
@@ -126,7 +119,7 @@ export interface CampaignRowValues {
 }
 //
 export interface ICampaignRowDTO {
-  pagination: ICampaignRowPagination;
+  pagination: PaginationType;
   items: ICampaignRowItem[];
 }
 
@@ -141,6 +134,6 @@ export interface ICampaignRowStore {
   isEditCRModal: boolean;
   editableCRid: number | null;
 
-  pagination: ICampaignRowPagination | null;
+  pagination: PaginationType | null;
   items: ICampaignRowItem[];
 }

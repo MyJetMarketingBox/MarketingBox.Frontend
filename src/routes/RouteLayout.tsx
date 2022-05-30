@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { matchPath, Redirect, Route, Switch, useLocation } from "react-router";
+import { matchPath, Redirect, Switch, useLocation } from "react-router";
 import { RouteLayoutTypeEnum } from "../enums/RouteLayoutTypeEnum";
 import routesList from "./allRoutes";
 import RouteWrapper from "./RouteWrapper";
@@ -49,6 +49,7 @@ const RouteLayout: FC = () => {
 
     case RouteLayoutTypeEnum.Page404:
       return <Redirect to={Page.DASHBOARD} />;
+
     default:
       return (
         <>

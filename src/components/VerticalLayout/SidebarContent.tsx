@@ -211,15 +211,15 @@ const SidebarContent = (props: any) => {
               </div>
               <ul className={c.subMenu}>
                 <li className={c.subMenuItem}>
-                  <NavLink to={Page.PAYOUTS} activeClassName={c.active}>
+                  <NavLink to={Page.OFFERS} activeClassName={c.active}>
                     {t("Offers")}
                   </NavLink>
                 </li>
-                <li className={c.subMenuItem}>
+                {/* <li className={c.subMenuItem}>
                   <NavLink to={Page.POSTBACK} activeClassName={c.active}>
                     {t("Offer Affiliates")}
                   </NavLink>
-                </li>
+                </li> */}
               </ul>
             </li>
             <li className={c.menuItem}>

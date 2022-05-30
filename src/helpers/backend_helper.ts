@@ -7,6 +7,7 @@ import {
 } from "src/store/campaignsRow/actionTypes";
 import { del, get, post, put } from "./api_helper";
 import * as url from "./url_helper";
+import { IOffersParams } from "src/store/offers/actionTypes";
 
 // Gets the logged in user data from local session
 const getLoggedInUser = () => {
@@ -136,11 +137,13 @@ export const getGeo = (nextUrl: any, filter: object) =>
 export const getGeoProfile = (id: number) =>
   get(url.GEO, { params: { GeoId: id } });
 
-export const updateGeoProfile = (geo: object, id: number) => put(`${url.GEO}/${id}`, geo, { notification: "Update success!", })
+export const updateGeoProfile = (geo: object, id: number) =>
+  put(`${url.GEO}/${id}`, geo, { notification: "Update success!" });
 
-export const addGeo = (geo: object) => post(url.GEO, geo)
+export const addGeo = (geo: object) => post(url.GEO, geo);
 
-export const delGeo = (id: number) => del(`${url.GEO}/${id}`, {notification: "Successfully deleted!"})
+export const delGeo = (id: number) =>
+  del(`${url.GEO}/${id}`, { notification: "Successfully deleted!" });
 
 /** END GEO **/
 
@@ -226,6 +229,10 @@ export const getLanguagesList = (nextUrl: any, filter: object) =>
 
 export const getRedistribution = (nextUrl: any, filter: object) =>
   get(nextUrl || url.REDISTRIBUTION, { params: filter });
+
+// offers
+export const getOffersList = (nextUrl: string | null, params: IOffersParams) =>
+  get(nextUrl || url.OFFERS, { params });
 
 export {
   getLoggedInUser,
