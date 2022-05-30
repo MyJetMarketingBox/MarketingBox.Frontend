@@ -298,3 +298,11 @@ body.modal-open {
 input[switch="success"]:checked + label {
   background-color: #e74a18;
 }
+
+.w-half {
+  width: 50%;
+}
+
+.btn-h {
+  min-height: 44px;
+}
