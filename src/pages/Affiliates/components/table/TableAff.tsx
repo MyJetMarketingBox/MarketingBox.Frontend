@@ -51,7 +51,7 @@ export default ({ affiliates = [] }: any) => {
       ai: affiliate.id,
       email: affiliate.generalInfo.email,
       reportto: "Management",
-      createdat: new Date(affiliate.generalInfo.createdAt).toLocaleDateString(
+      createdat: new Date(affiliate.createdAt).toLocaleDateString(
         "ru-RU",
         {
           day: "2-digit",
@@ -95,8 +95,8 @@ export default ({ affiliates = [] }: any) => {
       dataField: "username",
       text: "Username",
       sort: true,
-      headerStyle: { width: "250px", minWidth: "250px" },
-      style: { width: "250px", minWidth: "250px" },
+      /*headerStyle: { width: "250px", minWidth: "250px" },
+      style: { width: "250px", minWidth: "250px" },*/
     },
     {
       dataField: "ai",
@@ -107,8 +107,8 @@ export default ({ affiliates = [] }: any) => {
       dataField: "email",
       text: "Email",
       sort: true,
-      headerStyle: { width: "250px", minWidth: "250px" },
-      style: { width: "250px", minWidth: "250px" },
+      /*headerStyle: { width: "250px", minWidth: "250px" },
+      style: { width: "250px", minWidth: "250px" },*/
     },
     {
       dataField: "reportto",
@@ -154,7 +154,7 @@ export default ({ affiliates = [] }: any) => {
         bordered={false}
         striped={false}
         defaultSorted={defaultSorted}
-        classes={"table align-middle"}
+        classes={"table align-middle table-nowrap table-hover"}
         headerWrapperClasses={"thead-light"}
       />
 

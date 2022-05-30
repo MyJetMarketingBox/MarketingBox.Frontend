@@ -5,22 +5,25 @@ import { Col, Modal, ModalBody, ModalFooter, ModalHeader, Row } from "reactstrap
 import { AvField, AvForm } from "availity-reactstrap-validation";
 import { Currency, PayoutType } from "../../../../common/utils/model";
 import Select from "../../select";
-import { addBPayout, addBrandPayout } from "../../../../store/brandPayouts/actions";
+import { addBPayout, addBrandPayout, updateBrandPayout } from "../../../../store/brandPayouts/actions";
 
-export default ({ isOpen, toggle, isBrand }: any) => {
+export default ({ isOpen, toggle, isBrand, payoutId }: any) => {
 
   const dispatch = useDispatch();
 
-  const [selectGeo, setSelectGeo] = useState([]);
+  const [selectGeo, setSelectGeo] = useState<any>({});
 
-  const { geo, loadingGeoList, loadedGeoList, loadingItem, loadedItem, brand} = useSelector((state:any) => {
+  const { geo, loadingGeoList, loadedGeoList, loadingItem, loadedItem, brand, payout, loadingUpdate, loadedUpdate} = useSelector((state:any) => {
     return {
       geo: state.Geo.geo.items,
       loadingGeoList: state.Geo.loading,
       loadedGeoList: state.Geo.loaded,
       loadingItem: state.BrandPayouts.loadingItem,
       loadedItem: state.BrandPayouts.loadedItem,
-      brand: state.BrandProfile.brand
+      brand: state.BrandProfile.brand,
+      payout: state.BrandPayouts.brandPayouts.items.find((item: any) => item.id == payoutId),
+      loadingUpdate: state.BrandPayouts.loadingUpdate,
+      loadedUpdate: state.BrandPayouts.loadedUpdate
     }
   })
 
@@ -42,9 +45,31 @@ export default ({ isOpen, toggle, isBrand }: any) => {
     }
   });
 
+  useEffect(() => {
+    if(payoutId > 0){
+      let findGeo = geo.find((item : any) => payout?.geo.id === item.id);
+
+      let sGeo = { value: findGeo.id, label: findGeo.name }
+      setSelectGeo( sGeo )
+    }else{
+      setSelectGeo({})
+    }
+  }, [payoutId])
+
+  useEffect(() => {
+    if((!loadingUpdate && loadedUpdate) || (!loadingItem && loadedItem)){
+      close();
+      setSelectGeo({})
+    }
+  }, [loadingUpdate, loadedUpdate, loadingItem, loadedItem])
+
+  const close = () => {
+    toggle(false);
+  };
+
   const handleValidBrandPayoutSubmit = (data: any) => {
     const {value, lable} : any = selectGeo;
-    const addPayout = {
+    const payout = {
       name: data.name,
       amount: +data.amount,
       payoutType: +data.payoutType,
@@ -52,15 +77,19 @@ export default ({ isOpen, toggle, isBrand }: any) => {
       geoId: +value
     }
 
-    isBrand
-      ? dispatch(addBrandPayout(addPayout, brand))
-      : dispatch(addBPayout(addPayout));
+    if(payoutId > 0 ){
+      dispatch(updateBrandPayout(payout, payoutId))
+    } else {
+      isBrand
+        ? dispatch(addBrandPayout(payout, brand))
+        : dispatch(addBPayout(payout));
+    }
   }
 
   return (
     <Modal isOpen={isOpen} toggle={toggle}>
       <ModalHeader toggle={toggle} tag="h4">
-        Add Payout
+        {payoutId ? 'Change' : 'Add'} Payout
       </ModalHeader>
       <AvForm
         onValidSubmit={(
@@ -84,7 +113,7 @@ export default ({ isOpen, toggle, isBrand }: any) => {
                       validate={{
                         required: { value: true }
                       }}
-                      value={""}
+                      value={payout?.name}
                     />
                   </div>
                 </Col>
@@ -98,7 +127,7 @@ export default ({ isOpen, toggle, isBrand }: any) => {
                       validate={{
                         required: { value: true }
                       }}
-                      value={""}
+                      value={payout?.amount}
                     />
                   </div>
                 </Col>
@@ -112,7 +141,7 @@ export default ({ isOpen, toggle, isBrand }: any) => {
                       className="form-select"
                       label="Payout Type*"
                       required
-                      value=""
+                      value={String(payout?.payoutType)}
                     >
                       <option value={""}>Select sate</option>
                       {PayoutType.map((val, i) =>
@@ -129,7 +158,7 @@ export default ({ isOpen, toggle, isBrand }: any) => {
                       className="form-select"
                       label="Currency*"
                       required
-                      value="0"
+                      value={payout?.currency || "0"}
                     >
                       <option value={""}>Select sate</option>
                       {Currency.map((val, i) => <option key={i} value={i}>{val}</option>)}
@@ -147,6 +176,7 @@ export default ({ isOpen, toggle, isBrand }: any) => {
                   isLoading={loadingGeoList}
                   options={geoList}
                   onChange={setSelectGeo}
+                  value={selectGeo}
                 />
               </div>
 
@@ -160,10 +190,10 @@ export default ({ isOpen, toggle, isBrand }: any) => {
               <div className="text-end">
                 <button
                   type="submit"
-                  className="btn btnOrange"
-                  disabled={loadingItem}
+                  className="btn btnOrange btn-width-250"
+                  disabled={loadingItem || loadingUpdate}
                 >
-                  {loadingItem && <i className="bx bx-hourglass bx-spin me-2"/>}
+                  {(loadingItem || loadingUpdate) && <i className="bx bx-hourglass bx-spin me-2"/>}
                   Save
                 </button>
               </div>

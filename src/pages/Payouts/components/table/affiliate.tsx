@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  clearAffPayouts,
-  getAffPayouts,
+  clearAffPayouts, delPayout,
+  getAffPayouts
 } from "../../../../store/affiliatePayouts/actions";
 import Loader from "../../../../components/UI/loader";
 import { Currency, PayoutType } from "../../../../common/utils/model";
@@ -10,8 +10,9 @@ import ColumnActions from "../../../../components/UI/columnActions/ColumnActions
 import BootstrapTable from "react-bootstrap-table-next";
 import { Col, Row } from "reactstrap";
 import BtnLoadMore from "../../../../components/UI/btns/BtnLoadMore";
+import ConfirmDelete from "../../../../components/UI/confirmDelete/ConfirmDelete";
 
-export default () => {
+export default ({setPayoutId, toggle} : any) => {
   const dispatch = useDispatch();
 
   const [isOpen, setIsOpen] = useState(false);
@@ -40,6 +41,15 @@ export default () => {
     };
   }, []);
 
+  const tableRowEvents = {
+    onClick: (e:any, row:any, rowIndex:any) => {
+      if(e.target.classList.length == 0) {
+        setPayoutId(row.id);
+        toggle();
+      }
+    }
+  }
+
   async function loadMore() {
     if (nextUrl) {
       dispatch(getAffPayouts(nextUrl, {}));
@@ -67,11 +77,24 @@ export default () => {
     };
   });
 
-  const toggleAction = () => {
+
+  const toggleDelAction = () => {
     setIsOpen(prev => !prev);
   };
 
+  const handleDeleteAffPayout = (id: number) => {
+    dispatch(delPayout(id))
+  }
+
   const listActions: any = [
+    {
+      label: "edit",
+      handler: (id: any) => {
+        //history.push(`/some/${id}`);
+        setPayoutId(id);
+        toggle();
+      },
+    },
     {
       label: "delete",
       handler: (id: any) => {
@@ -114,7 +137,7 @@ export default () => {
     },
     {
       dataField: "geo",
-      text: "Geo Box",
+      text: "Geo",
       sort: true,
       headerStyle: { width: "250px", minWidth: "250px" },
       style: { width: "250px", minWidth: "250px" },
@@ -152,6 +175,7 @@ export default () => {
             defaultSorted={defaultSorted}
             classes={"table align-middle"}
             headerWrapperClasses={"thead-light"}
+            rowEvents={tableRowEvents}
           />
         </div>
       </Row>
@@ -165,6 +189,14 @@ export default () => {
           </Col>
         </Row>
       )}
+
+      <ConfirmDelete
+        isOpen={isOpen}
+        toggle={toggleDelAction}
+        handleDelete={handleDeleteAffPayout}
+        id={selectId}
+      />
+
     </React.Fragment>
   );
 };

@@ -121,13 +121,12 @@ export const delPostback = () => del(`${url.POSTBACK}`);
 export const getAffPayouts = (nextUrl: any, filter: object) =>
   get(nextUrl || url.AFF_PAYOUTS, { params: filter });
 
-/*export const getAffPayouts = (nextUrl: any, filter: object) =>
-  post(nextUrl || url.AFF_PAYOUTS_SEARCH, filter);*/
-
 export const addAffPayouts = (affPayouts: any) =>
   post(url.AFF_PAYOUTS, affPayouts);
 
-export const delAffPayouts = (id: number) => del(`${url.AFF_PAYOUTS}/${id}`);
+export const updateAffPayout = (data: any, id : number) => put(`${url.AFF_PAYOUTS}/${id}`, data, { notification: "Update success!", });
+
+export const delAffPayouts = (id: number) => del(`${url.AFF_PAYOUTS}/${id}`, {notification: "Successfully deleted!"});
 /** END AFF PAYOUTS **/
 
 /** GEO **/
@@ -175,6 +174,11 @@ export const getBrandPayouts = (nextUrl: any, filter: object) =>
 
 export const addBrandPayout = (brandPayout: any) =>
   post(url.BRAND_PAYOUTS, brandPayout);
+
+export const delBrandPayout = (id: number) => del(`${url.BRAND_PAYOUTS}/${id}`, {notification: "Successfully deleted!"})
+
+export const updateBrandPayout = (data: any, id : number) => put(`${url.BRAND_PAYOUTS}/${id}`, data, { notification: "Update success!", })
+
 /** END PAYOUTS **/
 
 // get countries

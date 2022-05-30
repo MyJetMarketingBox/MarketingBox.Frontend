@@ -9,13 +9,10 @@ import ToolkitProvider, { Search } from "react-bootstrap-table2-toolkit";
 export default ({ campaigns }: any) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectId, setSelectId] = useState(false);
-
   const { SearchBar } = Search;
 
-  //console.log(campaigns);
 
   const resCampaigns = campaigns.map((item: any) => {
-    console.log(item);
     return {
       campaignName: item.campaign.name,
       campaignId: item.campaign.id,

@@ -71,7 +71,7 @@ const Brand = (props : any) => {
                         })}
                         onClick={() => { toggleCustom("1"); }}
                       >
-                        <span className="d-none d-sm-block">Settings</span>
+                        <span className="d-sm-block">Settings</span>
                       </NavLink>
                     </NavItem>
                     <NavItem>
@@ -82,7 +82,7 @@ const Brand = (props : any) => {
                         })}
                         onClick={() => { toggleCustom("2"); }}
                       >
-                        <span className="d-none d-sm-block">Campaigns</span>
+                        <span className="d-sm-block">Campaigns</span>
                       </NavLink>
                     </NavItem>
                     <NavItem>
@@ -93,7 +93,7 @@ const Brand = (props : any) => {
                         })}
                         onClick={() => { toggleCustom("3"); }}
                       >
-                        <span className="d-none d-sm-block">Payouts</span>
+                        <span className="d-sm-block">Payouts</span>
                       </NavLink>
                     </NavItem>
                   </Nav>
@@ -103,7 +103,7 @@ const Brand = (props : any) => {
               <CardBody>
                 <TabContent
                   activeTab={customActiveTab}
-                  className="p-3 text-muted"
+                  className="text-muted"
                 >
                   <TabPane tabId="1">
                     <Row>

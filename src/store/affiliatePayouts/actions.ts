@@ -50,6 +50,41 @@ export const addPayoutFail = (error: any) => ({
   payload: error
 })
 
+/** UPDATE PAYOUT **/
+export const updatePayout = (data: any, id: number) => ({
+  type: AffPayoutsTypes.UPDATE_PAYOUT,
+  data,
+  id
+})
+
+export const updatePayoutSuccess = (data: any) => ({
+  type: AffPayoutsTypes.UPDATE_PAYOUT_SUCCESS,
+  payload: data
+})
+
+export const updatePayoutFail = (error: any) => ({
+  type: AffPayoutsTypes.UPDATE_PAYOUT_FAIL,
+  payload: error
+})
+
+
+/** DEL PAYOUT **/
+
+export const delPayout = (id: number) => ({
+  type: AffPayoutsTypes.DELETE_PAYOUT,
+  payload: id
+})
+
+export const delPayoutSuccess = (response: any) => ({
+  type: AffPayoutsTypes.DELETE_PAYOUT_SUCCESS,
+  payload: response
+})
+
+export const delPayoutFail = (error: any) => ({
+  type: AffPayoutsTypes.DELETE_PAYOUT_FAIL,
+  payload: error
+})
+
 /** CLEAR **/
 export const clearAffPayouts = () => ({
   type: AffPayoutsTypes.CLEAR_AFF_PAYOUTS

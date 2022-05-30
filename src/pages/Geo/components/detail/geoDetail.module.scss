@@ -1,8 +1,11 @@
+.wrapper-list-country{
+  height: 500px;
+  max-width: 500px;
+}
+
 .list-country{
   padding-left: 0;
   list-style: none;
-  height: 500px;
-  overflow-y: auto;
 
   li{
     display: flex;
@@ -52,4 +55,9 @@
     }*/
   }
 
+}
+
+.wrapper-btn-countries {
+  display: flex;
+  justify-content: space-between;
 }

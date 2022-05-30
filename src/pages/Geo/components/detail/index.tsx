@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useMemo, useState } from "react";
+import React, { ChangeEvent, useEffect, useMemo, useRef, useState } from "react";
 import MetaTags from "react-meta-tags";
 import Breadcrumbs from "../../../../components/Common/Breadcrumb";
 import { Button, Card, CardBody, CardHeader, Col, Row } from "reactstrap";
@@ -11,6 +11,7 @@ import c from "./geoDetail.module.scss";
 import { AvForm, AvField, AvInput } from "availity-reactstrap-validation";
 import { addGeo, getGeoProfile, updateGeo } from "../../../../store/geo/actions";
 import { useParams } from "react-router";
+import SimpleBar from "simplebar-react";
 
 const GeoDetail = (props: any) => {
 
@@ -43,7 +44,8 @@ const GeoDetail = (props: any) => {
   const [search, setSearch] = useState("");
   const [selectedCountries, setSelectedCountries] = useState<number[]>([]);
   const [profileName, setProfileName] = useState("");
-  //const [napadenie, setNapadenie] = useState("");
+
+  const ref = useRef<any>();
 
   const changeName = (e: ChangeEvent<HTMLInputElement>) => {
     setProfileName(e.target.value);
@@ -89,6 +91,8 @@ const GeoDetail = (props: any) => {
 
     return () => {
       dispatch(clearCountries());
+      setSelectedCountries([])
+      setProfileName("")
     };
   }, []);
 
@@ -104,6 +108,28 @@ const GeoDetail = (props: any) => {
       dispatch(addGeo(upGeo))
     }
   }
+
+  const handlerBtnAddAllCountries = () => {
+    const arrCountries = outputCountries.map((item: any) => item.id)
+    setSelectedCountries((prev: any) => [...prev, ...arrCountries]);
+  }
+
+  const handlerBtnRemoveAllCountries = () => {
+    setSelectedCountries([])
+  }
+
+  useEffect(() => {
+    ref.current.recalculate();
+  })
+
+  /*function scrollElement(item: any) {
+    if (item) {
+      const currentPosition = item.offsetTop;
+      if (currentPosition > window.innerHeight) {
+        ref.current.getScrollElement().scrollTop = currentPosition - 300;
+      }
+    }
+  }*/
 
   return (
     <React.Fragment>
@@ -134,9 +160,9 @@ const GeoDetail = (props: any) => {
 
                 <Row>
                   <Col md={3}>
-                    <Row>
+                    <Row className="mb-4">
                       <AvForm>
-                        <div className="mb-5">
+                        <div className="mb-4">
                           <AvField
                             name="name"
                             placeholder="Search Country"
@@ -147,21 +173,33 @@ const GeoDetail = (props: any) => {
                             onChange={(e: any) => setSearch(e.target.value)}
                           />
                         </div>
+                        <div className="text-lg-center">
+                          <a className="text-dark-blue pointer mr-5" onClick={handlerBtnAddAllCountries}>
+                            Add All Countries
+                          </a>
+                          <span> | </span>
+                          <a className="text-dark-blue pointer ml-5" onClick={handlerBtnRemoveAllCountries}>
+                            Remove All Countries
+                          </a>
+                        </div>
                       </AvForm>
                     </Row>
-                    <ul className={c["list-country"]}>
-                      {outputCountries.map((item: any) => (
-                        <li
-                          key={`list-country-${item.id}`}
-                          onClick={() => handleSelectCountry(item.id)}
-                        >
-                          <span>{item.name}</span>
-                          <span className="text-muted">
-                            {item.alfa2Code}, {item.alfa3Code}
-                          </span>
-                        </li>
-                      ))}
-                    </ul>
+
+                    <SimpleBar ref={ref} className={c["wrapper-list-country"]} autoHide={false}>
+                      <ul className={c["list-country"]}>
+                        {outputCountries.map((item: any) => (
+                          <li
+                            key={`list-country-${item.id}`}
+                            onClick={() => handleSelectCountry(item.id)}
+                          >
+                            <span>{item.name}</span>
+                            <span className="text-muted">
+                              {item.alfa2Code}, {item.alfa3Code}
+                            </span>
+                          </li>
+                        ))}
+                      </ul>
+                    </SimpleBar>
                   </Col>
 
                   {/* added countries  */}
@@ -177,13 +215,10 @@ const GeoDetail = (props: any) => {
                               className="text-dark-blue"
                             >
                               <span>{countryName(itemId)}</span>
-                              {/*{!napadenie && itemId === 20 && setNapadenie("Я сейчас вам покажу 4-ри точки от куда готовилось нападение !")}*/}
                             </button>
                           ))
                         : "Select some countries"}
                     </ul>
-
-                    {/*{napadenie.length > 0 && <h1>{napadenie}</h1>}*/}
                   </Col>
                   {/*  */}
 
