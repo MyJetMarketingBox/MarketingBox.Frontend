@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Card, CardBody, Col, Container, Row } from "reactstrap";
 import BtnLoadMore from "src/components/UI/btns/BtnLoadMore";
 import Loader from "src/components/UI/loader";
+import Page from "src/constants/pages";
 import { CardTypeEnum } from "src/enums/CardTypeEnum";
 import { clearOffersStore, getOffers } from "src/store/actions";
 import { IOffersParams } from "src/store/offers/actionTypes";
@@ -71,10 +72,15 @@ const OffersPage = () => {
                   <SearchOffers />
                 </Col>
 
-                <Col xs={12} md={3} lg={2} className="mb-5 d-flex align-items-center justify-content-end">
+                <Col
+                  xs={12}
+                  md={3}
+                  lg={2}
+                  className="mb-5 d-flex align-items-center justify-content-end"
+                >
                   <button
                     type="button"
-                    className="w-100 btn btnOrange"
+                    className="w-100 btn btnOrange btn-h"
                     onClick={() => {}}
                   >
                     Add Offer
@@ -92,6 +98,7 @@ const OffersPage = () => {
                   offers.map(offer => (
                     <MiniCard
                       key={`offers-card-${offer.id}`}
+                      path={`${Page.OFFERS}/${offer.id}/`}
                       cardType={CardTypeEnum.Offer}
                       data={offer}
                     />

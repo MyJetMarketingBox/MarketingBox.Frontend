@@ -80,7 +80,6 @@ const CampaignsGrid = () => {
   };
 
   const toggleCustom = (tabId: any) => {
-    console.log("tab: ", tabId);
     switch (tabId) {
       case CampaignTabsEnum.Geo:
         push(`${Page.CAMPAIGNS}/geo`);

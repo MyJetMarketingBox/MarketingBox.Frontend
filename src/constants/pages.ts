@@ -23,6 +23,8 @@ const Page = {
   MARKETING_TOOLS: "/marketing_tools",
   REDISTRIBUTION: "/redistribution",
   OFFERS: "/offers",
+  OFFERS_DETAIL_TAB: "/offers/:id/:tab",
+  OFFERS_DETAIL: "/offers/:id",
 
   SIGN_IN: "/login",
   SIGN_UP: "/register",

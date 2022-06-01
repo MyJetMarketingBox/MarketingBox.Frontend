@@ -7,9 +7,10 @@ import Page from "src/constants/pages";
 interface BreadcrumbProps {
   breadcrumbItem: string;
   title: string;
+  link?: string;
 }
 
-const Breadcrumb = ({ breadcrumbItem, title }: BreadcrumbProps) => {
+const Breadcrumb = ({ breadcrumbItem, title, link = "" }: BreadcrumbProps) => {
   const { t } = useTranslation();
   return (
     <Row>
@@ -22,7 +23,7 @@ const Breadcrumb = ({ breadcrumbItem, title }: BreadcrumbProps) => {
                 <Link to={Page.DASHBOARD}>{t("Home")}</Link>
               </BreadcrumbItem>
               <BreadcrumbItem active>
-                <Link to="#">{t(breadcrumbItem)}</Link>
+                <Link to={link || "#"}>{t(breadcrumbItem)}</Link>
               </BreadcrumbItem>
             </ol>
           </div>

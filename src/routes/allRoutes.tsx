@@ -34,6 +34,7 @@ import Redistribution from "../pages/Redistribution";
 import CampaignDetail from "src/pages/Campaigns/components/detail/CampaignDetail";
 import GeoDetail from "src/pages/Geo/components/detail/index";
 import OffersPage from "src/pages/Offers/OffersPage";
+import OfferDetatils from "src/pages/Offers/detail/OfferDetatils";
 
 const routesList: RouteItemsType[] = [
   {
@@ -171,6 +172,23 @@ const routesList: RouteItemsType[] = [
     strict: true,
     exact: true,
   },
+
+  {
+    path: Page.OFFERS_DETAIL_TAB,
+    component: OfferDetatils,
+    layoutType: RouteLayoutTypeEnum.Authorized,
+    strict: true,
+    exact: false,
+  },
+
+  {
+    path: Page.OFFERS_DETAIL,
+    component: OfferDetatils,
+    layoutType: RouteLayoutTypeEnum.Authorized,
+    strict: true,
+    exact: false,
+  },
+  // OfferDetatils
 
   {
     path: Page.SIGN_IN,
