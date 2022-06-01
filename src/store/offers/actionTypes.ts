@@ -60,6 +60,26 @@ export interface IGetOfferSuccessAction {
   payload: IOffersItem;
 }
 
+export interface IGetOfferUrlAction {
+  type: OffersActionEnum.GET_OFFER_URL;
+  payload: number;
+}
+
+export interface IGetOfferUrlSuccessAction {
+  type: OffersActionEnum.GET_OFFER_URL_SUCCESS;
+  payload: { url: string };
+}
+
+export interface IRemoveOfferAction {
+  type: OffersActionEnum.DELETE_OFFER;
+  payload: number;
+}
+
+export interface IRemoveOfferSuccessAction {
+  type: OffersActionEnum.DELETE_OFFER_SUCCESS;
+  payload: number;
+}
+
 export interface IOffersParams {
   offerName?: string;
   languageIds?: string;
@@ -94,6 +114,7 @@ export interface IOffersDTO {
 export interface IOffersStore {
   isLoading: boolean;
   editableOffer: IOffersItem | null;
+  offerUrl: string;
   pagination: PaginationType | null;
   items: IOffersItem[];
 }

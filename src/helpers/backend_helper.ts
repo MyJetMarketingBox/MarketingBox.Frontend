@@ -243,6 +243,8 @@ export const getOffersList = (nextUrl: string | null, params: IOffersParams) =>
   get(nextUrl || url.OFFERS, { params });
 
 export const getOfferItem = (id: number) => get(`${url.OFFERS}/${id}`);
+export const getOfferItemUrl = (id: number) => get(`${url.OFFERS}/${id}/url`);
+export const deleteOfferItem = (id: number) => del(`${url.OFFERS}/${id}`);
 
 export {
   getLoggedInUser,

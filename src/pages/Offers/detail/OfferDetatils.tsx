@@ -20,7 +20,7 @@ import ScreenshotsTab from "./tabs/ScreenshotsTab";
 import EmailTab from "./tabs/EmailTab";
 import VideosTab from "./tabs/VideosTab";
 import { useDispatch } from "react-redux";
-import { getOffer } from "src/store/actions";
+import { getOffer, getOfferUrl } from "src/store/actions";
 
 export enum OfferTabsEnum {
   GeneralInfo = "general-info",
@@ -59,7 +59,8 @@ const OfferDetatils = () => {
 
   useEffect(() => {
     if (id) {
-      dispatch(getOffer(+id))
+      dispatch(getOffer(+id));
+      dispatch(getOfferUrl(+id));
     }
     if (!tab) {
       push(`${Page.OFFERS}/${id}/${OfferTabsEnum.GeneralInfo}`);

@@ -24,14 +24,32 @@ export const clearOffersStore = () => ({
   type: OffersActionEnum.CLEAR_OFFER_STORE,
 });
 
-
 export const getOffer = (payload: number) => ({
   type: OffersActionEnum.GET_OFFER,
   payload,
 });
 
-
 export const getOfferSuccess = (payload: IOffersItem) => ({
   type: OffersActionEnum.GET_OFFER_SUCCESS,
+  payload,
+});
+
+export const getOfferUrl = (payload: number) => ({
+  type: OffersActionEnum.GET_OFFER_URL,
+  payload,
+});
+
+export const getOfferUrlSuccess = (payload: { url: string }) => ({
+  type: OffersActionEnum.GET_OFFER_URL_SUCCESS,
+  payload,
+});
+
+export const deleteOffer = (payload: number) => ({
+  type: OffersActionEnum.DELETE_OFFER,
+  payload,
+});
+
+export const deleteOfferSuccess = (payload: number) => ({
+  type: OffersActionEnum.DELETE_OFFER_SUCCESS,
   payload,
 });

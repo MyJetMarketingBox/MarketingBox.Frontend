@@ -1,17 +1,23 @@
 import { Reducer } from "react";
+import { OfferActiveStateEnum } from "src/enums/OfferStateEnum";
 import {
   ICLearOffersAction,
   IGetOfferAction,
   IGetOffersAction,
   IGetOffersSuccessAction,
   IGetOfferSuccessAction,
+  IGetOfferUrlAction,
+  IGetOfferUrlSuccessAction,
   IOffersStore,
+  IRemoveOfferAction,
+  IRemoveOfferSuccessAction,
   OffersActionEnum,
 } from "./actionTypes";
 
 const initialStore: IOffersStore = {
   isLoading: false,
   editableOffer: null,
+  offerUrl: "",
   pagination: null,
   items: [],
 };
@@ -21,7 +27,11 @@ type action =
   | IGetOffersSuccessAction
   | ICLearOffersAction
   | IGetOfferAction
-  | IGetOfferSuccessAction;
+  | IGetOfferSuccessAction
+  | IGetOfferUrlAction
+  | IGetOfferUrlSuccessAction
+  | IRemoveOfferAction
+  | IRemoveOfferSuccessAction;
 
 const Offers: Reducer<IOffersStore, action> = (
   store = initialStore,
@@ -54,7 +64,35 @@ const Offers: Reducer<IOffersStore, action> = (
         isLoading: false,
         editableOffer: action.payload,
       };
-      
+
+    case OffersActionEnum.GET_OFFER_URL: {
+      return {
+        ...store,
+        isLoading: true,
+      };
+    }
+
+    case OffersActionEnum.DELETE_OFFER:
+      return {
+        ...store,
+        isLoading: true,
+      };
+
+    case OffersActionEnum.DELETE_OFFER_SUCCESS:
+      const items = store.items.filter(item => item.id !== action.payload);
+      return {
+        ...store,
+        items,
+        isLoading: false,
+      };
+
+    case OffersActionEnum.GET_OFFER_URL_SUCCESS: {
+      return {
+        ...store,
+        offerUrl: action.payload.url,
+      };
+    }
+
     case OffersActionEnum.CLEAR_OFFER_STORE:
       return initialStore;
 

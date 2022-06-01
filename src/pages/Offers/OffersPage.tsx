@@ -6,7 +6,7 @@ import BtnLoadMore from "src/components/UI/btns/BtnLoadMore";
 import Loader from "src/components/UI/loader";
 import Page from "src/constants/pages";
 import { CardTypeEnum } from "src/enums/CardTypeEnum";
-import { clearOffersStore, getOffers } from "src/store/actions";
+import { clearOffersStore, deleteOffer, getOffers } from "src/store/actions";
 import { IOffersParams } from "src/store/offers/actionTypes";
 import { RootStoreType } from "src/store/storeTypes";
 import Breadcrumbs from "../../components/Common/Breadcrumb";
@@ -41,6 +41,9 @@ const OffersPage = () => {
     });
   };
 
+  const handleDeleteOffer = (id: number) => {
+    dispatch(deleteOffer(id));
+  };
   const handleChangeFilter = (values: any) => {
     setParams({ ...values, limit: 12 });
   };
@@ -101,6 +104,7 @@ const OffersPage = () => {
                       path={`${Page.OFFERS}/${offer.id}/`}
                       cardType={CardTypeEnum.Offer}
                       data={offer}
+                      handleDelete={() => handleDeleteOffer(offer.id)}
                     />
                   ))
                 ) : (

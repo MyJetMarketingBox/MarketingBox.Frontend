@@ -1,12 +1,25 @@
 import { call, put, takeEvery } from "redux-saga/effects";
-import { getOfferItem, getOffersList } from "src/helpers/backend_helper";
-import { getOffersSuccess, getOfferSuccess } from "./actions";
+import {
+  deleteOfferItem,
+  getOfferItem,
+  getOfferItemUrl,
+  getOffersList,
+} from "src/helpers/backend_helper";
+import {
+  deleteOfferSuccess,
+  getOffersSuccess,
+  getOfferSuccess,
+  getOfferUrl,
+  getOfferUrlSuccess,
+} from "./actions";
 import {
   IGetOffersAction,
   IGetOfferAction,
   IOffersDTO,
-  OffersActionEnum, 
+  OffersActionEnum,
   IOffersItem,
+  IGetOfferUrlAction,
+  IRemoveOfferAction,
 } from "./actionTypes";
 
 function* getOffersSaga({ nextUrl = "", params = {} }: IGetOffersAction) {
@@ -23,8 +36,24 @@ function* getOfferSaga({ payload }: IGetOfferAction) {
   } catch (error) {}
 }
 
+function* getOfferUrlSaga({ payload }: IGetOfferUrlAction) {
+  try {
+    const response: { url: string } = yield call(getOfferItemUrl, payload);
+    yield put(getOfferUrlSuccess(response));
+  } catch (error) {}
+}
+
+function* deleteOfferSaga({ payload }: IRemoveOfferAction) {
+  try {
+    yield call(deleteOfferItem, payload);
+    yield put(deleteOfferSuccess(payload));
+  } catch (error) {}
+}
+
 function* offersSaga() {
   yield takeEvery(OffersActionEnum.GET_OFFERS, getOffersSaga);
   yield takeEvery(OffersActionEnum.GET_OFFER, getOfferSaga);
+  yield takeEvery(OffersActionEnum.GET_OFFER_URL, getOfferUrlSaga);
+  yield takeEvery(OffersActionEnum.DELETE_OFFER, deleteOfferSaga);
 }
 export default offersSaga;
