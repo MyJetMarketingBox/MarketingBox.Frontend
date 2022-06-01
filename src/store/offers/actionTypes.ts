@@ -12,6 +12,10 @@ export enum OffersActionEnum {
   GET_OFFERS_SUCCESS = "offers/get-offers-success",
   GET_OFFERS_FAIL = "offers/get-offers-fail",
 
+  GET_OFFER = "offers/get-offer",
+  GET_OFFER_SUCCESS = "offers/get-offer-success",
+  GET_OFFER_FAIL = "offers/get-offer-fail",
+
   GET_OFFER_URL = "offers/get-offer-url",
   GET_OFFER_URL_SUCCESS = "offers/get-offer-url-success",
   GET_OFFER_URL_FAIL = "offers/get-offer-url-fail",
@@ -44,6 +48,16 @@ export interface IGetOffersAction {
 export interface IGetOffersSuccessAction {
   type: OffersActionEnum.GET_OFFERS_SUCCESS;
   payload: IOffersDTO;
+}
+
+export interface IGetOfferAction {
+  type: OffersActionEnum.GET_OFFER;
+  payload: number;
+}
+
+export interface IGetOfferSuccessAction {
+  type: OffersActionEnum.GET_OFFER_SUCCESS;
+  payload: IOffersItem;
 }
 
 export interface IOffersParams {
@@ -79,7 +93,7 @@ export interface IOffersDTO {
 
 export interface IOffersStore {
   isLoading: boolean;
-
+  editableOffer: IOffersItem | null;
   pagination: PaginationType | null;
   items: IOffersItem[];
 }

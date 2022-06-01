@@ -1,6 +1,7 @@
 import {
   IGetOffersAction,
   IOffersDTO,
+  IOffersItem,
   IOffersParams,
   OffersActionEnum,
 } from "./actionTypes";
@@ -21,4 +22,16 @@ export const getOffersSuccess = (payload: IOffersDTO) => ({
 
 export const clearOffersStore = () => ({
   type: OffersActionEnum.CLEAR_OFFER_STORE,
+});
+
+
+export const getOffer = (payload: number) => ({
+  type: OffersActionEnum.GET_OFFER,
+  payload,
+});
+
+
+export const getOfferSuccess = (payload: IOffersItem) => ({
+  type: OffersActionEnum.GET_OFFER_SUCCESS,
+  payload,
 });

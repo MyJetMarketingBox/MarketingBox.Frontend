@@ -124,9 +124,11 @@ export const getAffPayouts = (nextUrl: any, filter: object) =>
 export const addAffPayouts = (affPayouts: any) =>
   post(url.AFF_PAYOUTS, affPayouts);
 
-export const updateAffPayout = (data: any, id : number) => put(`${url.AFF_PAYOUTS}/${id}`, data, { notification: "Update success!", });
+export const updateAffPayout = (data: any, id: number) =>
+  put(`${url.AFF_PAYOUTS}/${id}`, data, { notification: "Update success!" });
 
-export const delAffPayouts = (id: number) => del(`${url.AFF_PAYOUTS}/${id}`, {notification: "Successfully deleted!"});
+export const delAffPayouts = (id: number) =>
+  del(`${url.AFF_PAYOUTS}/${id}`, { notification: "Successfully deleted!" });
 /** END AFF PAYOUTS **/
 
 /** GEO **/
@@ -175,9 +177,11 @@ export const getBrandPayouts = (nextUrl: any, filter: object) =>
 export const addBrandPayout = (brandPayout: any) =>
   post(url.BRAND_PAYOUTS, brandPayout);
 
-export const delBrandPayout = (id: number) => del(`${url.BRAND_PAYOUTS}/${id}`, {notification: "Successfully deleted!"})
+export const delBrandPayout = (id: number) =>
+  del(`${url.BRAND_PAYOUTS}/${id}`, { notification: "Successfully deleted!" });
 
-export const updateBrandPayout = (data: any, id : number) => put(`${url.BRAND_PAYOUTS}/${id}`, data, { notification: "Update success!", })
+export const updateBrandPayout = (data: any, id: number) =>
+  put(`${url.BRAND_PAYOUTS}/${id}`, data, { notification: "Update success!" });
 
 /** END PAYOUTS **/
 
@@ -237,6 +241,8 @@ export const getRedistribution = (nextUrl: any, filter: object) =>
 // offers
 export const getOffersList = (nextUrl: string | null, params: IOffersParams) =>
   get(nextUrl || url.OFFERS, { params });
+
+export const getOfferItem = (id: number) => get(`${url.OFFERS}/${id}`);
 
 export {
   getLoggedInUser,

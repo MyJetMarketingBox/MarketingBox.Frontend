@@ -1,19 +1,27 @@
 import { Reducer } from "react";
 import {
   ICLearOffersAction,
+  IGetOfferAction,
   IGetOffersAction,
   IGetOffersSuccessAction,
+  IGetOfferSuccessAction,
   IOffersStore,
   OffersActionEnum,
 } from "./actionTypes";
 
 const initialStore: IOffersStore = {
   isLoading: false,
+  editableOffer: null,
   pagination: null,
   items: [],
 };
 
-type action = IGetOffersAction | IGetOffersSuccessAction | ICLearOffersAction;
+type action =
+  | IGetOffersAction
+  | IGetOffersSuccessAction
+  | ICLearOffersAction
+  | IGetOfferAction
+  | IGetOfferSuccessAction;
 
 const Offers: Reducer<IOffersStore, action> = (
   store = initialStore,
@@ -34,6 +42,19 @@ const Offers: Reducer<IOffersStore, action> = (
         items: [...store.items, ...action.payload.items],
       };
 
+    case OffersActionEnum.GET_OFFER:
+      return {
+        ...store,
+        isLoading: true,
+      };
+
+    case OffersActionEnum.GET_OFFER_SUCCESS:
+      return {
+        ...store,
+        isLoading: false,
+        editableOffer: action.payload,
+      };
+      
     case OffersActionEnum.CLEAR_OFFER_STORE:
       return initialStore;
 
