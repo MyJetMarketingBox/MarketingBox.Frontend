@@ -80,6 +80,16 @@ export interface IRemoveOfferSuccessAction {
   payload: number;
 }
 
+export interface IAddOfferAction {
+  type: OffersActionEnum.ADD_OFFERS;
+  payload: any;
+}
+
+export interface IAddOfferSuccessAction {
+  type: OffersActionEnum.ADD_OFFERS_SUCCESS;
+  payload: IOffersItem;
+}
+
 export interface IOffersParams {
   offerName?: string;
   languageIds?: string;

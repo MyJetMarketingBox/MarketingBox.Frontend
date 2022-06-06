@@ -1,6 +1,8 @@
 import { Reducer } from "react";
 import { OfferActiveStateEnum } from "src/enums/OfferStateEnum";
 import {
+  IAddOfferAction,
+  IAddOfferSuccessAction,
   ICLearOffersAction,
   IGetOfferAction,
   IGetOffersAction,
@@ -31,7 +33,9 @@ type action =
   | IGetOfferUrlAction
   | IGetOfferUrlSuccessAction
   | IRemoveOfferAction
-  | IRemoveOfferSuccessAction;
+  | IRemoveOfferSuccessAction
+  | IAddOfferAction
+  | IAddOfferSuccessAction;
 
 const Offers: Reducer<IOffersStore, action> = (
   store = initialStore,
@@ -92,6 +96,19 @@ const Offers: Reducer<IOffersStore, action> = (
         offerUrl: action.payload.url,
       };
     }
+
+    case OffersActionEnum.ADD_OFFERS:
+      return {
+        ...store,
+        isLoading: true,
+      };
+
+    case OffersActionEnum.ADD_OFFERS_SUCCESS:
+      return {
+        ...store,
+        items: [action.payload, ...store.items],
+        isLoading: false,
+      };
 
     case OffersActionEnum.CLEAR_OFFER_STORE:
       return initialStore;

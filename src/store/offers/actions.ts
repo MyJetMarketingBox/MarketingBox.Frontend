@@ -53,3 +53,13 @@ export const deleteOfferSuccess = (payload: number) => ({
   type: OffersActionEnum.DELETE_OFFER_SUCCESS,
   payload,
 });
+
+export const addOffer = (payload: any) => ({
+  type: OffersActionEnum.ADD_OFFERS,
+  payload,
+});
+
+export const addOfferSuccess = (payload: any) => ({
+  type: OffersActionEnum.ADD_OFFERS_SUCCESS,
+  payload,
+});

@@ -1,3 +1,4 @@
+import { addOfferApi } from "./../../helpers/backend_helper";
 import { call, put, takeEvery } from "redux-saga/effects";
 import {
   deleteOfferItem,
@@ -6,6 +7,7 @@ import {
   getOffersList,
 } from "src/helpers/backend_helper";
 import {
+  addOfferSuccess,
   deleteOfferSuccess,
   getOffersSuccess,
   getOfferSuccess,
@@ -20,6 +22,7 @@ import {
   IOffersItem,
   IGetOfferUrlAction,
   IRemoveOfferAction,
+  IAddOfferAction,
 } from "./actionTypes";
 
 function* getOffersSaga({ nextUrl = "", params = {} }: IGetOffersAction) {
@@ -50,10 +53,18 @@ function* deleteOfferSaga({ payload }: IRemoveOfferAction) {
   } catch (error) {}
 }
 
+function* addOfferSaga({ payload }: IAddOfferAction) {
+  try {
+    const response: IOffersItem = yield call(addOfferApi, payload);
+    yield put(addOfferSuccess(response));
+  } catch (error) {}
+}
+
 function* offersSaga() {
   yield takeEvery(OffersActionEnum.GET_OFFERS, getOffersSaga);
   yield takeEvery(OffersActionEnum.GET_OFFER, getOfferSaga);
   yield takeEvery(OffersActionEnum.GET_OFFER_URL, getOfferUrlSaga);
   yield takeEvery(OffersActionEnum.DELETE_OFFER, deleteOfferSaga);
+  yield takeEvery(OffersActionEnum.ADD_OFFERS, addOfferSaga);
 }
 export default offersSaga;

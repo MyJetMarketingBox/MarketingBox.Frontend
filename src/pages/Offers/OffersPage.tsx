@@ -17,6 +17,9 @@ import SearchOffers from "./components/SearchOffers";
 
 const OffersPage = () => {
   const dispatch = useDispatch();
+
+  const [showModal, setShowModal] = useState(false);
+
   const [params, setParams] = useState({
     limit: 12,
   });
@@ -49,6 +52,14 @@ const OffersPage = () => {
     setParams({ ...values, limit: 12 });
   };
 
+  const handleOpenModal = () => {
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
   useEffect(() => {
     dispatch(getOffers("", params));
 
@@ -61,7 +72,9 @@ const OffersPage = () => {
     <div className="page-content">
       {loading && <Loader />}
 
-      <AddOfferModal />
+      {showModal && (
+        <AddOfferModal isOpen={showModal} toggleClose={handleCloseModal} />
+      )}
 
       <MetaTags>
         <title>Offers | TraffMe</title>
@@ -87,7 +100,7 @@ const OffersPage = () => {
                   <button
                     type="button"
                     className="w-100 btn btnOrange btn-h"
-                    onClick={() => {}}
+                    onClick={handleOpenModal}
                   >
                     Add Offer
                   </button>

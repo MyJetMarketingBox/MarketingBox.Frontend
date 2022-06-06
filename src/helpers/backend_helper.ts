@@ -251,6 +251,8 @@ export const uploadRegFile = (file: Blob) =>
   });
 
 /** Offers **/
+
+export const addOfferApi = (data: any) => post(`${url.OFFERS}`, data);
 export const getOffersList = (nextUrl: string | null, params: IOffersParams) =>
   get(nextUrl || url.OFFERS, { params });
 
