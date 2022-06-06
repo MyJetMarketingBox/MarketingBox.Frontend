@@ -102,7 +102,7 @@ const OffersFilter = ({ onFilter, onClearFilter }: Props) => {
 
   return (
     <Row className="mb-4 align-items-end">
-      <Col xs={12} md={12} lg={2} className="mb-3">
+      <Col xs={12} md={12} lg={2} className="mb-3 custom-react-select">
         <Label>Countries</Label>
         <Select
           isSearchable
@@ -114,7 +114,7 @@ const OffersFilter = ({ onFilter, onClearFilter }: Props) => {
         />
       </Col>
 
-      <Col xs={12} md={6} lg={2} className="mb-3">
+      <Col xs={12} md={6} lg={2} className="mb-3 custom-react-select">
         <Label>Languages</Label>
         <Select
           isSearchable
@@ -128,7 +128,7 @@ const OffersFilter = ({ onFilter, onClearFilter }: Props) => {
         />
       </Col>
 
-      <Col xs={12} md={6} lg={2} className="mb-3">
+      <Col xs={12} md={6} lg={2} className="mb-3 custom-react-select">
         <Label>Brands</Label>
         <Select
           isSearchable
@@ -141,7 +141,7 @@ const OffersFilter = ({ onFilter, onClearFilter }: Props) => {
         />
       </Col>
 
-      <Col xs={12} md={6} lg={2} className="mb-3">
+      <Col xs={12} md={6} lg={2} className="mb-3 custom-react-select">
         <Label>Status</Label>
         <Select
           isSearchable
@@ -154,7 +154,7 @@ const OffersFilter = ({ onFilter, onClearFilter }: Props) => {
         />
       </Col>
 
-      <Col xs={12} md={6} lg={2} className="mb-3">
+      <Col xs={12} md={6} lg={2} className="mb-3 custom-react-select">
         <Label>Privacies</Label>
         <Select
           isSearchable
@@ -167,7 +167,7 @@ const OffersFilter = ({ onFilter, onClearFilter }: Props) => {
         />
       </Col>
 
-      <Col xs={12} md={12} lg={2} className="mb-3">
+      <Col xs={12} md={12} lg={2} className="mb-3 custom-react-select">
         <Row>
           <Col xs={6}>
             <button

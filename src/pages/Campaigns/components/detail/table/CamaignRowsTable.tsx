@@ -47,6 +47,15 @@ const CamaignRowsTable = ({ items }: Props) => {
     },
   ];
 
+  const tableRowEvents = {
+    onClick: (e:any, row:any, rowIndex:any) => {
+      //console.log(e);
+      if(e.target.classList.length == 0) {
+        dispatch(openEditCampaignRowModal(row.id));
+      }
+    }
+  }
+
   const resCampaigns = useMemo(() => {
     return items.map(campaignRow => ({
       id: campaignRow.campaignRowId,
@@ -162,8 +171,9 @@ const CamaignRowsTable = ({ items }: Props) => {
                   bordered={false}
                   striped={false}
                   defaultSorted={defaultSorted}
-                  classes={"table align-middle"}
+                  classes={"table align-middle table-nowrap table-hover"}
                   headerWrapperClasses={"thead-light"}
+                  rowEvents={tableRowEvents}
                 />
               ) : (
                 <div style={{ textAlign: "center", padding: "30px 0" }}>

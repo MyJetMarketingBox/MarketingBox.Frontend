@@ -27,7 +27,7 @@ export default ({ affiliates = [] }: any) => {
   // @ts-ignore
   const affiliateData = affiliates.map(affiliate => {
     let color, status;
-    switch (affiliate.generalInfo.state) {
+    switch (affiliate.generalInfo?.state) {
       case 0:
         status = "active";
         color = "success";

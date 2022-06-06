@@ -48,5 +48,7 @@ export const INTEGRATIONS = "api/integrations";
 export const LANGUAGES = "api/Languages";
 //REDISTRIBUTION
 export const REDISTRIBUTION = "api/redistribution";
+//REG_FILES
+export const REG_FILES = "api/registration-file"
 
 export const OFFERS = "/api/Offers";

@@ -41,6 +41,9 @@ export * from "./integrations/actions";
 /** Redistribution */
 export * from "./redistribution/actions";
 
+/** RegFiles **/
+export * from "./regFiles/actions"
+
 /** Login */
 export * from "./auth/login/actions";
 

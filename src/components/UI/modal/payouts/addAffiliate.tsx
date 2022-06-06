@@ -89,7 +89,7 @@ export default ({ isOpen, toggle, isAff, payoutId }: any) => {
   }
 
   return (
-    <Modal isOpen={isOpen} toggle={toggle}>
+    <Modal isOpen={isOpen} toggle={toggle} className="modal-dialog-centered">
       <ModalHeader toggle={toggle} tag="h4">
         {payoutId ? 'Change' : 'Add'} Payout
       </ModalHeader>

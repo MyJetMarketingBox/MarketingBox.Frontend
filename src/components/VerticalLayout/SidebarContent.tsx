@@ -19,7 +19,7 @@ import { ReactComponent as IconRedistribution } from "../../assets/images/icon-p
 import SimpleBar from "simplebar-react";
 
 //Import images
-import giftBox from "../../assets/images/users/joker-1.gif";
+import giftBox from "../../assets/images/users/cyberarmy.gif";
 
 //i18n
 import { useTranslation, withTranslation } from "react-i18next";

@@ -12,6 +12,7 @@ import { AvForm, AvField, AvInput } from "availity-reactstrap-validation";
 import { addGeo, getGeoProfile, updateGeo } from "../../../../store/geo/actions";
 import { useParams } from "react-router";
 import SimpleBar from "simplebar-react";
+import Loader from "../../../../components/UI/loader";
 
 const GeoDetail = (props: any) => {
 
@@ -84,15 +85,20 @@ const GeoDetail = (props: any) => {
   }, [profile]);
 
   useEffect(() => {
+    let isMounted = true
     dispatch(getCountries("", { order: 0 }));
     if (id) {
       dispatch(getGeoProfile(+id));
     }
 
-    return () => {
-      dispatch(clearCountries());
+    if (isMounted) {
       setSelectedCountries([])
       setProfileName("")
+    }
+
+    return () => {
+      dispatch(clearCountries());
+      isMounted = false;
     };
   }, []);
 
@@ -133,6 +139,7 @@ const GeoDetail = (props: any) => {
 
   return (
     <React.Fragment>
+      { !loadedProfile && loadingProfile && <Loader /> }
       <div className="page-content">
         <MetaTags>
           <title>GEO EDIT | TraffMe </title>

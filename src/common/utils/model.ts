@@ -1,4 +1,5 @@
 import { RegistrationStatusEnum } from "../../enums/RegistrationStatusEnum";
+import { RedistributionStatusEnum } from "../../enums/RedistributionStatusEnum";
 
 export const AffiliateRole = [
     "Affiliate",
@@ -36,6 +37,13 @@ export const RegistrationStatusObj = {
     [RegistrationStatusEnum.Deposited] : "Deposited",
     [RegistrationStatusEnum.Approved] : "Approved",
     [RegistrationStatusEnum.Declined] : "Declined",
+}
+
+export const RedistributionStatusObj = {
+    [RedistributionStatusEnum.Disable] : "Disable",
+    [RedistributionStatusEnum.Enable] : "Enable",
+    [RedistributionStatusEnum.Finished] : "Finished",
+    [RedistributionStatusEnum.Error] : "Error",
 }
 
 export const ReportType = [
@@ -107,4 +115,17 @@ export const DepositUpdateMode = [
     { value: 0, label: "Unknown" },
     { value: 2, label: "Automatically" },
     { value: 3, label: "Manually" },
+]
+
+export const RedistributionFrequency = [
+    "Minute",
+    "Hour",
+    "Day",
+]
+
+export const RedistributionState = [
+    "Disable",
+    "Enable",
+    "Finished",
+    "Error",
 ]

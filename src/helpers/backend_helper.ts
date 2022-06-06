@@ -1,11 +1,6 @@
-import { ICampaignItem } from "./../store/campaigns/actionTypes";
 import axios from "axios";
-import {
-  CampaignRowValues,
-  ICampaignRowItem,
-  ICampaignRowParams,
-} from "src/store/campaignsRow/actionTypes";
-import { del, get, post, put } from "./api_helper";
+import { CampaignRowValues, ICampaignRowParams } from "src/store/campaignsRow/actionTypes";
+import { del, get, post, postFile, put } from "./api_helper";
 import * as url from "./url_helper";
 import { IOffersParams } from "src/store/offers/actionTypes";
 
@@ -171,9 +166,6 @@ export const getBrand = (id: number) => get(`${url.BRANDS}/${id}`);
 export const getBrandPayouts = (nextUrl: any, filter: object) =>
   get(nextUrl || url.BRAND_PAYOUTS, { params: filter });
 
-/*export const getBrandPayouts = (nextUrl: any, filter: object) =>
-  post(nextUrl || url.BRAND_PAYOUTS_SEARCH, filter);*/
-
 export const addBrandPayout = (brandPayout: any) =>
   post(url.BRAND_PAYOUTS, brandPayout);
 
@@ -206,7 +198,7 @@ export const updateIntegration = (integration: object, id: number) =>
 
 /** END INTEGRATIONS **/
 
-// campaigns
+/** campaigns **/
 export const getCampaignsApi = (nextUrl: any, filter: object) =>
   get(nextUrl || url.CAMPAIGNS, { params: filter });
 
@@ -217,7 +209,7 @@ export const deleteCampaignApi = (id: number) => del(`${url.CAMPAIGNS}/${id}`);
 export const updateCampaignApi = (campaign: object, id: number) =>
   put(`${url.CAMPAIGNS}/${id}`, campaign);
 
-// campaign rows
+/**campaign rows **/
 export const getCampaignRowsApi = (
   nextUrl: string | null = null,
   params: ICampaignRowParams
@@ -231,14 +223,26 @@ export const addCampaignRowsApi = (data: CampaignRowValues) =>
 
 export const editCampaignRowsApi = (id: number, data: CampaignRowValues) =>
   put(`${url.CAMPAIGN_ROWS}/${id}`, data);
-// Languages
+
+/** Languages **/
 export const getLanguagesList = (nextUrl: any, filter: object) =>
   get(nextUrl || url.LANGUAGES, { params: filter });
 
+/** Redistribution **/
 export const getRedistribution = (nextUrl: any, filter: object) =>
   get(nextUrl || url.REDISTRIBUTION, { params: filter });
 
-// offers
+export const updateRedStatus = (request: object) =>
+  put(`${url.REDISTRIBUTION}`, request, { notification: "Update success!", });
+
+/** regFiles **/
+export const getRegFiles = (nextUrl: any, filter: object) => get(nextUrl || `${url.REG_FILES}/files`, {params: filter});
+
+export const getRegDetailFile = (nextUrl: any, filter: object) => get(nextUrl || `${url.REG_FILES}/parse-file`, {params: filter});
+
+export const uploadRegFile = (file: any) => postFile(`${url.REG_FILES}/upload-file`, file, {notification: "Upload successful!", headers: {"Content-Type": "multipart/form-data;type=text/csv"}})
+
+/** Offers **/
 export const getOffersList = (nextUrl: string | null, params: IOffersParams) =>
   get(nextUrl || url.OFFERS, { params });
 

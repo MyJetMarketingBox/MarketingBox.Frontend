@@ -7,7 +7,7 @@ import {
 
 export default () => {
   const optionsSelect = [
-    { value: "username", label: "Search by Username" },
+    { value: "username", label: "Search by User Name" },
     { value: "email", label: "Search by Email" },
     { value: "id", label: "Search by AI" },
     { value: "phone", label: "Search by Phone" },
