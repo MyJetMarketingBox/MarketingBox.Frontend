@@ -305,7 +305,10 @@ input[switch="success"]:checked + label {
 }
 
 .badge-lg {
-  font-size: 16px;
+  font-size: 14px;
+  padding: 8px;
   margin-right: 8px;
   margin-bottom: 8px;
+  background-color: rgb(210, 210, 210);
+  color: #000;
 }

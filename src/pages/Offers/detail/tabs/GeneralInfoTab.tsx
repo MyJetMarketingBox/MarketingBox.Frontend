@@ -16,6 +16,8 @@ import { OfferActiveStateEnum } from "src/enums/OfferStateEnum";
 import { RootStoreType } from "src/store/storeTypes";
 import { OfferTabsEnum } from "../OfferDetatils";
 
+import { countryCodeEmoji } from "country-code-emoji";
+
 interface Props {}
 const GeneralInfoTab = ({}: Props) => {
   const bg = ["bg-success", "bg-danger", "bg-warning"];
@@ -73,17 +75,19 @@ const GeneralInfoTab = ({}: Props) => {
             <div className="mb-3">
               <h5 className="text-orange">Countries</h5>
               {offer?.geos.map(item => (
-                <div key={item.id} className="badge bg-secondary badge-lg">
-                  {countrines.find(el => el.id === item.id)?.name}
+                <div key={item.id} className="badge  badge-lg">
+                  {countrines.find(el => el.id === item.id)?.name}&nbsp;
+                  {countrines.find(el => el.id === item.id)?.alfa2Code &&
+                    countryCodeEmoji(
+                      countrines.find(el => el.id === item.id)?.alfa2Code || ""
+                    )}
                 </div>
               ))}
             </div>
 
             <div className="mb-3">
               <h5 className="text-orange">Language</h5>
-              <div className="badge bg-secondary badge-lg">
-                {offer?.language.name}
-              </div>
+              <div className="badge  badge-lg">{offer?.language.name}</div>
             </div>
 
             <h5 className="text-orange">Offer link</h5>

@@ -10,6 +10,8 @@ export enum CountriesType {
 interface iCountry {
   id: number;
   name: string;
+  alfa2Code: string;
+  alfa3Code: string;
 }
 
 interface iCountries {
