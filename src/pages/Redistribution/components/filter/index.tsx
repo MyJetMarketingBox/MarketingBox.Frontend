@@ -2,11 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { clearAffiliate, getAffiliates } from "../../../../store/affiliates/actions";
 import { clearRedistribution, getRedistribution } from "../../../../store/redistribution/actions";
-import { Col, Collapse, FormGroup, Label, Row } from "reactstrap";
+import { Col, Collapse, FormGroup, InputGroup, Label, Row } from "reactstrap";
 import { AvField, AvForm } from "availity-reactstrap-validation";
 import Select from "../../../../components/UI/select";
 import { clearCampaigns, getCampaigns } from "../../../../store/campaigns/actions";
 import SearchRedistribution from "../search";
+import Flatpickr from "react-flatpickr";
+import { getUpdateDate } from "../../../../helpers/getUpdateDate";
 
 const filterIndex = () => {
   const dispatch = useDispatch()
@@ -16,6 +18,7 @@ const filterIndex = () => {
   const [selectAff, setSelectAff] = useState<any>([]);
   const [selectCampaign, setSelectCampaign] = useState<any>([]);
   const [getName, setName] = useState("");
+  const [dateFilter, setDateFilter] = useState<any>([]);
   const filter = {
     order: 1,
     limit: 50,
@@ -70,13 +73,12 @@ const filterIndex = () => {
 
   const handleFilterSubmit = (values: any) => {
 
-    console.log(values["name"]);
-
     const curFilter = {
       ...filter,
       AffiliateId: selectAff?.value,
       CampaignId: selectCampaign?.value,
       Name: values["name"] || null,
+      //CreatedBy: dateFilter || null,
     }
 
     dispatch(clearRedistribution());
@@ -86,11 +88,20 @@ const filterIndex = () => {
   const handleClearFilter = () => {
     setSelectAff([]);
     setSelectCampaign([]);
-    setName("")
+    setName("");
+    //setDateFilter([]);
 
     dispatch(clearRedistribution());
     dispatch(getRedistribution(null, filter));
   }
+
+  /*const setDateOnFilter = (data: any) => {
+    if (data.length) {
+      const utcFrom = data[0].getTime();
+      const from = getUpdateDate(utcFrom);
+      setDateFilter(from);
+    }
+  };*/
 
   const toggleCollapse = () => {
     setCollapse(!collapse);
@@ -137,6 +148,24 @@ const filterIndex = () => {
           <div className="accordion-body">
             <AvForm onValidSubmit={ handleFilterSubmit }>
               <Row>
+
+                {/*<Col lg={3}>
+                  <div className="mb-4 custom-react-select">
+                    <div className="react-select-descr">Date Range</div>
+                    <Flatpickr
+                      className="form-control d-block"
+                      placeholder="dd M,yyyy"
+                      options={{
+                        altInput: true,
+                        altFormat: "F j, Y",
+                        dateFormat: "Y-m-d",
+                      }}
+                      value={dateFilter}
+                      onChange={setDateOnFilter}
+                    />
+                  </div>
+                </Col>*/}
+
                 <Col lg={4}>
                   <div className="mb-3 custom-react-select">
                     <div className="react-select-descr">Affiliates</div>
