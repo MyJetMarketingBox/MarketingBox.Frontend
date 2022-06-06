@@ -11,6 +11,7 @@ import { IOffersParams } from "src/store/offers/actionTypes";
 import { RootStoreType } from "src/store/storeTypes";
 import Breadcrumbs from "../../components/Common/Breadcrumb";
 import MiniCard from "../../components/UI/miniCard/miniCard";
+import AddOfferModal from "./components/AddOfferModal";
 import OffersFilter from "./components/OffersFilter";
 import SearchOffers from "./components/SearchOffers";
 
@@ -59,6 +60,8 @@ const OffersPage = () => {
   return (
     <div className="page-content">
       {loading && <Loader />}
+
+      <AddOfferModal />
 
       <MetaTags>
         <title>Offers | TraffMe</title>

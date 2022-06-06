@@ -67,12 +67,18 @@ const GeneralInfoTab = ({}: Props) => {
 
         <Row className="justify-content-between">
           <Col xs={12} sm={6} className="mb-3">
-            <h5 className="text-orange">Languages</h5>
+            <h5 className="text-orange">Countries</h5>
             {offer?.geos.map(item => (
               <div key={item.id} className="badge bg-secondary m-2 mb-3 fz-16">
                 {item.name}
               </div>
             ))}
+
+            <h5 className="text-orange">Language</h5>
+
+            <div className="badge bg-secondary mb-3 fz-16">
+              {offer?.language.name}
+            </div>
 
             <h5 className="text-orange">Offer link</h5>
             <AvField
@@ -84,7 +90,7 @@ const GeneralInfoTab = ({}: Props) => {
             />
           </Col>
           <Col xs={12} sm={5} className="mb-3">
-            <p>preview link (non mvp)</p>
+            {/* right column */}
           </Col>
         </Row>
       </AvForm>
