@@ -73,7 +73,7 @@ export default ({ isOpen, toggle, id, status }: Props) => {
 
 
   return (
-    <Modal isOpen={isOpen} toggle={close}>
+    <Modal isOpen={isOpen} toggle={close} className="modal-dialog-centered">
       <ModalHeader toggle={close} tag="h4">
         Change Status
       </ModalHeader>

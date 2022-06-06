@@ -1,9 +1,13 @@
 export enum RedistributionTypes {
   /** GET **/
-
   GET_REDISTRIBUTION = "@@redistribution/GET_REDISTRIBUTION",
   GET_REDISTRIBUTION_SUCCESS = "@@redistribution/GET_REDISTRIBUTION_SUCCESS",
   GET_REDISTRIBUTION_FAIL = "@@redistribution/GET_REDISTRIBUTION_FAIL",
+
+  /** UPDATE **/
+  UPDATE_STATUS = "@@redistribution/UPDATE_STATUS",
+  UPDATE_STATUS_SUCCESS = "@@redistribution/UPDATE_STATUS_SUCCESS",
+  UPDATE_STATUS_FAIL = "@@redistribution/UPDATE_STATUS_FAIL",
 
   /** CLEAR **/
   CLEAR_REDISTRIBUTION = "@@contact/CLEAR_REDISTRIBUTION",
@@ -20,4 +24,7 @@ export interface RedistributionState {
   error: Object;
   loading: boolean;
   loaded: boolean;
+  errorUpdate: Object;
+  loadingUpdate: boolean;
+  loadedUpdate: boolean;
 }

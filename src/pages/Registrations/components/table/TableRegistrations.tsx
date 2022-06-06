@@ -166,7 +166,7 @@ export default ({registrations = [], setRegId, toggle} : any) => {
         bordered={false}
         striped={false}
         defaultSorted={defaultSorted}
-        classes={"table align-middle table-nowrap"}
+        classes={"table align-middle table-nowrap table-hover"}
         headerWrapperClasses={"thead-light"}
         rowEvents={tableRowEvents}
       />

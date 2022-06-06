@@ -17,6 +17,7 @@ import { PostbackLogsState } from "./postback_logs/actionTypes";
 import { RegistrationsState } from "./registrations/actionTypes";
 import { IBadRequestStore } from "./badRequests/actionTypes";
 import { IOffersStore } from "./offers/actionTypes";
+import { RegFilesState } from "./regFiles/actionTypes"
 
 export interface RootStoreType {
   AffPayouts: AffPayoutsState;
@@ -42,4 +43,5 @@ export interface RootStoreType {
   profile: any;
   register: any;
   Offers: IOffersStore;
+  RegFiles: RegFilesState;
 }

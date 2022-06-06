@@ -283,17 +283,14 @@ body.modal-open {
 .hidden {
   display: none;
 }
-.react-select-container {
+/*.react-select-container {
   .react-select {
     &__control {
       border-radius: 12px !important;
-      height: 46px;
-    }
-    &__menu > div {
-      overflow-x: hidden;
+      min-height: 46px;
     }
   }
-}
+}*/
 
 input[switch="success"]:checked + label {
   background-color: #e74a18;

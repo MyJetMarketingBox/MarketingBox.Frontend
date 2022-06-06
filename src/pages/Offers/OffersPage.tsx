@@ -74,7 +74,7 @@ const OffersPage = () => {
           <Card>
             <CardBody>
               <Row className="align-items-center justify-content-between">
-                <Col xs={12} md={6} className="mb-5">
+                <Col xs={12} md={4} className="mb-5">
                   <SearchOffers />
                 </Col>
 

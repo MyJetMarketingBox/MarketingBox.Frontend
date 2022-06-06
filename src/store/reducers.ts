@@ -13,6 +13,8 @@ import Geo from "./geo/reducer";
 import Campaigns from "./campaigns/reducer";
 //Registrations
 import Registrations from "./registrations/reducer";
+//RegFiles
+import RegFiles from "./regFiles/reducer"
 //PostbackLogs
 import PostbackLogs from "./postback_logs/reducer";
 //Postback
@@ -70,6 +72,7 @@ const rootReducer = combineReducers({
   badRequests,
   CampaignRows,
   Offers,
+  RegFiles
 });
 
 export default rootReducer;
