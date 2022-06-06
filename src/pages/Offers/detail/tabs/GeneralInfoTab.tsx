@@ -20,10 +20,13 @@ interface Props {}
 const GeneralInfoTab = ({}: Props) => {
   const bg = ["bg-success", "bg-danger", "bg-warning"];
   const bx = ["bx-check-double", "bx-block", "bx-error"];
-  const { offer, offerUrl } = useSelector((store: RootStoreType) => ({
-    offer: store.Offers.editableOffer,
-    offerUrl: store.Offers.offerUrl,
-  }));
+  const { offer, offerUrl, countrines } = useSelector(
+    (store: RootStoreType) => ({
+      offer: store.Offers.editableOffer,
+      offerUrl: store.Offers.offerUrl,
+      countrines: store.Countries.value.items,
+    })
+  );
 
   return (
     <TabPane tabId={OfferTabsEnum.GeneralInfo}>
@@ -65,19 +68,22 @@ const GeneralInfoTab = ({}: Props) => {
           )}
         </div>
 
-        <Row className="justify-content-between">
+        <Row className="justify-content-between ">
           <Col xs={12} sm={6} className="mb-3">
-            <h5 className="text-orange">Countries</h5>
-            {offer?.geos.map(item => (
-              <div key={item.id} className="badge bg-secondary m-2 mb-3 fz-16">
-                {item.name}
+            <div className="mb-3">
+              <h5 className="text-orange">Countries</h5>
+              {offer?.geos.map(item => (
+                <div key={item.id} className="badge bg-secondary badge-lg">
+                  {countrines.find(el => el.id === item.id)?.name}
+                </div>
+              ))}
+            </div>
+
+            <div className="mb-3">
+              <h5 className="text-orange">Language</h5>
+              <div className="badge bg-secondary badge-lg">
+                {offer?.language.name}
               </div>
-            ))}
-
-            <h5 className="text-orange">Language</h5>
-
-            <div className="badge bg-secondary mb-3 fz-16">
-              {offer?.language.name}
             </div>
 
             <h5 className="text-orange">Offer link</h5>
