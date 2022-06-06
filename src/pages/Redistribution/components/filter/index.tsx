@@ -7,8 +7,8 @@ import { AvField, AvForm } from "availity-reactstrap-validation";
 import Select from "../../../../components/UI/select";
 import { clearCampaigns, getCampaigns } from "../../../../store/campaigns/actions";
 import SearchRedistribution from "../search";
-import Flatpickr from "react-flatpickr";
-import { getUpdateDate } from "../../../../helpers/getUpdateDate";
+/*import Flatpickr from "react-flatpickr";
+import { getUpdateDate } from "../../../../helpers/getUpdateDate";*/
 
 const filterIndex = () => {
   const dispatch = useDispatch()
@@ -113,7 +113,7 @@ const filterIndex = () => {
         <SearchRedistribution />
       </Col>
 
-      <Col className="col-md-4 offset-4 text-end">
+      <Col className="col-md-8 text-end">
         {collapse && (
           <button
             className="btn btn-light mr-10 fw-bold"
@@ -125,7 +125,7 @@ const filterIndex = () => {
         )}
 
         <button
-          className="btn btnOrange"
+          className="btn btnOrange mr-10"
           type="button"
           onClick={toggleCollapse}
         >
@@ -140,6 +140,11 @@ const filterIndex = () => {
               <i className="bx bx-filter me-1 font-size-20 icon" />
             </>
           )}
+        </button>
+
+        <button className="btn btn-dark-blue">
+
+          Add new
         </button>
       </Col>
 

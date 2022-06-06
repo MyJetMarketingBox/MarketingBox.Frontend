@@ -1,22 +1,11 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import {
-  Col,
-  DropdownItem,
-  DropdownMenu,
-  DropdownToggle,
-  Row,
-  TabContent,
-  TabPane,
-  UncontrolledDropdown,
-} from "reactstrap";
-import { AvForm, AvField } from "availity-reactstrap-validation";
+import { Col, DropdownItem, DropdownMenu, DropdownToggle, Row, TabPane, UncontrolledDropdown } from "reactstrap";
+import { AvField, AvForm } from "availity-reactstrap-validation";
 import OfferStatusName from "src/constants/OfferStatusName";
-import { OfferActiveStateEnum } from "src/enums/OfferStateEnum";
 import { RootStoreType } from "src/store/storeTypes";
 import { OfferTabsEnum } from "../OfferDetatils";
 
-import { countryCodeEmoji } from "country-code-emoji";
 
 interface Props {}
 const GeneralInfoTab = ({}: Props) => {
