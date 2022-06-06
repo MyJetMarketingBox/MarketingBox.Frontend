@@ -1,28 +1,35 @@
 import React, { useEffect, useState } from "react";
-import { Card, Col, Form, Modal, ModalBody, ModalFooter, ModalHeader, Row } from "reactstrap";
+import {
+  Card,
+  Col,
+  Form,
+  Modal,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
+  Row,
+} from "reactstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import Dropzone, { useDropzone } from "react-dropzone";
 import { uploadFile } from "../../../../store/regFiles/actions";
 
 interface Props {
-  isOpen: boolean,
-  toggle: (toggle: boolean) => void,
+  isOpen: boolean;
+  toggle: (toggle: boolean) => void;
 }
 
-const addFile = ({ isOpen, toggle}: Props) => {
+const addFile = ({ isOpen, toggle }: Props) => {
   const dispatch = useDispatch();
 
   const [selectedFiles, setSelectedFiles] = useState<any>([]);
 
-
-  const { loadingUpload, loadedUpload } = useSelector((state : any) => {
+  const { loadingUpload, loadedUpload } = useSelector((state: any) => {
     return {
       loadedUpload: state.RegFiles.loadedUpload,
-      loadingUpload: state.RegFiles.loadingUpload
-    }
-  })
-
+      loadingUpload: state.RegFiles.loadingUpload,
+    };
+  });
 
   function handleAcceptedFiles(files: any) {
     files.map((file: any) =>
@@ -50,16 +57,16 @@ const addFile = ({ isOpen, toggle}: Props) => {
   };
 
   useEffect(() => {
-    if(!loadingUpload && loadedUpload){
+    if (!loadingUpload && loadedUpload) {
       close();
     }
-  }, [loadingUpload, loadedUpload])
+  }, [loadingUpload, loadedUpload]);
 
   const handleFileUpload = () => {
-    //console.log(selectedFiles[0]);
-    let formData = new FormData();
+    // //console.log(selectedFiles[0]);
+    // let formData = new FormData();
 
-    formData.append('file', selectedFiles[0].file);
+    // formData.append('file', selectedFiles[0].file);
 
     /*if (selectedFiles.length) {
       selectedFiles.map((item: any) => {
@@ -69,9 +76,8 @@ const addFile = ({ isOpen, toggle}: Props) => {
       console.log(formData.get('file'));
     }*/
 
-    dispatch(uploadFile(formData))
-  }
-
+    dispatch(uploadFile(selectedFiles[0]));
+  };
 
   return (
     <Modal isOpen={isOpen} toggle={close} className="modal-dialog-centered">
@@ -80,7 +86,6 @@ const addFile = ({ isOpen, toggle}: Props) => {
       </ModalHeader>
 
       <ModalBody>
-
         <div className="mb-3 mt-2">
           <Form>
             <Dropzone
@@ -101,7 +106,9 @@ const addFile = ({ isOpen, toggle}: Props) => {
                       <i className="display-4 bx bxs-cloud-upload accent-color" />
                     </div>
                     <h4>Drop files here or click to upload.</h4>
-                    <em className="text-muted font-size-12">( Only *.csv will be accepted )</em>
+                    <em className="text-muted font-size-12">
+                      ( Only *.csv will be accepted )
+                    </em>
                   </div>
                 </div>
               )}
@@ -116,10 +123,7 @@ const addFile = ({ isOpen, toggle}: Props) => {
                     <div className="p-2">
                       <Row className="align-items-center">
                         <Col>
-                          <Link
-                            to="#"
-                            className="text-muted font-weight-bold"
-                          >
+                          <Link to="#" className="text-muted font-weight-bold">
                             {f.name}
                           </Link>
                           <p className="mb-0">
@@ -134,7 +138,6 @@ const addFile = ({ isOpen, toggle}: Props) => {
             </div>
           </Form>
         </div>
-
       </ModalBody>
 
       <ModalFooter>
@@ -147,7 +150,9 @@ const addFile = ({ isOpen, toggle}: Props) => {
                 onClick={handleFileUpload}
                 disabled={loadingUpload || !selectedFiles.length}
               >
-                {loadingUpload && <i className="bx bx-hourglass bx-spin me-2"/>}
+                {loadingUpload && (
+                  <i className="bx bx-hourglass bx-spin me-2" />
+                )}
                 Save
               </button>
             </div>
@@ -155,8 +160,7 @@ const addFile = ({ isOpen, toggle}: Props) => {
         </Row>
       </ModalFooter>
     </Modal>
-  )
-
-}
+  );
+};
 
 export default addFile;

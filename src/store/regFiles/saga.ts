@@ -28,7 +28,8 @@ function* getRegDetailFileSaga({ nextUrl, filter } : any) {
   }
 }
 
-function* uploadFileSaga(file: any) {
+function* uploadFileSaga({file}: any) {
+  console.log(file)
   try{
     const response : Promise<any> = yield call(uploadRegFile, file)
     yield put(uploadFileSuccess(response))

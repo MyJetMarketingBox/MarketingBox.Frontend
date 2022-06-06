@@ -1,5 +1,8 @@
 import axios from "axios";
-import { CampaignRowValues, ICampaignRowParams } from "src/store/campaignsRow/actionTypes";
+import {
+  CampaignRowValues,
+  ICampaignRowParams,
+} from "src/store/campaignsRow/actionTypes";
 import { del, get, post, postFile, put } from "./api_helper";
 import * as url from "./url_helper";
 import { IOffersParams } from "src/store/offers/actionTypes";
@@ -233,14 +236,19 @@ export const getRedistribution = (nextUrl: any, filter: object) =>
   get(nextUrl || url.REDISTRIBUTION, { params: filter });
 
 export const updateRedStatus = (request: object) =>
-  put(`${url.REDISTRIBUTION}`, request, { notification: "Update success!", });
+  put(`${url.REDISTRIBUTION}`, request, { notification: "Update success!" });
 
 /** regFiles **/
-export const getRegFiles = (nextUrl: any, filter: object) => get(nextUrl || `${url.REG_FILES}/files`, {params: filter});
+export const getRegFiles = (nextUrl: any, filter: object) =>
+  get(nextUrl || `${url.REG_FILES}/files`, { params: filter });
 
-export const getRegDetailFile = (nextUrl: any, filter: object) => get(nextUrl || `${url.REG_FILES}/parse-file`, {params: filter});
+export const getRegDetailFile = (nextUrl: any, filter: object) =>
+  get(nextUrl || `${url.REG_FILES}/parse-file`, { params: filter });
 
-export const uploadRegFile = (file: any) => postFile(`${url.REG_FILES}/upload-file`, file, {notification: "Upload successful!", headers: {"Content-Type": "multipart/form-data;type=text/csv"}})
+export const uploadRegFile = (file: Blob) =>
+  postFile(`${url.REG_FILES}/upload-file`, file, {
+    notification: "Upload successful!",
+  });
 
 /** Offers **/
 export const getOffersList = (nextUrl: string | null, params: IOffersParams) =>

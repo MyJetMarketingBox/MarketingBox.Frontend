@@ -200,7 +200,7 @@ export async function get(url: string, config = {}, isClientRequest = false) {
 export async function post(
   url: string,
   data: any,
-  config:AxiosRequestConfig = {},
+  config: AxiosRequestConfig = {},
   isClientRequest = true,
   isAffApi = true
 ) {
@@ -217,20 +217,22 @@ export async function post(
 
 export async function postFile(
   url: string,
-  data: any,
-  config:AxiosRequestConfig = {},
+  data: Blob,
+  config: AxiosRequestConfig = {},
   isClientRequest = true,
   isAffApi = true
 ) {
   axiosApi.defaults.headers.common = isAffApi ? authHeader() : registerHeader();
-  console.log(data.file.get('file'));
-  debugger
+
+  const formData = new FormData();
+
+  formData.append("file", data);
   return axiosApi
-    .post(
-      url,
-      data,
-      { ...config, errorAlert: "post error", isClientRequest }
-    )
+    .post(url, formData, {
+      ...config,
+      errorAlert: "post error",
+      isClientRequest,
+    })
     .then(response => response.data);
 }
 
