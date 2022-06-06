@@ -71,17 +71,17 @@ const GeneralInfoTab = ({}: Props) => {
         </div>
 
         <Row className="justify-content-between ">
-          <Col xs={12} sm={6} className="mb-3">
+          <Col xs={12} className="mb-3">
             <div className="mb-3">
               <h5 className="text-orange">Countries</h5>
               {offer?.geos.map(item => (
-                <div key={item.id} className="badge  badge-lg">
-                  {countrines.find(el => el.id === item.id)?.name}&nbsp;
-                  {countrines.find(el => el.id === item.id)?.alfa2Code &&
-                    countryCodeEmoji(
-                      countrines.find(el => el.id === item.id)?.alfa2Code || ""
-                    )}
-                </div>
+                <>
+                  {item.countryIds.map(country => (
+                    <div key={item.id} className="badge  badge-lg">
+                      {countrines.find(el => el.id === country)?.name}
+                    </div>
+                  ))}
+                </>
               ))}
             </div>
 
@@ -98,9 +98,6 @@ const GeneralInfoTab = ({}: Props) => {
               placeholder="Offer url"
               type="text"
             />
-          </Col>
-          <Col xs={12} sm={5} className="mb-3">
-            {/* right column */}
           </Col>
         </Row>
       </AvForm>
