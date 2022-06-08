@@ -5,11 +5,11 @@ import TablePayouts from "./table";
 
 const Payouts = (props: any) => {
 
-  const {id, payouts } = props;
+  const { payouts } = props;
 
   return (
     <Row>
-      {payouts.length > 0 && <TablePayouts payouts={payouts}/>}
+      <TablePayouts payouts={payouts}/>
     </Row>
   )
 

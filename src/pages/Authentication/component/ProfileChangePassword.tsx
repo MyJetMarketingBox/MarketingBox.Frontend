@@ -23,7 +23,7 @@ const ProfileChangePassword = () => {
         <CardBody>
           <AvForm className="form-horizontal" onValidSubmit={handleValidSubmit}>
             <Row>
-              <Col xs={12} md={3} className="mb-3">
+              <Col xs={12} md={4} className="mb-3">
                 <AvField
                   name="oldPassword"
                   label="Old password"
@@ -33,7 +33,7 @@ const ProfileChangePassword = () => {
                   required
                 />
               </Col>
-              <Col xs={12} md={3} className="mb-3">
+              <Col xs={12} md={4} className="mb-3">
                 <AvField
                   name="newPassword"
                   label="New password"
@@ -55,7 +55,7 @@ const ProfileChangePassword = () => {
                   }}
                 />
               </Col>
-              <Col xs={12} md={3} className="mb-3">
+              <Col xs={12} md={4} className="mb-3">
                 <AvField
                   name="confirmPassword"
                   label="Confirm password"
@@ -71,8 +71,20 @@ const ProfileChangePassword = () => {
                   }}
                 />
               </Col>
-              <Col xs={12} md={3} className="mb-3">
+            </Row>
+            <hr />
+            <Row>
+              <Col xs={12} className="mb-3">
                 <Button
+                  className="btnOrange float-end btn-width-250"
+                  type="submit"
+                  disabled={changePasswordLoading}
+                >
+                  {changePasswordLoading && <i className="bx bx-hourglass bx-spin me-2" />}
+                  Update
+                </Button>
+
+                {/*<Button
                   type="submit"
                   color="danger"
                   className="w-100"
@@ -84,7 +96,7 @@ const ProfileChangePassword = () => {
                   ) : (
                     "Change password"
                   )}
-                </Button>
+                </Button>*/}
               </Col>
             </Row>
           </AvForm>
