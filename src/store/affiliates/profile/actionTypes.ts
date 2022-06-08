@@ -55,7 +55,7 @@ export interface IAffiliateProfile {
 }
 
 export interface AffProfileState {
-  affProfile: Object;
+  affProfile: IAffiliateProfile | null;
   error: Object;
   loading: boolean;
   loaded: boolean;

@@ -54,3 +54,32 @@
     }
   }
 }
+
+.avatar {
+  /* Center the content */
+  display: inline-block;
+  vertical-align: middle;
+
+  /* Used to position the content */
+  position: relative;
+
+  /* Colors */
+  background-color: rgba(0, 0, 0, 0.3);
+  color: #fff;
+
+  /* Rounded border */
+  border-radius: 50%;
+  height: 100px;
+  width: 100px;
+
+  object-fit: cover;
+}
+
+.avatar_letters {
+  /* Center the content */
+  left: 50%;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: xxx-large;
+}

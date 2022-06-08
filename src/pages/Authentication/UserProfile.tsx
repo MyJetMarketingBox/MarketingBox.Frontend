@@ -1,38 +1,38 @@
 import MetaTags from "react-meta-tags";
-import React, { useState, useEffect } from "react";
-import { Container, Row, Col, Card, Alert, CardBody, Button } from "reactstrap";
-
+import React, { useEffect } from "react";
+import { Alert, Button, Card, CardBody, Col, Container, Row } from "reactstrap";
 // availity-reactstrap-validation
-import { AvForm, AvField } from "availity-reactstrap-validation";
-
+import { AvField, AvForm } from "availity-reactstrap-validation";
 //redux
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { withRouter } from "react-router-dom";
-
 //Import Breadcrumb
 import Breadcrumb from "../../components/Common/Breadcrumb";
-
-import avatar from "../../assets/images/users/avatar-1.jpg";
 // actions
-import { editProfile, resetProfileFlag } from "../../store/actions";
-import { LOCAL_STORAGE_AUTH_USER } from "../../constants/localStorageKeys";
+import { clearAffProfile, editProfile, getAffiliateProfile } from "../../store/actions";
 import { RootStoreType } from "src/store/storeTypes";
 import ProfileChangePassword from "./component/ProfileChangePassword";
+import { avaLetters } from "../../helpers/avaLetters";
+import Loader from "../../components/UI/loader";
 
 const UserProfile = () => {
   const dispatch = useDispatch();
 
-  const { error, success } = useSelector((state: RootStoreType) => ({
-    error: state.profile.error,
-    success: state.profile.upLoaded,
+  const { error, authUserID, loading, loaded, authUserName, profile } = useSelector((state: RootStoreType) => ({
+    error: state.AffProfile.error,
+    profile: state.AffProfile.affProfile,
+    loading: state.AffProfile.loading,
+    loaded: state.AffProfile.loaded,
+    authUserID: state.login.userInfo['user-id'],
+    authUserName: state.login.userInfo['user-name'],
   }));
 
-  const [email, setemail] = useState<string>("");
+  /*const [email, setemail] = useState<string>("");
   const [name, setname] = useState<string>("");
-  const [idx, setidx] = useState<number>(1);
+  const [idx, setidx] = useState<number>(1);*/
 
-  useEffect(() => {
+  /*useEffect(() => {
     const authUser: any = localStorage.getItem(LOCAL_STORAGE_AUTH_USER);
     if (authUser) {
       const obj = JSON.parse(authUser);
@@ -45,7 +45,16 @@ const UserProfile = () => {
         dispatch(resetProfileFlag());
       }, 3000);
     }
-  }, [dispatch, success]);
+  }, [dispatch, success]);*/
+
+  useEffect(() => {
+    dispatch(getAffiliateProfile(authUserID));
+
+    return () => {
+      dispatch(clearAffProfile());
+    }
+  }, [])
+
 
   function handleValidSubmit(event: any, values: any) {
     dispatch(editProfile(values));
@@ -53,74 +62,77 @@ const UserProfile = () => {
 
   return (
     <React.Fragment>
+      { !loaded && loading && <Loader /> }
       <div className="page-content">
         <MetaTags>
           <title>Profile | TraffMe</title>
         </MetaTags>
         <Container fluid>
-          {/* Render Breadcrumb */}
           <Breadcrumb title="TraffMe" breadcrumbItem="Profile" />
 
-          <Row>
-            <Col lg="12">
-              {error && error ? <Alert color="danger">{error}</Alert> : null}
-              {success ? <Alert color="success">{success}</Alert> : null}
+          {loaded && (
+            <>
+              <Row>
+                <Col lg="12">
+
+                  <Card>
+                    <CardBody>
+                      <div className="d-flex">
+                        <div className="ms-3">
+                          <div className="avatar">
+                            <div className="avatar_letters">
+                              {avaLetters(authUserName)}
+                            </div>
+                          </div>
+                        </div>
+                        <div className="flex-grow-1 align-self-center ms-3">
+                          <div className="text-muted">
+                            <h5>{profile?.generalInfo.username}</h5>
+                            <p className="mb-1">{profile?.generalInfo.email}</p>
+                            <p className="mb-0">Id no: #{authUserID}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </CardBody>
+                  </Card>
+                </Col>
+              </Row>
+
+              <h4 className="card-title mb-4">Change User Name</h4>
 
               <Card>
                 <CardBody>
-                  <div className="d-flex">
-                    <div className="ms-3">
-                      <img
-                        src={avatar}
-                        alt=""
-                        className="avatar-md rounded-circle img-thumbnail"
+                  <AvForm
+                    className="form-horizontal"
+                    onValidSubmit={(e: any, v: any) => {
+                      handleValidSubmit(e, v);
+                    }}
+                  >
+                    <div className="form-group">
+                      <AvField
+                        name="username"
+                        label="User Name"
+                        value="name"
+                        className="form-control"
+                        placeholder="Enter User Name"
+                        type="text"
+                        required
                       />
+                      <AvField name="idx" value={authUserID} type="hidden" />
                     </div>
-                    <div className="flex-grow-1 align-self-center ms-3">
-                      <div className="text-muted">
-                        <h5>{name}</h5>
-                        <p className="mb-1">{email}</p>
-                        <p className="mb-0">Id no: #{idx}</p>
-                      </div>
+                    <div className="text-center mt-4">
+                      <Button type="submit" color="danger">
+                        Update User Name
+                      </Button>
                     </div>
-                  </div>
+                  </AvForm>
                 </CardBody>
               </Card>
-            </Col>
-          </Row>
 
-          <h4 className="card-title mb-4">Change User Name</h4>
+              <ProfileChangePassword />
+            </>
+          )}
 
-          <Card>
-            <CardBody>
-              <AvForm
-                className="form-horizontal"
-                onValidSubmit={(e: any, v: any) => {
-                  handleValidSubmit(e, v);
-                }}
-              >
-                <div className="form-group">
-                  <AvField
-                    name="username"
-                    label="User Name"
-                    value={name}
-                    className="form-control"
-                    placeholder="Enter User Name"
-                    type="text"
-                    required
-                  />
-                  <AvField name="idx" value={idx} type="hidden" />
-                </div>
-                <div className="text-center mt-4">
-                  <Button type="submit" color="danger">
-                    Update User Name
-                  </Button>
-                </div>
-              </AvForm>
-            </CardBody>
-          </Card>
-          <br />
-          <ProfileChangePassword />
         </Container>
       </div>
     </React.Fragment>

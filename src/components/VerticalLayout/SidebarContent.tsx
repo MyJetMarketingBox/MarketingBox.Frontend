@@ -31,6 +31,7 @@ import { useSelector } from "react-redux";
 import c from "./SidebarContent.module.scss";
 import ReactDOM from "react-dom";
 import Page from "src/constants/pages";
+import { avaLetters } from "../../helpers/avaLetters";
 
 const SidebarContent = (props: any) => {
   const ref = useRef<any>();
@@ -39,6 +40,7 @@ const SidebarContent = (props: any) => {
   const [isOpenSubmenu, setIsOpenSubmenu] = useState<string | null>(null);
   const [isClick, setClick] = useState<boolean>(true);
   const [isClickMob, setClickMob] = useState<boolean>(true);
+  const [userName, setUserName] = useState<string>("");
 
   useEffect(() => {
     ref.current.recalculate();
@@ -56,6 +58,10 @@ const SidebarContent = (props: any) => {
   const { user } = useSelector((state: any) => ({
     user: state.login.userInfo,
   }));
+
+  useEffect(() => {
+      setUserName(user["user-name"]);
+  }, user)
 
   const subMemuClickHandler = (subMenu: string) => {
     if (subMenu !== isOpenSubmenu) {
@@ -93,8 +99,15 @@ const SidebarContent = (props: any) => {
         </div>
 
         <div className={c.userInfo}>
-          <div className={c.userPhoto}>
+          {/*<div className={c.userPhoto}>
             <img src={giftBox} width="200" height="200" alt="img" />
+          </div>*/}
+          <div className={c.userPhoto}>
+            <div className="avatar">
+              <div className="avatar_letters">
+                {avaLetters(userName)}
+              </div>
+            </div>
           </div>
           <div className={c.userName}>{user["user-name"]}</div>
           <div className={c.userId}>ID #{user["user-id"]}</div>

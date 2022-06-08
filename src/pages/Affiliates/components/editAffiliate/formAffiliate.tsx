@@ -47,7 +47,7 @@ const FormAffiliate = (props: any) => {
       generalInfo: {
         username: values["username"] || null,
         email: values["email"] || null,
-        password: values["new_password"] || generalInfo.password || null,
+        //password: values["new_password"] || generalInfo.password || null,
         phone: values["phone"] || null,
         skype: values["skype"] || null,
         zipCode: values["zipCode"] || null,
@@ -430,7 +430,7 @@ const FormAffiliate = (props: any) => {
           </>
         )}
 
-        <hr />
+        {/*<hr />
         <Row>
           <h5 className="text-orange">Password</h5>
           <Col md="6">
@@ -503,7 +503,7 @@ const FormAffiliate = (props: any) => {
               />
             </FormGroup>
           </Col>
-        </Row>
+        </Row>*/}
 
         <hr />
         <Button
