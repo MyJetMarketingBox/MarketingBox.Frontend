@@ -42,7 +42,6 @@ export interface RootStoreType {
   badRequests: IBadRequestStore;
   forgetPassword: any;
   login: any;
-  affProfile: AffProfileState;
   register: any;
   Offers: IOffersStore;
   RegFiles: RegFilesState;

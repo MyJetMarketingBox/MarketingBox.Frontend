@@ -9,7 +9,7 @@ const ProfileChangePassword = () => {
   const dispatch = useDispatch();
 
   const { changePasswordLoading } = useSelector((store: RootStoreType) => ({
-    changePasswordLoading: store.affProfile.changePasswordLoading,
+    changePasswordLoading: store.AffProfile.changePasswordLoading,
   }));
 
   const handleValidSubmit = (e: any, values: any) => {
@@ -62,6 +62,7 @@ const ProfileChangePassword = () => {
                   className="form-control"
                   placeholder="Enter new password"
                   type="password"
+                  required
                   validate={{
                     match: {
                       value: "newPassword",
@@ -78,7 +79,11 @@ const ProfileChangePassword = () => {
                   style={{ height: "56px", marginTop: "30px" }}
                   disabled={changePasswordLoading}
                 >
-                  Change password {changePasswordLoading ? 'tr': 'fs'}
+                  {changePasswordLoading ? (
+                    <i className="bx bx-hourglass bx-spin me-2" />
+                  ) : (
+                    "Change password"
+                  )}
                 </Button>
               </Col>
             </Row>
