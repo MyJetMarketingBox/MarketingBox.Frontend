@@ -17,13 +17,14 @@ import avatar from "../../assets/images/users/avatar-1.jpg";
 // actions
 import { editProfile, resetProfileFlag } from "../../store/actions";
 import { LOCAL_STORAGE_AUTH_USER } from "../../constants/localStorageKeys";
+import { RootStoreType } from "src/store/storeTypes";
 
 const UserProfile = () => {
   const dispatch = useDispatch();
 
-  const { error, success } = useSelector((state: any) => ({
+  const { error, success } = useSelector((state: RootStoreType) => ({
     error: state.profile.error,
-    success: state.profile.success,
+    success: state.profile.upLoaded,
   }));
 
   const [email, setemail] = useState<string>("");
