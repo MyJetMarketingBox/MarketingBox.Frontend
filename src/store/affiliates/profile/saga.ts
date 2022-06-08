@@ -7,6 +7,8 @@ import {
   getAffiliateProfileSuccess,
   updateAffiliateSuccess,
   updateAffiliateFail,
+  profileChangePasswordSuccess,
+  profileChangePasswordError,
 } from "./actions";
 
 import {
@@ -18,7 +20,6 @@ import {
 function* fetchAffiliateProfile({ affiliateId }: any) {
   try {
     const response: Promise<any> = yield call(getAffiliateProfile, affiliateId);
-    debugger;
     yield put(getAffiliateProfileSuccess(response));
   } catch (error) {
     yield put(getAffiliateProfileFail(error));
@@ -37,7 +38,10 @@ function* onUpdateAffiliate({ payload: affiliate, id: id }: any) {
 function* profileChangePasswordSaga({ payload }: IChangeProfilePasswordAction) {
   try {
     const response: Promise<any> = yield call(changePasswordApi, payload);
-  } catch (error) {}
+    yield put(profileChangePasswordSuccess());
+  } catch (error) {
+    yield put(profileChangePasswordError());
+  }
 }
 
 function* affProfileSaga() {

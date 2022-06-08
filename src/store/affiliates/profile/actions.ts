@@ -35,11 +35,18 @@ export const clearAffProfile = () => ({
   type: AffProfileTypes.CLEAR_AFFILIATE_PROFILE,
 });
 
-
 export const profileChangePassword = (payload: {
   oldPassword: string;
   newPassword: string;
 }) => ({
   type: AffProfileTypes.PROFILE_CHANGE_PASSWORD,
   payload,
+});
+
+export const profileChangePasswordSuccess = () => ({
+  type: AffProfileTypes.PROFILE_CHANGE_PASSWORD_SUCCESS,
+});
+
+export const profileChangePasswordError = () => ({
+  type: AffProfileTypes.PROFILE_CHANGE_PASSWORD_ERROR,
 });

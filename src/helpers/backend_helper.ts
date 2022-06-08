@@ -289,6 +289,7 @@ export const changePasswordApi = (creds: {
 }) =>
   put(`${url.CHANGE_PROFILE_PASSWORD}`, creds, {
     baseURL: config.traffme.USER_API,
+    notification: "Update password success!",
   });
 
 export {

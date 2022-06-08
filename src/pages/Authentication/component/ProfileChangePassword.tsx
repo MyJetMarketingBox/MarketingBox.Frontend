@@ -1,11 +1,16 @@
 import React from "react";
 import { Card, CardBody, Button, Row, Col } from "reactstrap";
 import { AvForm, AvField } from "availity-reactstrap-validation";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { profileChangePassword } from "src/store/affiliates/profile/actions";
+import { RootStoreType } from "src/store/storeTypes";
 
 const ProfileChangePassword = () => {
   const dispatch = useDispatch();
+
+  const { changePasswordLoading } = useSelector((store: RootStoreType) => ({
+    changePasswordLoading: store.affProfile.changePasswordLoading,
+  }));
 
   const handleValidSubmit = (e: any, values: any) => {
     dispatch(profileChangePassword(values));
@@ -22,7 +27,6 @@ const ProfileChangePassword = () => {
                 <AvField
                   name="oldPassword"
                   label="Old password"
-                  value=""
                   className="form-control"
                   placeholder="Enter old password"
                   type="password"
@@ -33,7 +37,6 @@ const ProfileChangePassword = () => {
                 <AvField
                   name="newPassword"
                   label="New password"
-                  value=""
                   className="form-control"
                   placeholder="Enter new password"
                   type="password"
@@ -56,7 +59,6 @@ const ProfileChangePassword = () => {
                 <AvField
                   name="confirmPassword"
                   label="Confirm password"
-                  value=""
                   className="form-control"
                   placeholder="Enter new password"
                   type="password"
@@ -74,8 +76,9 @@ const ProfileChangePassword = () => {
                   color="danger"
                   className="w-100"
                   style={{ height: "56px", marginTop: "30px" }}
+                  disabled={changePasswordLoading}
                 >
-                  Change password
+                  Change password {changePasswordLoading ? 'tr': 'fs'}
                 </Button>
               </Col>
             </Row>

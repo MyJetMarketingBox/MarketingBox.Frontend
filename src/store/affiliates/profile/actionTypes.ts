@@ -61,6 +61,8 @@ export interface AffProfileState {
   loaded: boolean;
   upLoading: boolean;
   upLoaded: boolean;
+
+  changePasswordLoading: boolean;
 }
 
 export interface IChangeProfilePasswordAction {

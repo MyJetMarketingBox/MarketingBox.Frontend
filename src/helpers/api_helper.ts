@@ -12,7 +12,7 @@ import {
   setReloadPopup,
   setRequestReconnect,
   stopRequestReconnect,
-} from "src/store/actions";
+} from "../store/actions";
 import { sleep } from "./useSleep";
 
 // interface
@@ -168,6 +168,13 @@ export const injectInterceptor = (store: any) => {
             location.replace(Page.SIGN_OUT);
             break;
 
+          case 400:
+            toast.error(
+              error.response?.data?.error?.errorMessage || error.message,
+              optionToast
+            );
+            break;
+
           case 500:
             if (!isClientRequest) {
               showReconnectNotify();
@@ -244,10 +251,11 @@ export async function put(
   config = {},
   isClientRequest = true
 ) {
+  axiosApi.defaults.headers.common = authHeader();
+
   return axiosApi
     .put(url, { ...data }, { ...config, isClientRequest })
     .then(response => {
-      debugger;
       return response.data;
     });
 }

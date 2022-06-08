@@ -6,6 +6,7 @@ export * from "./affiliates/actions";
 
 /** AFF PROFILE */
 export * from "./affiliates/profile/actions";
+export * from "./auth/profile/actions";
 
 /** AFF PAYOUTS **/
 export * from "./affiliatePayouts/actions";
@@ -51,7 +52,7 @@ export * from "./auth/login/actions";
 export * from "./auth/register/actions";
 
 /** User Profile */
-export * from "./auth/profile/actions";
+
 
 /** Forget Password */
 export * from "./auth/forgetpwd/actions";
