@@ -27,9 +27,11 @@ const Page = {
   OFFERS: "/offers",
   OFFERS_DETAIL_TAB: "/offers/:id/:tab",
   OFFERS_DETAIL: "/offers/:id",
+  RESET_PASSWORD: "/reset-password/:token",
 
   SIGN_IN: "/login",
   SIGN_UP: "/register",
+  FORGOT_PASSWORD: "/forgot-password",
   SIGN_OUT: "/logout",
 };
 

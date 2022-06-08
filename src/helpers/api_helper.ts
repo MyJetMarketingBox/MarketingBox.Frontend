@@ -28,6 +28,7 @@ const optionToast: ToastOptions = {
 
 //apply base url for axios
 const API_URL = config.traffme.affiliateUrlApi;
+
 const axiosApi = axios.create({
   baseURL: API_URL,
 });
@@ -206,6 +207,7 @@ export async function post(
 ) {
   axiosApi.defaults.headers.common = isAffApi ? authHeader() : registerHeader();
 
+  console.log(config);
   return axiosApi
     .post(
       url,

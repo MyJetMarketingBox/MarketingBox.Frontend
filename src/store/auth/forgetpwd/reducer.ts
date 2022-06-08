@@ -1,33 +1,60 @@
-import {ForgetPwdTypes} from "./actionTypes"
+import { ForgetPwdTypes } from "./actionTypes";
 
 const initialState = {
   forgetSuccessMsg: null,
   forgetError: null,
-}
 
-const forgetPassword = (state = initialState, action : any) => {
+  resetPasswordError: null,
+  resetPasswordSuccess: null,
+  resetLoading: false,
+};
+
+const forgetPassword = (state = initialState, action: any) => {
   switch (action.type) {
     case ForgetPwdTypes.FORGET_PASSWORD:
-      state = {
+      return {
         ...state,
         forgetSuccessMsg: null,
         forgetError: null,
-      }
-      break
+      };
+
     case ForgetPwdTypes.FORGET_PASSWORD_SUCCESS:
-      state = {
+      return {
         ...state,
         forgetSuccessMsg: action.payload,
-      }
-      break
-    case ForgetPwdTypes.FORGET_PASSWORD_ERROR:
-      state = { ...state, forgetError: action.payload }
-      break
-    default:
-      state = { ...state }
-      break
-  }
-  return state
-}
+      };
 
-export default forgetPassword
+    case ForgetPwdTypes.FORGET_PASSWORD_ERROR:
+      return { ...state, forgetError: action.payload };
+
+    case ForgetPwdTypes.RESET_PASSWORD:
+      return {
+        ...state,
+        resetLoading: true,
+        resetPasswordError: null,
+      };
+
+    case ForgetPwdTypes.RESET_PASSWORD_SUCCESS:
+      return {
+        ...state,
+        resetLoading: false,
+        resetPasswordSuccess: action.payload,
+      };
+
+    case ForgetPwdTypes.RESET_PASSWORD_ERROR:
+      return {
+        ...state,
+        resetLoading: false,
+        resetPasswordError: action.payload,
+      };
+
+    case ForgetPwdTypes.CLEAR_STORE:
+      return initialState;
+
+    default:
+      return state;
+  }
+  return state;
+};
+
+export default forgetPassword;

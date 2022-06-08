@@ -16,7 +16,7 @@ import { loginUser } from "../../store/actions";
 
 // import images
 import logo from "../../assets/images/logo.svg";
-
+import Page from "src/constants/pages";
 
 interface LoginProps {
   history: object;
@@ -29,7 +29,7 @@ const Login = ({ history }: LoginProps) => {
 
   const { error, loading } = useSelector((state: any) => ({
     error: state.login.error,
-    loading: state.login.loading
+    loading: state.login.loading,
   }));
 
   // handleValidSubmit
@@ -68,7 +68,9 @@ const Login = ({ history }: LoginProps) => {
                     handleValidSubmit(e, v);
                   }}
                 >
-                  {error ? <Alert color="danger">{`Not valid email or password`}</Alert> : null}
+                  {error ? (
+                    <Alert color="danger">{`Not valid email or password`}</Alert>
+                  ) : null}
                   <div className="mb-3">
                     <AvField
                       name="email"
@@ -97,10 +99,7 @@ const Login = ({ history }: LoginProps) => {
                       />
                     </div>
                     <div className="auth-page-forgot-pass">
-                      <Link
-                        to="/auth-recoverpw"
-                        className=""
-                      >
+                      <Link to={Page.FORGOT_PASSWORD} className="">
                         Forgot password?
                       </Link>
                     </div>
@@ -124,21 +123,18 @@ const Login = ({ history }: LoginProps) => {
                       type="submit"
                       disabled={loading}
                     >
-                      {
-                        loading ?
-                          <i className="bx bx-hourglass bx-spin me-2" /> :
-                          "Log In"
-                      }
+                      {loading ? (
+                        <i className="bx bx-hourglass bx-spin me-2" />
+                      ) : (
+                        "Log In"
+                      )}
                     </button>
                   </div>
                 </AvForm>
 
                 <div className="auth-page-form-descr text-center">
                   Don't have an account?{" "}
-                  <Link
-                    to="/register"
-                    className="text-orange fw-semibold"
-                  >
+                  <Link to="/register" className="text-orange fw-semibold">
                     Sign up
                   </Link>
                 </div>

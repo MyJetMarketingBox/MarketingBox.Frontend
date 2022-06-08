@@ -36,6 +36,8 @@ import CampaignDetail from "src/pages/Campaigns/components/detail/CampaignDetail
 import GeoDetail from "src/pages/Geo/components/detail/index";
 import OffersPage from "src/pages/Offers/OffersPage";
 import OfferDetatils from "src/pages/Offers/detail/OfferDetatils";
+import ForgetPassword from "src/pages/Authentication/ForgetPassword";
+import ResetPassword from "src/pages/Authentication/ResetPassword";
 
 const routesList: RouteItemsType[] = [
   {
@@ -215,6 +217,23 @@ const routesList: RouteItemsType[] = [
   {
     path: Page.SIGN_UP,
     component: Register,
+    layoutType: RouteLayoutTypeEnum.SignFlow,
+    strict: true,
+    exact: true,
+  },
+
+  {
+    path: Page.FORGOT_PASSWORD,
+    component: ForgetPassword,
+    layoutType: RouteLayoutTypeEnum.SignFlow,
+    strict: true,
+    exact: true,
+  },
+
+
+  {
+    path: Page.RESET_PASSWORD,
+    component: ResetPassword,
     layoutType: RouteLayoutTypeEnum.SignFlow,
     strict: true,
     exact: true,

@@ -6,6 +6,7 @@ import {
 import { del, get, post, postFile, put } from "./api_helper";
 import * as url from "./url_helper";
 import { IOffersParams } from "src/store/offers/actionTypes";
+import config from "../config";
 
 // Gets the logged in user data from local session
 const getLoggedInUser = () => {
@@ -259,6 +260,28 @@ export const getOffersList = (nextUrl: string | null, params: IOffersParams) =>
 export const getOfferItem = (id: number) => get(`${url.OFFERS}/${id}`);
 export const getOfferItemUrl = (id: number) => get(`${url.OFFERS}/${id}/url`);
 export const deleteOfferItem = (id: number) => del(`${url.OFFERS}/${id}`);
+
+/** Forgot password **/
+export const sendResetPassword = (email: string) =>
+  post(
+    `${url.RECOVERY_PASSWORD}`,
+    { email },
+    { baseURL: config.traffme.passwordUrlApi }
+  );
+
+/** Forgot password **/
+export const sendNewPassword = ({
+  token,
+  newPassword,
+}: {
+  token: string;
+  newPassword: string;
+}) =>
+  post(
+    `${url.RECOVERY_PASSWORD}/${token}`,
+    { newPassword },
+    { baseURL: config.traffme.passwordUrlApi }
+  );
 
 export {
   getLoggedInUser,

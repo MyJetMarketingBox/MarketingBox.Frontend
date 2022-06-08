@@ -92,6 +92,6 @@ export default function* rootSaga() {
     fork(offersSaga),
     fork(regFilesSaga),
     //fork(ProfileSaga),
-    //fork(forgetPasswordSaga)
+    fork(forgetPasswordSaga)
   ]);
 }
