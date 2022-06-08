@@ -23,6 +23,7 @@ import { AffProfileState } from "./affiliates/profile/actionTypes";
 export interface RootStoreType {
   AffPayouts: AffPayoutsState;
   Affiliates: AffiliatesState;
+  AffProfile: AffProfileState;
   BrandPayouts: BrandPayoutsState;
   BrandProfile: BrandProfileState;
   Brands: BrandsState;
@@ -41,7 +42,7 @@ export interface RootStoreType {
   badRequests: IBadRequestStore;
   forgetPassword: any;
   login: any;
-  profile: AffProfileState;
+  profile: any;
   register: any;
   Offers: IOffersStore;
   RegFiles: RegFilesState;

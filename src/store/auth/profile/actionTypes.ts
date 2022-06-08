@@ -1,6 +1,3 @@
-/**
- *  interface for Login Type
-*/
 export enum ProfileTypes {
     EDIT_PROFILE = '@@profile/EDIT_PROFILE',
     PROFILE_SUCCESS = '@@profile/PROFILE_SUCCESS',

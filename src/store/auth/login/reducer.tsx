@@ -2,7 +2,10 @@ import { LoginTypes } from "./actionTypes";
 
 const initialState = {
   error: "",
-  userInfo: {},
+  userInfo: {
+    'user-id': null,
+    'user-name': null
+  },
   loading: false,
 };
 

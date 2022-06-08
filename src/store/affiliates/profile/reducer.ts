@@ -1,7 +1,7 @@
 import {AffProfileTypes, AffProfileState} from "./actionTypes";
 
 export const INIT_STATE : AffProfileState = {
-  affProfile: {},
+  affProfile: null,
   error: {},
   loading: false,
   loaded: false,

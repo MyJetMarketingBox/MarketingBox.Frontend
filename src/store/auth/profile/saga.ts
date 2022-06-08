@@ -13,13 +13,11 @@ import {
 
 function* editProfile({ payload: { user } } : any) {
   try {
-    if (process.env.REACT_APP_DEFAULTAUTH === "fake") {
       const response: Promise<any> = yield call(postFakeProfile, {
         username: user.username,
         idx: user.idx,
       })
       yield put(profileSuccess(response))
-    }
   } catch (error) {
     yield put(profileError(error))
   }

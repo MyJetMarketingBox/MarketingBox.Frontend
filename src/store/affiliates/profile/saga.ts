@@ -18,7 +18,6 @@ import {
 function* fetchAffiliateProfile({ affiliateId }: any) {
   try {
     const response: Promise<any> = yield call(getAffiliateProfile, affiliateId);
-    debugger;
     yield put(getAffiliateProfileSuccess(response));
   } catch (error) {
     yield put(getAffiliateProfileFail(error));
