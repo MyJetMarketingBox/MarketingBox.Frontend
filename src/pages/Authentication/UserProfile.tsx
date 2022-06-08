@@ -18,6 +18,7 @@ import avatar from "../../assets/images/users/avatar-1.jpg";
 import { editProfile, resetProfileFlag } from "../../store/actions";
 import { LOCAL_STORAGE_AUTH_USER } from "../../constants/localStorageKeys";
 import { RootStoreType } from "src/store/storeTypes";
+import ProfileChangePassword from "./component/ProfileChangePassword";
 
 const UserProfile = () => {
   const dispatch = useDispatch();
@@ -36,9 +37,9 @@ const UserProfile = () => {
     if (authUser) {
       const obj = JSON.parse(authUser);
 
-        setname(obj.username);
-        setemail(obj.email);
-        setidx(obj.uid);
+      setname(obj.username);
+      setemail(obj.email);
+      setidx(obj.uid);
 
       setTimeout(() => {
         dispatch(resetProfileFlag());
@@ -118,6 +119,8 @@ const UserProfile = () => {
               </AvForm>
             </CardBody>
           </Card>
+          <br />
+          <ProfileChangePassword />
         </Container>
       </div>
     </React.Fragment>

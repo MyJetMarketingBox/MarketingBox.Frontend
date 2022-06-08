@@ -246,7 +246,10 @@ export async function put(
 ) {
   return axiosApi
     .put(url, { ...data }, { ...config, isClientRequest })
-    .then(response => response.data);
+    .then(response => {
+      debugger;
+      return response.data;
+    });
 }
 
 export async function del(url: string, config = {}, isClientRequest = true) {

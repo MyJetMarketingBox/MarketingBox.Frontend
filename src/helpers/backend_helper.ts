@@ -283,6 +283,14 @@ export const sendNewPassword = ({
     { baseURL: config.traffme.passwordUrlApi }
   );
 
+export const changePasswordApi = (creds: {
+  oldPassword: string;
+  newPassword: string;
+}) =>
+  put(`${url.CHANGE_PROFILE_PASSWORD}`, creds, {
+    baseURL: config.traffme.USER_API,
+  });
+
 export {
   getLoggedInUser,
   isUserAuthenticated,

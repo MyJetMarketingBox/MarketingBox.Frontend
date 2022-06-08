@@ -10,6 +10,10 @@ export enum AffProfileTypes {
   UPDATE_AFFILIATE_SUCCESS = "@@affiliates/profile/UPDATE_AFFILIATE_SUCCESS",
   UPDATE_AFFILIATE_FAIL = "@@affiliates/profile/UPDATE_AFFILIATE_FAIL",
 
+  PROFILE_CHANGE_PASSWORD = "@affiliates/profile/change-password",
+  PROFILE_CHANGE_PASSWORD_SUCCESS = "@affiliates/profile/change-password-success",
+  PROFILE_CHANGE_PASSWORD_ERROR = "@affiliates/profile/change-password-error",
+
   /* CLEAR AFFILIATE PROFILE*/
   CLEAR_AFFILIATE_PROFILE = "@affiliates/profile/CLEAR_AFFILIATE",
 }
@@ -57,4 +61,12 @@ export interface AffProfileState {
   loaded: boolean;
   upLoading: boolean;
   upLoaded: boolean;
+}
+
+export interface IChangeProfilePasswordAction {
+  type: AffProfileTypes.PROFILE_CHANGE_PASSWORD;
+  payload: {
+    oldPassword: string;
+    newPassword: string;
+  };
 }

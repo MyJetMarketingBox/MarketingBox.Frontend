@@ -55,3 +55,5 @@ export const OFFERS = "/api/Offers";
 
 // Recovery Password
 export const RECOVERY_PASSWORD = "/api/PasswordRecovery";
+
+export const CHANGE_PROFILE_PASSWORD = "/api/User/password";
