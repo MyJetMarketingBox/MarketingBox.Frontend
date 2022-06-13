@@ -64,7 +64,7 @@ const ForgetPasswordPage = ({}: Props) => {
                 </Link>
               </div>
               <div className="auth-content">
-                <h5 className="auth-page-title">Forgot password</h5>
+                <h5 className="auth-page-title">Password recovery</h5>
                 <p className="auth-page-descr">
                   {!forgetSuccessMsg && "We send recovery link to your email."}
                 </p>

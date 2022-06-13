@@ -57,82 +57,84 @@ const ResetPassword = ({}: Props) => {
                 </Link>
               </div>
               <div className="auth-content">
-                <h5 className="auth-page-title">Change password</h5>
-                <p className="auth-page-descr"></p>
+                <h5 className="auth-page-title">Set new password</h5>
+                <p className="auth-page-descr">Select your new password</p>
                 {resetError && <Alert color="danger">{resetError}</Alert>}
-                {resetPasswordSuccess && <Alert>{resetPasswordSuccess}</Alert>}
-                <AvForm
-                  className="custom-form"
-                  onValidSubmit={handleValidSubmit}
-                >
-                  <div className="mb-3">
-                    <div className="auth-page-form-pass">
-                      <div
-                        className="auth-page-form-pass-toggle"
-                        onClick={passToggleHandler}
-                      >
-                        {showPass ? "HIDE" : "SHOW"}
-                      </div>
+                {resetPasswordSuccess ? (
+                  <Alert>{resetPasswordSuccess}</Alert>
+                ) : (
+                  <AvForm
+                    className="custom-form"
+                    onValidSubmit={handleValidSubmit}
+                  >
+                    <div className="mb-3">
+                      <div className="auth-page-form-pass">
+                        <div
+                          className="auth-page-form-pass-toggle"
+                          onClick={passToggleHandler}
+                        >
+                          {showPass ? "HIDE" : "SHOW"}
+                        </div>
 
-                      <Col className="mb-3">
+                        <Col className="mb-3">
+                          <AvField
+                            name="newPassword"
+                            value=""
+                            type={showPass ? "text" : "password"}
+                            className="form-control"
+                            placeholder="Enter new password"
+                            disabled={!!resetPasswordSuccess}
+                            validate={{
+                              required: {
+                                value: true,
+                                errorMessage: ValidationText.required,
+                              },
+                              minLength: {
+                                value: 8,
+                                errorMessage: ValidationText.minLength8,
+                              },
+                              maxLength: {
+                                value: 50,
+                                errorMessage: ValidationText.maxLength50,
+                              },
+                            }}
+                          />
+                        </Col>
+
                         <AvField
-                          name="newPassword"
-                          value=""
-                          type={showPass ? "text" : "password"}
+                          name="confirmPassword"
                           className="form-control"
-                          placeholder="Enter new password"
-                          disabled={!!resetPasswordSuccess}
+                          placeholder="Confirm new password"
+                          type="password"
+                          required
                           validate={{
                             required: {
                               value: true,
                               errorMessage: ValidationText.required,
                             },
-                            minLength: {
-                              value: 8,
-                              errorMessage: ValidationText.minLength8,
-                            },
-                            maxLength: {
-                              value: 50,
-                              errorMessage: ValidationText.maxLength50,
+                            match: {
+                              value: "newPassword",
+                              errorMessage: ValidationText.matchPassword,
                             },
                           }}
                         />
-                      </Col>
-
-                      <AvField
-                        name="confirmPassword"
-                        className="form-control"
-                        placeholder="Confirm new password"
-                        type="password"
-                        required
-                        validate={{
-                          required: {
-                            value: true,
-                            errorMessage: ValidationText.required,
-                          },
-                          match: {
-                            value: "newPassword",
-                            errorMessage: ValidationText.matchPassword,
-                          },
-                        }}
-                      />
+                      </div>
                     </div>
-                  </div>
-                  <div>
-                    <button
-                      className="auth-page-btn"
-                      type="submit"
-                      disabled={isLoading}
-                    >
-                      {isLoading ? (
-                        <i className="bx bx-hourglass bx-spin me-2" />
-                      ) : (
-                        "Change password"
-                      )}
-                    </button>
-                  </div>
-                </AvForm>
-
+                    <div>
+                      <button
+                        className="auth-page-btn"
+                        type="submit"
+                        disabled={isLoading}
+                      >
+                        {isLoading ? (
+                          <i className="bx bx-hourglass bx-spin me-2" />
+                        ) : (
+                          "Change password"
+                        )}
+                      </button>
+                    </div>
+                  </AvForm>
+                )}
                 <div className="auth-page-form-descr text-center">
                   Back to &nbsp;
                   <Link to={Page.SIGN_IN} className="text-orange fw-semibold">
