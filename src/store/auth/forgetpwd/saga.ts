@@ -17,6 +17,7 @@ import {
   sendNewPassword,
   sendResetPassword,
 } from "../../../helpers/backend_helper";
+import { AxiosError } from "axios";
 
 //const fireBaseBackend = getFirebaseBackend()
 
@@ -30,7 +31,7 @@ function* forgetUser({ payload }: any) {
       )
     );
   } catch (error) {
-    yield put(userForgetPasswordError(error));
+    yield put(userForgetPasswordError("Somthing went wrong"));
   }
 }
 

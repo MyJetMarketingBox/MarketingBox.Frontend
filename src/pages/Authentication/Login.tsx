@@ -17,6 +17,7 @@ import { loginUser } from "../../store/actions";
 // import images
 import logo from "../../assets/images/logo.svg";
 import Page from "src/constants/pages";
+import ValidationText from "src/constants/validationText";
 
 interface LoginProps {
   history: object;
@@ -78,7 +79,20 @@ const Login = ({ history }: LoginProps) => {
                       className="form-control"
                       placeholder="Enter your email"
                       type="email"
-                      required
+                      validate={{
+                        email: {
+                          value: true,
+                          errorMessage: ValidationText.email,
+                        },
+                        required: {
+                          value: true,
+                          errorMessage: ValidationText.required,
+                        },
+                        maxLength: {
+                          value: 255,
+                          errorMessage: ValidationText.maxLength255,
+                        },
+                      }}
                     />
                   </div>
                   <div className="mb-3">
@@ -94,8 +108,21 @@ const Login = ({ history }: LoginProps) => {
                         value=""
                         type={showPass ? "text" : "password"}
                         className="form-control"
-                        required
                         placeholder="Enter your password"
+                        validate={{
+                          required: {
+                            value: true,
+                            errorMessage: ValidationText.required,
+                          },
+                          minLength: {
+                            value: 8,
+                            errorMessage: ValidationText.minLength8,
+                          },
+                          maxLength: {
+                            value: 50,
+                            errorMessage: ValidationText.maxLength50,
+                          },
+                        }}
                       />
                     </div>
                     <div className="auth-page-forgot-pass">

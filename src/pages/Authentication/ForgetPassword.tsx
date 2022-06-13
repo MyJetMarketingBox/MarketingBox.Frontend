@@ -21,22 +21,27 @@ import {
 import logo from "../../assets/images/logo-sm.svg";
 import Page from "src/constants/pages";
 import { values } from "lodash";
+import ValidationText from "src/constants/validationText";
 
 interface Props {}
 
 const ForgetPasswordPage = ({}: Props) => {
   const dispatch = useDispatch();
 
-  const [isLoading, setLoading] = useState(false);
-
-  const { forgetError, forgetSuccessMsg } = useSelector((state: any) => ({
-    forgetError: state.forgetPassword.forgetError,
-    forgetSuccessMsg: state.forgetPassword.forgetSuccessMsg,
-  }));
+  const { forgetError, forgetSuccessMsg, forgotLoading } = useSelector(
+    (state: any) => ({
+      forgetError: state.forgetPassword.forgetError,
+      forgetSuccessMsg: state.forgetPassword.forgetSuccessMsg,
+      forgotLoading: state.forgetPassword.forgotLoading,
+    })
+  );
 
   const handleValidSubmit = (e: any, values: any) => {
-    setLoading(true);
     dispatch(userForgetPassword(values.email));
+  };
+
+  const onChangeInput = () => {
+    dispatch(userForgotPasswordClearStore());
   };
 
   useEffect(() => {
@@ -63,6 +68,7 @@ const ForgetPasswordPage = ({}: Props) => {
                 <p className="auth-page-descr">
                   {!forgetSuccessMsg && "We send recovery link to your email."}
                 </p>
+                {forgetError && <Alert color="danger">{forgetError}</Alert>}
                 {forgetSuccessMsg ? (
                   <>
                     <Alert>{forgetSuccessMsg}</Alert>
@@ -77,18 +83,32 @@ const ForgetPasswordPage = ({}: Props) => {
                         name="email"
                         className="form-control"
                         value=""
+                        onChange={onChangeInput}
                         placeholder="Enter your email"
                         type="email"
-                        required
+                        validate={{
+                          email: {
+                            value: true,
+                            errorMessage: ValidationText.email,
+                          },
+                          required: {
+                            value: true,
+                            errorMessage: ValidationText.required,
+                          },
+                          maxLength: {
+                            value: 255,
+                            errorMessage: ValidationText.maxLength255,
+                          },
+                        }}
                       />
                     </div>
                     <div>
                       <button
                         className="auth-page-btn"
                         type="submit"
-                        disabled={isLoading}
+                        disabled={forgotLoading}
                       >
-                        {isLoading ? (
+                        {forgotLoading ? (
                           <i className="bx bx-hourglass bx-spin me-2" />
                         ) : (
                           "Send email"

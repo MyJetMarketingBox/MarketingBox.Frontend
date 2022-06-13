@@ -3,6 +3,7 @@ import { ForgetPwdTypes } from "./actionTypes";
 const initialState = {
   forgetSuccessMsg: null,
   forgetError: null,
+  forgotLoading: false,
 
   resetPasswordError: null,
   resetPasswordSuccess: null,
@@ -16,16 +17,18 @@ const forgetPassword = (state = initialState, action: any) => {
         ...state,
         forgetSuccessMsg: null,
         forgetError: null,
+        forgotLoading: true,
       };
 
     case ForgetPwdTypes.FORGET_PASSWORD_SUCCESS:
       return {
         ...state,
+        forgotLoading: false,
         forgetSuccessMsg: action.payload,
       };
 
     case ForgetPwdTypes.FORGET_PASSWORD_ERROR:
-      return { ...state, forgetError: action.payload };
+      return { ...state, forgotLoading: false, forgetError: action.payload };
 
     case ForgetPwdTypes.RESET_PASSWORD:
       return {

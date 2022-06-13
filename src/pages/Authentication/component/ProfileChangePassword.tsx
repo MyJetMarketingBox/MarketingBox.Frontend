@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useRef } from "react";
 import { Card, CardBody, Button, Row, Col } from "reactstrap";
 import { AvForm, AvField } from "availity-reactstrap-validation";
 import { useDispatch, useSelector } from "react-redux";
 import { profileChangePassword } from "src/store/affiliates/profile/actions";
 import { RootStoreType } from "src/store/storeTypes";
+import ValidationText from "src/constants/validationText";
 
 const ProfileChangePassword = () => {
   const dispatch = useDispatch();
+  const formRef = useRef<HTMLFormElement>(null);
 
   const { changePasswordLoading } = useSelector((store: RootStoreType) => ({
     changePasswordLoading: store.AffProfile.changePasswordLoading,
@@ -14,6 +16,7 @@ const ProfileChangePassword = () => {
 
   const handleValidSubmit = (e: any, values: any) => {
     dispatch(profileChangePassword(values));
+    formRef.current?.reset();
   };
 
   return (
@@ -21,7 +24,11 @@ const ProfileChangePassword = () => {
       <h4 className="card-title mb-4">Change password</h4>
       <Card>
         <CardBody>
-          <AvForm className="form-horizontal" onValidSubmit={handleValidSubmit}>
+          <AvForm
+            className="form-horizontal"
+            onValidSubmit={handleValidSubmit}
+            ref={formRef}
+          >
             <Row>
               <Col xs={12} md={4} className="mb-3">
                 <AvField
@@ -30,7 +37,12 @@ const ProfileChangePassword = () => {
                   className="form-control"
                   placeholder="Enter old password"
                   type="password"
-                  required
+                  validate={{
+                    required: {
+                      value: true,
+                      errorMessage: ValidationText.required,
+                    },
+                  }}
                 />
               </Col>
               <Col xs={12} md={4} className="mb-3">
@@ -42,15 +54,17 @@ const ProfileChangePassword = () => {
                   type="password"
                   required
                   validate={{
+                    required: {
+                      value: true,
+                      errorMessage: ValidationText.required,
+                    },
                     minLength: {
                       value: 8,
-                      errorMessage:
-                        "Password must be between 8 and 32 characters",
+                      errorMessage: ValidationText.minLength8,
                     },
                     maxLength: {
-                      value: 32,
-                      errorMessage:
-                        "Password must be between 8 and 32 characters",
+                      value: 50,
+                      errorMessage: ValidationText.maxLength50,
                     },
                   }}
                 />
@@ -62,11 +76,14 @@ const ProfileChangePassword = () => {
                   className="form-control"
                   placeholder="Enter new password"
                   type="password"
-                  required
                   validate={{
+                    required: {
+                      value: true,
+                      errorMessage: ValidationText.required,
+                    },
                     match: {
                       value: "newPassword",
-                      errorMessage: "Must matching with new password",
+                      errorMessage: ValidationText.matchPassword,
                     },
                   }}
                 />
@@ -80,23 +97,11 @@ const ProfileChangePassword = () => {
                   type="submit"
                   disabled={changePasswordLoading}
                 >
-                  {changePasswordLoading && <i className="bx bx-hourglass bx-spin me-2" />}
+                  {changePasswordLoading && (
+                    <i className="bx bx-hourglass bx-spin me-2" />
+                  )}
                   Update
                 </Button>
-
-                {/*<Button
-                  type="submit"
-                  color="danger"
-                  className="w-100"
-                  style={{ height: "56px", marginTop: "30px" }}
-                  disabled={changePasswordLoading}
-                >
-                  {changePasswordLoading ? (
-                    <i className="bx bx-hourglass bx-spin me-2" />
-                  ) : (
-                    "Change password"
-                  )}
-                </Button>*/}
               </Col>
             </Row>
           </AvForm>

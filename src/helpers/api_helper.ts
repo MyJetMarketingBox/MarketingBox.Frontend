@@ -169,6 +169,7 @@ export const injectInterceptor = (store: any) => {
             break;
 
           case 400:
+          case 404:
             toast.error(
               error.response?.data?.error?.errorMessage || error.message,
               optionToast

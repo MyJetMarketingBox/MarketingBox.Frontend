@@ -18,6 +18,7 @@ import { userForgetPassword, userResetPassword } from "../../store/actions";
 import logo from "../../assets/images/logo-sm.svg";
 import Page from "src/constants/pages";
 import { values } from "lodash";
+import ValidationText from "src/constants/validationText";
 
 interface Props {}
 
@@ -72,14 +73,48 @@ const ResetPassword = ({}: Props) => {
                       >
                         {showPass ? "HIDE" : "SHOW"}
                       </div>
+
+                      <Col className="mb-3">
+                        <AvField
+                          name="newPassword"
+                          value=""
+                          type={showPass ? "text" : "password"}
+                          className="form-control"
+                          placeholder="Enter new password"
+                          disabled={!!resetPasswordSuccess}
+                          validate={{
+                            required: {
+                              value: true,
+                              errorMessage: ValidationText.required,
+                            },
+                            minLength: {
+                              value: 8,
+                              errorMessage: ValidationText.minLength8,
+                            },
+                            maxLength: {
+                              value: 50,
+                              errorMessage: ValidationText.maxLength50,
+                            },
+                          }}
+                        />
+                      </Col>
+
                       <AvField
-                        name="newPassword"
-                        value=""
-                        type={showPass ? "text" : "password"}
+                        name="confirmPassword"
                         className="form-control"
+                        placeholder="Confirm new password"
+                        type="password"
                         required
-                        placeholder="Enter new password"
-                        disabled={!!resetPasswordSuccess}
+                        validate={{
+                          required: {
+                            value: true,
+                            errorMessage: ValidationText.required,
+                          },
+                          match: {
+                            value: "newPassword",
+                            errorMessage: ValidationText.matchPassword,
+                          },
+                        }}
                       />
                     </div>
                   </div>
