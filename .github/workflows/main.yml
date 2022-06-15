@@ -74,3 +74,14 @@ jobs:
         kubectl apply -f deployment.yaml -f service.yaml
 
 
+    - name: restart docker container uat
+      if: ${{ steps.branch.outputs.branch_name == 'uat' }}
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.TRAFME_UAT_SVC1_HOST }}
+        username: ${{ secrets.VM_USERNAME }}
+        key: ${{ secrets.TRAFFME_SSH_KEY }}
+        port: ${{ secrets.TRAFME_UAT_SVC1_PORT }}
+        script: |
+          cd /home/monfex/docker-infrastructure/services/MarketingBox.Frontend
+          docker-compose pull && docker-compose up -d
