@@ -5,7 +5,7 @@ import * as yup from "yup";
 import { useFormik } from "formik";
 import { Link } from "react-router-dom";
 // action
-import { registerUser, apiError } from "../../store/actions";
+import { registerUser, apiError, clearRegisterUser } from "../../store/actions";
 //redux
 import { useSelector, useDispatch } from "react-redux";
 
@@ -141,6 +141,7 @@ const Register = () => {
     validateForm,
     handleChange,
     submitForm,
+    resetForm,
     handleBlur,
     errors,
     touched,
@@ -160,11 +161,13 @@ const Register = () => {
 
   useEffect(() => {
     if (user?.Status == "Ok") {
-      setIsOpen(prev => !prev);
-      if (formRef.current) {
-        formRef.current.reset();
-      }
+      setIsOpen(false);
+      resetForm();
     }
+
+    return () => {
+      dispatch(clearRegisterUser());
+    };
   }, [user]);
 
   const handlerClickSubmit = async () => {
