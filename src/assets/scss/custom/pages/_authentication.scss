@@ -61,8 +61,8 @@
 
 .auth-page-form-pass-toggle {
   position: absolute;
-  top: 21px;
-  right: 28px;
+  top: 22px;
+  right: 32px;
   font-size: 10px;
   line-height: 14px;
   font-weight: 400;
@@ -91,6 +91,42 @@
   display: none;
 }
 
+.custom-checkbox-input {
+  input {
+    display: none;
+  }
+  position: relative;
+  label {
+    position: relative;
+    margin: 0;
+    padding-left: 30px;
+    user-select: none;
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 400;
+    color: #828282;
+
+    &::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 2px;
+      width: 16px;
+      height: 16px;
+      background-color: #ffffff;
+      border: 1px solid #e74a18;
+      border-radius: 2px;
+    }
+
+    a {
+      color: #e74a18;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
 .form-checkbox-label {
   position: relative;
   margin: 0;
@@ -139,7 +175,7 @@
   width: 100%;
   margin-bottom: 32px;
   padding: 12px 10px;
-  background-color: rgba(231, 74, 24, .8);
+  background-color: rgba(231, 74, 24, 0.8);
   border: none;
   border-radius: 8px;
   font-size: 16px;
@@ -148,7 +184,7 @@
   color: #ffffff;
   text-align: center;
   -webkit-appearance: none;
-  transition: background-color .3s;
+  transition: background-color 0.3s;
 
   &:focus {
     outline: none;
@@ -158,8 +194,9 @@
     background-color: rgba(231, 74, 24, 1);
   }
 
-  &:disabled, &[disabled] {
-    background-color: rgba(231, 74, 24, .3);
+  &:disabled,
+  &[disabled] {
+    background-color: rgba(231, 74, 24, 0.3);
   }
 }
 
@@ -273,18 +310,6 @@
   }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 .auth-center {
   background: linear-gradient(0.9turn, #fff, rgba(231, 74, 24, 0.1), #fff);
   width: 360px;
@@ -333,7 +358,7 @@
   bottom: 0;
   left: 0;
   top: 0;
-  opacity: .5 !important;
+  opacity: 0.5 !important;
   background-color: #000;
 }
 

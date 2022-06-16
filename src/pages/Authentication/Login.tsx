@@ -116,11 +116,11 @@ const Login = ({ history }: LoginProps) => {
                           },
                           minLength: {
                             value: 8,
-                            errorMessage: ValidationText.minLength8,
+                            errorMessage: ValidationText.shortPassword,
                           },
                           maxLength: {
                             value: 50,
-                            errorMessage: ValidationText.maxLength50,
+                            errorMessage: ValidationText.longPassword,
                           },
                         }}
                       />

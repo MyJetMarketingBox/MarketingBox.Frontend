@@ -61,7 +61,7 @@ const BadRequestContainer = () => {
     return (
       <Modal isOpen={true} centered>
         <div className="modal-header">
-          <h5 className="modal-title">Somthing went wrong</h5>
+          <h5 className="modal-title">Something went wrong</h5>
         </div>
         <div className="modal-body">
           <p>{badRequests.errorText || "Unknow error"}</p>

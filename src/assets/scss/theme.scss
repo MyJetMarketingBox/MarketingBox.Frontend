@@ -312,3 +312,12 @@ input[switch="success"]:checked + label {
   background-color: #f3f3f3;
   color: #000;
 }
+
+.form-control {
+  &:-webkit-autofill,
+  &:-webkit-autofill:hover,
+  &:-webkit-autofill:focus,
+  &:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px white inset !important;
+  }
+}

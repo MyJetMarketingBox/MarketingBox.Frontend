@@ -115,7 +115,7 @@ const Layout = (props: any) => {
 
   return (
     <React.Fragment>
-      <ToastContainer autoClose={2000} />
+      
 
       <div id="layout-wrapper">
         <Header

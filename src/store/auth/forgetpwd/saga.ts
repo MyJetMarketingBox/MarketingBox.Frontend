@@ -31,7 +31,7 @@ function* forgetUser({ payload }: any) {
       )
     );
   } catch (error) {
-    yield put(userForgetPasswordError("Somthing went wrong"));
+    yield put(userForgetPasswordError("Something went wrong"));
   }
 }
 

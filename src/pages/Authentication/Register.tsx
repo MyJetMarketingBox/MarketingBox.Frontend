@@ -1,36 +1,36 @@
 import React, { useEffect, useRef, useState } from "react";
 import MetaTags from "react-meta-tags";
-import { Row, Col, Alert, Container, Label } from "reactstrap";
-
-// availity-reactstrap-validation
-import {
-  AvForm,
-  AvField,
-  AvRadioGroup,
-  AvRadio,
-  AvGroup,
-  AvInput,
-} from "availity-reactstrap-validation";
-
+import { Label, Input, Form, FormFeedback } from "reactstrap";
+import * as yup from "yup";
+import { useFormik } from "formik";
+import { Link } from "react-router-dom";
 // action
 import { registerUser, apiError } from "../../store/actions";
-
 //redux
 import { useSelector, useDispatch } from "react-redux";
-
-import { Link } from "react-router-dom";
 
 // import images
 import logo from "../../assets/images/logo.svg";
 import Modal from "../../components/UI/modal/info";
 import ValidationText from "src/constants/validationText";
+import LabelInput from "src/components/UI/FormElements/LabelInput";
+import LabelSelect from "src/components/UI/FormElements/LabelSelect";
+import Page from "src/constants/pages";
+
+interface UserRegistrationType {
+  email: string;
+  username: string;
+  password: string;
+  message: string;
+  contact: string;
+  searchFrom: string;
+  searchFromCustom?: string;
+  terms: boolean;
+}
 
 const Register = () => {
   const dispatch = useDispatch();
 
-  const [showPass, useShowPass] = useState<boolean>(false);
-  const [messType, useMessType] = useState<string>("WhatsApp");
-  const [searchFrom, useSearchFrom] = useState<string>("");
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -40,8 +40,89 @@ const Register = () => {
     loading: state.register.loading,
   }));
 
-  const messTypeChangeHandler = (e: any) => {
-    useMessType(e.target.value);
+  const validationSchema: yup.SchemaOf<UserRegistrationType> = yup
+    .object()
+    .shape({
+      email: yup
+        .string()
+        .required(ValidationText.required)
+        .email(ValidationText.email)
+        .max(255, ValidationText.maxLength255),
+      username: yup
+        .string()
+        .required(ValidationText.required)
+        .max(75, ValidationText.maxLength75)
+        .matches(/^[a-zA-Z]+$/, ValidationText.invalidInput),
+      password: yup
+        .string()
+        .required(ValidationText.required)
+        .min(8, ValidationText.shortPassword)
+        .max(50, ValidationText.longPassword)
+        .matches(
+          /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*?[!@#$%^&*()_+<>?])[A-Za-z\d!@#$%^&*()_+<>?]{6,}$/,
+          ValidationText.passwordMask
+        ),
+      message: yup.string().required(ValidationText.required),
+      contact: yup
+        .string()
+        .required(ValidationText.required)
+        .max(75, ValidationText.maxLength75),
+      searchFrom: yup.string().required(ValidationText.required),
+      searchFromCustom: yup.string().when(["searchFrom"], {
+        is: (val: string) => val === "other",
+        then: yup
+          .string()
+          .required(ValidationText.required)
+          .max(75, ValidationText.maxLength75),
+      }),
+      terms: yup
+        .boolean()
+        .required(ValidationText.required)
+        .oneOf([true], ValidationText.required),
+    });
+
+  const initialValues: UserRegistrationType = {
+    email: "",
+    password: "",
+    username: "",
+    message: "WhatsApp",
+    contact: "",
+    searchFrom: "",
+    searchFromCustom: "",
+    terms: false,
+  };
+
+  const handleSubmitForm = async () => {
+    console.log("[LOG] Send registration");
+
+    const data = {
+      username: values.username,
+      email: values.email.toLowerCase(),
+      password: values.password,
+      sub: [
+        {
+          SubName: "ClientType",
+          SubValue: "WebMaster",
+        },
+        {
+          SubName: "MessangerType",
+          SubValue: values.message,
+        },
+        {
+          SubName: "MessangerLogin",
+          SubValue: values.contact,
+        },
+        {
+          SubName: "HeardAboutFrom",
+          SubValue: values.searchFrom,
+        },
+        {
+          SubName: "HeardAboutFromCustom",
+          SubValue: values.searchFromCustom || "",
+        },
+      ],
+    };
+    dispatch(registerUser(data));
   };
 
   const content = {
@@ -55,56 +136,46 @@ const Register = () => {
     setIsOpen(prev => !prev);
   };
 
-  useEffect(() => {
-    if (user?.Status == "Ok") {
-      setIsOpen(prev => !prev);
-
-      if (formRef.current) formRef.current.reset();
-    }
-  }, [user]);
-
-  // handleValidSubmit
-  const handleValidSubmit = (values: any) => {
-    //console.log(values);
-    //console.log("submit");
-    const regData = {
-      username: values["username"],
-      email: values["email"],
-      password: values["password"],
-      sub: [
-        {
-          SubName: "ClientType",
-          SubValue: "WebMaster",
-        },
-        {
-          SubName: "MessangerType",
-          SubValue: messType,
-        },
-        {
-          SubName: "MessangerLogin",
-          SubValue: values["contact"],
-        },
-        {
-          SubName: "HeardAboutFrom",
-          SubValue: values["search-from"],
-        },
-      ],
-    };
-    //console.log(regData);
-    dispatch(registerUser(regData));
-  };
-
-  const passToggleHandler = () => {
-    useShowPass(prev => !prev);
-  };
-
-  const searchFromHandler = (e: any) => {
-    useSearchFrom(e.target.value);
-  };
+  const {
+    values,
+    validateForm,
+    handleChange,
+    submitForm,
+    handleBlur,
+    errors,
+    touched,
+    isValid,
+  } = useFormik({
+    initialValues,
+    onSubmit: handleSubmitForm,
+    validationSchema: validationSchema,
+    validateOnBlur: true,
+    validateOnChange: true,
+    validateOnMount: true,
+  });
 
   useEffect(() => {
     dispatch(apiError(""));
-  }, [dispatch]);
+  }, []);
+
+  useEffect(() => {
+    if (user?.Status == "Ok") {
+      setIsOpen(prev => !prev);
+      if (formRef.current) {
+        formRef.current.reset();
+      }
+    }
+  }, [user]);
+
+  const handlerClickSubmit = async () => {
+    const curErrors = await validateForm();
+    const curErrorsKeys = Object.keys(curErrors);
+    if (curErrorsKeys.length) {
+      const el = document.getElementById(curErrorsKeys[0]);
+      if (el) el.focus();
+    }
+    submitForm();
+  };
 
   return (
     <React.Fragment>
@@ -126,94 +197,44 @@ const Register = () => {
                 <p className="auth-page-descr">
                   Get your free TraffMe account now
                 </p>
-                <AvForm
-                  className="custom-form"
-                  onValidSubmit={(e: any, v: any) => {
-                    handleValidSubmit(v);
-                  }}
-                  ref={formRef}
-                >
-                  {error?.isError ? (
-                    <Alert color="danger">{error.error.errorMessage}</Alert>
-                  ) : null}
-                  <div className="mb-3">
-                    <AvField
-                      name="email"
-                      value=""
-                      className="form-control"
-                      placeholder="Enter your email"
-                      type="email"
-                      validate={{
-                        email: {
-                          value: true,
-                          errorMessage: ValidationText.email,
-                        },
-                        required: {
-                          value: true,
-                          errorMessage: ValidationText.required,
-                        },
-                        maxLength: {
-                          value: 255,
-                          errorMessage: ValidationText.maxLength255,
-                        },
-                      }}
-                    />
-                  </div>
-                  <div className="mb-3">
-                    <AvField
-                      name="username"
-                      value=""
-                      className="form-control"
-                      placeholder="Enter your username"
-                      type="text"
-                      validate={{
-                        required: {
-                          value: true,
-                          errorMessage: ValidationText.required,
-                        },
-                        minLength: {
-                          value: 3,
-                          errorMessage: ValidationText.minLength3,
-                        },
-                        maxLength: {
-                          value: 50,
-                          errorMessage: ValidationText.maxLength50,
-                        },
-                      }}
-                    />
-                  </div>
-                  <div className="mb-3">
-                    <div className="auth-page-form-pass">
-                      <div
-                        className="auth-page-form-pass-toggle"
-                        onClick={passToggleHandler}
-                      >
-                        {showPass ? "HIDE" : "SHOW"}
-                      </div>
-                      <AvField
-                        name="password"
-                        value=""
-                        type={showPass ? "text" : "password"}
-                        className="form-control"
-                        placeholder="Enter your password"
-                        validate={{
-                          required: {
-                            value: true,
-                            errorMessage: ValidationText.required,
-                          },
-                          minLength: {
-                            value: 8,
-                            errorMessage: ValidationText.minLength8,
-                          },
-                          maxLength: {
-                            value: 50,
-                            errorMessage: ValidationText.maxLength50,
-                          },
-                        }}
-                      />
-                    </div>
-                  </div>
-                  <div className="mess-types" onChange={messTypeChangeHandler}>
+
+                <Form className="custom-form" noValidate innerRef={formRef}>
+                  <LabelInput
+                    label="Email"
+                    placeholder="Enter your email"
+                    name="email"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.email.trim().toLowerCase() || ""}
+                    hasError={!!(errors.email && touched.email)}
+                    errorText={errors.email}
+                    type="email"
+                  />
+
+                  <LabelInput
+                    label="Username"
+                    placeholder="Enter your username"
+                    name="username"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.username.trim() || ""}
+                    hasError={!!(errors.username && touched.username)}
+                    errorText={errors.username}
+                  />
+
+                  <LabelInput
+                    label="Password"
+                    placeholder="Enter your password"
+                    name="password"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.password || ""}
+                    hasError={!!(errors.password && touched.password)}
+                    errorText={errors.password}
+                    type="password"
+                  />
+
+                  <div className="mess-types" onChange={handleChange}>
                     <div className="mess-type">
                       <input
                         className="mess-type-checkbox"
@@ -296,95 +317,97 @@ const Register = () => {
                       </label>
                     </div>
                   </div>
-                  <div className="mb-3">
-                    <AvField
-                      name="contact"
-                      value=""
-                      className="form-control"
-                      placeholder={messType + ` contact`}
-                      type="text"
-                      validate={{
-                        required: {
-                          value: true,
-                          errorMessage: ValidationText.required,
-                        },
-                      }}
+
+                  <LabelInput
+                    label={values.message + ` contact`}
+                    placeholder={values.message + ` contact`}
+                    name="contact"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.contact || ""}
+                    hasError={!!(errors.contact && touched.contact)}
+                    errorText={errors.contact}
+                    type="text"
+                  />
+
+                  <LabelSelect
+                    value={values.searchFrom || ""}
+                    name="searchFrom"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    label="I heard about FoxOffers from"
+                    hasError={!!(errors.searchFrom && touched.searchFrom)}
+                    errorText={errors.searchFrom}
+                  >
+                    <option value="" disabled>
+                      I heard about FoxOffers from...
+                    </option>
+                    <option value="AffiliateFix">AffiliateFix</option>
+                    <option value="AffLIFT">AffLIFT</option>
+                    <option value="Affpaying">Affpaying</option>
+                    <option value="Make-cash.pl">Make-cash.pl</option>
+                    <option value="MyMediaAds">MyMediaAds</option>
+                    <option value="OfferVault">OfferVault</option>
+                    <option value="STM Forum">STM Forum</option>
+                    <option value="Social Media">
+                      Social Media (FB, IG, TG, Twitter, LinkedIn, Reddit,
+                      Quora)
+                    </option>
+                    <option value="Zarabiam">Zarabiam</option>
+                    <option value="Gdetraffic">Gdetraffic</option>
+                    <option value="Partnerkin">Partnerkin</option>
+                    <option value="AffTimes">AffTimes</option>
+                    <option value="CPAMonstro">CPAMonstro</option>
+                    <option value="CPA rip">CPA rip</option>
+                    <option value="youpartner.pro">youpartner.pro</option>
+                    <option value="Protraffic">Protraffic</option>
+                    <option value="other">(other)</option>
+                  </LabelSelect>
+
+                  {values.searchFrom === "other" && (
+                    <LabelInput
+                      label="Other"
+                      placeholder="I heard about FoxOffers from"
+                      name="searchFromCustom"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.searchFromCustom || ""}
+                      hasError={
+                        !!(errors.searchFromCustom && errors.searchFromCustom)
+                      }
+                      errorText={errors.searchFromCustom}
                     />
-                  </div>
-                  <div className="mb-3">
-                    <AvField
-                      type="select"
-                      name="search-from"
-                      value={searchFrom}
-                      onChange={searchFromHandler}
-                      validate={{
-                        required: {
-                          value: true,
-                          errorMessage: ValidationText.required,
-                        },
-                      }}
-                    >
-                      <option value="" disabled>
-                        I heard about FoxOffers from...
-                      </option>
-                      <option value="AffiliateFix">AffiliateFix</option>
-                      <option value="AffLIFT">AffLIFT</option>
-                      <option value="Affpaying">Affpaying</option>
-                      <option value="Make-cash.pl">Make-cash.pl</option>
-                      <option value="MyMediaAds">MyMediaAds</option>
-                      <option value="OfferVault">OfferVault</option>
-                      <option value="STM Forum">STM Forum</option>
-                      <option value="Social Media">
-                        Social Media (FB, IG, TG, Twitter, LinkedIn, Reddit,
-                        Quora)
-                      </option>
-                      <option value="Zarabiam">Zarabiam</option>
-                      <option value="Gdetraffic">Gdetraffic</option>
-                      <option value="Partnerkin">Partnerkin</option>
-                      <option value="AffTimes">AffTimes</option>
-                      <option value="CPAMonstro">CPAMonstro</option>
-                      <option value="CPA rip">CPA rip</option>
-                      <option value="youpartner.pro">youpartner.pro</option>
-                      <option value="Protraffic">Protraffic</option>
-                      <option value="other">(other)</option>
-                    </AvField>
-                  </div>
-                  {searchFrom === "other" && (
-                    <div className="mb-3">
-                      <AvField
-                        name="search-from-custom"
-                        value=""
-                        className="form-control"
-                        placeholder="I heard about FoxOffers from..."
-                        type="text"
-                        validate={{
-                          required: {
-                            value: true,
-                            errorMessage: ValidationText.required,
-                          },
-                        }}
-                      />
-                    </div>
                   )}
 
-                  <div className="form-checkbox">
-                    <input
+                  <div className="mb-3">
+                    <Input
                       className="form-checkbox-input"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      invalid={!!(touched.terms && errors.terms)}
+                      checked={values.terms}
                       type="checkbox"
                       name="terms"
                       id="terms"
                     />
-                    <label className="form-checkbox-label" htmlFor="terms">
+                    <Label className="form-checkbox-label" for="terms">
                       By registering you agree to the TraffMe{" "}
                       <a href="#">Terms of Use</a>
-                    </label>
+                    </Label>
+                    <FormFeedback
+                      valid={!(touched.terms && errors.terms)}
+                      itemType="invalid"
+                    >
+                      {errors.terms}
+                    </FormFeedback>
                   </div>
 
-                  <div>
+                  <div className="mb-4">
                     <button
                       className="auth-page-btn"
-                      type="submit"
-                      disabled={loading}
+                      type="button"
+                      disabled={!isValid || loading}
+                      onClick={handlerClickSubmit}
                     >
                       {loading ? (
                         <i className="bx bx-hourglass bx-spin me-2" />
@@ -393,12 +416,12 @@ const Register = () => {
                       )}
                     </button>
                   </div>
-                </AvForm>
+                </Form>
 
                 <div className="auth-page-form-descr text-center">
-                  Already have an account?{" "}
-                  <Link to="/login" className="text-orange fw-semibold">
-                    Login
+                  Already have an account?&nbsp;
+                  <Link to={Page.SIGN_IN} className="text-orange fw-semibold">
+                    Log In
                   </Link>
                 </div>
               </div>
