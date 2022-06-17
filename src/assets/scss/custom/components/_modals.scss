@@ -30,13 +30,14 @@ box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.1);*/
     height: 48px;
     top: 24px;
     right: 3%;
-}
 
-.modal-header .close span{
-    display: block;
-    color: #050121;
-    font-size: 42px;
-    font-weight: lighter;
+    span{
+        display: block;
+        color: #050121;
+        font-size: 42px;
+        font-weight: lighter;
+        padding-top: 0px !important;
+    }
 }
 
 .modal-footer {

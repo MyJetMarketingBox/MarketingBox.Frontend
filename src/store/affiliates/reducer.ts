@@ -46,6 +46,12 @@ const affiliates = (state = INIT_STATE, action :any) => {
         loaded: false,
       }
 
+    case AffiliatesTypes.CLEAR_AFFILIATE_ERROR:
+      return {
+        ...state,
+        error: {}
+      }
+
     case AffiliatesTypes.ADD_NEW_AFFILIATE:
       return {
         ...state,
