@@ -3,7 +3,7 @@ import BootstrapTable from "react-bootstrap-table-next";
 import { useHistory } from "react-router";
 import Page from "../../../../constants/pages";
 
-const tableIndex = ({data = []} : any) => {
+const tableIndex = ({data = [], selected, setIdFile} : any) => {
 
   const history = useHistory();
 
@@ -13,6 +13,19 @@ const tableIndex = ({data = []} : any) => {
       order: "desc"
     }
   ];
+
+  let selectRow:any;
+
+  if(selected){
+    selectRow = {
+      mode: "checkbox",
+      clickToSelect: true,
+      onSelect: ( e: any, row: any, rowIndex: any, isSelect: any) => {
+        setIdFile(e.id);
+      }
+    };
+  }
+
 
   const columns = [
     {
@@ -45,11 +58,14 @@ const tableIndex = ({data = []} : any) => {
     }
   })
 
-  const tableRowEvents = {
-    onClick: (e:any, row:any, rowIndex:any) => {
-      if(e.target.classList.length == 0) {
-        history.push(`${Page.REDISTRIBUTION}/files/${row.id}`);
-        //history.push(`${Page.AFFILIATES}/${id}`);
+  let tableRowEvents;
+  if(!selected) {
+    tableRowEvents = {
+      onClick: (e: any, row: any, rowIndex: any) => {
+        if (e.target.classList.length == 0) {
+          history.push(`${Page.REDISTRIBUTION}/files/${row.id}`);
+          //history.push(`${Page.AFFILIATES}/${id}`);
+        }
       }
     }
   }
@@ -66,6 +82,7 @@ const tableIndex = ({data = []} : any) => {
         classes={"table align-middle table-nowrap table-hover"}
         headerWrapperClasses={"thead-light"}
         rowEvents={tableRowEvents}
+        selectRow={selectRow}
       />
     </>
   )

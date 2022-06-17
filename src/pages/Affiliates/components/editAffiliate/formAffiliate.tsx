@@ -71,7 +71,7 @@ const FormAffiliate = (props: any) => {
       },
       affiliatePayoutIds: arrAffPayId,
     };
-    console.log(updateAff);
+
     dispatch(updateAffiliate(updateAff, id));
   };
 

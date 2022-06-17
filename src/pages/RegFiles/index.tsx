@@ -8,10 +8,11 @@ import Table from "./components/table"
 import AddModal from "./components/modal/add"
 import ChangeStatus from "../../components/UI/modal/changeStatus/changeStatusRedistribution";
 
-const RegFiles = () => {
+const RegFiles = ({ selectedCol, clearState = () => {}, setIdFile }: any) => {
   const dispatch = useDispatch();
 
   const [isOpen, setIsOpen] = useState(false);
+  const [selected, setSelected] = useState(false);
 
   const {total, dataList, loaded, loading, nextUrl } = useSelector((state: any) => {
     return {
@@ -34,6 +35,7 @@ const RegFiles = () => {
 
     return () => {
       dispatch(clearRegFiles())
+      clearState();
     }
   }, [])
 
@@ -47,6 +49,10 @@ const RegFiles = () => {
   const toggleModal = () => {
     setIsOpen(prev => !prev);
   };
+
+  useEffect(() => {
+    setSelected(selectedCol)
+  }, [selectedCol])
 
 
   return(
@@ -72,7 +78,7 @@ const RegFiles = () => {
       <Row className="mb-4">
         <Col xl="12">
           <div className="table-responsive">
-            {dataList.length ? <Table data={dataList} /> : null}
+            {dataList.length ? <Table data={dataList} selected={selected} setIdFile={setIdFile}/> : null}
             {
               (!dataList.length && loaded)
                 ? <div style={{ "textAlign": "center", "padding": "30px 0" }}>

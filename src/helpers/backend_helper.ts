@@ -239,6 +239,9 @@ export const getRedistribution = (nextUrl: any, filter: object) =>
 export const updateRedStatus = (request: object) =>
   put(`${url.REDISTRIBUTION}`, request, { notification: "Update success!" });
 
+export const addRedistribution = (data: any) =>
+  post(url.REDISTRIBUTION, data);
+
 /** regFiles **/
 export const getRegFiles = (nextUrl: any, filter: object) =>
   get(nextUrl || `${url.REG_FILES}/files`, { params: filter });

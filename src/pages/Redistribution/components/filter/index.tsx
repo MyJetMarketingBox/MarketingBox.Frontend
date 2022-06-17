@@ -7,11 +7,14 @@ import { AvField, AvForm } from "availity-reactstrap-validation";
 import Select from "../../../../components/UI/select";
 import { clearCampaigns, getCampaigns } from "../../../../store/campaigns/actions";
 import SearchRedistribution from "../search";
+import { useHistory } from "react-router";
+import Page from "../../../../constants/pages";
 /*import Flatpickr from "react-flatpickr";
 import { getUpdateDate } from "../../../../helpers/getUpdateDate";*/
 
 const filterIndex = () => {
   const dispatch = useDispatch()
+  const { push } = useHistory();
 
   const [collapse, setCollapse] = useState(false);
   const [countFilter, setCountFilter] = useState<any>();
@@ -107,6 +110,10 @@ const filterIndex = () => {
     setCollapse(!collapse);
   };
 
+  const handlerAddRedistribution = () => {
+    push(Page.REDISTRIBUTION_ADD)
+  }
+
   return (
     <>
       <Col className="col-md-4">
@@ -142,8 +149,7 @@ const filterIndex = () => {
           )}
         </button>
 
-        <button className="btn btn-dark-blue">
-
+        <button className="btn btn-dark-blue" onClick={handlerAddRedistribution}>
           Add new
         </button>
       </Col>

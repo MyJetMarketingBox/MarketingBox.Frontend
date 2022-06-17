@@ -38,6 +38,7 @@ export default ({ id, activityHours }: Props) => {
         onClick={handleTogglePopover}
         color="secondary"
         key={id}
+        className="text-orange"
       >
         {!popoverBottom ? "Show" : "Hide"}
       </a>

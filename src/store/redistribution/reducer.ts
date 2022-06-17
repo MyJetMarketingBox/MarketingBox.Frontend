@@ -15,6 +15,34 @@ export const INIT_STATE : RedistributionState = {
 
 const redistribution = (state = INIT_STATE, action: any) => {
   switch (action.type) {
+    case RedistributionTypes.ADD_REDISTRIBUTION:
+      return {
+        ...state,
+        error: {},
+        loading: true,
+        loaded: false
+      }
+
+    case RedistributionTypes.ADD_REDISTRIBUTION_SUCCESS:
+      return {
+        ...state,
+        date: {
+          ...state.data,
+          items: [action.payload, ...state.data.items]
+        },
+        error: {},
+        loading: false,
+        loaded: true
+      }
+
+    case RedistributionTypes.ADD_REDISTRIBUTION_FAIL:
+      return {
+        ...state,
+        error: action.payload,
+        loading: false,
+        loaded: false
+      }
+
     case RedistributionTypes.GET_REDISTRIBUTION:
       return {
         ...state,

@@ -33,7 +33,7 @@ import Flatpickr from "react-flatpickr";
 import SearchRegistration from "../search";
 import { getUpdateDate } from "src/helpers/getUpdateDate";
 
-export default () => {
+export default ({selected}: any) => {
   const dispatch = useDispatch();
 
   const [collapse, setCollapse] = useState(false);
@@ -107,19 +107,31 @@ export default () => {
   };
 
   useEffect(() => {
-    dispatch(getAffiliates("", { order: 1 }));
-    dispatch(getCountries("", { order: 0 }));
-    dispatch(getBrands("", { order: 1 }));
-    dispatch(getIntegrations("", { order: 1 }));
-    dispatch(getCampaigns("", { order: 1 }));
+    if(!affiliates.length) {
+      dispatch(getAffiliates("", { order: 1 }));
+    }
+    if(!countries.length) {
+      dispatch(getCountries("", { order: 0 }));
+    }
+    if(!brands.length) {
+      dispatch(getBrands("", { order: 1 }));
+    }
+    if(!integrations.length) {
+      dispatch(getIntegrations("", { order: 1 }));
+    }
+    if(!campaigns.length) {
+      dispatch(getCampaigns("", { order: 1 }));
+    }
 
-    return () => {
-      dispatch(clearAffiliate());
-      dispatch(clearBrands());
-      dispatch(clearCampaigns());
-      dispatch(clearIntegrations());
-      dispatch(clearCountries());
-    };
+    if(!selected) { //only for redistribution
+      return () => {
+        dispatch(clearAffiliate());
+        dispatch(clearBrands());
+        dispatch(clearCampaigns());
+        dispatch(clearIntegrations());
+        dispatch(clearCountries());
+      };
+    }
   }, []);
 
   const toggleCollapse = () => {

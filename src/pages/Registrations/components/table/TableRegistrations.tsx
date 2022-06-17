@@ -9,7 +9,7 @@ import ChangeStatus from "../../../../components/UI/modal/changeStatus"
 import { RegistrationStatusEnum } from "../../../../enums/RegistrationStatusEnum";
 import { TableButtonHandlerEnum } from "../../../../enums/TableButtonHandlerEnum";
 
-export default ({registrations = [], setRegId, toggle} : any) => {
+export default ({registrations = [], setRegId, toggle, selected} : any) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectId, setSelectId] = useState<number>();
   const [selectStatus, setSelectStatus] = useState<RegistrationStatusEnum>(RegistrationStatusEnum.Registered);
@@ -17,6 +17,18 @@ export default ({registrations = [], setRegId, toggle} : any) => {
   const toggleAction = () => {
     setIsOpen(prev => !prev);
   };
+
+  let selectRow:any;
+
+  if(selected){
+    selectRow = {
+      mode: "checkbox",
+      clickToSelect: true,
+      onSelect: ( e: any, row: any, rowIndex: any, isSelect: any) => {
+        setRegId(e.id);
+      }
+    };
+  }
 
   const listActions: any = [
     {
@@ -31,14 +43,6 @@ export default ({registrations = [], setRegId, toggle} : any) => {
   ];
 
   const columns = [
-    {
-      dataField: "actions",
-      text: "Actions",
-      sort:false,
-      formatter: (cell: any, row: any) => (
-        <ColumnActions id={row.id} items={listActions} data={{ status: +row.statusId }}/>
-      )
-    },
     {
       dataField: "affiliate",
       text: "Affiliate",
@@ -97,6 +101,19 @@ export default ({registrations = [], setRegId, toggle} : any) => {
     },
   ];
 
+  if(!selected){
+    columns.unshift(
+      {
+        dataField: "actions",
+        text: "Actions",
+        sort:false,
+        formatter: (cell: any, row: any) => (
+          <ColumnActions id={row.id} items={listActions} data={{ status: +row.statusId }}/>
+        )
+      }
+    )
+  }
+
   const defaultSorted: any = [
     {
       dataField: "id",
@@ -104,12 +121,15 @@ export default ({registrations = [], setRegId, toggle} : any) => {
     }
   ];
 
-  const tableRowEvents = {
-    onClick: (e:any, row:any, rowIndex:any) => {
-      //console.log(e);
-      if(e.target.classList.length == 0) {
-        setRegId(row.id);
-        toggle();
+  let tableRowEvents;
+  if(!selected) {
+    tableRowEvents = {
+      onClick: (e: any, row: any, rowIndex: any) => {
+        //console.log(e);
+        if (e.target.classList.length == 0) {
+          setRegId(row.id);
+          toggle();
+        }
       }
     }
   }
@@ -169,6 +189,7 @@ export default ({registrations = [], setRegId, toggle} : any) => {
         classes={"table align-middle table-nowrap table-hover"}
         headerWrapperClasses={"thead-light"}
         rowEvents={tableRowEvents}
+        selectRow={selectRow}
       />
 
       {selectId &&

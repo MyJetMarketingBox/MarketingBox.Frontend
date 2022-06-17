@@ -101,19 +101,16 @@ export default ({ affiliates = [] }: any) => {
     {
       dataField: "ai",
       text: "AI",
-      sort: true,
     },
     {
       dataField: "email",
       text: "Email",
-      sort: true,
       /*headerStyle: { width: "250px", minWidth: "250px" },
       style: { width: "250px", minWidth: "250px" },*/
     },
     {
       dataField: "reportto",
       text: "Report To",
-      sort: true,
     },
     {
       dataField: "createdat",
@@ -123,7 +120,6 @@ export default ({ affiliates = [] }: any) => {
     {
       dataField: "status",
       text: "Status",
-      sort: true,
       formatter: (cellContent: any, productData: any) => (
         <>
           <div

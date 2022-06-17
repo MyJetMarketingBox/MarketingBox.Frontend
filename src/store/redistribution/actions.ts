@@ -16,6 +16,22 @@ export const getRedistributionFail = (error: any) => ({
   payload: error,
 })
 
+export const addRedistribution = (data: any, history: any) => ({
+  type: RedistributionTypes.ADD_REDISTRIBUTION,
+  data,
+  history
+})
+
+export const addRedistributionSuccess = (data: any) => ({
+  type: RedistributionTypes.ADD_REDISTRIBUTION_SUCCESS,
+  payload: data
+})
+
+export const addRedistributionFail = (error: any) => ({
+  type: RedistributionTypes.ADD_REDISTRIBUTION_FAIL,
+  payload: error
+})
+
 export const updateRedistributionStatus = (data: object) => ({
   type: RedistributionTypes.UPDATE_STATUS,
   data

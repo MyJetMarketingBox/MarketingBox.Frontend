@@ -31,6 +31,7 @@ import { RouteItemsType } from "../types/RouteItemsType";
 import Page from "../constants/pages";
 import UserProfile from "../pages/Authentication/UserProfile";
 import Redistribution from "../pages/Redistribution";
+import AddRedistribution from "../pages/Redistribution/components/add"
 import RegFileDetail from "../pages/RegFiles/components/detail/index"
 import CampaignDetail from "src/pages/Campaigns/components/detail/CampaignDetail";
 import GeoDetail from "src/pages/Geo/components/detail/index";
@@ -99,6 +100,13 @@ const routesList: RouteItemsType[] = [
   {
     path: Page.REDISTRIBUTION,
     component: Redistribution,
+    layoutType: RouteLayoutTypeEnum.Authorized,
+    strict: true,
+    exact: true,
+  },
+  {
+    path: Page.REDISTRIBUTION_ADD,
+    component: AddRedistribution,
     layoutType: RouteLayoutTypeEnum.Authorized,
     strict: true,
     exact: true,

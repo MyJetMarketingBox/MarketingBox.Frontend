@@ -71,7 +71,6 @@ const UserProfile = () => {
       affiliatePayoutIds: arrAffPayId,
     };
 
-    console.log(updateProfile);
     dispatch(updateAffiliate(updateProfile, authUserID));
   }
 

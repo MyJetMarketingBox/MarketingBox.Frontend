@@ -22,6 +22,7 @@ const Page = {
   CONVERSIONS: "/conversions",
   MARKETING_TOOLS: "/marketing_tools",
   REDISTRIBUTION: "/redistribution",
+  REDISTRIBUTION_ADD: "/redistribution/add",
   REDISTRIBUTION_TAB: "/redistribution/:tab",
   REDISTRIBUTION_FILES_DETAIL: "/redistribution/files/:id",
   OFFERS: "/offers",

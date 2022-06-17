@@ -6,10 +6,11 @@ import {
   getRedistributionSuccess,
   getRedistributionFail,
   updateRedistributionStatusSuccess,
-  updateRedistributionStatusFail
+  updateRedistributionStatusFail, addRedistributionFail, addRedistributionSuccess
 } from "./actions";
 
-import { getRedistribution, updateRedStatus } from "../../helpers/backend_helper";
+import { getRedistribution, updateRedStatus, addRedistribution } from "../../helpers/backend_helper";
+import Page from "../../constants/pages";
 
 function* getRedistributionSaga({ nextUrl, filter } : any) {
   try{
@@ -29,10 +30,22 @@ function* updateRedStatusSaga({data} : any) {
   }
 }
 
+function* addRedistributionSaga({data, history}: any) {
+  try {
+    const response: Promise<any> = yield call(addRedistribution, data)
+    yield put(addRedistributionSuccess(response))
+
+    yield history.push(`${Page.REDISTRIBUTION}`)
+  }catch (error) {
+    yield put(addRedistributionFail(error))
+  }
+}
+
 
 function* redistributionSaga() {
   yield takeEvery(RedistributionTypes.GET_REDISTRIBUTION, getRedistributionSaga)
   yield takeEvery(RedistributionTypes.UPDATE_STATUS, updateRedStatusSaga)
+  yield takeEvery(RedistributionTypes.ADD_REDISTRIBUTION, addRedistributionSaga)
 }
 
 export default redistributionSaga;

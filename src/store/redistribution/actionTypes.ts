@@ -1,4 +1,9 @@
 export enum RedistributionTypes {
+  /** ADD **/
+  ADD_REDISTRIBUTION = "@@redistribution/ADD_REDISTRIBUTION",
+  ADD_REDISTRIBUTION_SUCCESS = "@@redistribution/ADD_REDISTRIBUTION_SUCCESS",
+  ADD_REDISTRIBUTION_FAIL = "@@redistribution/ADD_REDISTRIBUTION_FAIL",
+
   /** GET **/
   GET_REDISTRIBUTION = "@@redistribution/GET_REDISTRIBUTION",
   GET_REDISTRIBUTION_SUCCESS = "@@redistribution/GET_REDISTRIBUTION_SUCCESS",
