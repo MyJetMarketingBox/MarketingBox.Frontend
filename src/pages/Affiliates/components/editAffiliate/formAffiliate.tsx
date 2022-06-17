@@ -17,9 +17,11 @@ import { AvField, AvForm } from "availity-reactstrap-validation";
 import { AffiliateState, Currency } from "../../../../common/utils/model";
 import { useDispatch, useSelector } from "react-redux";
 import "react-toastify/dist/ReactToastify.css";
+import { useHistory } from "react-router";
 
 const FormAffiliate = (props: any) => {
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const [stateAff, setStateAff] = useState(0);
   const bg = ["bg-success", "bg-danger", "bg-warning"];
@@ -79,6 +81,10 @@ const FormAffiliate = (props: any) => {
     setStateAff(e.target.value);
   };
 
+  const handleBack = () => {
+    history.goBack()
+  }
+
   return (
     <React.Fragment>
       <AvForm
@@ -88,6 +94,14 @@ const FormAffiliate = (props: any) => {
         }}
       >
         <Row className="mb-3 col">
+
+          <div className="col-xl-12 mb-3 inline-flex">
+            <i className="bx bx-chevron-left font-size-20 text-orange"></i>
+            <a onClick={handleBack} className="text-orange pointer">
+              Back to Affiliates
+            </a>
+          </div>
+
           <div className="col-md-9">
             <h4>{generalInfo.username}</h4>
           </div>
