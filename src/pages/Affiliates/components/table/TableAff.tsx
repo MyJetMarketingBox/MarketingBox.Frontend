@@ -141,18 +141,25 @@ export default ({ affiliates = [] }: any) => {
     },
   ];
 
+  const classesWrapper = ["table-responsive"]
+  if(affiliateData.length === 1){
+    classesWrapper.push('pb-10');
+  }
+
   return (
-    <div>
-      <BootstrapTable
-        keyField="ai"
-        data={affiliateData}
-        columns={columns}
-        bordered={false}
-        striped={false}
-        defaultSorted={defaultSorted}
-        classes={"table align-middle table-nowrap table-hover"}
-        headerWrapperClasses={"thead-light"}
-      />
+    <div className="pb-5">
+      <div className={classesWrapper.join(' ')}>
+        <BootstrapTable
+          keyField="ai"
+          data={affiliateData}
+          columns={columns}
+          bordered={false}
+          striped={false}
+          defaultSorted={defaultSorted}
+          classes={"table align-middle table-nowrap table-hover"}
+          headerWrapperClasses={"thead-light"}
+        />
+      </div>
 
       <ConfirmDelete
         isOpen={isOpen}

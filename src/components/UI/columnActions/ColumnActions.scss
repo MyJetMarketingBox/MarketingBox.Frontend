@@ -4,6 +4,12 @@
   bottom: 100% !important;
 }
 
+.card-dot tr:first-child .dropdown-menu.show,
+.table tr:first-child .dropdown-menu.show {
+  top: 100% !important;
+  bottom: auto !important;
+}
+
 .card-dot .btn-light,
 .table .btn-light {
   background-color: transparent;
