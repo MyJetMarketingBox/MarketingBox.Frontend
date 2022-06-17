@@ -277,15 +277,15 @@ const FormAffiliate = (props: any) => {
           </Col>
           <Col md="3">
             <FormGroup className="mb-3">
-              <Label htmlFor="validationVatIt">VAT IT</Label>
+              <Label htmlFor="validationVatId">VAT ID</Label>
               <AvField
                 name="vatId"
-                placeholder="VAT IT"
+                placeholder="VAT ID"
                 type="text"
-                errorMessage=" Please provide a VAT IT."
+                errorMessage=" Please provide a VAT ID."
                 className="form-control"
                 //validate={{ required: { value: true } }}
-                id="validationVatIt"
+                id="validationVatId"
                 value={company?.vatId || ""}
               />
             </FormGroup>
