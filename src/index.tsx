@@ -16,9 +16,7 @@ render(
   <Provider store={store}>
     <ToastContainer autoClose={2000} />
     <BadRequestContainer />
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    <App />
   </Provider>,
   document.getElementById("root")
 );

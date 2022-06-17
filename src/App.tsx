@@ -8,11 +8,9 @@ import "./assets/scss/preloader.scss";
 
 const App = () => {
   return (
-    <React.Fragment>
-      <Router>
-        <RouteLayout />
-      </Router>
-    </React.Fragment>
+    <Router>
+      <RouteLayout />
+    </Router>
   );
 };
 
