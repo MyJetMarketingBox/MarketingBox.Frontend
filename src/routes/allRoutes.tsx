@@ -31,8 +31,8 @@ import { RouteItemsType } from "../types/RouteItemsType";
 import Page from "../constants/pages";
 import UserProfile from "../pages/Authentication/UserProfile";
 import Redistribution from "../pages/Redistribution";
-import AddRedistribution from "../pages/Redistribution/components/add"
-import RegFileDetail from "../pages/RegFiles/components/detail/index"
+import AddRedistribution from "../pages/Redistribution/components/add";
+import RegFileDetail from "../pages/RegFiles/components/detail/index";
 import CampaignDetail from "src/pages/Campaigns/components/detail/CampaignDetail";
 import GeoDetail from "src/pages/Geo/components/detail/index";
 import OffersPage from "src/pages/Offers/OffersPage";
@@ -237,7 +237,6 @@ const routesList: RouteItemsType[] = [
     strict: true,
     exact: true,
   },
-
 
   {
     path: Page.RESET_PASSWORD,
