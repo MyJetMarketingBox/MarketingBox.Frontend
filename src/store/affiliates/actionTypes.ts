@@ -16,6 +16,7 @@ export enum AffiliatesTypes {
 
   /* CLEAR AFFILIATE */
   CLEAR_AFFILIATE = "@@affiliates/CLEAR_AFFILIATE",
+  CLEAR_AFFILIATE_ERROR = "@@affiliates/CLEAR_AFFILIATE_ERROR",
 }
 
 interface iAffiliate {

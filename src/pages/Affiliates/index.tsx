@@ -11,7 +11,7 @@ import {
 import Breadcrumbs from "../../components/Common/Breadcrumb";
 import AddAffiliateForm from "./components/addAffiliate/AddAffiliateForm";
 import "../../assets/scss/datatables.scss";
-import { clearAffiliate, getAffiliates } from "../../store/actions";
+import { clearAffiliate, clearAffiliateError, getAffiliates } from "../../store/actions";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../../components/UI/loader";
 import SearchAffiliate from "./components/search/SearchAffiliate";
@@ -62,6 +62,7 @@ const Affiliates: React.FC = () => {
 
   const toggleModal = () => {
     setModal(prev => !prev);
+    dispatch(clearAffiliateError());
   };
 
   return (

@@ -53,3 +53,7 @@ export const deleteAffiliateFail = (error : any) => ({
 export const clearAffiliate = () => ({
   type: AffiliatesTypes.CLEAR_AFFILIATE,
 })
+
+export const clearAffiliateError = () => ({
+  type: AffiliatesTypes.CLEAR_AFFILIATE_ERROR
+})
