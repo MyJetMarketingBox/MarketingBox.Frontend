@@ -21,9 +21,11 @@ const App = () => {
       <Provider store={store}>
         <ToastContainer autoClose={2000} />
         <BadRequestContainer />
-        <Router>
-          <RouteLayout />
-        </Router>
+        <>
+          <Router>
+            <RouteLayout />
+          </Router>
+        </>
       </Provider>
     </React.Fragment>
   );
