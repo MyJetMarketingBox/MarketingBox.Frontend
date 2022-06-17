@@ -22,13 +22,14 @@ const Affiliates: React.FC = () => {
 
   const dispatch = useDispatch();
 
-  const { affiliates, nextUrl, errorAff, loading, loaded } = useSelector((state: any) => {
+  const { affiliates, nextUrl, errorAff, loading, loaded, total } = useSelector((state: any) => {
     return {
       affiliates: state.Affiliates.affiliates.items,
       nextUrl: state.Affiliates.affiliates.pagination.nextUrl,
       errorAff: state.Affiliates.error,
       loading: state.Affiliates.loading,
-      loaded: state.Affiliates.loaded
+      loaded: state.Affiliates.loaded,
+      total: state.Affiliates.affiliates.pagination.total
     };
   });
 
@@ -79,8 +80,11 @@ const Affiliates: React.FC = () => {
             <div>
               <CardBody>
                 <Row className="mb-2">
-                  <Col className="col-md-4">
+                  <Col className="col-md-4 mb-4">
                     <SearchAffiliate />
+                    <div className="col-xl-12 text-muted mt-3">
+                      Showing {affiliates.length} / {total} results
+                    </div>
                   </Col>
                   <Col className="col-md-4 offset-4 text-end">
                     <button
