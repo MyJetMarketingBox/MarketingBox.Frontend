@@ -1,26 +1,53 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import MetaTags from "react-meta-tags";
 import Breadcrumbs from "../../../../components/Common/Breadcrumb";
-import { Card, CardBody, Col, Input, Label, NavItem, NavLink, Row, TabContent, TabPane } from "reactstrap";
-import { Link, useHistory } from "react-router-dom";
+import { Card, CardBody, Col, NavItem, NavLink, Row, TabContent, TabPane } from "reactstrap";
+import { useHistory } from "react-router-dom";
 import classnames from "classnames";
 import RegFiles from "../../../RegFiles";
 import Registrations from "./registrations";
-import Filter from "./filter"
+import Filter from "./filter";
 import { useDispatch, useSelector } from "react-redux";
-import Params from "./params"
+import Params from "./params";
 import { addRedistribution } from "../../../../store/redistribution/actions";
+import { RedistributionContentTypeRenderEnum } from "../../../../enums/RedistributionContentTypeRenderEnum";
+import * as yup from "yup";
+import { useFormik } from "formik";
+import ValidationText from "../../../../constants/validationText";
+
+export interface IRedistributionParams {
+  listFileId: number[];
+  listRegId: number[];
+  registrationSearchRequest: {};
+  name: string;
+  affiliateId: number;
+  campaignId: number;
+  frequency: number;
+  portionLimit: number;
+  dayLimit: number;
+  useAutologin: boolean;
+}
 
 export default () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
   const [activeTab, setActiveTab] = useState(1);
-  const [type, setType] = useState<number>(0);
+  const [type, setType] = useState<RedistributionContentTypeRenderEnum | null>(null);
   const [listFileId, setListFileId] = useState<number[]>([]);
   const [listRegId, setListRegId] = useState<number[]>([]);
   const [registrationSearchRequest, setRegistrationSearchRequest] = useState<any>(null);
   const [params, createParams] = useState<any>();
+
+  /*const validationSchema: yup.SchemaOf<IRedistributionParams> = yup
+    .object()
+    .shape({
+
+    });
+
+  const initialValues: IRedistributionParams = {
+
+  };*/
 
 
   const {
@@ -101,19 +128,23 @@ export default () => {
 
   const renderContent = () => {
     switch (type) {
-      case 1:
+      case RedistributionContentTypeRenderEnum.Registrations:
         return <Registrations selected={true} setRegId={handelSetRegId} clearState={clear}/>;
 
-      case 2:
+      case RedistributionContentTypeRenderEnum.Filter:
         return <Filter setFilter={handelSetFilter} clearState={clear} />;
 
-      case 3:
+      case RedistributionContentTypeRenderEnum.RegFiles:
         return <RegFiles selectedCol={true} setIdFile={handlerSetIdFile} clearState={clear}/>;
 
       default:
         return null;
     }
   };
+
+  const handleChange = (e : any) => {
+    setType(+e.target.value)
+  }
 
   return (
     <React.Fragment>
@@ -175,7 +206,7 @@ export default () => {
                   >
                     <TabPane tabId={1}>
                       <div className="mb-4">
-                        {type > 0 &&
+                        {type !== null &&
                           <Params setParams={setParams} />
                         }
                       </div>
@@ -183,9 +214,7 @@ export default () => {
 
                         <div className="col-md-4 content-center">
                           <div className="form_radio_btn">
-                            <input id="radio1" type="radio" name="type" value="1" key="1" onClick={() => {
-                              setType(1);
-                            }}/>
+                            <input id="radio1" type="radio" name="type" value={RedistributionContentTypeRenderEnum.Registrations} key="1"  onChange={handleChange}/>
                             <label htmlFor="radio1">
                               <i className="mdi mdi-database-plus font-size-132"/>
                               <div className="title">Registrations</div>
@@ -195,9 +224,7 @@ export default () => {
 
                         <div className="col-md-4 content-center">
                           <div className="form_radio_btn">
-                            <input id="radio2" type="radio" name="type" value="2" key="2" onClick={() => {
-                              setType(2);
-                            }}/>
+                            <input id="radio2" type="radio" name="type" value={RedistributionContentTypeRenderEnum.Filter} key="2" onChange={handleChange}/>
                             <label htmlFor="radio2">
                               <i className="mdi mdi-database-arrow-right-outline font-size-132"/>
                               <div className="title">Import from data base</div>
@@ -207,9 +234,7 @@ export default () => {
 
                         <div className="col-md-4 content-center">
                           <div className="form_radio_btn">
-                            <input id="radio4" type="radio" name="type" value="4" key="4" onClick={() => {
-                              setType(3);
-                            }}/>
+                            <input id="radio4" type="radio" name="type" value={RedistributionContentTypeRenderEnum.RegFiles} key="4" onChange={handleChange}/>
                             <label htmlFor="radio4">
                               <i className="mdi mdi-file-table-outline font-size-132"/>
                               <div className="title">Import from file</div>
@@ -226,7 +251,7 @@ export default () => {
                           {/*<p className="card-title-desc">Fill all information below</p>*/}
                         </div>
 
-                        {type > 0 && renderContent()}
+                        {type !== null && renderContent()}
                       </div>
                     </TabPane>
 

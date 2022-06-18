@@ -327,6 +327,12 @@ body[data-layout-mode="dark"] {
     cursor: pointer;
 }
 
+.un-pointer-tr {
+    tbody tr{
+        cursor: auto !important;
+    }
+}
+
 .card-dot{
     position: absolute;
     right: 10px;

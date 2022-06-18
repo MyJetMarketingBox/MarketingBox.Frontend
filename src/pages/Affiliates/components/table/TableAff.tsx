@@ -147,7 +147,7 @@ export default ({ affiliates = [] }: any) => {
   }
 
   return (
-    <div className="pb-5">
+    <div className="pb-5 pointer">
       <div className={classesWrapper.join(' ')}>
         <BootstrapTable
           keyField="ai"
@@ -156,7 +156,7 @@ export default ({ affiliates = [] }: any) => {
           bordered={false}
           striped={false}
           defaultSorted={defaultSorted}
-          classes={"table align-middle table-nowrap table-hover"}
+          classes={"table align-middle table-nowrap table-hover un-pointer-tr"}
           headerWrapperClasses={"thead-light"}
         />
       </div>
