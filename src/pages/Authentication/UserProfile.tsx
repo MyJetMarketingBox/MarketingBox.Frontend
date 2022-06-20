@@ -51,8 +51,8 @@ const UserProfile = () => {
     loaded: state.AffProfile.loaded,
     upLoading: state.AffProfile.upLoading,
     upLoaded: state.AffProfile.upLoaded,
-    authUserID: state.login.userInfo?.["user-id"] || "",
-    authUserName: state.login.userInfo?.["user-name"] || "",
+    authUserID: state.authUser.userInfo?.["user-id"] || "",
+    authUserName: state.authUser.userInfo?.["user-name"] || "",
   }));
 
   function handleValidSubmit(event: any, values: any) {

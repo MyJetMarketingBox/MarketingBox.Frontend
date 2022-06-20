@@ -3,9 +3,6 @@ import { all, fork } from "redux-saga/effects";
 //Layout
 import LayoutSaga from "./layout/saga";
 
-//Login
-import authSaga from "./auth/login/saga";
-
 //Affiliates
 import affiliatesSaga from "./affiliates/saga";
 
@@ -49,9 +46,6 @@ import postbackSaga from "./postback/saga";
 //Geo
 import geoSaga from "./geo/saga";
 
-//Register
-import registerSaga from "./auth/register/saga";
-
 //Redistribution
 import redistributionSaga from "./redistribution/saga";
 
@@ -71,7 +65,6 @@ export default function* rootSaga() {
   yield all([
     //public
     fork(LayoutSaga),
-    fork(authSaga),
     fork(affiliatesSaga),
     fork(affProfileSaga),
     fork(affPayoutsSaga),
@@ -86,7 +79,6 @@ export default function* rootSaga() {
     fork(integrationsSaga),
     fork(geoSaga),
     fork(languageSaga),
-    fork(registerSaga),
     fork(postbackSaga),
     fork(redistributionSaga),
     fork(campaignRowsSaga),

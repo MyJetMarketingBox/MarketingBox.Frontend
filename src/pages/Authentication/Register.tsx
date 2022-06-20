@@ -5,12 +5,7 @@ import * as yup from "yup";
 import { useFormik } from "formik";
 import { Link, useHistory } from "react-router-dom";
 // action
-import {
-  registerUser,
-  apiError,
-  loginSuccess,
-  registerUserAction,
-} from "../../store/actions";
+import { registerUserAction } from "../../store/actions";
 //redux
 import { useSelector, useDispatch } from "react-redux";
 

@@ -45,12 +45,6 @@ export * from "./redistribution/actions";
 /** RegFiles **/
 export * from "./regFiles/actions";
 
-/** Login */
-export * from "./auth/login/actions";
-
-/** Register */
-export * from "./auth/register/actions";
-
 /** User Profile */
 
 /** Forget Password */

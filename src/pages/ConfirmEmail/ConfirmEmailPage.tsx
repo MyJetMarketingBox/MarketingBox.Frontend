@@ -18,14 +18,14 @@ const ConfirmEmailPage = () => {
       AffiliateAccStatusEnum.NotActive,
   }));
 
-  const showConfirmeDone = isConfirmed && status === "done";
+  const showConfirmeDone = status === "done";
 
   const handleClickBack = () => {
     push(showConfirmeDone ? Page.DASHBOARD : Page.SIGN_OUT);
   };
 
   useEffect(() => {
-    if (!showConfirmeDone) {
+    if (!showConfirmeDone || isConfirmed) {
       push(Page.DASHBOARD);
     }
   }, []);
