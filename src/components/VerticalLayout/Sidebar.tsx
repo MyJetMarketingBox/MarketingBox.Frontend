@@ -1,9 +1,6 @@
 import React from "react";
-import { layoutThemeEnum } from "src/enums/LayoutsEnum";
 
-//import components
 import SidebarContent from "./SidebarContent";
-
 
 const Sidebar = () => {
   return (

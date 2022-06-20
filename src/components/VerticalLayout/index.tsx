@@ -2,18 +2,11 @@ import PropTypes from "prop-types";
 import React, { useEffect } from "react";
 import { changelayoutMode } from "../../store/actions";
 
-// Layout Related Components
 import Header from "./Header";
 import Sidebar from "./Sidebar";
 
-//redux
 import { useSelector, useDispatch } from "react-redux";
-import parseJwt from "../../common/utils/parse";
-import { ToastContainer } from "react-toastify";
-import {
-  LOCAL_STORAGE_AUTH_USER,
-  LOCAL_STORAGE_LAYOUT_THEME,
-} from "../../constants/localStorageKeys";
+import { LOCAL_STORAGE_LAYOUT_THEME } from "../../constants/localStorageKeys";
 
 const Layout = (props: any) => {
   const dispatch = useDispatch();

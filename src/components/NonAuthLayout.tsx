@@ -3,10 +3,7 @@ import { withRouter } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 const NonAuthLayout = ({ children }: any) => {
-
-  const {
-    isBlur,
-  } = useSelector((state: any) => ({
+  const { isBlur } = useSelector((state: any) => ({
     isBlur: state.Layout.isBlur,
   }));
 

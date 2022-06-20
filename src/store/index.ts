@@ -1,4 +1,4 @@
-import { createStore, applyMiddleware, compose } from "redux";
+import { createStore, applyMiddleware } from "redux";
 import createSagaMiddleware from "redux-saga";
 import reducers from "./reducers";
 import rootSaga from "./sagas";
@@ -14,9 +14,7 @@ if (process.env.NODE_ENV === "development") {
 } else {
   middlewares = [sagaMiddleware];
 }
-const composeEnhancers = composeWithDevTools({
-  // Specify name here, actionsBlacklist, actionsCreators and components options if needed
-});
+const composeEnhancers = composeWithDevTools({});
 
 export function configureStore(initialState: any) {
   const store = createStore(
