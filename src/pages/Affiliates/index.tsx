@@ -33,7 +33,7 @@ const Affiliates: React.FC = () => {
     };
   });
 
-  const [modal, setModal] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   let filter = {
     order: 1,
@@ -61,8 +61,10 @@ const Affiliates: React.FC = () => {
   // }
 
   const toggleModal = () => {
-    setModal(prev => !prev);
-    dispatch(clearAffiliateError());
+    setIsOpen(prev => !prev);
+    if(errorAff.error) {
+      dispatch(clearAffiliateError());
+    }
   };
 
   return (
@@ -127,7 +129,7 @@ const Affiliates: React.FC = () => {
           </Col>
         </Row>
       </div>
-      <AddAffiliateForm isOpen={modal} toggle={toggleModal} />
+      <AddAffiliateForm isOpen={isOpen} toggle={toggleModal} />
     </>
   );
 };
