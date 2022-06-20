@@ -5,8 +5,15 @@ import rootSaga from "./sagas";
 import { composeWithDevTools } from "redux-devtools-extension";
 import { createLogger } from "redux-logger";
 const sagaMiddleware = createSagaMiddleware();
-const middlewares = [sagaMiddleware];
 
+let middlewares: any = [];
+const logger = createLogger();
+
+if (process.env.NODE_ENV === "development") {
+  middlewares = [sagaMiddleware, logger];
+} else {
+  middlewares = [sagaMiddleware];
+}
 const composeEnhancers = composeWithDevTools({
   // Specify name here, actionsBlacklist, actionsCreators and components options if needed
 });
@@ -15,7 +22,7 @@ export function configureStore(initialState: any) {
   const store = createStore(
     reducers,
     initialState,
-    composeEnhancers(applyMiddleware(...middlewares, createLogger()))
+    composeEnhancers(applyMiddleware(...middlewares))
   );
   sagaMiddleware.run(rootSaga);
   return store;
