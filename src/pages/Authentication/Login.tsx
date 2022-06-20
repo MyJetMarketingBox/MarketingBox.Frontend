@@ -132,6 +132,11 @@ const Login = () => {
                     errorText={errors.password}
                     type="password"
                   />
+                  <div className="auth-page-forgot-pass mb-3">
+                    <Link to={Page.FORGOT_PASSWORD} className="">
+                      Forgot password?
+                    </Link>
+                  </div>
                   <div className="mb-3">
                     <Input
                       className="form-checkbox-input"
