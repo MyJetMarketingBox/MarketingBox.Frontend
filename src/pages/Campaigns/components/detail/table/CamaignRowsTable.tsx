@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { ICampaignRowItem } from "src/store/campaignsRow/actionTypes";
 import ToolkitProvider, { Search } from "react-bootstrap-table2-toolkit";
 import PopoverActivityHours from "../../../../../components/UI/popover/bottom/activityHours";
@@ -32,15 +32,12 @@ const CamaignRowsTable = ({ items }: Props) => {
     {
       label: "Edit",
       handler: (id: any) => {
-        console.log("edit ", id);
         dispatch(openEditCampaignRowModal(id));
       },
     },
     {
       label: "Delete",
       handler: (id: any) => {
-        console.log("delete ", id);
-
         setIsOpen(true);
         setSelectId(id);
       },
@@ -48,13 +45,12 @@ const CamaignRowsTable = ({ items }: Props) => {
   ];
 
   const tableRowEvents = {
-    onClick: (e:any, row:any, rowIndex:any) => {
-      //console.log(e);
-      if(e.target.classList.length == 0) {
+    onClick: (e: any, row: any, rowIndex: any) => {
+      if (e.target.classList.length == 0) {
         dispatch(openEditCampaignRowModal(row.id));
       }
-    }
-  }
+    },
+  };
 
   const resCampaigns = useMemo(() => {
     return items.map(campaignRow => ({

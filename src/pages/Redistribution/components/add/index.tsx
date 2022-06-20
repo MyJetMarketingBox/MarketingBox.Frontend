@@ -1,7 +1,16 @@
 import React, { useMemo, useState } from "react";
 import MetaTags from "react-meta-tags";
 import Breadcrumbs from "../../../../components/Common/Breadcrumb";
-import { Card, CardBody, Col, NavItem, NavLink, Row, TabContent, TabPane } from "reactstrap";
+import {
+  Card,
+  CardBody,
+  Col,
+  NavItem,
+  NavLink,
+  Row,
+  TabContent,
+  TabPane,
+} from "reactstrap";
 import { useHistory } from "react-router-dom";
 import classnames from "classnames";
 import RegFiles from "../../../RegFiles";
@@ -33,10 +42,13 @@ export default () => {
   const history = useHistory();
 
   const [activeTab, setActiveTab] = useState(1);
-  const [type, setType] = useState<RedistributionContentTypeRenderEnum | null>(null);
+  const [type, setType] = useState<RedistributionContentTypeRenderEnum | null>(
+    null
+  );
   const [listFileId, setListFileId] = useState<number[]>([]);
   const [listRegId, setListRegId] = useState<number[]>([]);
-  const [registrationSearchRequest, setRegistrationSearchRequest] = useState<any>(null);
+  const [registrationSearchRequest, setRegistrationSearchRequest] =
+    useState<any>(null);
   const [params, createParams] = useState<any>();
 
   /*const validationSchema: yup.SchemaOf<IRedistributionParams> = yup
@@ -49,21 +61,17 @@ export default () => {
 
   };*/
 
-
-  const {
-    loading
-  } = useSelector((state: any) => {
+  const { loading } = useSelector((state: any) => {
     return {
       loading: state.Redistribution.loading,
     };
   });
 
   const isRegSearchRequest = useMemo(() => {
-    if(!registrationSearchRequest) {
+    if (!registrationSearchRequest) {
       return false;
     }
-    return !Object.values(registrationSearchRequest).some(el => !!el === true)
-
+    return !Object.values(registrationSearchRequest).some(el => !!el === true);
   }, [registrationSearchRequest]);
 
   function toggleTab(tab: any) {
@@ -94,57 +102,65 @@ export default () => {
       newArr.splice(idx, 1);
     }
     setListRegId(newArr);
-  }
+  };
 
   const handelSetFilter = (data: any) => {
     setRegistrationSearchRequest(data);
-  }
+  };
 
   const clear = () => {
     setListFileId([]);
     setListRegId([]);
     setRegistrationSearchRequest(null);
-  }
+  };
 
   const setParams = (data: any) => {
     createParams(data);
-  }
+  };
 
   const handelSubmit = () => {
-
     let sendData: any = {
-      "registrationsIds": listRegId,
-      "filesIds": listFileId,
-      "registrationSearchRequest": registrationSearchRequest,
-    }
+      registrationsIds: listRegId,
+      filesIds: listFileId,
+      registrationSearchRequest: registrationSearchRequest,
+    };
 
-    sendData = { ...params, ...sendData  };
+    sendData = { ...params, ...sendData };
 
-    //console.log("SEND DATA", sendData);
-
-    dispatch(addRedistribution(sendData, history))
-
-  }
+    dispatch(addRedistribution(sendData, history));
+  };
 
   const renderContent = () => {
     switch (type) {
       case RedistributionContentTypeRenderEnum.Registrations:
-        return <Registrations selected={true} setRegId={handelSetRegId} clearState={clear}/>;
+        return (
+          <Registrations
+            selected={true}
+            setRegId={handelSetRegId}
+            clearState={clear}
+          />
+        );
 
       case RedistributionContentTypeRenderEnum.Filter:
         return <Filter setFilter={handelSetFilter} clearState={clear} />;
 
       case RedistributionContentTypeRenderEnum.RegFiles:
-        return <RegFiles selectedCol={true} setIdFile={handlerSetIdFile} clearState={clear}/>;
+        return (
+          <RegFiles
+            selectedCol={true}
+            setIdFile={handlerSetIdFile}
+            clearState={clear}
+          />
+        );
 
       default:
         return null;
     }
   };
 
-  const handleChange = (e : any) => {
-    setType(+e.target.value)
-  }
+  const handleChange = (e: any) => {
+    setType(+e.target.value);
+  };
 
   return (
     <React.Fragment>
@@ -153,7 +169,7 @@ export default () => {
           <title>Add Redistribution | TraffMe </title>
         </MetaTags>
         <div className="container-fluid">
-          <Breadcrumbs title="TraffMe" breadcrumbItem="Add Redistribution"/>
+          <Breadcrumbs title="TraffMe" breadcrumbItem="Add Redistribution" />
         </div>
 
         <Row>
@@ -165,7 +181,10 @@ export default () => {
                     <NavItem>
                       <NavLink
                         to="#"
-                        className={classnames({ active: activeTab === 1 }, "nav-link")}
+                        className={classnames(
+                          { active: activeTab === 1 },
+                          "nav-link"
+                        )}
                         /*onClick={() => {
                           setActiveTab(1);
                         }}*/
@@ -199,24 +218,30 @@ export default () => {
                       </NavLink>
                     </NavItem>
                   </ul>
-                  <hr/>
+                  <hr />
                   <TabContent
                     className="twitter-bs-wizard-tab-content"
                     activeTab={activeTab}
                   >
                     <TabPane tabId={1}>
                       <div className="mb-4">
-                        {type !== null &&
-                          <Params setParams={setParams} />
-                        }
+                        {type !== null && <Params setParams={setParams} />}
                       </div>
                       <div className="row">
-
                         <div className="col-md-4 content-center">
                           <div className="form_radio_btn">
-                            <input id="radio1" type="radio" name="type" value={RedistributionContentTypeRenderEnum.Registrations} key="1"  onChange={handleChange}/>
+                            <input
+                              id="radio1"
+                              type="radio"
+                              name="type"
+                              value={
+                                RedistributionContentTypeRenderEnum.Registrations
+                              }
+                              key="1"
+                              onChange={handleChange}
+                            />
                             <label htmlFor="radio1">
-                              <i className="mdi mdi-database-plus font-size-132"/>
+                              <i className="mdi mdi-database-plus font-size-132" />
                               <div className="title">Registrations</div>
                             </label>
                           </div>
@@ -224,9 +249,16 @@ export default () => {
 
                         <div className="col-md-4 content-center">
                           <div className="form_radio_btn">
-                            <input id="radio2" type="radio" name="type" value={RedistributionContentTypeRenderEnum.Filter} key="2" onChange={handleChange}/>
+                            <input
+                              id="radio2"
+                              type="radio"
+                              name="type"
+                              value={RedistributionContentTypeRenderEnum.Filter}
+                              key="2"
+                              onChange={handleChange}
+                            />
                             <label htmlFor="radio2">
-                              <i className="mdi mdi-database-arrow-right-outline font-size-132"/>
+                              <i className="mdi mdi-database-arrow-right-outline font-size-132" />
                               <div className="title">Import from data base</div>
                             </label>
                           </div>
@@ -234,14 +266,22 @@ export default () => {
 
                         <div className="col-md-4 content-center">
                           <div className="form_radio_btn">
-                            <input id="radio4" type="radio" name="type" value={RedistributionContentTypeRenderEnum.RegFiles} key="4" onChange={handleChange}/>
+                            <input
+                              id="radio4"
+                              type="radio"
+                              name="type"
+                              value={
+                                RedistributionContentTypeRenderEnum.RegFiles
+                              }
+                              key="4"
+                              onChange={handleChange}
+                            />
                             <label htmlFor="radio4">
-                              <i className="mdi mdi-file-table-outline font-size-132"/>
+                              <i className="mdi mdi-file-table-outline font-size-132" />
                               <div className="title">Import from file</div>
                             </label>
                           </div>
                         </div>
-
                       </div>
                     </TabPane>
                     <TabPane tabId={2}>
@@ -347,7 +387,11 @@ export default () => {
                     </TabPane>*/}
                   </TabContent>
                   <ul className="pager wizard twitter-bs-wizard-pager-link">
-                    <li className={activeTab === 1 ? "previous disabled" : "previous"}>
+                    <li
+                      className={
+                        activeTab === 1 ? "previous disabled" : "previous"
+                      }
+                    >
                       <button
                         className={
                           activeTab === 1
@@ -367,7 +411,13 @@ export default () => {
                         <button
                           className="btn btnOrange btn-width-250"
                           onClick={handelSubmit}
-                          disabled={!(listRegId.length || listFileId.length || !isRegSearchRequest)}
+                          disabled={
+                            !(
+                              listRegId.length ||
+                              listFileId.length ||
+                              !isRegSearchRequest
+                            )
+                          }
                         >
                           {loading && (
                             <i className="bx bx-hourglass bx-spin me-2" />
@@ -376,21 +426,23 @@ export default () => {
                         </button>
                       </li>
                     ) : (
-                    <li className={activeTab === 2 ? "next disabled" : "next"}>
-                      <button
-                        className={
-                          activeTab === 2
-                            ? "btn btnOrange btn-width-250 disabled"
-                            : "btn btnOrange btn-width-250"
-                        }
-                        onClick={() => {
-                          toggleTab(activeTab + 1);
-                        }}
-                        //disabled={!params?.nameRedistribution}
+                      <li
+                        className={activeTab === 2 ? "next disabled" : "next"}
                       >
-                        Next <i className="bx bx-chevron-right ms-1"></i>
-                      </button>
-                    </li>
+                        <button
+                          className={
+                            activeTab === 2
+                              ? "btn btnOrange btn-width-250 disabled"
+                              : "btn btnOrange btn-width-250"
+                          }
+                          onClick={() => {
+                            toggleTab(activeTab + 1);
+                          }}
+                          //disabled={!params?.nameRedistribution}
+                        >
+                          Next <i className="bx bx-chevron-right ms-1"></i>
+                        </button>
+                      </li>
                     )}
                   </ul>
                 </div>
@@ -398,8 +450,7 @@ export default () => {
             </Card>
           </Col>
         </Row>
-
       </div>
     </React.Fragment>
   );
-}
+};

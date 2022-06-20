@@ -1,9 +1,16 @@
 import {
-  Col, Modal, ModalBody, ModalHeader, Row,
+  Col,
+  Modal,
+  ModalBody,
+  ModalHeader,
+  Row,
   Nav,
   NavItem,
-  NavLink, CardText, TabPane, TabContent, ModalFooter
-
+  NavLink,
+  CardText,
+  TabPane,
+  TabContent,
+  ModalFooter,
 } from "reactstrap";
 import { AvField, AvForm } from "availity-reactstrap-validation";
 import { useDispatch } from "react-redux";
@@ -12,9 +19,7 @@ import React, { useState } from "react";
 import { httpQueryType } from "../../../../common/utils/model";
 import { addPostback } from "../../../../store/postback/actions";
 
-
-export default ({isOpen, toggle}: any) => {
-
+export default ({ isOpen, toggle }: any) => {
   const dispatch = useDispatch();
 
   const [customActiveTab, setcustomActiveTab] = useState("1");
@@ -27,7 +32,7 @@ export default ({isOpen, toggle}: any) => {
       depositTGReference: values["depositTGReference"],
       httpQueryType: +values["httpQueryType"],
     };
-    console.log(postback);
+
     dispatch(addPostback(postback)); // save new postback
     toggle();
   };
@@ -39,23 +44,19 @@ export default ({isOpen, toggle}: any) => {
   };
 
   return (
-    <Modal isOpen={isOpen} toggle={toggle} cssModule={{filter: "blur(5px)"}}>
+    <Modal isOpen={isOpen} toggle={toggle} cssModule={{ filter: "blur(5px)" }}>
       <ModalHeader toggle={toggle} tag="h4">
         Add a new Postback
       </ModalHeader>
 
       <ModalBody>
         <AvForm
-          onValidSubmit={(
-            e: any,
-            values: any
-          ) => {
+          onValidSubmit={(e: any, values: any) => {
             handleValidSubmit(values);
           }}
         >
           <Row form>
             <Col xs={12}>
-
               <Nav tabs className="nav-tabs-custom nav-justified">
                 <NavItem>
                   <NavLink
@@ -114,7 +115,6 @@ export default ({isOpen, toggle}: any) => {
                           placeholder="Enter lead URL TG"
                           value=""
                         />
-
                       </CardText>
                     </Col>
                   </Row>
@@ -156,15 +156,19 @@ export default ({isOpen, toggle}: any) => {
                   className="form-select"
                   errorMessage="Invalid query type"
                   validate={{
-                    required: { value: true }
+                    required: { value: true },
                   }}
                 >
-                  <option value="" key={0} >Select query type</option>
-                  {
-                    httpQueryType.map((item, idx) => {
-                      return <option value={idx} key={idx+1}>{item}</option>
-                    })
-                  }
+                  <option value="" key={0}>
+                    Select query type
+                  </option>
+                  {httpQueryType.map((item, idx) => {
+                    return (
+                      <option value={idx} key={idx + 1}>
+                        {item}
+                      </option>
+                    );
+                  })}
                 </AvField>
               </div>
             </Col>
@@ -173,10 +177,7 @@ export default ({isOpen, toggle}: any) => {
           <ModalFooter>
             <Col>
               <div className="text-end">
-                <button
-                  type="submit"
-                  className="btn btn-success save-user"
-                >
+                <button type="submit" className="btn btn-success save-user">
                   Save
                 </button>
               </div>
@@ -185,5 +186,5 @@ export default ({isOpen, toggle}: any) => {
         </AvForm>
       </ModalBody>
     </Modal>
-  )
-}
+  );
+};

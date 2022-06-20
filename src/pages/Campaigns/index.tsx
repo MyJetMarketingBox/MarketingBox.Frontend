@@ -54,7 +54,6 @@ const CampaignsGrid = () => {
   const { tab } = useParams<{ id: string; tab: string }>();
   const { push } = useHistory();
 
-  console.log(tab);
   const dispatch = useDispatch();
   const { campaigns, pagination, nextUrl, loaded, loading, error } =
     useSelector((state: RootStoreType) => ({

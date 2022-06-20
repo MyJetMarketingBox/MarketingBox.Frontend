@@ -1,9 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import MetaTags from "react-meta-tags";
 import { Label, Input, Form, FormFeedback } from "reactstrap";
 import * as yup from "yup";
 import { useFormik } from "formik";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 // action
 import { registerUserAction } from "../../store/actions";
 //redux
@@ -11,7 +11,6 @@ import { useSelector, useDispatch } from "react-redux";
 
 // import images
 import logo from "../../assets/images/logo.svg";
-import Modal from "../../components/UI/modal/info";
 import ValidationText from "src/constants/validationText";
 import LabelInput from "src/components/UI/FormElements/LabelInput";
 import LabelSelect from "src/components/UI/FormElements/LabelSelect";
@@ -31,8 +30,6 @@ interface UserRegistrationType {
 
 const Register = () => {
   const dispatch = useDispatch();
-
-  const formRef = useRef<HTMLFormElement>(null);
 
   const { error, loading } = useSelector((store: RootStoreType) => ({
     error: store.authUser.apiError,
@@ -92,8 +89,6 @@ const Register = () => {
   };
 
   const handleSubmitForm = async () => {
-    console.log("[LOG] Send registration");
-
     const data = {
       username: values.username,
       email: values.email.toLowerCase(),
@@ -129,7 +124,6 @@ const Register = () => {
     validateForm,
     handleChange,
     submitForm,
-    resetForm,
     handleBlur,
     errors,
     touched,
@@ -174,7 +168,7 @@ const Register = () => {
                   Get your free TraffMe account now
                 </p>
 
-                <Form className="custom-form" noValidate innerRef={formRef}>
+                <Form className="custom-form" noValidate>
                   <LabelInput
                     label="Email"
                     placeholder="Enter your email"

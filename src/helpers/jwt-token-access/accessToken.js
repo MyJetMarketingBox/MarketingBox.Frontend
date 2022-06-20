@@ -4,5 +4,5 @@ import { LOCAL_STORAGE_TOKEN } from "../../constants/localStorageKeys";
 
 const token = JSON.parse(localStorage.getItem(LOCAL_STORAGE_TOKEN)) || null;
 const accessToken = token != null ? "Bearer " + token : "";
-//console.log(accessToken);
+
 export default accessToken;

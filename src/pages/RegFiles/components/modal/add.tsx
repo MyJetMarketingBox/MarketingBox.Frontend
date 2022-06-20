@@ -63,19 +63,6 @@ const addFile = ({ isOpen, toggle }: Props) => {
   }, [loadingUpload, loadedUpload]);
 
   const handleFileUpload = () => {
-    // //console.log(selectedFiles[0]);
-    // let formData = new FormData();
-
-    // formData.append('file', selectedFiles[0].file);
-
-    /*if (selectedFiles.length) {
-      selectedFiles.map((item: any) => {
-        console.log(item);
-        formData.append('file', item, item.name);
-      });
-      console.log(formData.get('file'));
-    }*/
-
     dispatch(uploadFile(selectedFiles[0]));
   };
 

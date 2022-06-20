@@ -27,7 +27,7 @@ import { ReactComponent as IconMarketingTools } from "../../assets/images/icon-m
 import { ReactComponent as IconConversions } from "../../assets/images/icon-conversions.svg";
 import { ReactComponent as IconSettings } from "../../assets/images/icons-settings.svg";
 import { ReactComponent as IconRedistribution } from "../../assets/images/icon-phone-flip.svg";
-// 
+//
 
 const SidebarContent = (props: any) => {
   const ref = useRef<any>();
@@ -78,7 +78,6 @@ const SidebarContent = (props: any) => {
 
   function handleToggleMob(e: any) {
     e.preventDefault();
-    console.log("TRATATA");
     const body = document.body;
     body.classList.remove("mob-menu-opened");
   }

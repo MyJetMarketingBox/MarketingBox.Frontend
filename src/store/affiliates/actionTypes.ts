@@ -1,3 +1,4 @@
+import { PaginationType } from "src/types/PaginationType";
 export enum AffiliatesTypes {
   /** Get affiliates */
   GET_AFFILIATES = "@@affiliates/GET_AFFILIATES",
@@ -25,7 +26,7 @@ interface iAffiliate {
 
 interface iAffiliates {
   items: Array<iAffiliate>;
-  pagination: Object;
+  pagination: PaginationType | null;
 }
 
 export interface AffiliatesState {

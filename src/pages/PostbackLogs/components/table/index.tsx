@@ -1,11 +1,12 @@
 import BootstrapTable from "react-bootstrap-table-next";
-import React, { useState } from "react";
-import { eventType, httpQueryType, responseStatus } from "../../../../common/utils/model";
+import React from "react";
+import {
+  eventType,
+  httpQueryType,
+  responseStatus,
+} from "../../../../common/utils/model";
 
-
-export default ({logs = [], setID, toggle} : any) => {
-  //console.log(logs);
-
+export default ({ logs = [], setID, toggle }: any) => {
   const columns = [
     {
       dataField: "id",
@@ -43,31 +44,30 @@ export default ({logs = [], setID, toggle} : any) => {
       sort: true,
       headerStyle: () => {
         return { maxWidth: "10%" };
-      }
+      },
     },
     {
       dataField: "createdAt",
       text: "Created At",
       sort: true,
-    }
+    },
   ];
 
   const defaultSorted: any = [
     {
       dataField: "id",
-      order: "desc"
-    }
+      order: "desc",
+    },
   ];
 
   const tableRowEvents = {
-    onClick: (e:any, row:any, rowIndex:any) => {
-      console.log(row);
-      if(e.target.classList.length == 0) {
+    onClick: (e: any, row: any, rowIndex: any) => {
+      if (e.target.classList.length == 0) {
         setID(row.id);
         toggle();
       }
-    }
-  }
+    },
+  };
 
   /*
   "
@@ -88,14 +88,21 @@ export default ({logs = [], setID, toggle} : any) => {
       httpQueryType: httpQueryType[item.httpQueryType].toUpperCase(),
       responseStatus: responseStatus[item.responseStatus].toUpperCase(),
       postbackReference: item.postbackReference,
-      createdAt: new Date(item.date).toLocaleDateString('ru-RU', {day:"2-digit", month:"2-digit", year:"2-digit", hour: "2-digit", minute: "2-digit", second: "numeric"}),
-    }
+      createdAt: new Date(item.date).toLocaleDateString("ru-RU", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "numeric",
+      }),
+    };
   });
 
   return (
     <>
       <BootstrapTable
-        keyField='id'
+        keyField="id"
         data={logsData}
         columns={columns}
         bordered={false}
@@ -106,6 +113,5 @@ export default ({logs = [], setID, toggle} : any) => {
         rowEvents={tableRowEvents}
       />
     </>
-  )
-
-}
+  );
+};

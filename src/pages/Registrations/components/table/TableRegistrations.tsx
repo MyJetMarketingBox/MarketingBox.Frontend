@@ -1,32 +1,43 @@
 import BootstrapTable from "react-bootstrap-table-next";
 import React, { useState } from "react";
-import { DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown } from "reactstrap";
+import {
+  DropdownItem,
+  DropdownMenu,
+  DropdownToggle,
+  UncontrolledDropdown,
+} from "reactstrap";
 import { Link } from "react-router-dom";
 import ColumnActions from "../../../../components/UI/columnActions/ColumnActions";
-import { registrationModel, RegistrationStatus, RegistrationStatusObj } from "../../../../common/utils/model";
+import {
+  registrationModel,
+  RegistrationStatus,
+  RegistrationStatusObj,
+} from "../../../../common/utils/model";
 import Page from "../../../../constants/pages";
-import ChangeStatus from "../../../../components/UI/modal/changeStatus"
+import ChangeStatus from "../../../../components/UI/modal/changeStatus";
 import { RegistrationStatusEnum } from "../../../../enums/RegistrationStatusEnum";
 import { TableButtonHandlerEnum } from "../../../../enums/TableButtonHandlerEnum";
 
-export default ({registrations = [], setRegId, toggle, selected} : any) => {
+export default ({ registrations = [], setRegId, toggle, selected }: any) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectId, setSelectId] = useState<number>();
-  const [selectStatus, setSelectStatus] = useState<RegistrationStatusEnum>(RegistrationStatusEnum.Registered);
+  const [selectStatus, setSelectStatus] = useState<RegistrationStatusEnum>(
+    RegistrationStatusEnum.Registered
+  );
 
   const toggleAction = () => {
     setIsOpen(prev => !prev);
   };
 
-  let selectRow:any;
+  let selectRow: any;
 
-  if(selected){
+  if (selected) {
     selectRow = {
       mode: "checkbox",
       clickToSelect: true,
-      onSelect: ( e: any, row: any, rowIndex: any, isSelect: any) => {
+      onSelect: (e: any, row: any, rowIndex: any, isSelect: any) => {
         setRegId(e.id);
-      }
+      },
     };
   }
 
@@ -34,10 +45,10 @@ export default ({registrations = [], setRegId, toggle, selected} : any) => {
     {
       label: "change status",
       type: TableButtonHandlerEnum.EditStatus,
-      handler: (id : number, status: RegistrationStatusEnum) => {
+      handler: (id: number, status: RegistrationStatusEnum) => {
         setIsOpen(true);
         setSelectId(+id);
-        setSelectStatus(status)
+        setSelectStatus(status);
       },
     },
   ];
@@ -74,11 +85,7 @@ export default ({registrations = [], setRegId, toggle, selected} : any) => {
       sort: true,
       formatter: (cellContent: any, data: any) => (
         <>
-          <div
-            className={
-              "badge badge-soft-" + data.color + " font-size-12"
-            }
-          >
+          <div className={"badge badge-soft-" + data.color + " font-size-12"}>
             {data.status}
           </div>
         </>
@@ -101,41 +108,41 @@ export default ({registrations = [], setRegId, toggle, selected} : any) => {
     },
   ];
 
-  if(!selected){
-    columns.unshift(
-      {
-        dataField: "actions",
-        text: "Actions",
-        sort:false,
-        formatter: (cell: any, row: any) => (
-          <ColumnActions id={row.id} items={listActions} data={{ status: +row.statusId }}/>
-        )
-      }
-    )
+  if (!selected) {
+    columns.unshift({
+      dataField: "actions",
+      text: "Actions",
+      sort: false,
+      formatter: (cell: any, row: any) => (
+        <ColumnActions
+          id={row.id}
+          items={listActions}
+          data={{ status: +row.statusId }}
+        />
+      ),
+    });
   }
 
   const defaultSorted: any = [
     {
       dataField: "id",
-      order: "desc"
-    }
+      order: "desc",
+    },
   ];
 
   let tableRowEvents;
-  if(!selected) {
+  if (!selected) {
     tableRowEvents = {
       onClick: (e: any, row: any, rowIndex: any) => {
-        //console.log(e);
         if (e.target.classList.length == 0) {
           setRegId(row.id);
           toggle();
         }
-      }
-    }
+      },
+    };
   }
 
-  const registrationData = registrations.map((registration : any) => {
-
+  const registrationData = registrations.map((registration: any) => {
     let color;
     switch (registration.status) {
       case 0:
@@ -171,16 +178,37 @@ export default ({registrations = [], setRegId, toggle, selected} : any) => {
       statusId: registration.status,
       email: registration.generalInfo.email,
       country: registration.generalInfo.countryId,
-      createdAt: new Date(registration.generalInfo.createdAt).toLocaleDateString('ru-RU', {day:"2-digit", month:"2-digit", year:"2-digit", hour: "2-digit", minute: "2-digit", second: "numeric"}),
-      depositedAt: (registration.generalInfo.depositDate) ? new Date(registration.generalInfo.depositDate).toLocaleDateString('ru-RU', {day:"2-digit", month:"2-digit", year:"2-digit", hour: "2-digit", minute: "2-digit", second: "numeric"}) : null,
+      createdAt: new Date(
+        registration.generalInfo.createdAt
+      ).toLocaleDateString("ru-RU", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "numeric",
+      }),
+      depositedAt: registration.generalInfo.depositDate
+        ? new Date(registration.generalInfo.depositDate).toLocaleDateString(
+            "ru-RU",
+            {
+              day: "2-digit",
+              month: "2-digit",
+              year: "2-digit",
+              hour: "2-digit",
+              minute: "2-digit",
+              second: "numeric",
+            }
+          )
+        : null,
       color: color,
-    }
+    };
   });
 
   return (
     <>
       <BootstrapTable
-        keyField='id'
+        keyField="id"
         data={registrationData}
         columns={columns}
         bordered={false}
@@ -192,15 +220,14 @@ export default ({registrations = [], setRegId, toggle, selected} : any) => {
         selectRow={selectRow}
       />
 
-      {selectId &&
+      {selectId && (
         <ChangeStatus
           isOpen={isOpen}
           toggle={toggleAction}
           id={selectId}
           status={selectStatus}
         />
-      }
-
+      )}
     </>
-  )
-}
+  );
+};

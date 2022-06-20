@@ -1,17 +1,9 @@
-import PropTypes from "prop-types";
 import MetaTags from "react-meta-tags";
-import React, { useEffect, useState } from "react";
-import { Row, Col, Alert, Container } from "reactstrap";
-
-//redux
+import React, { useEffect } from "react";
+import { Alert } from "reactstrap";
 import { useSelector, useDispatch } from "react-redux";
-
-import { withRouter, Link } from "react-router-dom";
-
-// availity-reactstrap-validation
+import { Link } from "react-router-dom";
 import { AvForm, AvField } from "availity-reactstrap-validation";
-
-// action
 import {
   userForgetPassword,
   userForgotPasswordClearStore,
@@ -20,16 +12,14 @@ import {
 // import images
 import logo from "../../assets/images/logo-sm.svg";
 import Page from "src/constants/pages";
-import { values } from "lodash";
 import ValidationText from "src/constants/validationText";
+import { RootStoreType } from "src/store/storeTypes";
 
-interface Props {}
-
-const ForgetPasswordPage = ({}: Props) => {
+const ForgetPasswordPage = () => {
   const dispatch = useDispatch();
 
   const { forgetError, forgetSuccessMsg, forgotLoading } = useSelector(
-    (state: any) => ({
+    (state: RootStoreType) => ({
       forgetError: state.forgetPassword.forgetError,
       forgetSuccessMsg: state.forgetPassword.forgetSuccessMsg,
       forgotLoading: state.forgetPassword.forgotLoading,
@@ -134,4 +124,4 @@ const ForgetPasswordPage = ({}: Props) => {
   );
 };
 
-export default withRouter(ForgetPasswordPage);
+export default ForgetPasswordPage;

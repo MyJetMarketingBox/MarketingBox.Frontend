@@ -2,7 +2,6 @@ import React, { FC } from "react";
 import { useSelector } from "react-redux";
 import { Redirect, Route } from "react-router";
 import { RootStoreType } from "src/store/storeTypes";
-import { LOCAL_STORAGE_AUTH_USER } from "../constants/localStorageKeys";
 import Page from "../constants/pages";
 import { RouteLayoutTypeEnum } from "../enums/RouteLayoutTypeEnum";
 import { RouteItemsType } from "../types/RouteItemsType";

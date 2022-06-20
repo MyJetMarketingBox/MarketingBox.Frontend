@@ -44,12 +44,10 @@ const FormAffiliate = (props: any) => {
   const arrAffPayId = currentAffProfile.payouts.map((item: any) => item.id);
 
   const handleValidAffiliateSubmit = (values: any) => {
-    //console.log(currentAffProfile);
     const updateAff = {
       generalInfo: {
         username: values["username"] || null,
         email: values["email"] || null,
-        //password: values["new_password"] || generalInfo.password || null,
         phone: values["phone"] || null,
         skype: values["skype"] || null,
         zipCode: values["zipCode"] || null,
@@ -82,8 +80,8 @@ const FormAffiliate = (props: any) => {
   };
 
   const handleBack = () => {
-    history.goBack()
-  }
+    history.goBack();
+  };
 
   return (
     <React.Fragment>
@@ -94,7 +92,6 @@ const FormAffiliate = (props: any) => {
         }}
       >
         <Row className="mb-3 col">
-
           <div className="col-xl-12 mb-3 inline-flex">
             <i className="bx bx-chevron-left font-size-20 text-orange"></i>
             <a onClick={handleBack} className="text-orange pointer">

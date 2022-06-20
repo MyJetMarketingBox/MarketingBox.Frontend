@@ -37,7 +37,6 @@ const miniCard = ({
   };
 
   const handleClickEdit = () => {
-    console.log(data);
     openEditCampaign(data);
   };
 

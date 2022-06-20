@@ -109,7 +109,7 @@ const Login = () => {
                 {error ? (
                   <Alert color="danger">{`Not valid email or password`}</Alert>
                 ) : null}
-                <Form>
+                <Form className="custom-form" noValidate>
                   <LabelInput
                     label="Email"
                     placeholder="Enter your email"

@@ -34,8 +34,6 @@ const ModalCompaignRow = (props: Props) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
-  console.log(campaignRow);
-
   const getDefaultNumberValue = (value: any) => {
     if (isNaN(value)) {
       return value || null;
@@ -135,8 +133,6 @@ const ModalCompaignRow = (props: Props) => {
 
   // fun
   const handleValidSubmit = (values: CampaignRowValues) => {
-    console.log(formValues);
-
     const data = {
       ...formValues,
       weight: Number(formValues.weight),
@@ -157,7 +153,6 @@ const ModalCompaignRow = (props: Props) => {
   };
 
   const setFieldValue = (field: any, value: any) => {
-    console.log(`${field} `, value);
     const obj = { ...formValues };
     //@ts-ignore
     obj[field] = value;
@@ -165,7 +160,6 @@ const ModalCompaignRow = (props: Props) => {
   };
 
   const handleChange = (e: any) => {
-    console.log(e);
     if (e?.target?.name) {
       setFieldValue(e?.target?.name, e.target.value);
     }
@@ -190,8 +184,6 @@ const ModalCompaignRow = (props: Props) => {
   };
   // effects
 
-  console.log(initialValues());
-  console.log(brandSelect?.find(item => item.value === formValues.brandId));
   //
   return (
     <Modal

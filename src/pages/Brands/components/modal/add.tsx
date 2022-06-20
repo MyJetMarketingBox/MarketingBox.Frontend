@@ -40,7 +40,7 @@ export default ({ isOpen, toggle }: any) => {
   });
 
   const handleValidBrandSubmit = (data: any) => {
-    const { value, lable }: any = getIntegration;
+    const { value }: any = getIntegration;
 
     const sendBrand = {
       name: data.name,
@@ -48,15 +48,12 @@ export default ({ isOpen, toggle }: any) => {
       integrationId: +value,
     };
 
-    console.log(sendBrand);
-
     dispatch(addBrand(sendBrand, history));
   };
 
   return (
     <>
       <Modal isOpen={isOpen} toggle={toggle}>
-        {/*{addAffLoading && <Loader />}*/}
         <ModalHeader toggle={toggle} tag="h4">
           Add Brand
         </ModalHeader>

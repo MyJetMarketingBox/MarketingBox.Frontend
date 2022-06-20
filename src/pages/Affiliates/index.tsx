@@ -1,50 +1,51 @@
 import React, { useEffect, useState } from "react";
 import MetaTags from "react-meta-tags";
-import {
-  Card,
-  CardBody,
-  Col,
-  Row
-} from "reactstrap";
+import { Card, CardBody, Col, Row } from "reactstrap";
 
 //Import Breadcrumb
 import Breadcrumbs from "../../components/Common/Breadcrumb";
 import AddAffiliateForm from "./components/addAffiliate/AddAffiliateForm";
 import "../../assets/scss/datatables.scss";
-import { clearAffiliate, clearAffiliateError, getAffiliates } from "../../store/actions";
+import {
+  clearAffiliate,
+  clearAffiliateError,
+  getAffiliates,
+} from "../../store/actions";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../../components/UI/loader";
 import SearchAffiliate from "./components/search/SearchAffiliate";
 import TableAff from "./components/table/TableAff";
 import BtnLoadMore from "../../components/UI/btns/BtnLoadMore";
+import { RootStoreType } from "src/store/storeTypes";
 
 const Affiliates: React.FC = () => {
-
   const dispatch = useDispatch();
 
-  const { affiliates, nextUrl, errorAff, loading, loaded, total } = useSelector((state: any) => {
-    return {
-      affiliates: state.Affiliates.affiliates.items,
-      nextUrl: state.Affiliates.affiliates.pagination.nextUrl,
-      errorAff: state.Affiliates.error,
-      loading: state.Affiliates.loading,
-      loaded: state.Affiliates.loaded,
-      total: state.Affiliates.affiliates.pagination.total
-    };
-  });
+  const { affiliates, nextUrl, errorAff, loading, loaded, total } = useSelector(
+    (state: RootStoreType) => {
+      return {
+        affiliates: state.Affiliates.affiliates.items,
+        nextUrl: state.Affiliates.affiliates.pagination?.nextUrl,
+        errorAff: state.Affiliates.error,
+        loading: state.Affiliates.loading,
+        loaded: state.Affiliates.loaded,
+        total: state.Affiliates.affiliates.pagination?.total,
+      };
+    }
+  );
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   let filter = {
     order: 1,
-    limit: 50
+    limit: 50,
   };
 
   useEffect(() => {
     dispatch(getAffiliates("", filter));
     return () => {
       dispatch(clearAffiliate());
-    }
+    };
   }, []);
 
   async function loadMore() {
@@ -53,23 +54,16 @@ const Affiliates: React.FC = () => {
     }
   }
 
-  // if (errorAffList) {
-  //   console.log(errorAffList);
-  //   if (errorAffList.status === 401) {
-  //     location.replace("/logout");
-  //   }
-  // }
-
   const toggleModal = () => {
     setIsOpen(prev => !prev);
-    if(errorAff.error) {
+    if (errorAff.error) {
       dispatch(clearAffiliateError());
     }
   };
 
   return (
     <>
-      { !loaded && loading && <Loader /> }
+      {!loaded && loading && <Loader />}
       <div className="page-content">
         <MetaTags>
           <title>Affiliates | TraffMe </title>
@@ -101,29 +95,25 @@ const Affiliates: React.FC = () => {
                 </Row>
                 <Row className="mb-4">
                   <Col xl="12">
-                    {affiliates.length ? <TableAff affiliates={affiliates} /> : null}
-                    {
-                      (!affiliates.length && loaded) ?
-                        <div style={{ "textAlign": "center", "padding": "30px 0" }}>
-                          <h3>No Data Available</h3>
-                        </div> :
-                        null
-                    }
+                    {affiliates.length ? (
+                      <TableAff affiliates={affiliates} />
+                    ) : null}
+                    {!affiliates.length && loaded ? (
+                      <div style={{ textAlign: "center", padding: "30px 0" }}>
+                        <h3>No Data Available</h3>
+                      </div>
+                    ) : null}
                   </Col>
                 </Row>
-                {
-                  nextUrl &&
+                {nextUrl && (
                   <Row>
                     <Col className="col-12">
                       <div className="text-center">
-                        <BtnLoadMore
-                          loading={loading}
-                          handeClick={loadMore}
-                        />
+                        <BtnLoadMore loading={loading} handeClick={loadMore} />
                       </div>
                     </Col>
                   </Row>
-                }
+                )}
               </CardBody>
             </div>
           </Col>
