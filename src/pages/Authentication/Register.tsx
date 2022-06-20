@@ -164,10 +164,6 @@ const Register = () => {
       setIsOpen(false);
       resetForm();
     }
-
-    return () => {
-      dispatch(clearRegisterUser());
-    };
   }, [user]);
 
   const handlerClickSubmit = async () => {

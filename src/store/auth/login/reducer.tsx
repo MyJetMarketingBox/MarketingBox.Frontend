@@ -1,43 +1,47 @@
+import parseJwt from "src/common/utils/parse";
+import { getLoggedInUser } from "src/helpers/backend_helper";
 import { LoginTypes } from "./actionTypes";
 
+const token = localStorage.getItem("authUser")
+  ? JSON.parse(localStorage.getItem("authUser") || "")?.token
+  : "";
+
 const initialState = {
+  token: token || "",
+  isAuthorization: !!token,
   error: "",
-  userInfo: {
-    'user-id': null,
-    'user-name': null
-  },
+  userInfo: getLoggedInUser(),
   loading: false,
 };
 
 const login = (state = initialState, action: any) => {
   switch (action.type) {
     case LoginTypes.LOGIN_USER:
-      state = {
+      return {
         ...state,
         loading: true,
       };
-      break;
+
     case LoginTypes.LOGIN_SUCCESS:
-      state = {
+      const userInfo = parseJwt(action.payload);
+
+      return {
         ...state,
-        userInfo: action.payload,
+        isAuthorization: true,
+        token: JSON.parse(action.payload).token,
+        userInfo,
         loading: false,
       };
-      break;
+
     case LoginTypes.LOGOUT_USER:
-      state = { ...state };
-      break;
-    case LoginTypes.LOGOUT_USER_SUCCESS:
-      state = { ...state };
-      break;
+      return { ...initialState };
+
     case LoginTypes.API_ERROR:
-      state = { ...state, error: action.payload.message, loading: false };
-      break;
+      return { ...state, error: action.payload.message, loading: false };
+
     default:
-      state = { ...state };
-      break;
+      return state;
   }
-  return state;
 };
 
 export default login;

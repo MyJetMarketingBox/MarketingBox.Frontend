@@ -60,8 +60,8 @@ const SidebarContent = (props: any) => {
   }));
 
   useEffect(() => {
-      setUserName(user["user-name"]);
-  }, user)
+    setUserName(user["user-name"]);
+  }, user);
 
   const subMemuClickHandler = (subMenu: string) => {
     if (subMenu !== isOpenSubmenu) {
@@ -104,9 +104,7 @@ const SidebarContent = (props: any) => {
           </div>*/}
           <div className={c.userPhoto}>
             <div className="avatar">
-              <div className="avatar_letters">
-                {avaLetters(userName)}
-              </div>
+              <div className="avatar_letters">{avaLetters(userName)}</div>
             </div>
           </div>
           <div className={c.userName}>{user["user-name"]}</div>
@@ -436,4 +434,4 @@ SidebarContent.propTypes = {
   t: PropTypes.any,
 };
 
-export default withTranslation()(withRouter(SidebarContent));
+export default withRouter(SidebarContent);

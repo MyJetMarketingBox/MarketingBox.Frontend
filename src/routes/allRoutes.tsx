@@ -39,6 +39,7 @@ import OffersPage from "src/pages/Offers/OffersPage";
 import OfferDetatils from "src/pages/Offers/detail/OfferDetatils";
 import ForgetPassword from "src/pages/Authentication/ForgetPassword";
 import ResetPassword from "src/pages/Authentication/ResetPassword";
+import ConfirmEmailPage from "src/pages/ConfirmEmail/ConfirmEmailPage";
 
 const routesList: RouteItemsType[] = [
   {
@@ -214,6 +215,14 @@ const routesList: RouteItemsType[] = [
     exact: false,
   },
   // OfferDetatils
+
+  {
+    path: Page.CONFIRM_EMAIL,
+    component: ConfirmEmailPage,
+    layoutType: RouteLayoutTypeEnum.Authorized,
+    strict: true,
+    exact: true,
+  },
 
   {
     path: Page.SIGN_IN,

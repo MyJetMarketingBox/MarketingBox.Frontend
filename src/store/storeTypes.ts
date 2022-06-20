@@ -17,8 +17,9 @@ import { PostbackLogsState } from "./postback_logs/actionTypes";
 import { RegistrationsState } from "./registrations/actionTypes";
 import { IBadRequestStore } from "./badRequests/actionTypes";
 import { IOffersStore } from "./offers/actionTypes";
-import { RegFilesState } from "./regFiles/actionTypes"
+import { RegFilesState } from "./regFiles/actionTypes";
 import { AffProfileState } from "./affiliates/profile/actionTypes";
+import { LoginStoreType } from "./auth/login/actionTypes";
 
 export interface RootStoreType {
   AffPayouts: AffPayoutsState;
@@ -41,7 +42,7 @@ export interface RootStoreType {
   Reports: ReportsState;
   badRequests: IBadRequestStore;
   forgetPassword: any;
-  login: any;
+  login: LoginStoreType;
   register: any;
   Offers: IOffersStore;
   RegFiles: RegFilesState;

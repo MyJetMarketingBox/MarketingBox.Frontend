@@ -30,6 +30,7 @@ const Page = {
   OFFERS_DETAIL: "/offers/:id",
   RESET_PASSWORD: "/reset-password/:token",
 
+  CONFIRM_EMAIL: "/confirm-email",
   SIGN_IN: "/login",
   SIGN_UP: "/register",
   FORGOT_PASSWORD: "/forgot-password",

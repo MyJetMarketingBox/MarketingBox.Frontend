@@ -10,7 +10,7 @@ import config from "../config";
 
 // Gets the logged in user data from local session
 const getLoggedInUser = () => {
-  const user = localStorage.getItem("userAuth");
+  const user = localStorage.getItem("authUser");
   if (user) return JSON.parse(user);
   return null;
 };

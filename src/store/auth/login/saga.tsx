@@ -17,9 +17,10 @@ function* loginUser({ payload: { user, history } }: any) {
       });
       //console.log(response);
       //debugger
-      localStorage.setItem(LOCAL_STORAGE_AUTH_USER, JSON.stringify(response));
-      const userInfo = parseJwt(JSON.stringify(response));
-      yield put(loginSuccess(userInfo));
+
+      const responseObj = JSON.stringify(response);
+      localStorage.setItem(LOCAL_STORAGE_AUTH_USER, responseObj);
+      yield put(loginSuccess(responseObj));
     }
     history.push("/dashboard");
     //location.replace('/dashboard');

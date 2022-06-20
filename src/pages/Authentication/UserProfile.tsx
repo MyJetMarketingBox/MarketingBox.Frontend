@@ -1,6 +1,16 @@
 import MetaTags from "react-meta-tags";
 import React, { useEffect, useState } from "react";
-import { Alert, Button, Card, CardBody, Col, Container, FormGroup, Label, Row } from "reactstrap";
+import {
+  Alert,
+  Button,
+  Card,
+  CardBody,
+  Col,
+  Container,
+  FormGroup,
+  Label,
+  Row,
+} from "reactstrap";
 // availity-reactstrap-validation
 import { AvField, AvForm } from "availity-reactstrap-validation";
 //redux
@@ -10,7 +20,12 @@ import { withRouter } from "react-router-dom";
 //Import Breadcrumb
 import Breadcrumb from "../../components/Common/Breadcrumb";
 // actions
-import { clearAffProfile, editProfile, getAffiliateProfile, updateAffiliate } from "../../store/actions";
+import {
+  clearAffProfile,
+  editProfile,
+  getAffiliateProfile,
+  updateAffiliate,
+} from "../../store/actions";
 import { RootStoreType } from "src/store/storeTypes";
 import ProfileChangePassword from "./component/ProfileChangePassword";
 import { avaLetters } from "../../helpers/avaLetters";
@@ -20,25 +35,35 @@ import { Currency } from "../../common/utils/model";
 const UserProfile = () => {
   const dispatch = useDispatch();
 
-  const { error, authUserID, loading, loaded, authUserName, profile, upLoading, upLoaded } = useSelector((state: RootStoreType) => ({
+  const {
+    error,
+    authUserID,
+    loading,
+    loaded,
+    authUserName,
+    profile,
+    upLoading,
+    upLoaded,
+  } = useSelector((state: RootStoreType) => ({
     error: state.AffProfile.error,
     profile: state.AffProfile.affProfile,
     loading: state.AffProfile.loading,
     loaded: state.AffProfile.loaded,
     upLoading: state.AffProfile.upLoading,
     upLoaded: state.AffProfile.upLoaded,
-    authUserID: state.login.userInfo['user-id'],
-    authUserName: state.login.userInfo['user-name'],
+    authUserID: state.login.userInfo?.["user-id"] || "",
+    authUserName: state.login.userInfo?.["user-name"] || "",
   }));
 
   useEffect(() => {
-    dispatch(getAffiliateProfile(authUserID));
-
-    return () => {
-      dispatch(clearAffProfile());
+    if (authUserID) {
+      dispatch(getAffiliateProfile(+authUserID));
     }
-  }, [])
 
+    // return () => {
+    //   dispatch(clearAffProfile());
+    // };
+  }, []);
 
   function handleValidSubmit(event: any, values: any) {
     const arrAffPayId = profile?.payouts.map((item: any) => item.id);
@@ -51,7 +76,7 @@ const UserProfile = () => {
         skype: values["skype"] || null,
         zipCode: values["zipCode"] || null,
         currency: +values["currency"] || null,
-        state: profile?.generalInfo.state
+        state: profile?.generalInfo.state,
       },
       company: {
         name: values["name"] || null,
@@ -71,12 +96,12 @@ const UserProfile = () => {
       affiliatePayoutIds: arrAffPayId,
     };
 
-    dispatch(updateAffiliate(updateProfile, authUserID));
+    dispatch(updateAffiliate(updateProfile, +authUserID));
   }
 
   return (
     <React.Fragment>
-      { !loaded && loading && <Loader /> }
+      {!loaded && loading && <Loader />}
       <div className="page-content">
         <MetaTags>
           <title>Profile | TraffMe</title>
@@ -88,7 +113,6 @@ const UserProfile = () => {
             <>
               <Row>
                 <Col lg="12">
-
                   <Card>
                     <CardBody>
                       <div className="d-flex">
@@ -230,7 +254,9 @@ const UserProfile = () => {
                       <h5 className="text-orange">Company</h5>
                       <Col md="3">
                         <FormGroup className="mb-3">
-                          <Label htmlFor="validationCompanyName">Company Name</Label>
+                          <Label htmlFor="validationCompanyName">
+                            Company Name
+                          </Label>
                           <AvField
                             name="name"
                             placeholder="Company Name"
@@ -245,7 +271,9 @@ const UserProfile = () => {
                       </Col>
                       <Col md="3">
                         <FormGroup className="mb-3">
-                          <Label htmlFor="validationCompanyAddress">Company Address</Label>
+                          <Label htmlFor="validationCompanyAddress">
+                            Company Address
+                          </Label>
                           <AvField
                             name="address"
                             placeholder="Company Address"
@@ -345,7 +373,9 @@ const UserProfile = () => {
                       </Col>
                       <Col md="3">
                         <FormGroup className="mb-3">
-                          <Label htmlFor="validationBankAddress">Bank Address</Label>
+                          <Label htmlFor="validationBankAddress">
+                            Bank Address
+                          </Label>
                           <AvField
                             name="bankAddress"
                             placeholder="Bank Address"
@@ -360,7 +390,9 @@ const UserProfile = () => {
                       </Col>
                       <Col md="4">
                         <FormGroup className="mb-3">
-                          <Label htmlFor="validationAccountNumber">Account Number</Label>
+                          <Label htmlFor="validationAccountNumber">
+                            Account Number
+                          </Label>
                           <AvField
                             name="accountNumber"
                             placeholder="Account Number"
@@ -411,10 +443,11 @@ const UserProfile = () => {
                       type="submit"
                       disabled={upLoading}
                     >
-                      {upLoading && <i className="bx bx-hourglass bx-spin me-2" />}
+                      {upLoading && (
+                        <i className="bx bx-hourglass bx-spin me-2" />
+                      )}
                       Update
                     </Button>
-
                   </AvForm>
                 </CardBody>
               </Card>
@@ -422,7 +455,6 @@ const UserProfile = () => {
               <ProfileChangePassword />
             </>
           )}
-
         </Container>
       </div>
     </React.Fragment>
