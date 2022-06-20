@@ -1,13 +1,10 @@
 import React, { useState } from "react";
 import MetaTags from "react-meta-tags";
-
-import { Row, Col, Alert, Container } from "reactstrap";
-
-//redux
+import { Alert, Form, FormFeedback, Input, Label } from "reactstrap";
 import { useSelector, useDispatch } from "react-redux";
-
-import { withRouter, Link } from "react-router-dom";
-
+import { Link } from "react-router-dom";
+import * as yup from "yup";
+import { useFormik } from "formik";
 // availity-reactstrap-validation
 import { AvForm, AvField } from "availity-reactstrap-validation";
 
@@ -19,25 +16,74 @@ import logo from "../../assets/images/logo.svg";
 import Page from "src/constants/pages";
 import ValidationText from "src/constants/validationText";
 import { RootStoreType } from "src/store/storeTypes";
+import LabelInput from "src/components/UI/FormElements/LabelInput";
+
+interface UserSignInCredsType {
+  email: string;
+  password: string;
+  rememberMe: boolean;
+}
 
 const Login = () => {
   const dispatch = useDispatch();
-
-  const [showPass, useShowPass] = useState<boolean>(false);
 
   const { error, loading } = useSelector((store: RootStoreType) => ({
     error: store.authUser.apiError,
     loading: store.authUser.isLoading,
   }));
 
+  const validationSchema: yup.SchemaOf<UserSignInCredsType> = yup
+    .object()
+    .shape({
+      email: yup
+        .string()
+        .required(ValidationText.required)
+        .email(ValidationText.email)
+        .max(255, ValidationText.maxLength255),
+      password: yup
+        .string()
+        .required(ValidationText.required)
+        .min(8, ValidationText.shortPassword)
+        .max(50, ValidationText.longPassword),
+      rememberMe: yup.boolean().required(),
+    });
+
+  const initialValues: UserSignInCredsType = {
+    email: "",
+    password: "",
+    rememberMe: false,
+  };
   // handleValidSubmit
-  const handleValidSubmit = (event: any, values: any) => {
-    if (loading) return;
+  const handleSubmitForm = () => {
     dispatch(signInAction(values));
   };
 
-  const passToggleHandler = () => {
-    useShowPass(prev => !prev);
+  const {
+    values,
+    validateForm,
+    handleChange,
+    submitForm,
+    handleBlur,
+    errors,
+    touched,
+    isValid,
+  } = useFormik({
+    initialValues,
+    onSubmit: handleSubmitForm,
+    validationSchema: validationSchema,
+    validateOnBlur: true,
+    validateOnChange: true,
+    validateOnMount: true,
+  });
+
+  const handlerClickSubmit = async () => {
+    const curErrors = await validateForm();
+    const curErrorsKeys = Object.keys(curErrors);
+    if (curErrorsKeys.length) {
+      const el = document.getElementById(curErrorsKeys[0]);
+      if (el) el.focus();
+    }
+    submitForm();
   };
 
   return (
@@ -60,101 +106,67 @@ const Login = () => {
                 <p className="auth-page-descr">
                   Sign in to continue to TraffMe.
                 </p>
-                <AvForm
-                  className="custom-form"
-                  onValidSubmit={(e: any, v: any) => {
-                    handleValidSubmit(e, v);
-                  }}
-                >
-                  {error ? (
-                    <Alert color="danger">{`Not valid email or password`}</Alert>
-                  ) : null}
+                {error ? (
+                  <Alert color="danger">{`Not valid email or password`}</Alert>
+                ) : null}
+                <Form>
+                  <LabelInput
+                    label="Email"
+                    placeholder="Enter your email"
+                    name="email"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.email.trim().toLowerCase() || ""}
+                    hasError={!!(errors.email && touched.email)}
+                    errorText={errors.email}
+                    type="email"
+                  />
+                  <LabelInput
+                    label="Password"
+                    placeholder="Enter your password"
+                    name="password"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.password || ""}
+                    hasError={!!(errors.password && touched.password)}
+                    errorText={errors.password}
+                    type="password"
+                  />
                   <div className="mb-3">
-                    <AvField
-                      name="email"
-                      value=""
-                      className="form-control"
-                      placeholder="Enter your email"
-                      type="email"
-                      validate={{
-                        email: {
-                          value: true,
-                          errorMessage: ValidationText.email,
-                        },
-                        required: {
-                          value: true,
-                          errorMessage: ValidationText.required,
-                        },
-                        maxLength: {
-                          value: 255,
-                          errorMessage: ValidationText.maxLength255,
-                        },
-                      }}
-                    />
-                  </div>
-                  <div className="mb-3">
-                    <div className="auth-page-form-pass">
-                      <div
-                        className="auth-page-form-pass-toggle"
-                        onClick={passToggleHandler}
-                      >
-                        {showPass ? "HIDE" : "SHOW"}
-                      </div>
-                      <AvField
-                        name="password"
-                        value=""
-                        type={showPass ? "text" : "password"}
-                        className="form-control"
-                        placeholder="Enter your password"
-                        validate={{
-                          required: {
-                            value: true,
-                            errorMessage: ValidationText.required,
-                          },
-                          minLength: {
-                            value: 8,
-                            errorMessage: ValidationText.shortPassword,
-                          },
-                          maxLength: {
-                            value: 50,
-                            errorMessage: ValidationText.longPassword,
-                          },
-                        }}
-                      />
-                    </div>
-                    <div className="auth-page-forgot-pass">
-                      <Link to={Page.FORGOT_PASSWORD} className="">
-                        Forgot password?
-                      </Link>
-                    </div>
-                  </div>
-                  <div className="form-checkbox">
-                    <input
+                    <Input
                       className="form-checkbox-input"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      invalid={!!(touched.rememberMe && errors.rememberMe)}
+                      checked={values.rememberMe}
                       type="checkbox"
-                      id="remember-check"
+                      name="rememberMe"
+                      id="terms"
                     />
-                    <label
-                      className="form-checkbox-label"
-                      htmlFor="remember-check"
+                    <Label className="form-checkbox-label" for="terms">
+                      By registering you agree to the TraffMe{" "}
+                      <a href="#">Terms of Use</a>
+                    </Label>
+                    <FormFeedback
+                      valid={!(touched.rememberMe && errors.rememberMe)}
+                      itemType="invalid"
                     >
-                      Remember me
-                    </label>
+                      {errors.rememberMe}
+                    </FormFeedback>
                   </div>
-                  <div>
-                    <button
-                      className="auth-page-btn"
-                      type="submit"
-                      disabled={loading}
-                    >
-                      {loading ? (
-                        <i className="bx bx-hourglass bx-spin me-2" />
-                      ) : (
-                        "Log In"
-                      )}
-                    </button>
-                  </div>
-                </AvForm>
+                  <button
+                    className="auth-page-btn"
+                    type="button"
+                    onClick={handlerClickSubmit}
+                    disabled={!isValid || loading}
+                  >
+                    {loading ? (
+                      <i className="bx bx-hourglass bx-spin me-2" />
+                    ) : (
+                      "Log In"
+                    )}
+                  </button>
+                </Form>
 
                 <div className="auth-page-form-descr text-center">
                   Don't have an account?{" "}
