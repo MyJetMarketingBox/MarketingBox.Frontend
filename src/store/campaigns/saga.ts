@@ -22,7 +22,6 @@ import {
 function* getCampaigns({ nextUrl, filter }: any) {
   try {
     const response: Promise<any> = yield call(getCampaignsApi, nextUrl, filter);
-    console.log("response", response);
     yield put(getCampaignsSuccess(response));
   } catch (error) {
     yield put(getCampaignsFail(error));

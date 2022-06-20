@@ -72,13 +72,13 @@ export default ({ affiliates = [] }: any) => {
         history.push(`${Page.AFFILIATES}/${id}`);
       },
     },
-    {
+    /*{
       label: "delete",
       handler: (id: any) => {
         setIsOpen(true);
         setSelectId(id);
       },
-    },
+    },*/
   ];
 
   const columns = [

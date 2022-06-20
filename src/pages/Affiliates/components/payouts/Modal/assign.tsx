@@ -1,22 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Col, Modal, ModalBody, ModalHeader, Row } from "reactstrap";
+import { Col, Modal, ModalBody, ModalFooter, ModalHeader, Row } from "reactstrap";
 import { AvField, AvForm } from "availity-reactstrap-validation";
 import { Currency, PayoutType } from "../../../../../common/utils/model";
-import Select from "react-select";
+//import Select from "react-select";
 import { getAffPayouts } from "../../../../../store/affiliatePayouts/actions";
 import { updateAffiliate } from "../../../../../store/affiliates/profile/actions";
+import Select from "../../../../../components/UI/select";
 
 export default ({ isOpen, toggle }: any) => {
   const dispatch = useDispatch();
 
   const [selectPayouts, setSelectPayouts] = useState([])
 
-  const { payoutsList, affiliate, upLoading, affLoaded } = useSelector((state:any) => {
+  const { payoutsList, affiliate, upLoading, affLoaded, upLoaded } = useSelector((state:any) => {
     return{
       payoutsList: state.AffPayouts.affPayouts.items,
       affiliate: state.AffProfile.affProfile,
       upLoading: state.AffProfile.upLoading,
+      upLoaded: state.AffProfile.upLoaded,
       affLoaded: state.AffProfile.loaded
     }
   })
@@ -42,6 +44,11 @@ export default ({ isOpen, toggle }: any) => {
     }
   });
 
+  useEffect(() => {
+    if((!upLoading && upLoaded)){
+      toggle(false);
+    }
+  }, [upLoading, upLoaded])
 
   const handleValidAffPayoutSubmit = (values : any) => {
     const {payouts, offerAffiliates, bank, company, ...affClear} = affiliate
@@ -60,23 +67,26 @@ export default ({ isOpen, toggle }: any) => {
   }
 
   return (
-    <Modal isOpen={isOpen} toggle={toggle}>
-      <ModalHeader toggle={toggle} tag="h4">
-        Assign Payout
-      </ModalHeader>
-      <ModalBody>
+    <Modal isOpen={isOpen} toggle={toggle} className="modal-dialog-centered">
+      <AvForm
+        onValidSubmit={(
+          e: any,
+          values: any
+        ) => {
+          handleValidAffPayoutSubmit(values);
+        }}
+      >
+        <ModalHeader toggle={toggle} tag="h4">
+          Assign Payout
+        </ModalHeader>
+        <ModalBody>
 
-        <AvForm
-          onValidSubmit={(
-            e: any,
-            values: any
-          ) => {
-            handleValidAffPayoutSubmit(values);
-          }}
-        >
           <Row form>
             <Col xs={12}>
-              <div className="mb-3">
+              <div className="mb-3 custom-react-select">
+                <div className="react-select-descr">
+                  Select Payout
+                </div>
                 <Select
                   isMulti
                   isSearchable
@@ -87,6 +97,9 @@ export default ({ isOpen, toggle }: any) => {
               </div>
             </Col>
           </Row>
+
+        </ModalBody>
+        <ModalFooter>
           <Row>
             <Col>
               <div className="text-end">
@@ -101,8 +114,8 @@ export default ({ isOpen, toggle }: any) => {
               </div>
             </Col>
           </Row>
-        </AvForm>
-      </ModalBody>
+        </ModalFooter>
+      </AvForm>
     </Modal>
   )
 }

@@ -84,6 +84,13 @@ const SidebarContent = (props: any) => {
     setClick(prev => !prev);
   }
 
+  function handleToggleMob(e: any) {
+    e.preventDefault();
+    console.log("TRATATA");
+    const body = document.body;
+    body.classList.remove("mob-menu-opened");
+  }
+
   function tToggleMob() {
     const body = document.body;
     body.classList.toggle("mob-menu-opened");
@@ -370,6 +377,7 @@ const SidebarContent = (props: any) => {
                     to={Page.AFFILIATES}
                     className={c.mobMenuItemLink}
                     activeClassName={c.active}
+                    onClick={handleToggleMob}
                   >
                     <div className={c.icon}>
                       <IconLeads />
