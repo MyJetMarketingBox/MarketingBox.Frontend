@@ -46,6 +46,8 @@ import CampaignRows from "./campaignsRow/reducer";
 
 import Offers from "./offers/reducer";
 
+import authUser from "./authUser/reduser";
+
 const rootReducer = combineReducers({
   // public
   Layout,
@@ -73,6 +75,7 @@ const rootReducer = combineReducers({
   CampaignRows,
   Offers,
   RegFiles,
+  authUser,
 });
 
 export default rootReducer;

@@ -65,6 +65,7 @@ import forgetPasswordSaga from "./auth/forgetpwd/saga";
 import languageSaga from "./languages/saga";
 import campaignRowsSaga from "./campaignsRow/saga";
 import offersSaga from "./offers/sagas";
+import authUserSage from "./authUser/saga";
 
 export default function* rootSaga() {
   yield all([
@@ -92,6 +93,7 @@ export default function* rootSaga() {
     fork(offersSaga),
     fork(regFilesSaga),
     //fork(ProfileSaga),
-    fork(forgetPasswordSaga)
+    fork(forgetPasswordSaga),
+    fork(authUserSage),
   ]);
 }

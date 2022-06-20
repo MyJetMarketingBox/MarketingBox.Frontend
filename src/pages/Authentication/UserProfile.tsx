@@ -55,16 +55,6 @@ const UserProfile = () => {
     authUserName: state.login.userInfo?.["user-name"] || "",
   }));
 
-  useEffect(() => {
-    if (authUserID) {
-      dispatch(getAffiliateProfile(+authUserID));
-    }
-
-    // return () => {
-    //   dispatch(clearAffProfile());
-    // };
-  }, []);
-
   function handleValidSubmit(event: any, values: any) {
     const arrAffPayId = profile?.payouts.map((item: any) => item.id);
 
@@ -98,6 +88,12 @@ const UserProfile = () => {
 
     dispatch(updateAffiliate(updateProfile, +authUserID));
   }
+
+  useEffect(() => {
+    if (authUserID) {
+      dispatch(getAffiliateProfile(+authUserID));
+    }
+  }, []);
 
   return (
     <React.Fragment>

@@ -223,6 +223,13 @@ const routesList: RouteItemsType[] = [
     strict: true,
     exact: true,
   },
+  {
+    path: Page.CONFIRM_EMAIL_STATUS,
+    component: ConfirmEmailPage,
+    layoutType: RouteLayoutTypeEnum.Public,
+    strict: true,
+    exact: true,
+  },
 
   {
     path: Page.SIGN_IN,

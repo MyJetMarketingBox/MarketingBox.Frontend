@@ -12,31 +12,28 @@ import { withRouter, Link } from "react-router-dom";
 import { AvForm, AvField } from "availity-reactstrap-validation";
 
 // actions
-import { loginUser } from "../../store/actions";
+import { signInAction } from "../../store/actions";
 
 // import images
 import logo from "../../assets/images/logo.svg";
 import Page from "src/constants/pages";
 import ValidationText from "src/constants/validationText";
+import { RootStoreType } from "src/store/storeTypes";
 
-interface LoginProps {
-  history: object;
-}
-
-const Login = ({ history }: LoginProps) => {
+const Login = () => {
   const dispatch = useDispatch();
 
   const [showPass, useShowPass] = useState<boolean>(false);
 
-  const { error, loading } = useSelector((state: any) => ({
-    error: state.login.error,
-    loading: state.login.loading,
+  const { error, loading } = useSelector((store: RootStoreType) => ({
+    error: store.authUser.apiError,
+    loading: store.authUser.isLoading,
   }));
 
   // handleValidSubmit
   const handleValidSubmit = (event: any, values: any) => {
     if (loading) return;
-    dispatch(loginUser(values, history));
+    dispatch(signInAction(values));
   };
 
   const passToggleHandler = () => {
@@ -175,4 +172,4 @@ const Login = ({ history }: LoginProps) => {
   );
 };
 
-export default withRouter(Login);
+export default Login;

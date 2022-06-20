@@ -103,15 +103,15 @@ const Layout = (props: any) => {
     }
   }, [])
 
-  if (localStorage.getItem(LOCAL_STORAGE_AUTH_USER)) {
-    // @ts-ignore
-    const authUser = JSON.parse(localStorage.getItem(LOCAL_STORAGE_AUTH_USER));
-    const userInfo = parseJwt(JSON.stringify(authUser.token));
+  // if (localStorage.getItem(LOCAL_STORAGE_AUTH_USER)) {
+  //   // @ts-ignore
+  //   const authUser = JSON.parse(localStorage.getItem(LOCAL_STORAGE_AUTH_USER));
+  //   const userInfo = parseJwt(JSON.stringify(authUser.token));
 
-    useSelector((state: any) => {
-      state.login.userInfo = userInfo;
-    });
-  }
+  //   useSelector((state: any) => {
+  //     state.login.userInfo = userInfo;
+  //   });
+  // }
 
   return (
     <React.Fragment>

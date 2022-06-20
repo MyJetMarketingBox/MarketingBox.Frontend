@@ -43,7 +43,7 @@ export * from "./integrations/actions";
 export * from "./redistribution/actions";
 
 /** RegFiles **/
-export * from "./regFiles/actions"
+export * from "./regFiles/actions";
 
 /** Login */
 export * from "./auth/login/actions";
@@ -53,7 +53,6 @@ export * from "./auth/register/actions";
 
 /** User Profile */
 
-
 /** Forget Password */
 export * from "./auth/forgetpwd/actions";
 
@@ -61,3 +60,5 @@ export * from "./languages/actions";
 export * from "./badRequests/actions";
 export * from "./campaignsRow/actions";
 export * from "./offers/actions";
+
+export * from "./authUser/actions";

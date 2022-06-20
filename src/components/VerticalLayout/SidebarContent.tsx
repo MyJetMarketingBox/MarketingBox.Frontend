@@ -1,6 +1,19 @@
 import PropTypes from "prop-types";
 import React, { useEffect, useRef, useState } from "react";
 
+import SimpleBar from "simplebar-react";
+import { useTranslation } from "react-i18next";
+
+// MetisMenu
+import { NavLink, withRouter } from "react-router-dom";
+import { useSelector } from "react-redux";
+
+import c from "./SidebarContent.module.scss";
+import ReactDOM from "react-dom";
+import Page from "src/constants/pages";
+import { avaLetters } from "../../helpers/avaLetters";
+import { RootStoreType } from "src/store/storeTypes";
+
 //Import Icons
 import { ReactComponent as IconMenu } from "../../assets/images/icon-menu.svg";
 import { ReactComponent as IconBalance } from "../../assets/images/icon-account-balance.svg";
@@ -14,24 +27,7 @@ import { ReactComponent as IconMarketingTools } from "../../assets/images/icon-m
 import { ReactComponent as IconConversions } from "../../assets/images/icon-conversions.svg";
 import { ReactComponent as IconSettings } from "../../assets/images/icons-settings.svg";
 import { ReactComponent as IconRedistribution } from "../../assets/images/icon-phone-flip.svg";
-
-// //Import Scrollbar
-import SimpleBar from "simplebar-react";
-
-//Import images
-import giftBox from "../../assets/images/users/cyberarmy.gif";
-
-//i18n
-import { useTranslation, withTranslation } from "react-i18next";
-
-// MetisMenu
-import { NavLink, withRouter } from "react-router-dom";
-import { useSelector } from "react-redux";
-
-import c from "./SidebarContent.module.scss";
-import ReactDOM from "react-dom";
-import Page from "src/constants/pages";
-import { avaLetters } from "../../helpers/avaLetters";
+// 
 
 const SidebarContent = (props: any) => {
   const ref = useRef<any>();
@@ -39,12 +35,16 @@ const SidebarContent = (props: any) => {
 
   const [isOpenSubmenu, setIsOpenSubmenu] = useState<string | null>(null);
   const [isClick, setClick] = useState<boolean>(true);
-  const [isClickMob, setClickMob] = useState<boolean>(true);
-  const [userName, setUserName] = useState<string>("");
+
+  const { user } = useSelector((state: RootStoreType) => ({
+    user: state.authUser.userInfo,
+  }));
 
   useEffect(() => {
-    ref.current.recalculate();
-  });
+    if (ref.current) {
+      ref.current.recalculate();
+    }
+  }, []);
 
   function scrollElement(item: any) {
     if (item) {
@@ -54,14 +54,6 @@ const SidebarContent = (props: any) => {
       }
     }
   }
-
-  const { user } = useSelector((state: any) => ({
-    user: state.login.userInfo,
-  }));
-
-  useEffect(() => {
-    setUserName(user["user-name"]);
-  }, user);
 
   const subMemuClickHandler = (subMenu: string) => {
     if (subMenu !== isOpenSubmenu) {
@@ -111,11 +103,13 @@ const SidebarContent = (props: any) => {
           </div>*/}
           <div className={c.userPhoto}>
             <div className="avatar">
-              <div className="avatar_letters">{avaLetters(userName)}</div>
+              <div className="avatar_letters">
+                {avaLetters(user?.["user-name"] || "T")}
+              </div>
             </div>
           </div>
-          <div className={c.userName}>{user["user-name"]}</div>
-          <div className={c.userId}>ID #{user["user-id"]}</div>
+          <div className={c.userName}>{user?.["user-name"] || ""}</div>
+          <div className={c.userId}>ID #{user?.["user-id"] || ""}</div>
         </div>
 
         <ul className={c.balanceItems}>
@@ -442,4 +436,4 @@ SidebarContent.propTypes = {
   t: PropTypes.any,
 };
 
-export default withRouter(SidebarContent);
+export default SidebarContent;

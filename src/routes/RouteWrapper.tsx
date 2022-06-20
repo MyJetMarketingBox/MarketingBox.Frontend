@@ -11,7 +11,7 @@ const RouteWrapper: FC<RouteItemsType> = props => {
   const { component: Component, layoutType, ...otherProps } = props;
 
   const { isAuthUser } = useSelector((store: RootStoreType) => ({
-    isAuthUser: store.login.isAuthorization,
+    isAuthUser: store.authUser.isAuthorization,
   }));
 
   switch (layoutType) {

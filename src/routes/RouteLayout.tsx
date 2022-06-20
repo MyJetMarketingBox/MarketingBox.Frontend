@@ -7,6 +7,7 @@ import RouteWrapper from "./RouteWrapper";
 import VerticalLayout from "../components/VerticalLayout/";
 import NonAuthLayout from "../components/NonAuthLayout";
 import Page from "../constants/pages";
+import AuthContainer from "src/containers/AuthContainer";
 
 const RouteLayout: FC = () => {
   const location = useLocation();
@@ -29,12 +30,14 @@ const RouteLayout: FC = () => {
   switch (layoutType) {
     case RouteLayoutTypeEnum.Authorized:
       return (
-        <VerticalLayout>
-          {!location.search && (
-            <Redirect to={location.pathname.replace(/\/+$/, "")} />
-          )}
-          <Switch>{allRoutes}</Switch>
-        </VerticalLayout>
+        <AuthContainer>
+          <VerticalLayout>
+            {!location.search && (
+              <Redirect to={location.pathname.replace(/\/+$/, "")} />
+            )}
+            <Switch>{allRoutes}</Switch>
+          </VerticalLayout>
+        </AuthContainer>
       );
 
     case RouteLayoutTypeEnum.SignFlow:

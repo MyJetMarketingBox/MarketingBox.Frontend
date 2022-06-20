@@ -3,9 +3,14 @@ import MetaTags from "react-meta-tags";
 import { Label, Input, Form, FormFeedback } from "reactstrap";
 import * as yup from "yup";
 import { useFormik } from "formik";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 // action
-import { registerUser, apiError, clearRegisterUser } from "../../store/actions";
+import {
+  registerUser,
+  apiError,
+  loginSuccess,
+  registerUserAction,
+} from "../../store/actions";
 //redux
 import { useSelector, useDispatch } from "react-redux";
 
@@ -16,6 +21,7 @@ import ValidationText from "src/constants/validationText";
 import LabelInput from "src/components/UI/FormElements/LabelInput";
 import LabelSelect from "src/components/UI/FormElements/LabelSelect";
 import Page from "src/constants/pages";
+import { RootStoreType } from "src/store/storeTypes";
 
 interface UserRegistrationType {
   email: string;
@@ -31,13 +37,11 @@ interface UserRegistrationType {
 const Register = () => {
   const dispatch = useDispatch();
 
-  const [isOpen, setIsOpen] = useState<boolean>(false);
   const formRef = useRef<HTMLFormElement>(null);
 
-  const { user, error, loading } = useSelector((state: any) => ({
-    user: state.register.user,
-    error: state.register.error.response?.data,
-    loading: state.register.loading,
+  const { error, loading } = useSelector((store: RootStoreType) => ({
+    error: store.authUser.apiError,
+    loading: store.authUser.isLoading,
   }));
 
   const validationSchema: yup.SchemaOf<UserRegistrationType> = yup
@@ -122,18 +126,7 @@ const Register = () => {
         },
       ],
     };
-    dispatch(registerUser(data));
-  };
-
-  const content = {
-    title: "Congratulation!",
-    text:
-      "You've created an account!<br>" +
-      "Please, check you email to complete verification",
-  };
-
-  const toggleAction = () => {
-    setIsOpen(prev => !prev);
+    dispatch(registerUserAction(data));
   };
 
   const {
@@ -154,17 +147,6 @@ const Register = () => {
     validateOnChange: true,
     validateOnMount: true,
   });
-
-  useEffect(() => {
-    dispatch(apiError(""));
-  }, []);
-
-  useEffect(() => {
-    if (user?.Status == "Ok") {
-      setIsOpen(false);
-      resetForm();
-    }
-  }, [user]);
 
   const handlerClickSubmit = async () => {
     const curErrors = await validateForm();
@@ -429,8 +411,6 @@ const Register = () => {
           <div className="auth-page-img d-none d-lg-block col-lg-6" />
         </div>
       </div>
-
-      <Modal isOpen={isOpen} toggle={toggleAction} content={content} />
     </React.Fragment>
   );
 };
