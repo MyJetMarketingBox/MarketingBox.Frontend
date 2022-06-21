@@ -292,7 +292,7 @@ const ModalCompaignRow = (props: Props) => {
                 </Col>
                 {/*  */}
                 <Col xs={12} md={6} className="mb-3">
-                  <Label>Cap Type</Label>
+                  <Label>Cap Type*</Label>
                   <Select
                     isSearchable
                     options={capTypeSelect}
