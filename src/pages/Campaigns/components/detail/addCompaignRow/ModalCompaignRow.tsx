@@ -21,6 +21,7 @@ import "./ModalCompaignRowStyle.scss";
 import { ActivityHoursType } from "src/types/ActivityHoursType";
 import { DayOfWorkName } from "src/constants/DayOfWorkName";
 import ActivityHourInputItem from "./ActivityHourInputItem";
+import { CapTypeEnum } from "src/enums/CapTypeEnum";
 
 interface Props {
   isOpen: boolean;
@@ -120,7 +121,7 @@ const ModalCompaignRow = (props: Props) => {
         null,
       priority: campaignRow?.priority || null,
       weight: campaignRow?.weight || null,
-      capType: getDefaultNumberValue(campaignRow?.capType),
+      capType: getDefaultNumberValue(campaignRow?.capType || CapTypeEnum.Lead),
       dailyCapValue: campaignRow?.dailyCapValue || null,
       information: campaignRow?.information || "",
       geoId: campaignRow?.geo.id || null,
