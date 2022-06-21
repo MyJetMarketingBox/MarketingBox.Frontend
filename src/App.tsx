@@ -1,8 +1,6 @@
-import React, { useEffect } from "react";
+import React from "react";
 
 // Import scss
-import "./assets/scss/theme.scss";
-import "./assets/scss/preloader.scss";
 import BadRequestContainer from "./components/BadRequestContainer/BadRequestContainer";
 import { ToastContainer } from "react-toastify";
 import { configureStore } from "./store";
@@ -13,9 +11,10 @@ import AppWithProviders from "./AppWithProviders";
 let store = configureStore({});
 injectInterceptor(store);
 
-const App = () => {
-  console.log("BUILD_VERSION ", process.env.BUILD_VERSION || "Unset");
+import "./assets/scss/theme.scss";
+import "./assets/scss/preloader.scss";
 
+const App = () => {
   return (
     <Provider store={store}>
       <ToastContainer autoClose={2000} />
