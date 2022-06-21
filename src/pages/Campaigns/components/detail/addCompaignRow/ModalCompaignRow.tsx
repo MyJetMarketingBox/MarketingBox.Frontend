@@ -306,7 +306,7 @@ const ModalCompaignRow = (props: Props) => {
                 <Col xs={12} md={6} className="mb-3">
                   <AvField
                     name="dailyCapValue"
-                    label="Enter daily cap"
+                    label="Daily Cap Value"
                     type="number"
                     errorMessage="Invalid value"
                     validate={{
