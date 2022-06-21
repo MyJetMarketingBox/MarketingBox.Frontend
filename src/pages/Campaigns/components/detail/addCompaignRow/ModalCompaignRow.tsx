@@ -138,6 +138,7 @@ const ModalCompaignRow = (props: Props) => {
       ...formValues,
       weight: Number(formValues.weight),
       dailyCapValue: Number(formValues.dailyCapValue),
+      information: formValues.information || null,
     };
     if (campaignRow) {
       // edit

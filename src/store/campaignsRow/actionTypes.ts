@@ -113,7 +113,7 @@ export interface CampaignRowValues {
   capType: CapTypeEnum | null;
   dailyCapValue?: number | null;
   activityHours: ActivityHoursType[] | null;
-  information: string;
+  information: string | null;
   geoId: number | null;
   enableTraffic: boolean;
 }
