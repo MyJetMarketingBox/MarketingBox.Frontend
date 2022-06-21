@@ -5,9 +5,10 @@ import PopoverActivityHours from "../../../../../components/UI/popover/bottom/ac
 import ColumnActions from "../../../../../components/UI/columnActions/ColumnActions";
 import { Col } from "reactstrap";
 import BootstrapTable from "react-bootstrap-table-next";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { deleteCampaignRow, openEditCampaignRowModal } from "src/store/actions";
 import ConfirmDelete from "src/components/UI/confirmDelete/ConfirmDelete";
+import { RootStoreType } from "src/store/storeTypes";
 
 interface Props {
   items: ICampaignRowItem[];
@@ -15,6 +16,10 @@ interface Props {
 
 const CamaignRowsTable = ({ items }: Props) => {
   const dispatch = useDispatch();
+
+  const { brands } = useSelector((store: RootStoreType) => ({
+    brands: store.Brands.brands.items,
+  }));
   const { SearchBar } = Search;
 
   const [isOpen, setIsOpen] = useState(false);
@@ -56,17 +61,18 @@ const CamaignRowsTable = ({ items }: Props) => {
     return items.map(campaignRow => ({
       id: campaignRow.campaignRowId,
       campaignName: campaignRow.campaign.name,
+      campaignRowId: campaignRow.campaignRowId,
+      brandName: brands.find(item => item.id === campaignRow.brandId)?.name,
       campaignId: campaignRow.campaign.id,
       geo: campaignRow.geo.name,
       priority: campaignRow.priority,
       weight: campaignRow.weight,
       capType: campaignRow.capType,
       dailyCapValue: campaignRow.dailyCapValue,
-      campaignRowId: campaignRow.campaignRowId,
       activityHours: campaignRow.activityHours,
       information: campaignRow.information,
     }));
-  }, [items]);
+  }, [items, brands]);
 
   const columns = [
     {
@@ -83,6 +89,16 @@ const CamaignRowsTable = ({ items }: Props) => {
       sort: true,
       headerStyle: { width: "250px", minWidth: "250px" },
       style: { width: "250px", minWidth: "250px" },
+    },
+    {
+      dataField: "campaignRowId",
+      text: "Campaign Row ID",
+      sort: true,
+    },
+    {
+      dataField: "brandName",
+      text: "Brand",
+      sort: true,
     },
     {
       dataField: "campaignId",
