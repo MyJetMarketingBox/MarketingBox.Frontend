@@ -2,7 +2,8 @@ name: NodeJS with Webpack
 
 on:
   push:
-    branches: [ test ]
+    branches:
+      - uat
 
 jobs:
   build:
