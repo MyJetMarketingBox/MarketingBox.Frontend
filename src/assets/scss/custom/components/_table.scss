@@ -1,13 +1,32 @@
-// 
+//
 // _table.scss
-// 
+//
 
 .table {
   th {
-      font-weight: $font-weight-bold;
+    vertical-align: middle;
+    padding: 4px 10px;
+    font-size: 10px;
+    font-weight: $font-weight-medium;
+    color: #828282;
+    text-transform: uppercase;
+    white-space: nowrap;
+    border: none;
+
+    &.sortable {
+      cursor: pointer;
+      user-select: none;
+    }
   }
 
-  .table-light{
+  td {
+    font-size: 14px;
+    font-weight: 500;
+    color: #333333;
+    border: none;
+  }
+
+  .table-light {
     color: $body-color;
     border-color: $table-border-color;
     background-color: $table-head-bg;
@@ -24,8 +43,8 @@
 }
 
 
-.table-dark>:not(:last-child)>:last-child>*{
-  border-bottom-color:  $table-dark-border-color;
+.table-dark > :not(:last-child) > :last-child > * {
+  border-bottom-color: $table-dark-border-color;
 }
 
 .table-nowrap {
@@ -36,37 +55,42 @@
 
 
 body[data-layout-mode="dark"] {
-  // table 
+  // table
   .table {
-      border-color: lighten($gray-dark-200,5%);
-      color: $gray-dark-400;
+    border-color: lighten($gray-dark-200, 5%);
+    color: $gray-dark-400;
+
+    td {
+      color: #ffffff;
+    }
   }
 
   .table-bordered {
+    border-color: $gray-dark-300;
+
+    th,
+    td {
       border-color: $gray-dark-300;
-    
-      th,
-      td {
-        border-color: $gray-dark-300;
-      }
+    }
   }
 
-  .table>:not(:last-child)>:last-child>* {
-      border-bottom-color: $gray-dark-300;
+  .table > :not(:last-child) > :last-child > * {
+    border-bottom-color: $gray-dark-300;
   }
 
-  .table-striped>tbody>tr:nth-of-type(odd),
-  .table-hover>tbody>tr:hover,
+  .table-striped > tbody > tr:nth-of-type(odd),
+  .table-hover > tbody > tr:hover,
   .table .table-light {
-      --bs-table-accent-bg: #363a38;
-      color: $gray-dark-400;
+    --bs-table-accent-bg: #363a38;
+    color: $gray-dark-400;
   }
 
   // table
-  .table-dark{
+  .table-dark {
     background-color: $gray-dark-300;
-    >:not(caption)>*>*{
-        background-color: $gray-dark-300;
+
+    > :not(caption) > * > * {
+      background-color: $gray-dark-300;
     }
   }
 }

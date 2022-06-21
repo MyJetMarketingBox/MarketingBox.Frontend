@@ -130,6 +130,8 @@ $yellow: #ffbf53;
 $green: #2ab57d;
 $teal: #050505;
 $cyan: #4ba6ef;
+$myOrange: #E74A18;
+$darkBlue: #050121;
 
 // scss-docs-start colors-map
 $colors: (
@@ -146,6 +148,8 @@ $colors: (
   "white": $white,
   "gray": $gray-600,
   "gray-dark": $gray-800,
+  "dark-blue": $darkBlue,
+  "fx-orange": $myOrange,
 );
 // scss-docs-end colors-map
 
@@ -157,6 +161,7 @@ $warning: $yellow;
 $danger: $red;
 $light: $gray-200;
 $dark: $gray-800;
+$dark-blue: $darkBlue;
 
 // scss-docs-start theme-colors-map
 $theme-colors: (
@@ -169,6 +174,8 @@ $theme-colors: (
   "pink": $pink,
   "light": $light,
   "dark": $dark,
+  "dark-blue": $darkBlue,
+  "fx-orange": $myOrange,
 );
 // scss-docs-end theme-colors-map
 
@@ -502,7 +509,7 @@ $aspect-ratios: (
 
 // scss-docs-start font-variables
 // stylelint-disable value-keyword-case
-$font-family-sans-serif: "IBM Plex Sans", sans-serif;
+$font-family-sans-serif: "Gilroy", sans-serif;
 $font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas,
   "Liberation Mono", "Courier New", monospace;
 

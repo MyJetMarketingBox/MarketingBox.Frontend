@@ -1,8 +1,7 @@
 import React, { useEffect } from "react";
-import  "./loader.css"
+import "./loader.css";
 
-const Loader = (props: any) => {
-
+const Loader = () => {
   return (
     <div className="lds-facebook-wrapper">
       <div className="lds-facebook">
@@ -11,8 +10,7 @@ const Loader = (props: any) => {
         <div></div>
       </div>
     </div>
-  )
-
-}
+  );
+};
 
 export default Loader;

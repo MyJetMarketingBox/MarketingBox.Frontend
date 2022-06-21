@@ -41,7 +41,7 @@ spec:
             fieldRef:
               apiVersion: v1
               fieldPath: metadata.name
-        image: mboxregistry.azurecr.io/marketingbox/marketingbox.frontend-master:latest
+        image: mboxregistry.azurecr.io/marketingbox/marketingbox.frontend-test:latest
         imagePullPolicy: Always
         lifecycle:
           postStart:
@@ -66,6 +66,8 @@ spec:
           protocol: TCP
         - containerPort: 80
           protocol: TCP
+        - containerPort: 3000
+          protocol: TCP
 #         readinessProbe:
 #           failureThreshold: 3
 #           httpGet:
@@ -78,8 +80,8 @@ spec:
 #           timeoutSeconds: 3
         resources:
           limits:
-            cpu: 100m
-            memory: 300Mi
+            cpu: 300m
+            memory: 800Mi
           requests:
             cpu: 50m
             memory: 150Mi

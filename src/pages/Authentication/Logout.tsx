@@ -1,23 +1,27 @@
 import React, { useEffect } from "react";
-import { withRouter } from "react-router-dom";
 
-import { logoutUser } from "../../store/actions";
+import { logoutUserAction } from "../../store/actions";
 
 //redux
 import { useDispatch } from "react-redux";
+import { useHistory } from "react-router";
+import Loader from "src/components/UI/loader";
 
-interface LogoutProps {
-  history: any;
-}
-
-const Logout = ({ history }: LogoutProps) => {
+const Logout = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
 
   useEffect(() => {
-    dispatch(logoutUser(history));
-  }, [dispatch, history]);
+    let mount = true;
+    if (mount) {
+      dispatch(logoutUserAction(history));
+    }
+    return () => {
+      mount = false;
+    };
+  }, []);
 
-  return <></>;
+  return <Loader />;
 };
 
-export default withRouter(Logout);
+export default Logout;

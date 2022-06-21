@@ -8,39 +8,266 @@ import Affiliate from "../pages/Affiliates/view";
 
 import Reports from "../pages/Reports";
 
-//Authentication pages
-import Login from "src/pages/Authentication/Login";
-import Logout from "src/pages/Authentication/Logout";
-import Register from "src/pages/Authentication/Register";
-import userProfile from "src/pages/Authentication/user-profile";
+import Registrations from "../pages/Registrations";
 
-interface RouteProps {
-  path: string;
-  component: any;
-  exact?: boolean;
-}
+import Integrations from "../pages/Integrations";
+import Integration from "../pages/Integrations/detail";
 
-const userRoutes: Array<RouteProps> = [
-  //User Profile
-  { path: "/profile", component: userProfile },
+import Campaigns from "../pages/Campaigns";
 
-  //dashboard
-  { path: "/dashboard", component: Dashboard },
+import Postbacklogs from "../pages/PostbackLogs";
 
-  { path: "/Affiliates", component: Affiliates },
-  { path: "/Affiliates/view/:id", component: Affiliate, exact: true },
+import Postback from "../pages/Postback";
 
-  { path: "/Reports", component: Reports },
+import Brands from "../pages/Brands";
+import Brand from "../pages/Brands/components/detail";
 
-  // this route should be at the end of all other routes
-  { path: "/", exact: true, component: () => <Redirect to="/dashboard" /> },
+import Payouts from "../pages/Payouts";
+import Login from "../pages/Authentication/Login";
+import Logout from "../pages/Authentication/Logout";
+import Register from "../pages/Authentication/Register";
+import { RouteLayoutTypeEnum } from "../enums/RouteLayoutTypeEnum";
+import { RouteItemsType } from "../types/RouteItemsType";
+import Page from "../constants/pages";
+import UserProfile from "../pages/Authentication/UserProfile";
+import Redistribution from "../pages/Redistribution";
+import AddRedistribution from "../pages/Redistribution/components/add";
+import RegFileDetail from "../pages/RegFiles/components/detail/index";
+import CampaignDetail from "src/pages/Campaigns/components/detail/CampaignDetail";
+import GeoDetail from "src/pages/Geo/components/detail/index";
+import OffersPage from "src/pages/Offers/OffersPage";
+import OfferDetatils from "src/pages/Offers/detail/OfferDetatils";
+import ForgetPassword from "src/pages/Authentication/ForgetPassword";
+import ResetPassword from "src/pages/Authentication/ResetPassword";
+import ConfirmEmailPage from "src/pages/ConfirmEmail/ConfirmEmailPage";
+
+const routesList: RouteItemsType[] = [
+  {
+    path: Page.PROFILE,
+    component: UserProfile,
+    layoutType: RouteLayoutTypeEnum.Authorized,
+    strict: true,
+    exact: true,
+  },
+  {
+    path: Page.DASHBOARD,
+    component: Dashboard,
+    layoutType: RouteLayoutTypeEnum.Authorized,
+    strict: true,
+    exact: true,
+  },
+  {
+    path: Page.AFFILIATES,
+    component: Affiliates,
+    layoutType: RouteLayoutTypeEnum.Authorized,
+    strict: true,
+    exact: true,
+  },
+  {
+    path: Page.AFFILIATE,
+    component: Affiliate,
+    layoutType: RouteLayoutTypeEnum.Authorized,
+    strict: true,
+    exact: true,
+  },
+  {
+    path: Page.REPORTS,
+    component: Reports,
+    layoutType: RouteLayoutTypeEnum.Authorized,
+    strict: true,
+    exact: true,
+  },
+  {
+    path: Page.REGISTRATIONS,
+    component: Registrations,
+    layoutType: RouteLayoutTypeEnum.Authorized,
+    strict: true,
+    exact: true,
+  },
+  {
+    path: Page.INTEGRATIONS,
+    component: Integrations,
+    layoutType: RouteLayoutTypeEnum.Authorized,
+    strict: true,
+    exact: true,
+  },
+  {
+    path: Page.GEO_EDIT,
+    component: GeoDetail,
+    layoutType: RouteLayoutTypeEnum.Authorized,
+    strict: true,
+    exact: true,
+  },
+  {
+    path: Page.REDISTRIBUTION,
+    component: Redistribution,
+    layoutType: RouteLayoutTypeEnum.Authorized,
+    strict: true,
+    exact: true,
+  },
+  {
+    path: Page.REDISTRIBUTION_ADD,
+    component: AddRedistribution,
+    layoutType: RouteLayoutTypeEnum.Authorized,
+    strict: true,
+    exact: true,
+  },
+  {
+    path: Page.REDISTRIBUTION_TAB,
+    component: Redistribution,
+    layoutType: RouteLayoutTypeEnum.Authorized,
+    strict: true,
+    exact: true,
+  },
+  {
+    path: Page.REDISTRIBUTION_FILES_DETAIL,
+    component: RegFileDetail,
+    layoutType: RouteLayoutTypeEnum.Authorized,
+    strict: true,
+    exact: true,
+  },
+  {
+    path: Page.INTEGRATION,
+    component: Integration,
+    layoutType: RouteLayoutTypeEnum.Authorized,
+    strict: true,
+    exact: true,
+  },
+  {
+    path: Page.CAMPAIGNS,
+    component: Campaigns,
+    layoutType: RouteLayoutTypeEnum.Authorized,
+    strict: true,
+    exact: true,
+  },
+
+  {
+    path: Page.CAMPAIGN,
+    component: CampaignDetail,
+    layoutType: RouteLayoutTypeEnum.Authorized,
+    strict: true,
+    exact: true,
+  },
+  {
+    path: Page.CAMPAIGN_TAB,
+    component: Campaigns,
+    layoutType: RouteLayoutTypeEnum.Authorized,
+    strict: true,
+    exact: true,
+  },
+  {
+    path: Page.POSTBACK_LOGS,
+    component: Postbacklogs,
+    layoutType: RouteLayoutTypeEnum.Authorized,
+    strict: true,
+    exact: true,
+  },
+  {
+    path: Page.POSTBACK,
+    component: Postback,
+    layoutType: RouteLayoutTypeEnum.Authorized,
+    strict: true,
+    exact: true,
+  },
+  {
+    path: Page.BRANDS,
+    component: Brands,
+    layoutType: RouteLayoutTypeEnum.Authorized,
+    strict: true,
+    exact: true,
+  },
+  {
+    path: Page.BRAND,
+    component: Brand,
+    layoutType: RouteLayoutTypeEnum.Authorized,
+    strict: true,
+    exact: true,
+  },
+  {
+    path: Page.PAYOUTS,
+    component: Payouts,
+    layoutType: RouteLayoutTypeEnum.Authorized,
+    strict: true,
+    exact: true,
+  },
+
+  {
+    path: Page.OFFERS,
+    component: OffersPage,
+    layoutType: RouteLayoutTypeEnum.Authorized,
+    strict: true,
+    exact: true,
+  },
+
+  {
+    path: Page.OFFERS_DETAIL_TAB,
+    component: OfferDetatils,
+    layoutType: RouteLayoutTypeEnum.Authorized,
+    strict: true,
+    exact: false,
+  },
+
+  {
+    path: Page.OFFERS_DETAIL,
+    component: OfferDetatils,
+    layoutType: RouteLayoutTypeEnum.Authorized,
+    strict: true,
+    exact: false,
+  },
+  // OfferDetatils
+
+  {
+    path: Page.CONFIRM_EMAIL,
+    component: ConfirmEmailPage,
+    layoutType: RouteLayoutTypeEnum.Authorized,
+    strict: true,
+    exact: true,
+  },
+  {
+    path: Page.CONFIRM_EMAIL_STATUS,
+    component: ConfirmEmailPage,
+    layoutType: RouteLayoutTypeEnum.Public,
+    strict: true,
+    exact: true,
+  },
+
+  {
+    path: Page.SIGN_IN,
+    component: Login,
+    layoutType: RouteLayoutTypeEnum.SignFlow,
+    strict: true,
+    exact: true,
+  },
+  {
+    path: Page.SIGN_UP,
+    component: Register,
+    layoutType: RouteLayoutTypeEnum.SignFlow,
+    strict: true,
+    exact: true,
+  },
+
+  {
+    path: Page.FORGOT_PASSWORD,
+    component: ForgetPassword,
+    layoutType: RouteLayoutTypeEnum.SignFlow,
+    strict: true,
+    exact: true,
+  },
+
+  {
+    path: Page.RESET_PASSWORD,
+    component: ResetPassword,
+    layoutType: RouteLayoutTypeEnum.SignFlow,
+    strict: true,
+    exact: true,
+  },
+  {
+    path: Page.SIGN_OUT,
+    component: Logout,
+    layoutType: RouteLayoutTypeEnum.Public,
+    strict: true,
+    exact: true,
+  },
 ];
 
-const authRoutes: Array<RouteProps> = [
-  //Authentication pages
-  { path: "/login", component: Login },
-  { path: "/logout", component: Logout },
-  { path: "/register", component: Register },
-];
-
-export { userRoutes, authRoutes };
+export default routesList;

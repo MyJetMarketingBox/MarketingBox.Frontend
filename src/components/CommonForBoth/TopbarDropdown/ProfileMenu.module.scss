@@ -1,0 +1,16 @@
+.toggle {
+  padding: 10px 20px;
+  background: none;
+  border: none;
+  border-left: 1px solid #f2f2f2;
+
+  img {
+    display: block;
+    width: 24px;
+    height: auto;
+    border-radius: 50%;
+  }
+}
+body[data-sidebar="dark"] .toggle {
+  border-left: 1px solid #0e0e0e;
+}

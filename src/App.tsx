@@ -1,54 +1,26 @@
-import React from "react";
-
-import { Switch, BrowserRouter as Router } from "react-router-dom";
-
-// Import Routes all
-import { userRoutes, authRoutes } from "./routes/allRoutes";
-
-//redux
-import { useSelector } from "react-redux";
-
-// Import all middleware
-import Authmiddleware from "./routes/middleware/Authmiddleware";
-
-// layouts Format
-import VerticalLayout from "./components/VerticalLayout/";
-import NonAuthLayout from "./components/NonAuthLayout";
+import React, { useEffect } from "react";
 
 // Import scss
 import "./assets/scss/theme.scss";
 import "./assets/scss/preloader.scss";
+import BadRequestContainer from "./components/BadRequestContainer/BadRequestContainer";
+import { ToastContainer } from "react-toastify";
+import { configureStore } from "./store";
+import { injectInterceptor } from "./helpers/api_helper";
+import { Provider } from "react-redux";
+import AppWithProviders from "./AppWithProviders";
+
+let store = configureStore({});
+injectInterceptor(store);
 
 const App = () => {
-
   return (
-    <React.Fragment>
-      <Router>
-        <Switch>
-          {authRoutes.map((route, idx) => (
-            <Authmiddleware
-              path={route.path}
-              layout={NonAuthLayout}
-              component={route.component}
-              key={idx}
-              isAuthProtected={false}
-              exact
-            />
-          ))}
+    <Provider store={store}>
+      <ToastContainer autoClose={2000} />
+      <BadRequestContainer />
 
-          {userRoutes.map((route: any, idx: number) => (
-            <Authmiddleware
-              path={route.path}
-              layout={VerticalLayout}
-              component={route.component}
-              key={idx}
-              isAuthProtected={true}
-              exact
-            />
-          ))}
-        </Switch>
-      </Router>
-    </React.Fragment>
+      <AppWithProviders />
+    </Provider>
   );
 };
 

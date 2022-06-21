@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Breadcrumbs from "../../../components/Common/Breadcrumb";
-import FormAffiliate from "./formAffiliate"
+import FormAffiliate from "../components/editAffiliate/formAffiliate"
 import MetaTags from "react-meta-tags";
 
 import {
@@ -27,66 +27,55 @@ import {
 import classnames from "classnames";
 import { useDispatch, useSelector } from "react-redux";
 
-import { getAffiliateProfile as onGetAffiliateProfile  } from "../../../store/affiliates/actions";
+import { clearAffProfile, getAffiliateProfile } from "../../../store/affiliates/profile/actions";
+import Loader from "../../../components/UI/loader";
+import Payouts from "../components/payouts";
 
 const Affiliate = (props: any) => {
-
   const dispatch = useDispatch();
-
-  const { affiliateProfile } = useSelector((state: any) => ({
-    affiliateProfile: state.Affiliates.affiliateProfile,
-  }));
-
-  const [getAffiliate, setAffiliate] = useState(null);
-  const [customActiveTab, setcustomActiveTab] = useState("1");
-  const [isLoading, setLoading] = useState(false);
 
   const {
     match: { params },
   } = props;
 
-  useEffect(() => {
-    if (params && params.id) {
-      dispatch(onGetAffiliateProfile(params.id));
-    } /*else {
-      dispatch(onGetAffiliateProfile(1)); //удалите после полной интеграции
-    }*/
-  }, [dispatch, params]);
+  const { affProfile, affLoaded, affLoading } = useSelector((state: any) => ({
+    affProfile: state.AffProfile.affProfile,
+    affLoading: state.AffProfile.loading,
+    affLoaded: state.AffProfile.loaded
+  }));
+
+  const [customActiveTab, setCustomActiveTab] = useState<string>("1");
 
   useEffect(() => {
-    if(affiliateProfile && affiliateProfile.affiliateId) {
-      setAffiliate(affiliateProfile);
-      setLoading(true)
+    if (params && params.id) {
+      dispatch(getAffiliateProfile(params.id));
+      return () => {
+        dispatch(clearAffProfile());
+      }
     }
-  }, [affiliateProfile]);
+  }, []);
 
   const toggleCustom = (tab: any) => {
     if (customActiveTab !== tab) {
-      setcustomActiveTab(tab);
+      setCustomActiveTab(tab);
     }
   };
 
   return (
     <React.Fragment>
+      { !affLoaded && affLoading && <Loader /> }
       <div className="page-content">
         <MetaTags>
           <title>Affiliate {params.id} | TraffMe </title>
         </MetaTags>
-        <div className="container-fluid">
+        <Container fluid>
           <Breadcrumbs title="TraffMe" breadcrumbItem="Affiliate" />
+
           <Row>
-            <Col className="col-12">
+            <Col xs={12}>
 
               <Card>
-                {!isLoading ? (
-                  <div style={{ textAlign: "center" }}>
-                    <h1>Loading...</h1>
-                  </div>
-                ):( <>
-
                   <CardHeader className="align-items-center d-flex">
-                    {/*<CardTitle className="h4">Custom Tabs</CardTitle>
-                  <p className="card-title-desc">Example of custom tabs</p>*/}
                     <div className="flex-shrink-0">
                       <Nav tabs className="justify-content-start nav-tabs-custom rounded card-header-tabs">
                         <NavItem>
@@ -99,10 +88,7 @@ const Affiliate = (props: any) => {
                               toggleCustom("1");
                             }}
                           >
-                          <span className="d-block d-sm-none">
-                            <i className="fas fa-home"></i>
-                          </span>
-                            <span className="d-none d-sm-block">Home</span>
+                            <span className=" d-sm-block">Settings</span>
                           </NavLink>
                         </NavItem>
                         <NavItem>
@@ -115,42 +101,7 @@ const Affiliate = (props: any) => {
                               toggleCustom("2");
                             }}
                           >
-                          <span className="d-block d-sm-none">
-                            <i className="far fa-user"></i>
-                          </span>
-                            <span className="d-none d-sm-block">Profile</span>
-                          </NavLink>
-                        </NavItem>
-                        <NavItem>
-                          <NavLink
-                            style={{ cursor: "pointer" }}
-                            className={classnames({
-                              active: customActiveTab === "3",
-                            })}
-                            onClick={() => {
-                              toggleCustom("3");
-                            }}
-                          >
-                          <span className="d-block d-sm-none">
-                            <i className="far fa-envelope"></i>
-                          </span>
-                            <span className="d-none d-sm-block">Messages</span>
-                          </NavLink>
-                        </NavItem>
-                        <NavItem>
-                          <NavLink
-                            style={{ cursor: "pointer" }}
-                            className={classnames({
-                              active: customActiveTab === "4",
-                            })}
-                            onClick={() => {
-                              toggleCustom("4");
-                            }}
-                          >
-                          <span className="d-block d-sm-none">
-                            <i className="fas fa-cog"></i>
-                          </span>
-                            <span className="d-none d-sm-block">Settings</span>
+                            <span className=" d-sm-block">Payouts</span>
                           </NavLink>
                         </NavItem>
                       </Nav>
@@ -158,56 +109,32 @@ const Affiliate = (props: any) => {
                   </CardHeader>
                   <CardBody>
 
-
                     <TabContent
                       activeTab={customActiveTab}
-                      className="p-3 text-muted"
+                      className="text-muted"
                     >
                       <TabPane tabId="1">
                         <Row>
                           <Col sm="12">
-                            <CardText className="mb-0">
-                              <FormAffiliate affiliate={getAffiliate}/>
-                            </CardText>
+                            {affLoaded && <FormAffiliate affiliate={affProfile}/>}
                           </Col>
                         </Row>
                       </TabPane>
                       <TabPane tabId="2">
                         <Row>
                           <Col sm="12">
-                            <CardText className="mb-0">
-                              2
-                            </CardText>
-                          </Col>
-                        </Row>
-                      </TabPane>
-                      <TabPane tabId="3">
-                        <Row>
-                          <Col sm="12">
-                            <CardText className="mb-0">
-                              3
-                            </CardText>
-                          </Col>
-                        </Row>
-                      </TabPane>
-                      <TabPane tabId="4">
-                        <Row>
-                          <Col sm="12">
-                            <CardText className="mb-0">
-                              4
-                            </CardText>
+                            {affLoaded && <Payouts payouts={affProfile.payouts} id={affProfile.id} />}
                           </Col>
                         </Row>
                       </TabPane>
                     </TabContent>
                   </CardBody>
 
-                </>)}
               </Card>
 
             </Col>
           </Row>
-        </div>
+        </Container>
       </div>
     </React.Fragment>
   )

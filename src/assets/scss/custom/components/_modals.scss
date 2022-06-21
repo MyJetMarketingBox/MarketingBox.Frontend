@@ -1,10 +1,85 @@
 // 
 // _modal.scss
-// 
+//
+
+/*border-radius: 12px;
+box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.1);*/
+
+.modal-content{
+    border-radius: 12px;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.1);
+}
+
+.modal-header{
+    height: 96px;
+    border-bottom: 1px solid #E0E0E0;
+}
+
+.modal-header .close{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 12px;
+    gap: 12px;
+
+    background: #F2F2F2;
+    border-radius: 8px;
+
+    width: 48px;
+    height: 48px;
+    top: 24px;
+    right: 3%;
+
+    span{
+        display: block;
+        color: #050121;
+        font-size: 42px;
+        font-weight: lighter;
+        padding-top: 0px !important;
+    }
+}
+
+.modal-footer {
+    height: 96px;
+    border-top: 1px solid #E0E0E0;
+}
+
+.modal-footer button {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 12px 20px;
+    gap: 10px;
+
+    width: 248px;
+    min-width: 148px;
+    height: 48px;
+
+    border-radius: 8px
+}
+
+.modal-title{
+    font-family: 'Gilroy';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 28px;
+    color: #050121;
+}
+
+.modal-backdrop {
+    background-color: rgba(255, 255, 255, 0.5) !important;
+}
 
 body[data-layout-mode="dark"] {
     // modal
     .modal-header, .modal-footer{
         border-color: $gray-dark-300;;
+    }
+
+    .modal-backdrop {
+        background-color: rgba(0, 0, 0, 0.7) !important;
     }
 }

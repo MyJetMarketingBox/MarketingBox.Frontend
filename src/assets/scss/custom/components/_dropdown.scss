@@ -19,6 +19,13 @@
     }
 }
 
+.card-dot .dropdown-menu {
+    &[style] {
+        right: 0 !important;
+        left: unset !important;
+    }
+}
+
 .dropdown-menu-end[style] {
     left: auto !important;
     right: 0 !important;

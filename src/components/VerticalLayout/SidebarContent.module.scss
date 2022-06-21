@@ -1,0 +1,368 @@
+.sidebar {
+  height: 100%;
+  max-height: 100%;
+  padding: 24px 0;
+  background-color: #ffffff;
+  border-right: 4px solid #e5e5e5;
+}
+body[data-sidebar="dark"] .sidebar {
+  background-color: #313533;
+  border-right: 4px solid #3b403d;
+}
+.toggleWrapper {
+  margin-bottom: 24px;
+  padding: 0 24px;
+}
+.toggle {
+  margin: 0;
+  padding: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+
+  &:focus {
+    outline: none;
+  }
+
+  svg {
+    fill: #050121;
+  }
+}
+body[data-sidebar="dark"] .toggle svg {
+  fill: #ffffff;
+}
+.userInfo {
+  margin-bottom: 24px;
+  padding: 0 24px;
+}
+.userPhoto {
+  position: relative;
+  width: 100%;
+  max-width: 96px;
+  margin: 0 auto 6px;
+  border-radius: 50%;
+  overflow: hidden;
+
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+.userName {
+  font-size: 20px;
+  line-height: 1.4;
+  font-weight: 700;
+  color: #050121;
+  text-align: center;
+}
+body[data-sidebar="dark"] .userName {
+  color: #ffffff;
+}
+body[data-sidebar-size="sm"] .userName {
+  display: none;
+}
+.userId {
+  font-size: 12px;
+  line-height: 1.4;
+  font-weight: 400;
+  color: #828282;
+  text-align: center;
+}
+body[data-sidebar-size="sm"] .userId {
+  display: none;
+}
+.balanceItems {
+  list-style: none;
+  margin: 0 0 38px;
+  padding: 0 24px;
+}
+body[data-sidebar-size="sm"] .balanceItems {
+  display: none;
+}
+.balanceItem {
+  display: flex;
+  margin-bottom: 10px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+.balanceItemIcon {
+  flex-shrink: 0;
+  width: 16px;
+  padding-top: 2px;
+
+  svg {
+    display: block;
+    width: 16px;
+    height: 16px;
+    fill: #050121;
+  }
+}
+body[data-sidebar="dark"] .balanceItemIcon svg {
+  fill: #ffffff;
+}
+.balanceItemContent {
+  flex-grow: 1;
+  padding-left: 12px;
+}
+.balanceItemVal {
+  font-size: 14px;
+  line-height: 1.6;
+  font-weight: 700;
+  color: #050121;
+}
+body[data-sidebar="dark"] .balanceItemVal {
+  color: #ffffff;
+}
+.balanceItemDescr {
+  font-size: 12px;
+  line-height: 1.4;
+  font-weight: 400;
+  color: #828282;
+}
+.menu {
+
+}
+.menuList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.menuItem {
+  position: relative;
+}
+.menuItemLink {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 12px 20px;
+  border-left: 4px solid transparent;
+  cursor: pointer;
+  user-select: none;
+
+  &.active {
+    background-color: rgba(231, 74, 24, 0.06);
+    border-left: 4px solid #e74a18;
+  }
+}
+body[data-sidebar-size="sm"] .menuItemLink {
+  position: relative;
+  padding: 14px 20px;
+}
+.menuItemLink:hover {
+
+}
+.menuItemIcon {
+  width: 16px;
+  margin-right: 12px;
+
+  svg {
+    display: block;
+    width: 16px;
+    height: 16px;
+    fill: #050121;
+    transition: fill .3s;
+  }
+}
+body[data-sidebar="dark"] .menuItemIcon svg {
+  fill: #ffffff;
+}
+.menuItemLink.active .menuItemIcon svg,
+.menuItemLink:hover .menuItemIcon svg {
+  fill: #e74a18;
+}
+.menuItemDescr {
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+  color: #050121;
+  transition: color .3s;
+}
+body[data-sidebar="dark"] .menuItemDescr {
+  color: #ffffff;
+}
+body[data-sidebar-size="sm"] .menuItemDescr {
+  display: none;
+}
+body[data-sidebar-size="sm"] .menuItem:hover .menuItemDescr {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 100%;
+  width: auto;
+  min-width: 160px;
+  padding: 0 12px;
+  background-color: #ffffff;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, .1);
+  white-space: nowrap;
+}
+.menuItemLink.active .menuItemDescr,
+.menuItemLink:hover .menuItemDescr {
+  color: #e74a18;
+}
+.subMenu {
+  display: none;
+  list-style: none;
+  margin: 0;
+  padding: 5px 24px 5px 48px;
+}
+.isOpen .subMenu {
+  display: block;
+}
+body[data-sidebar-size="sm"] .subMenu {
+  display: none;
+}
+body[data-sidebar-size="sm"] .menuItem:hover .subMenu {
+  display: block;
+  position: absolute;
+  top: 100%;
+  left: 100%;
+  width: auto;
+  min-width: 160px;
+  padding: 0 12px;
+  background-color: #ffffff;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, .1);
+}
+.subMenuItem {
+
+}
+.subMenuItem a {
+  display: block;
+  padding: 5px 0;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+  color: #050121;
+
+  &.active, &:hover {
+    color: #e74a18;
+  }
+}
+body[data-layout-mode="dark"] .subMenuItem a {
+  color: #ffffff;
+
+  &.active, &:hover {
+    color: #e74a18;
+  }
+}
+.mobMenuWrapper {
+  display: none;
+}
+
+
+
+@media screen and (max-width: 992px) {
+  .mobMenuWrapper {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 56px;
+    padding: 7px 15px;
+    background-color: #ffffff;
+    border-top: 1px solid #cccccc;
+    z-index: 1002;
+  }
+  body[data-layout-mode="dark"] .mobMenuWrapper {
+    background-color: #313533;
+  }
+  .mobMenuToggle {
+    background-color: transparent;
+    border: none;
+    margin-left: 50px;
+  }
+  body[data-layout-mode="dark"] .mobMenuToggle svg {
+    fill: #ffffff;
+  }
+  .mobMenu {
+    flex-grow: 1;
+    overflow: auto;
+  }
+  .mobMenuList {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .mobMenuItem {
+    flex-shrink: 0;
+    padding: 0 20px;
+  }
+  .mobMenuItemLink {
+    position: relative;
+    display: block;
+    padding-bottom: 0;
+    transition: padding-bottom .3s;
+
+    .icon {
+      width: 24px;
+
+      svg {
+        width: 24px;
+        height: 24px;
+        fill: #050121;
+      }
+    }
+    .descr {
+      position: absolute;
+      left: 50%;
+      bottom: 0;
+      transform: translate(-50%, 0);
+      font-size: 10px;
+      line-height: 14px;
+      font-weight: 700;
+      color: #E74A18;
+      white-space: nowrap;
+      opacity: 0;
+      transition: opacity .3s;
+    }
+
+    &.active {
+      padding-bottom: 14px;
+
+      .icon svg {
+        fill: #E74A18;
+      }
+      .descr {
+        opacity: 1;
+      }
+    }
+  }
+  body[data-layout-mode="dark"] .mobMenuItemLink {
+    .icon svg {
+      fill: #ffffff;
+    }
+    &.active .icon svg {
+      fill: #E74A18;
+    }
+  }
+  .sidebar {
+    border-right: none;
+  }
+  .toggleWrapper {
+    display: none;
+  }
+}
+
+
+
+@media screen and (max-width: 992px) {
+  .mobMenuToggle {
+    margin-left: 30px;
+  }
+  .mobMenuItem {
+    padding: 0 15px;
+  }
+}

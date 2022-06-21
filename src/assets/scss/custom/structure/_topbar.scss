@@ -1,6 +1,6 @@
-// 
+//
 // _header.scss
-// 
+//
 
 #page-topbar {
     position: fixed;
@@ -9,7 +9,7 @@
     left: 0;
     z-index: 1002;
     background-color: $header-bg;
-    border-bottom: 1px solid $border-color;
+    border-bottom: 4px solid #e5e5e5;
 }
 
 .navbar-header {
@@ -133,7 +133,13 @@ body[data-layout-mode="dark"] {
 }
 
 .page-content {
-    padding: calc(#{$header-height} + #{$grid-gutter-width}) calc(#{$grid-gutter-width} / 2) $footer-height calc(#{$grid-gutter-width} / 2);
+    box-sizing: border-box;
+    min-height: 100vh;
+    padding: calc(#{$header-height} + #{$grid-gutter-width}) 20px 0;
+}
+.page-content.full {
+    padding-left: 0;
+    padding-right: 0;
 }
 
 .header-item {
@@ -214,11 +220,11 @@ body[data-layout-mode="dark"] {
 }
 
 body[data-topbar="dark"] {
-    #page-topbar { 
+    #page-topbar {
         background-color: $header-dark-bg;
         border-color: $gray-dark-300;
     }
-    .navbar-brand-box { 
+    .navbar-brand-box {
         background-color: $header-dark-bg;
         border-color: $header-dark-bg;
         box-shadow: 0px 0px 2px $header-dark-bg;
@@ -240,7 +246,7 @@ body[data-topbar="dark"] {
 
     .header-item {
         color: $header-dark-item-color;
-    
+
         &:hover {
             color: $header-dark-item-color;
         }
@@ -248,7 +254,7 @@ body[data-topbar="dark"] {
         &.border-start, &.border-end{
             border-color: rgba($white, 0.1) !important;
         }
-        
+
         &.bg-soft-light{
             background-color: rgba($white, 0.04) !important;
         }
@@ -257,7 +263,7 @@ body[data-topbar="dark"] {
     .header-profile-user {
         background-color: rgba($white, 0.25);
     }
-    
+
     .noti-icon {
         i {
             color: $header-dark-item-color;
@@ -273,7 +279,7 @@ body[data-topbar="dark"] {
     }
 
     .app-search {
-    
+
         .form-control {
             background-color: rgba($topbar-search-bg,0.07);
             color: $white;
@@ -318,7 +324,7 @@ body[data-layout="horizontal"] {
     .page-content {
         margin-top: $header-height;
         padding: calc(55px + #{$grid-gutter-width}) calc(#{$grid-gutter-width} / 2) $footer-height calc(#{$grid-gutter-width} / 2);
-    }    
+    }
 
     .navbar-header{
         @media (min-width: 992px){
@@ -335,11 +341,14 @@ body[data-layout="horizontal"] {
     }
 }
 
-@media (max-width: 992px) { 
+@media (max-width: 992px) {
+    .page-content {
+        padding: calc(#{$header-height} + #{$grid-gutter-width}) 0 56px;
+    }
     body[data-layout="horizontal"] {
         .page-content {
             margin-top: 15px;
-        }    
+        }
     }
 }
 
@@ -350,7 +359,7 @@ body[data-layout-mode="dark"] {
         &.border-start, &.border-end{
             border-color: rgba($white, 0.1) !important;
         }
-        
+
         &.bg-soft-light{
             background-color: rgba($white, 0.04) !important;
         }
@@ -369,7 +378,7 @@ body[data-layout-mode="dark"] {
             border: 1px solid $gray-dark-300;
         }
     }
-    
+
     .notification-item {
         .d-flex:hover {
             background-color: lighten($gray-dark-200,4%);
@@ -386,7 +395,7 @@ body[data-layout-mode="dark"] {
     }
 
     &[data-sidebar="light"]{
-        @media (min-width: 992px) { 
+        @media (min-width: 992px) {
             &[data-topbar="light"]{
                 .navbar-brand-box{
                     .logo{

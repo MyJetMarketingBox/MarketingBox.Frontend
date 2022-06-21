@@ -1,0 +1,206 @@
+.popup {
+  box-sizing: border-box;
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 40px 20px;
+  background-color: rgba(255, 255, 255, 0.6);
+  font-size: 0;
+  text-align: center;
+  white-space: nowrap;
+  overflow-x: hidden;
+  overflow-y: auto;
+  z-index: 1200;
+
+  /*@supports ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
+    background-color: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(12px);
+  }*/
+}
+.popup.dark {
+  background-color: rgba(0, 0, 0, 0.6);
+}
+.popup::before {
+  content: '';
+  box-sizing: border-box;
+  display: inline-block;
+  width: 0;
+  height: 100%;
+  vertical-align: middle;
+  background-color: #fff;
+}
+.popup-wrapper {
+  box-sizing: border-box;
+  position: relative;
+  display: inline-block;
+  background-color: #ffffff;
+  vertical-align: middle;
+  width: 100%;
+  max-width: 592px;
+  padding: 40px 30px;
+  border-radius: 12px;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, .1);
+}
+.popup.dark .popup-wrapper {
+  background-color: #30323b;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, .1);
+}
+.popup-btn-close {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 12px;
+  position: absolute;
+  width: 48px;
+  height: 48px;
+  right: 30px;
+  top: 24px;
+  background: #F2F2F2;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.popup-btn-close::before,
+.popup-btn-close::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  right: 50%;
+  width: 22px;
+  height: 2px;
+  background-color: #050121;
+  border-radius: 1px;
+  transition: background-color .3s;
+}
+.popup-btn-close::before {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+.popup-btn-close::after {
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+.popup-btn-close:hover::before,
+.popup-btn-close:hover::after {
+  background-color: #333333;
+}
+.popup-content {
+  box-sizing: border-box;
+  width: 100%;
+  white-space: normal;
+}
+
+.popup-img {
+  width: 100%;
+  max-width: 120px;
+  margin-left: auto;
+  margin-right: auto;
+
+}
+.popup-img img {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin-bottom: 20px;
+}
+.popup-title {
+  margin-bottom: 20px;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 28px;
+  color: #E74A18;
+  font-family: 'Gilroy';
+  align-items: center;
+  text-align: center;
+  letter-spacing: 0.15px;
+}
+.popup-text {
+  margin-bottom: 20px;
+  font-family: 'Gilroy';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  text-align: center;
+  letter-spacing: 0.15px;
+}
+.popup.dark .popup-text {
+  color: #050121;
+}
+.popup-descr {
+  margin-bottom: 20px;
+  font-family: 'Gilroy';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  text-align: center;
+  letter-spacing: 0.25px;
+  text-transform: uppercase;
+  color: #E74A18;
+}
+.popup-input {
+  margin-bottom: 20px;
+}
+.popup-input-descr {
+  margin-bottom: 5px;
+  font-size: 16px;
+  line-height: 1.2;
+  font-weight: 400;
+  color: #495057;
+}
+.popup.dark .popup-input-descr {
+  color: #ffffff;
+}
+.popup-input input {
+  display: block;
+  box-sizing: border-box;
+  font-size: 16px;
+  color: #495057;
+  text-align: center;
+
+  &:focus {
+    outline: none;
+  }
+}
+.popup.dark .popup-input input {
+  border: 1px solid transparent;
+  color: #ffffff;
+}
+.popup-input input::-webkit-input-placeholder {
+  color: #939393;
+  line-height: 1.3;
+}
+.popup-input input::-moz-placeholder {
+  color: #939393;
+  line-height: 1.3;
+}
+.popup-input input:-moz-placeholder {
+  color: #939393;
+  line-height: 1.3;
+}
+.popup-input input:-ms-input-placeholder {
+  color: #939393;
+  line-height: 1.3;
+}
+.popup-btns {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.popup-btns button {
+  margin-right: 10px;
+}
+.popup-btns button:last-child {
+  margin-right: 0;
+}
+
+@media (max-width: 420px) {
+  .popup {
+    padding: 0px;
+  }
+  .popup-wrapper {
+    height: 100vh;
+  }
+}

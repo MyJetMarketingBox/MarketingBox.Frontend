@@ -108,6 +108,10 @@ input[switch="danger"]:checked + label {
   background-color: $danger;
 }
 
+input[switch="my-orange"]:checked + label {
+  background-color: $myOrange;
+}
+
 input[switch="dark"]:checked + label {
   background-color: $dark;
   &:before {

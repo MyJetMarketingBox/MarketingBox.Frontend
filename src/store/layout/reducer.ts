@@ -6,18 +6,18 @@ import {
   layoutTypes,
   layoutWidthTypes,
   topBarThemeTypes,
-  layoutTheme,
   layoutPositions,
   leftSidebarTypes,
   leftSideBarThemeTypes,
 } from "../../constants/layout";
+import { layoutThemeEnum } from "src/enums/LayoutsEnum";
 
 export const INIT_STATE : LayoytState = {
   layoutType: layoutTypes.VERTICAL,
   layoutWidth: layoutWidthTypes.FLUID,
   leftSideBarTheme: leftSideBarThemeTypes.LIGHT,
   leftSideBarType: leftSidebarTypes.DEFAULT,
-  layoutMode: layoutTheme.LIGHTMODE,
+  layoutMode: localStorage.getItem('layoutTheme') || layoutThemeEnum.LIGHTMODE,
   topbarTheme: topBarThemeTypes.LIGHT,
   isPreloader: true,
   showRightSidebar: false,
@@ -25,6 +25,7 @@ export const INIT_STATE : LayoytState = {
   isMobile: false,
   showSidebar: true,
   leftMenu: false,
+  isBlur: false,
 }
 
 const Layout = (state = INIT_STATE, action :any) => {
@@ -39,7 +40,11 @@ const Layout = (state = INIT_STATE, action :any) => {
         ...state,
         isPreloader: action.payload,
       }
-
+    case LayoutTypes.CHANGE_BLUR:
+      return {
+        ...state,
+        isBlur: action.payload,
+      }
     case LayoutTypes.CHANGE_LAYOUT_WIDTH:
       return {
         ...state,

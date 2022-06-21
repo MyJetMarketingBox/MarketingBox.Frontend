@@ -11,6 +11,8 @@ import Icon from "@ailibs/feather-react-ts";
 import avatar3 from "../../../assets/images/users/avatar-3.jpg";
 import avatar4 from "../../../assets/images/users/avatar-4.jpg";
 
+import c from './NotificationDropdown.module.scss';
+
 //i18n
 import { withTranslation } from "react-i18next";
 
@@ -18,21 +20,24 @@ const NotificationDropdown = (props: any) => {
   // Declare a new state variable, which we'll call "menu"
   const [menu, setMenu] = useState(false);
 
+  const dropdownClickHandler = () => {
+    setMenu(prev => !prev);
+  }
+
   return (
     <React.Fragment>
       <Dropdown
         isOpen={menu}
-        toggle={() => setMenu(!menu)}
-        className="dropdown d-inline-block"
-        tag="li"
+        toggle={dropdownClickHandler}
+        className="dropdown d-inline-block d-flex"
       >
         <DropdownToggle
-          className="btn header-item noti-icon position-relative"
+          className={c.toggle}
           tag="button"
           id="page-header-notifications-dropdown"
         >
           <Icon name="bell" className="icon-lg" />
-          <span className="badge bg-danger rounded-pill">5</span>
+          <span className={c.count}>5</span>
         </DropdownToggle>
 
         <DropdownMenu className="dropdown-menu-lg dropdown-menu-end p-0">

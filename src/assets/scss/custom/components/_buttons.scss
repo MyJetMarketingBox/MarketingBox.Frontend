@@ -7,6 +7,25 @@ a {
     outline: none !important;
 }
 
+.btn {
+    font-style: normal;
+    text-align: center;
+    display: inline-flex;
+    align-items: center;
+    border-radius: 8px;
+    flex-direction: row;
+    justify-content: center;
+
+    gap: 10px;
+    .icon{
+        margin-left: 5px;
+    }
+}
+
+.btn-light {
+    box-shadow: unset !important;
+}
+
 @mixin button-shadow($color) {
     box-shadow: 0 2px 6px 0 rgba($color, 0.5);
 }
@@ -180,4 +199,17 @@ body[data-layout-mode="dark"] {
     .btn-outline-light:focus{
         box-shadow: 0 0 0 $btn-focus-width rgba($gray-dark-300, .5);
     }
+}
+
+.btn-width-250{
+    width: 250px;
+    height: 48px;
+    padding: 12px 20px;
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 700;
+}
+
+.btn-dark-blue{
+    box-shadow: unset;
 }

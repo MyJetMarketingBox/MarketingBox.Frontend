@@ -110,6 +110,7 @@ function* changelayoutMode({ payload: { layoutMode, layoutType } } : any) {
   try {
     if (layoutMode === "light") {
       yield call(changeBodyAttribute, "data-layout-mode", layoutMode);
+      localStorage.setItem('layoutTheme', layoutMode);
       yield put(changeTopbarThemeAction("light"));
       if (layoutType !== "horizontal") {
         yield call(changeBodyAttribute, "data-sidebar", "light");
@@ -117,6 +118,7 @@ function* changelayoutMode({ payload: { layoutMode, layoutType } } : any) {
         yield call(changeBodyAttribute, "data-sidebar", "");
       }
     } else if (layoutMode === "dark") {
+      localStorage.setItem('layoutTheme', layoutMode);
       yield call(changeBodyAttribute, "data-layout-mode", layoutMode);
       yield put(changeTopbarThemeAction("dark"));
       yield call(changeBodyAttribute, "data-sidebar", "dark");

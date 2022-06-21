@@ -13,6 +13,7 @@ export enum LayoutTypes {
     TOGGLE_LEFTMENU = "@@layout/TOGGLE_LEFTMENU",
     SHOW_RIGHT_SIDEBAR = "@@layout/SHOW_RIGHT_SIDEBAR",
     CHANGE_PRELOADER = "@@layout/CHANGE_PRELOADER",
+    CHANGE_BLUR = "@@layout/CHANGE_BLUR",
 }
 
 export interface LayoytState {
@@ -28,4 +29,5 @@ showRightSidebar : boolean;
 isMobile : boolean;
 showSidebar : boolean;
 leftMenu : boolean;
+isBlur: boolean;
 }

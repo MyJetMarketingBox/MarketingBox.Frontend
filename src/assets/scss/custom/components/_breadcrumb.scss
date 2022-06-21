@@ -1,21 +1,43 @@
 
-// 
+//
 // breadcrumb.scss
 //
 
 
 // Breadcrumb item arrow
 .breadcrumb-item {
+    font-size: 12px;
+
     > a {
-        color: $gray-700;
+        color: #828282;
     }
     +.breadcrumb-item {
+        position: relative;
+        padding-left: 20px;
+
         &::before {
-            font-family: "Material Design Icons";
+            content: "";
+            float: none;
+            position: absolute;
+            left: 8px;
+            top: 50%;
+            transform: translate(0, -50%);
+            width: 0;
+            height: 0;
+            margin: 0;
+            border-left: 4px solid #050121;
+            border-top: 4px solid transparent;
+            border-bottom: 4px solid transparent;
+        }
+    }
+    &.active {
+        font-weight: 700;
+        > a {
+            color: #050121;
         }
     }
 }
-  
+
 body[data-layout-mode="dark"] {
     .breadcrumb-item>a {
         color: $gray-dark-500;
@@ -23,5 +45,13 @@ body[data-layout-mode="dark"] {
 
     .breadcrumb-item.active{
         color: $gray-dark-400;
+    }
+    .breadcrumb-item+.breadcrumb-item {
+        position: relative;
+        padding-left: 20px;
+
+        &::before {
+            border-left: 4px solid $gray-dark-400;
+        }
     }
 }

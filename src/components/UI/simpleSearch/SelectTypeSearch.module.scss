@@ -1,0 +1,130 @@
+.select {
+  position: relative;
+  display: flex;
+  flex-shrink: 0;
+  z-index: 100;
+  user-select: none;
+}
+
+.select-toggle {
+  position: relative;
+  width: 36px;
+  min-height: 10px;
+  cursor: pointer;
+}
+
+.select-toggle::before,
+.select-toggle::after {
+  content: "";
+  position: absolute;
+  top: 18px;
+  left: 17px;
+  width: 2px;
+  height: 8px;
+  background-color: #495057;
+  transform-origin: 1px 7px;
+}
+
+.select-toggle::before {
+  transform: rotate(-45deg);
+}
+
+.select-toggle::after {
+  transform: rotate(45deg);
+}
+
+.select.open .select-toggle::before,
+.select.open .select-toggle::after {
+  top: 14px;
+}
+
+.select.open .select-toggle::before {
+  transform: rotate(-135deg);
+}
+
+.select.open .select-toggle::after {
+  transform: rotate(135deg);
+}
+
+.select.dark .select-toggle {
+  &::before,
+  &::after {
+    background-color: #adb5bd;
+  }
+}
+
+.select-items {
+  position: absolute;
+  top: calc(100% + 5px);
+  left: 0;
+  width: auto;
+  margin: 0;
+  padding: 8px 4px;
+  border-radius: 12px;
+  list-style: none;
+  background-color: #ffffff;
+  box-shadow: 0 0 3px 0 rgba(0, 0, 0, .2);
+}
+
+.select.dark .select-items {
+  background-color: #363a38;
+}
+
+.select-items li {
+  position: relative;
+  padding: 13px 50px 14px 10px;
+  white-space: nowrap;
+  cursor: pointer;
+
+  &::before {
+    content: "";
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translate(0, -50%);
+    width: 14px;
+    height: 14px;
+    background-color: #ffffff;
+    border: 4px solid #ffffff;
+    border-radius: 50%;
+    outline: 1px solid #050121;
+  }
+
+  &:hover {
+    color: #E74A18;
+  }
+
+  &.active {
+    &::before {
+      background-color: #E74A18;
+      outline: 1px solid #E74A18;
+    }
+  }
+}
+
+.select.dark .select-items li {
+  &::before {
+    background-color: #858d98;
+    border: 4px solid #858d98;
+  }
+  &.active {
+    &::before {
+      background-color: #E74A18;
+      outline: 1px solid #E74A18;
+    }
+  }
+}
+
+.select.dark .select-items li {
+  color: #858d98;
+
+  &:hover {
+    background-color: #3b403d;
+
+  }
+
+  &.active {
+    background-color: #3b403d;
+    color: #ffffff;
+  }
+}

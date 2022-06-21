@@ -1,168 +1,60 @@
 import PropTypes from "prop-types";
 import React, { useEffect } from "react";
-import {
-  changeLayout,
-  changeSidebarTheme,
-  changeSidebarType,
-  changeTopbarTheme,
-  changeLayoutWidth,
-  changelayoutMode, loginSuccess
-} from "../../store/actions";
+import { changelayoutMode } from "../../store/actions";
 
-// Layout Related Components
 import Header from "./Header";
 import Sidebar from "./Sidebar";
-import Footer from "./Footer";
 
-//redux
 import { useSelector, useDispatch } from "react-redux";
-import parseJwt from "../../common/utils/parse";
+import { LOCAL_STORAGE_LAYOUT_THEME } from "../../constants/localStorageKeys";
 
 const Layout = (props: any) => {
   const dispatch = useDispatch();
 
-  const {
-    isPreloader,
-    layoutWidth,
-    leftSideBarType,
-    topbarTheme,
-    leftSideBarTheme,
-    layoutMode,
-    layoutType,
-    leftSidebarTypes,
-  } = useSelector((state: any) => ({
-    isPreloader: state.Layout.isPreloader,
-    leftSideBarType: state.Layout.leftSideBarType,
-    layoutWidth: state.Layout.layoutWidth,
-    topbarTheme: state.Layout.topbarTheme,
-    leftSideBarTheme: state.Layout.leftSideBarTheme,
-    layoutMode: state.Layout.layoutMode,
+  const { layoutType, isBlur } = useSelector((state: any) => ({
     layoutType: state.Layout.layoutType,
-    leftSidebarTypes: state.Layout.leftSidebarTypes,
+    isBlur: state.Layout.isBlur,
   }));
 
-  const isMobile: any = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-
-  const toggleMenuCallback = () => {
-    if (leftSideBarType === "default") {
-      dispatch(changeSidebarType("condensed"));
-    } else if (leftSideBarType === "condensed") {
-      dispatch(changeSidebarType("default"));
-    }
-  };
-
-  /*
-  layout  settings
-  */
-
-  // useEffect(() => {
-  //   if (isPreloader === true) {
-  //     document.getElementById("preloader").style.display = "block";
-  //     document.getElementById("status").style.display = "block";
-
-  //     setTimeout(function () {
-  //       document.getElementById("preloader").style.display = "none";
-  //       document.getElementById("status").style.display = "none";
-  //     }, 2500)
-  //   } else {
-  //     document.getElementById("preloader").style.display = "none";
-  //     document.getElementById("status").style.display = "none";
-  //   }
-  // }, [isPreloader])
+  const toggleMenuCallback = () => {};
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
   useEffect(() => {
-    dispatch(changeLayout("vertical"));
-  }, [dispatch]);
+    const rootBlur: any = document.getElementById("root");
+    isBlur
+      ? (rootBlur.style.filter = "blur(3px)")
+      : rootBlur.removeAttribute("style");
+  }, [isBlur]);
 
-  useEffect(() => {
-    if (leftSideBarTheme) {
-      dispatch(changeSidebarTheme(leftSideBarTheme));
-    }
-  }, [leftSideBarTheme, dispatch]);
-
-  useEffect(() => {
-    if (layoutMode) {
-      dispatch(changelayoutMode(layoutMode, layoutType));
-    }
-  }, [layoutMode, dispatch]);
-
-  useEffect(() => {
-    if (leftSidebarTypes) {
-      dispatch(changeSidebarType(leftSidebarTypes));
-    }
-  }, [leftSidebarTypes, dispatch]);
-
-  useEffect(() => {
-    if (layoutWidth) {
-      dispatch(changeLayoutWidth(layoutWidth));
-    }
-  }, [layoutWidth, dispatch]);
-
-  useEffect(() => {
-    if (leftSideBarType) {
-      dispatch(changeSidebarType(leftSideBarType));
-    }
-  }, [leftSideBarType, dispatch]);
-
-  useEffect(() => {
-    if (topbarTheme) {
-      dispatch(changeTopbarTheme(topbarTheme));
-    }
-  }, [topbarTheme, dispatch]);
-
-  /*
-  call dark/light mode
-  */
   const onChangeLayoutMode = (value: any) => {
     if (changelayoutMode) {
       dispatch(changelayoutMode(value, layoutType));
     }
   };
 
-  if(localStorage.getItem("authUser")){
-    // @ts-ignore
-    const authUser = JSON.parse(localStorage.getItem("authUser"));
-    const userInfo = parseJwt(JSON.stringify(authUser.token))
-
-    useSelector((state : any) => {
-      state.login.userInfo = userInfo;
-    })
-  }
-
+  useEffect(() => {
+    if (localStorage.getItem(LOCAL_STORAGE_LAYOUT_THEME)) {
+      dispatch(
+        changelayoutMode(
+          localStorage.getItem(LOCAL_STORAGE_LAYOUT_THEME),
+          layoutType
+        )
+      );
+    }
+  }, []);
 
   return (
-    <React.Fragment>
-      <div id="preloader">
-        <div id="status">
-          <div className="spinner-chase">
-            <div className="chase-dot" />
-            <div className="chase-dot" />
-            <div className="chase-dot" />
-            <div className="chase-dot" />
-            <div className="chase-dot" />
-            <div className="chase-dot" />
-          </div>
-        </div>
-      </div>
-
-      <div id="layout-wrapper">
-        <Header
-          toggleMenuCallback={toggleMenuCallback}
-          onChangeLayoutMode={onChangeLayoutMode}
-        />
-        <Sidebar
-          theme={leftSideBarTheme}
-          type={leftSideBarType}
-          isMobile={isMobile}
-        />
-        <div className="main-content">{props.children}</div>
-        <Footer />
-      </div>
-    </React.Fragment>
+    <div id="layout-wrapper">
+      <Header
+        toggleMenuCallback={toggleMenuCallback}
+        onChangeLayoutMode={onChangeLayoutMode}
+      />
+      <Sidebar />
+      <div className="main-content">{props.children}</div>
+    </div>
   );
 };
 
