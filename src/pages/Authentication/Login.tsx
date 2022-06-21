@@ -149,8 +149,7 @@ const Login = () => {
                       id="terms"
                     />
                     <Label className="form-checkbox-label" for="terms">
-                      By registering you agree to the TraffMe{" "}
-                      <a href="#">Terms of Use</a>
+                      Remember me
                     </Label>
                     <FormFeedback
                       valid={!(touched.rememberMe && errors.rememberMe)}

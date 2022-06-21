@@ -12,20 +12,31 @@ const ConfirmEmailPage = () => {
   const { push } = useHistory();
   const { status } = useParams<{ status: string }>();
 
-  const { isConfirmed } = useSelector((store: RootStoreType) => ({
+  const { isConfirmed, isAuth } = useSelector((store: RootStoreType) => ({
+    isAuth: store.authUser.isAuthorization,
+
     isConfirmed:
-      store.AffProfile.affProfile?.generalInfo.state !==
-      AffiliateAccStatusEnum.NotActive,
+      store.AffProfile.affProfile?.generalInfo.state ===
+        AffiliateAccStatusEnum.Active ||
+      store.AffProfile.affProfile?.generalInfo.state ===
+        AffiliateAccStatusEnum.Banned,
   }));
 
   const showConfirmeDone = status === "done";
+  const confirmEmailFailed = status === "fail";
 
   const handleClickBack = () => {
-    push(showConfirmeDone ? Page.DASHBOARD : Page.SIGN_OUT);
+    let link: string = "";
+    if (isAuth) {
+      link = showConfirmeDone ? Page.DASHBOARD : Page.SIGN_OUT;
+    } else {
+      link = Page.SIGN_IN;
+    }
+    push(link);
   };
 
   useEffect(() => {
-    if (!showConfirmeDone || isConfirmed) {
+    if (!status && isConfirmed) {
       push(Page.DASHBOARD);
     }
   }, []);
@@ -38,21 +49,31 @@ const ConfirmEmailPage = () => {
             <img src={logo} alt="logo" width="220" height="auto" />
           </div>
           <div className="email-confirm-title">
-            <h2 className="text-orange">Congratulation!</h2>
+            <h2 className="text-orange">
+              {confirmEmailFailed
+                ? "Your confirmation is failing"
+                : "Congratulation!"}
+            </h2>
           </div>
 
           <div className="email-confirm-text">
-            <p>
-              You've {showConfirmeDone ? "confirmed" : "created"} an account!
-              <br />
-              {!showConfirmeDone &&
-                "Please, check you email to complete verification"}
-            </p>
+            {!confirmEmailFailed && (
+              <>
+                <p>
+                  You've {showConfirmeDone ? "confirmed" : "created"} an
+                  account!
+                  <br />
+                  {!showConfirmeDone &&
+                    "Please, check you email to complete verification"}
+                </p>
+              </>
+            )}
           </div>
 
           <div className="email-confirm-buttons">
             <button onClick={handleClickBack} className="auth-page-btn">
-              Back to {showConfirmeDone ? "Dashbord" : "Log In"}
+              Back to&nbsp;
+              {showConfirmeDone ? (isAuth ? "Dashbord" : "Log In") : "Log In"}
             </button>
           </div>
         </div>

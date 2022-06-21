@@ -12,7 +12,7 @@ export function authHeader() {
 
 export function registerHeader() {
   return {
-    "affiliate-id": 165,
-    "api-key": "6a5b15346e9f4c39bf14087f7adfac4c",
+    "affiliate-id": process.env.REACT_APP_AFF_ID,
+    "api-key": process.env.REACT_APP_API_KEY,
   };
 }

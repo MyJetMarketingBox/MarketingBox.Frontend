@@ -217,16 +217,16 @@ const routesList: RouteItemsType[] = [
   // OfferDetatils
 
   {
-    path: Page.CONFIRM_EMAIL,
+    path: Page.CONFIRM_EMAIL_STATUS,
     component: ConfirmEmailPage,
-    layoutType: RouteLayoutTypeEnum.Authorized,
+    layoutType: RouteLayoutTypeEnum.Public,
     strict: true,
     exact: true,
   },
   {
-    path: Page.CONFIRM_EMAIL_STATUS,
+    path: Page.CONFIRM_EMAIL,
     component: ConfirmEmailPage,
-    layoutType: RouteLayoutTypeEnum.Public,
+    layoutType: RouteLayoutTypeEnum.Authorized,
     strict: true,
     exact: true,
   },
