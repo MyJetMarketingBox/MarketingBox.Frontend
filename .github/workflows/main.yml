@@ -41,6 +41,8 @@ jobs:
       run: |
         npm install
     - name: Build
+      env: 
+        BUILD_VERSION: 1.0.0
       run: |
         CI=false
         npm run build

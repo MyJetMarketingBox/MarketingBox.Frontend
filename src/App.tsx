@@ -14,6 +14,8 @@ let store = configureStore({});
 injectInterceptor(store);
 
 const App = () => {
+  console.log("BUILD_VERSION ", process.env.BUILD_VERSION || "Unset");
+
   return (
     <Provider store={store}>
       <ToastContainer autoClose={2000} />
