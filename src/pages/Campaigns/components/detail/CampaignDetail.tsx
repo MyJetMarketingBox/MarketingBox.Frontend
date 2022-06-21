@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import MetaTags from "react-meta-tags";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
@@ -6,7 +6,6 @@ import { CardBody, Col, Row } from "reactstrap";
 import Loader from "src/components/UI/loader";
 import {
   closeEditCampaignRowModal,
-  deleteCampaignRow,
   getBrands,
   getCampaignRowByCampaignId,
   getGeo,
@@ -25,7 +24,7 @@ const CampaignDetail = () => {
   const dispatch = useDispatch();
   const { id } = useParams<IParams>();
 
-  const { isLoading, pagination, campaignRows, isOpenEditModal, editableCRid } =
+  const { isLoading, campaignRows, isOpenEditModal, editableCRid } =
     useSelector((state: RootStoreType) => {
       return {
         isLoading: state.CampaignRows.isLoading,
@@ -70,7 +69,7 @@ const CampaignDetail = () => {
                     className="btn btnOrange"
                     onClick={handleOpenEditModal}
                   >
-                    <i className="bx bx-plus me-1" /> Add New
+                    <i className="bx bx-plus me-1" /> Add New Row
                   </button>
                 </Col>
               </Row>
@@ -79,7 +78,6 @@ const CampaignDetail = () => {
                 <Col xl="12">
                   <div className="table-responsive">
                     {!isLoading && <CamaignRowsTable items={campaignRows} />}
-
                     {isLoading && <Loader />}
                   </div>
                 </Col>
