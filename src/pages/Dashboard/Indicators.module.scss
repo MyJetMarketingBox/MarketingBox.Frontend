@@ -41,6 +41,19 @@ body[data-layout-mode="dark"] .value {
   border-radius: 20px;
 }
 
+.diffNeg {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  height: 20px;
+  padding-left: 4px;
+  padding-right: 8px;
+  background-color: #050121;
+  border-radius: 20px;
+}
+
 .diffIcon {
   width: 16px;
 

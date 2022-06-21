@@ -14,6 +14,9 @@ export const SOCIAL_LOGIN = "/social-login";
 //PROFILE
 export const POST_EDIT_JWT_PROFILE = "/post-jwt-profile";
 export const POST_EDIT_PROFILE = "/post-fake-profile";
+//DASHBOARD
+export const DASHBOARD = "/api/Dashboard"
+export const DASHBOARD_MAP = "/api/Dashboard/map"
 //AFFILIATES
 export const AFFILIATES = "api/affiliates";
 //AFFILIATES PAYOUTS

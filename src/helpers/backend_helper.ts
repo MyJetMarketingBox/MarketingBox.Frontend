@@ -75,6 +75,11 @@ const postJwtLogin = (data: any) => post(url.POST_FAKE_JWT_LOGIN, data);
 const postJwtForgetPwd = (data: any) =>
   post(url.POST_FAKE_JWT_PASSWORD_FORGET, data);
 
+/** dashboard **/
+export const getDashStatistics = (filter: object) => get( url.DASHBOARD, {params: filter})
+
+export const getDashMap = (filter: object) => get( url.DASHBOARD_MAP, {params: filter})
+
 // get affiliates
 export const getAffiliates = (nextUrl: any, filter: object) =>
   get(nextUrl || url.AFFILIATES, { params: filter });

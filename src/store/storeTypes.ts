@@ -19,6 +19,8 @@ import { IBadRequestStore } from "./badRequests/actionTypes";
 import { IOffersStore } from "./offers/actionTypes";
 import { RegFilesState } from "./regFiles/actionTypes";
 import { AffProfileState } from "./affiliates/profile/actionTypes";
+import { DashStatisticsState } from "./dashboard/statistics/actionTypes";
+import { DashMapState } from "./dashboard/map/actionTypes";
 import { AuthUserStoreType } from "./authUser/actionTypes";
 
 export interface RootStoreType {
@@ -46,4 +48,6 @@ export interface RootStoreType {
   Offers: IOffersStore;
   RegFiles: RegFilesState;
   profile: any;
+  DashStatistics: DashStatisticsState;
+  DashMap: DashMapState;
 }

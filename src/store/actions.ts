@@ -1,6 +1,10 @@
 /** Layouts */
 export * from "./layout/actions";
 
+/** Dashboard **/
+export * from "./dashboard/statistics/actions"
+export * from "./dashboard/map/actions"
+
 /** Affiliates */
 export * from "./affiliates/actions";
 

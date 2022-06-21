@@ -1,6 +1,9 @@
 import { combineReducers } from "redux";
 // Layout
 import Layout from "./layout/reducer";
+//Dashboard
+import DashStatistics from "./dashboard/statistics/reducer"
+import DashMap from "./dashboard/map/reducer"
 //Affiliates
 import Affiliates from "./affiliates/reducer";
 //AffProfile
@@ -70,6 +73,8 @@ const rootReducer = combineReducers({
   Offers,
   RegFiles,
   authUser,
+  DashStatistics,
+  DashMap
 });
 
 export default rootReducer;

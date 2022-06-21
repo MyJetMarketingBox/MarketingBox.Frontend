@@ -129,3 +129,8 @@ export const RedistributionState = [
     "Finished",
     "Error",
 ]
+
+export const DiffType = [
+    "Positive",
+    "Negative",
+]

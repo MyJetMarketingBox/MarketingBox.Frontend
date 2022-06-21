@@ -1,8 +1,15 @@
-import React, { useEffect, useRef } from "react";
-import { VectorMap } from "@south-paw/react-vector-maps";
+import React, { createRef, useEffect, useMemo, useRef, useState } from "react";
+//import { VectorMap } from "@south-paw/react-vector-maps";
 import c from "./Map.module.scss";
 
-const worldLowRes = {
+import { VectorMap } from "react-jvectormap";
+import "./jquery-jvectormap.scss";
+import { useDispatch, useSelector } from "react-redux";
+import { RootStoreType } from "../../store/storeTypes";
+import { clearDashMap, getDashMap } from "../../store/actions";
+
+
+/*const worldLowRes = {
   "id": "world",
   "name": "World",
   "viewBox": "0 0 1009.6727 665.96301",
@@ -1289,12 +1296,15 @@ const worldLowRes = {
     }
   ]
 };
-const selectedCountries = ['ua', 'it', 'br', 'cn'];
+
+const selectedCountries = ['ua', 'it', 'br', 'cn'];*/
 
 const Map = () => {
-  const mapRef = useRef(null);
+  const dispatch = useDispatch();
+  //const mapRef = useRef(null);
+  //const map = createRef<any>();
 
-  useEffect(() => {
+  /*useEffect(() => {
     // @ts-ignore
     const mapNode = mapRef.current.querySelector('svg');
     for (const country of selectedCountries) {
@@ -1306,14 +1316,117 @@ const Map = () => {
     return () => {
       console.log("destroy map");
     }
+  }, []);*/
+
+  const {countries, loading, loaded} = useSelector((state: RootStoreType) => {
+    return {
+      countries: state.DashMap.countries,
+      loading: state.DashMap.loading,
+      loaded: state.DashMap.loaded
+    }
+  })
+
+  useEffect(() => {
+    dispatch(getDashMap({}))
+
+    return () => {
+      dispatch(clearDashMap())
+    }
   }, []);
+
+  const mapCountries = useMemo(() => {
+    let obj = {};
+    if(countries) {
+      for (let key in countries) {
+        // @ts-ignore
+        obj[countries[key]?.alpha2Code] = 1;
+      }
+    }
+    return obj;
+  }, [countries])
+
+
+  /*const mapData = {
+    CN: 1,
+    IN: 1,
+    SA: 1,
+    EG: 1,
+    SE: 1,
+    FI: 1,
+    FR: 1,
+    US: 1
+  };*/
+
+  const handleClick = (e: any, countryCode: any) => {
+    console.log(countryCode);
+  };
+
+  const handleTipShow = (e: any, el: any, code: any) => {
+    countries.filter((item: any) => {
+      if (item.alpha2Code.includes(code)) {
+        el.html(
+          "Registrations Count: " + item.registrationsCount +
+          " <br /> " +
+          "FTD Count: " + item.ftdCount +
+          " <br /> " +
+          "Failed Count: " + item.failedCount +
+          " <br /> " +
+          "CR: " + item.cr +
+          " <br /> " +
+          el.html()
+        );
+      }
+    });
+  };
 
   return (
     <div className={c.wrapper}>
       <h3>Map</h3>
-      <div className={c.mapBody} ref={mapRef}>
-        <VectorMap {...worldLowRes} />
-      </div>
+      {/*<div className={c.mapBody} ref={mapRef}>*/}
+        {/*<VectorMap {...worldLowRes} />*/}
+
+        <VectorMap
+          map="world_mill"
+          backgroundColor="transparent"
+          zoomOnScroll={false}
+          onRegionClick={handleClick}
+          containerClassName="map"
+          containerStyle={{
+            width: "100%",
+            height: "370px",
+          }}
+          regionStyle={{
+            initial: {
+              fill: "#e4e4e4",
+              "fill-opacity": 0.9,
+              stroke: "none",
+              "stroke-width": 0,
+              "stroke-opacity": 0
+            },
+            hover: {
+              "fill-opacity": 0.8,
+              cursor: "pointer"
+            },
+            selected: {
+              fill: "#E74A18" //color for the clicked country
+            },
+            selectedHover: {}
+          }}
+          regionsSelectable={false}
+          series={{
+            regions: [
+              {
+                values: mapCountries, //this is your data
+                scale: ["#E74A18"], //your color game's here
+                normalizeFunction: "polynomial"
+              }
+            ]
+          }}
+          onRegionTipShow={handleTipShow}
+          // markers={{
+          //   US: { latLng: [38.9, -98.45], name: 'Name of City' }
+          // }}
+        />
     </div>
   );
 };

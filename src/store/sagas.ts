@@ -3,6 +3,10 @@ import { all, fork } from "redux-saga/effects";
 //Layout
 import LayoutSaga from "./layout/saga";
 
+//Dashboard
+import dashStatisticsSaga from "./dashboard/statistics/saga";
+import dashMapSaga from "./dashboard/map/saga"
+
 //Affiliates
 import affiliatesSaga from "./affiliates/saga";
 
@@ -87,5 +91,8 @@ export default function* rootSaga() {
     //fork(ProfileSaga),
     fork(forgetPasswordSaga),
     fork(authUserSage),
+    fork(forgetPasswordSaga),
+    fork(dashStatisticsSaga),
+    fork(dashMapSaga),
   ]);
 }
