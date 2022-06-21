@@ -1,10 +1,4 @@
-import React, {
-  ChangeEvent,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Col, Label, Input, Modal, Row } from "reactstrap";
 import { AvField, AvForm } from "availity-reactstrap-validation";
@@ -48,8 +42,8 @@ const ModalCompaignRow = (props: Props) => {
       activeHourse.push({
         day: +val[0],
         isActive: true,
-        from: "00:00:01",
-        to: "23:59:59",
+        from: "00:00",
+        to: "23:59",
       });
     });
     return activeHourse;
@@ -283,6 +277,7 @@ const ModalCompaignRow = (props: Props) => {
                     name="weight"
                     label="Weight*"
                     type="number"
+                    min={0}
                     errorMessage="Invalid value"
                     validate={{
                       required: { value: true },
