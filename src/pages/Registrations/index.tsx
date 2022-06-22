@@ -87,7 +87,7 @@ const Registrations: React.FC = () => {
             <Card>
               <CardBody>
 
-                <Row className="mb-4">
+                <Row>
                   <Filter />
                 </Row>
 

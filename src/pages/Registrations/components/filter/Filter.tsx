@@ -239,7 +239,7 @@ export default ({selected}: any) => {
 
   return (
     <>
-      <Col className="col-md-4">
+      <Col className="col-md-4 mb-3">
         <SearchRegistration />
       </Col>
       <Col className="col-md-4 offset-4 text-end">

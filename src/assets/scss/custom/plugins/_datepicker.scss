@@ -11,7 +11,7 @@
 }
 
 .flatpickr-months, .flatpickr-weekdays{
-  background-color: $primary;
+  background-color: $myOrange;
 }
 
 span.flatpickr-weekday{
@@ -45,16 +45,16 @@ span.flatpickr-weekday{
     background-color: rgba($light, 0.7) !important;
   }
   &.today{
-    border-color: $primary !important;
-    background-color: rgba($primary, 0.1);
+    border-color: $myOrange !important;
+    background-color: rgba($myOrange, 0.1);
     &:hover, &:focus{
       color: $dark !important;
-      background-color: rgba($primary, 0.15) !important;
+      background-color: rgba($myOrange, 0.15) !important;
     }
   }
   &.selected{
-    background-color: $primary !important;
-    border-color: $primary !important;
+    background-color: $myOrange !important;
+    border-color: $myOrange !important;
     color: $white !important;
   }
 
@@ -85,6 +85,13 @@ span.flatpickr-weekday{
   }
   &.inRange{
     box-shadow: -5px 0 0 $light, 5px 0 0 $light;
+  }
+  &.endRange:hover{
+    background: $myOrange;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    color: #fff;
+    border-color: $myOrange;
   }
 }
 
@@ -179,8 +186,8 @@ body[data-layout-mode="dark"] {
     }
 
     &.selected{
-      background-color: $primary !important;
-      border-color: $primary !important;
+      background-color: $myOrange !important;
+      border-color: $myOrange !important;
       color: $white !important;
     }
 
