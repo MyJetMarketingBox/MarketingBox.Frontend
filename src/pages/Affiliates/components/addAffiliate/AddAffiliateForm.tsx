@@ -1,12 +1,32 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Col, Row, Modal, ModalHeader, ModalBody, Alert, ModalFooter } from "reactstrap";
-import { AvField, AvForm } from "availity-reactstrap-validation";
-import { addNewAffiliate, clearAffiliate } from "../../../../store/actions";
+import {
+  Col,
+  Row,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  Alert,
+  ModalFooter,
+  Form,
+} from "reactstrap";
+import { addNewAffiliate } from "../../../../store/actions";
 import { AffiliateState, Currency } from "../../../../common/utils/model";
-import Loader from "../../../../components/UI/loader";
-
 import { RootStoreType } from "src/store/storeTypes";
+import { AffiliateAccStatusEnum } from "src/enums/AffiliateAccStatusEnum";
+import { CurrencyEnum } from "src/enums/CurrencyEnum";
+import ValidationText from "src/constants/validationText";
+import LabelInput from "src/components/UI/FormElements/LabelInput";
+import LabelSelect from "src/components/UI/FormElements/LabelSelect";
+import * as yup from "yup";
+import { useFormik } from "formik";
+interface AddAffValuesType {
+  username: string;
+  password: string;
+  email: string;
+  state: AffiliateAccStatusEnum;
+  currency: CurrencyEnum;
+}
 
 export default ({ isOpen, toggle }: any) => {
   const dispatch = useDispatch();
@@ -22,30 +42,79 @@ export default ({ isOpen, toggle }: any) => {
     }
   );
 
+  const validationSchema: yup.SchemaOf<AddAffValuesType> = yup.object().shape({
+    email: yup
+      .string()
+      .required(ValidationText.required)
+      .email(ValidationText.email)
+      .max(255, ValidationText.maxLength255),
+    password: yup
+      .string()
+      .required(ValidationText.required)
+      .min(8, ValidationText.shortPassword)
+      .max(50, ValidationText.longPassword)
+      .matches(
+        /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*?[!@#$%^&*()_+<>?])[A-Za-z\d!@#$%^&*()_+<>?]{6,}$/,
+        ValidationText.passwordMask
+      ),
+    username: yup
+      .string()
+      .required(ValidationText.required)
+      .max(75, ValidationText.maxLength75)
+      .matches(/^[a-zA-Z0-9_-]+$/, ValidationText.invalidInput),
+    state: yup.number().required(ValidationText.required),
+    currency: yup.number().required(ValidationText.required),
+  });
+
+  const initialValues: AddAffValuesType = {
+    email: "",
+    password: "",
+    username: "",
+    state: AffiliateAccStatusEnum.Active,
+    currency: CurrencyEnum.USD,
+  };
+
+  const handleSubmitForm = () => {
+    const newAffiliate = {
+      generalInfo: { ...values },
+    };
+
+    dispatch(addNewAffiliate(newAffiliate));
+  };
+
+  const {
+    values,
+    validateForm,
+    handleChange,
+    submitForm,
+    handleBlur,
+    errors,
+    touched,
+    isValid,
+  } = useFormik({
+    initialValues,
+    onSubmit: handleSubmitForm,
+    validationSchema: validationSchema,
+    validateOnBlur: true,
+    validateOnChange: true,
+    validateOnMount: true,
+  });
+
+  const handlerClickSubmit = async () => {
+    const curErrors = await validateForm();
+    const curErrorsKeys = Object.keys(curErrors);
+    if (curErrorsKeys.length) {
+      const el = document.getElementById(curErrorsKeys[0]);
+      if (el) el.focus();
+    }
+    submitForm();
+  };
+
   useEffect(() => {
     if (addAffSuccess) {
       toggle(false);
     }
   }, [addAffSuccess]);
-
-  useEffect(() => {
-    if (addAffError) {
-    }
-  }, [addAffError]);
-
-  const handleValidAffiliateSubmit = (values: any) => {
-    const newAffiliate = {
-      generalInfo: {
-        username: values["username"],
-        password: values["password"],
-        email: values["email"],
-        state: +values["state"],
-        currency: +values["currency"],
-      },
-    };
-    // save new aff
-    dispatch(addNewAffiliate(newAffiliate));
-  };
 
   return (
     <Modal isOpen={isOpen} toggle={toggle} className="modal-dialog-centered">
@@ -53,102 +122,95 @@ export default ({ isOpen, toggle }: any) => {
       <ModalHeader toggle={toggle} tag="h4">
         Add Affiliate
       </ModalHeader>
-      <AvForm
-        onValidSubmit={(e: any, values: any) => {
-          handleValidAffiliateSubmit(values);
-        }}
-      >
+
+      <Form className="custom-form" noValidate>
         <ModalBody>
+          <Row form>
+            <Col xs={12}>
+              {error?.isError && (
+                <div className="mb-3">
+                  <Alert color="danger">{error?.error?.errorMessage}</Alert>
+                </div>
+              )}
 
-            <Row form>
-              <Col xs={12}>
-                {error?.isError ? (
-                  <div className="mb-3">
-                    <Alert color="danger">{error?.error?.errorMessage}</Alert>
-                  </div>
-                ) : null}
-                <div className="mb-3">
-                  <AvField
-                    name="username"
-                    label="Name*"
-                    type="text"
-                    errorMessage="Invalid name"
-                    validate={{
-                      required: { value: true },
-                    }}
-                    value={""}
-                  />
-                </div>
-                <div className="mb-3">
-                  <AvField
-                    name="email"
-                    label="Email*"
-                    type="email"
-                    errorMessage="Invalid Email"
-                    validate={{
-                      required: { value: true },
-                    }}
-                    value={""}
-                  />
-                </div>
-                <div className="mb-3">
-                  <AvField
-                    name="password"
-                    label="Password*"
-                    type="password"
-                    errorMessage="Invalid Designation"
-                    validate={{
-                      required: { value: true },
-                    }}
-                    value={""}
-                  />
-                </div>
+              <LabelInput
+                label="Username"
+                placeholder="Enter username"
+                name="username"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.username.trim() || ""}
+                hasError={!!(errors.username && touched.username)}
+                errorText={errors.username}
+              />
+              <LabelInput
+                label="Email"
+                placeholder="Enter email"
+                name="email"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.email.trim().toLowerCase() || ""}
+                hasError={!!(errors.email && touched.email)}
+                errorText={errors.email}
+                type="email"
+              />
+              <LabelInput
+                label="Password"
+                placeholder="Enter password"
+                name="password"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.password || ""}
+                hasError={!!(errors.password && touched.password)}
+                errorText={errors.password}
+                type="password"
+              />
 
-                <div className="mb-3">
-                  <AvField
-                    type="select"
-                    name="state"
-                    className="form-select"
-                    label="State"
-                    required
-                    value="0"
-                  >
-                    <option value={""}>Select sate</option>
-                    {AffiliateState.map((val, i) => (
-                      <option key={i} value={i}>
-                        {val}
-                      </option>
-                    ))}
-                  </AvField>
-                </div>
+              <LabelSelect
+                value={`${values.state}`}
+                name="state"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                label="Account state"
+                hasError={!!(errors.state && touched.state)}
+                errorText={errors.state}
+              >
+                {AffiliateState.map((val, i) => (
+                  <option key={i} value={i}>
+                    {val}
+                  </option>
+                ))}
+              </LabelSelect>
 
-                <div className="mb-3">
-                  <AvField
-                    type="select"
-                    name="currency"
-                    className="form-select"
-                    label="Currency"
-                    required
-                    value="0"
-                  >
-                    <option value={""}>Select sate</option>
-                    {Currency.map((val, i) => (
-                      <option key={i} value={i}>
-                        {val}
-                      </option>
-                    ))}
-                  </AvField>
-                </div>
-              </Col>
-            </Row>
-
+              <LabelSelect
+                value={`${values.currency}`}
+                name="currency"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                label="Currency"
+                hasError={!!(errors.currency && touched.currency)}
+                errorText={errors.currency}
+              >
+                {Currency.map((val, i) => (
+                  <option key={i} value={i}>
+                    {val}
+                  </option>
+                ))}
+              </LabelSelect>
+            </Col>
+          </Row>
         </ModalBody>
 
         <ModalFooter>
           <Row>
             <Col>
               <div className="text-end">
-                <button type="submit" className="btn btnOrange btn-width-250 save-user">
+                <button
+                  type="button"
+                  onClick={handlerClickSubmit}
+                  disabled={!isValid || addAffLoading}
+                  className="btn btnOrange btn-width-250 save-user"
+                >
                   {addAffLoading && (
                     <i className="bx bx-hourglass bx-spin me-2" />
                   )}
@@ -158,7 +220,7 @@ export default ({ isOpen, toggle }: any) => {
             </Col>
           </Row>
         </ModalFooter>
-      </AvForm>
+      </Form>
     </Modal>
   );
 };

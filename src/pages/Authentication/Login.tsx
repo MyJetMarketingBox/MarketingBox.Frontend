@@ -1,12 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import MetaTags from "react-meta-tags";
 import { Alert, Form, FormFeedback, Input, Label } from "reactstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import * as yup from "yup";
 import { useFormik } from "formik";
-// availity-reactstrap-validation
-import { AvForm, AvField } from "availity-reactstrap-validation";
 
 // actions
 import { signInAction } from "../../store/actions";

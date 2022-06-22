@@ -12,7 +12,7 @@ export const AffiliateRole = [
 export const AffiliateState = [
     'Active',
     'Banned',
-    'NotActive',
+    'Not Active',
 ]
 
 export const Currency = [
