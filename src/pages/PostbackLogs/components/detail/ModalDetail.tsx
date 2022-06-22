@@ -19,11 +19,11 @@ export default (props: any) => {
         <Row style={{ wordBreak: "break-word" }}>
           <Col className="col-6">
             <h4>Event message</h4>
-            {log.eventMessage}
+            {log?.eventMessage}
           </Col>
           <Col className="col-6">
             <h4>Response</h4>
-            {log.postbackResponse}
+            {log?.postbackResponse}
           </Col>
         </Row>
       </ModalBody>

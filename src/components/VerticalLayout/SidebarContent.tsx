@@ -103,7 +103,7 @@ const SidebarContent = (props: any) => {
           <div className={c.userPhoto}>
             <div className="avatar">
               <div className="avatar_letters">
-                {avaLetters(user?.["user-name"] || "T")}
+                {avaLetters(user?.["user-name"] || "U")}
               </div>
             </div>
           </div>

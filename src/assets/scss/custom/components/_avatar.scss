@@ -55,6 +55,10 @@
   }
 }
 
+body[data-sidebar-size="sm"] .avatar {
+  display: none;
+}
+
 .avatar {
   /* Center the content */
   display: inline-block;

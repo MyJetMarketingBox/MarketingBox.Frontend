@@ -5,13 +5,15 @@ import {
   httpQueryType,
   responseStatus,
 } from "../../../../common/utils/model";
+import { Col, Row } from "reactstrap";
+import BtnLoadMore from "../../../../components/UI/btns/BtnLoadMore";
 
 export default ({ logs = [], setID, toggle }: any) => {
   const columns = [
     {
       dataField: "id",
       text: "ID",
-      sort: true,
+      sort: false,
     },
     {
       dataField: "affiliate",
@@ -21,17 +23,22 @@ export default ({ logs = [], setID, toggle }: any) => {
     {
       dataField: "registrationUId",
       text: "Unique ID",
+      sort: false,
+    },
+    {
+      dataField: "createdAt",
+      text: "Created At",
       sort: true,
     },
     {
       dataField: "eventType",
       text: "Event",
-      sort: true,
+      sort: false,
     },
     {
       dataField: "httpQueryType",
       text: "Method",
-      sort: true,
+      sort: false,
     },
     {
       dataField: "responseStatus",
@@ -41,15 +48,10 @@ export default ({ logs = [], setID, toggle }: any) => {
     {
       dataField: "postbackReference",
       text: "URL",
-      sort: true,
+      sort: false,
       headerStyle: () => {
         return { maxWidth: "10%" };
       },
-    },
-    {
-      dataField: "createdAt",
-      text: "Created At",
-      sort: true,
     },
   ];
 
@@ -101,17 +103,19 @@ export default ({ logs = [], setID, toggle }: any) => {
 
   return (
     <>
-      <BootstrapTable
-        keyField="id"
-        data={logsData}
-        columns={columns}
-        bordered={false}
-        striped={false}
-        defaultSorted={defaultSorted}
-        classes={"table align-middle table-nowrap"}
-        headerWrapperClasses={"thead-light"}
-        rowEvents={tableRowEvents}
-      />
+      <div className="table-responsive">
+        <BootstrapTable
+          keyField="id"
+          data={logsData}
+          columns={columns}
+          bordered={false}
+          striped={false}
+          defaultSorted={defaultSorted}
+          classes={"table align-middle table-nowrap"}
+          headerWrapperClasses={"thead-light"}
+          rowEvents={tableRowEvents}
+        />
+      </div>
     </>
   );
 };
