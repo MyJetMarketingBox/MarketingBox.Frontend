@@ -24,7 +24,7 @@ const FormAffiliate = (props: any) => {
   const history = useHistory();
 
   const [stateAff, setStateAff] = useState(0);
-  const bg = ["bg-success", "bg-danger", "bg-warning"];
+  const bg = ["bg-orange", "bg-danger", "bg-warning"];
   const bx = ["bx-check-double", "bx-block", "bx-error"];
 
   const { upLoading, currentAffProfile } = useSelector((state: any) => {

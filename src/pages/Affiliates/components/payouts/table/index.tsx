@@ -20,7 +20,7 @@ const tablePayouts = (props: any) => {
   const [selectId, setSelectId] = useState(false);
   const [plusBtn, setPlusBtn] = useState(false);
   const [modalAdd, setAddModal] = useState<boolean>(false);
-  const [modalAssign, setAssignModal] = useState<boolean>(false);
+  const [modalAssignPayout, setModalAssignPayout] = useState<boolean>(false);
   const { SearchBar } = Search;
 
   const { affProfile } = useSelector((state: any) => {
@@ -60,8 +60,9 @@ const tablePayouts = (props: any) => {
     setAddModal(prev => !prev);
   };
 
-  const toggleModalAssign = () => {
-    setAssignModal(prev => !prev);
+  const toggleModalAssignPayout = (status: boolean) => {
+    //setModalAssignPayout(prev => !prev);
+    setModalAssignPayout(status);
   };
 
   const handleDeleteAffPayout = (id: number) => {
@@ -187,7 +188,7 @@ const tablePayouts = (props: any) => {
                     <DropdownItem onClick={toggleModalAdd}>
                       New Payout
                     </DropdownItem>
-                    <DropdownItem onClick={toggleModalAssign}>
+                    <DropdownItem onClick={() => toggleModalAssignPayout(true)}>
                       Assign
                     </DropdownItem>
                   </DropdownMenu>
@@ -217,7 +218,7 @@ const tablePayouts = (props: any) => {
       </ToolkitProvider>
 
       <AddModal isOpen={modalAdd} toggle={toggleModalAdd} isAff={true}/>
-      <AssignModal isOpen={modalAssign} toggle={toggleModalAssign}/>
+      <AssignModal isOpen={modalAssignPayout} toggle={toggleModalAssignPayout}/>
 
       <ConfirmDelete
         isOpen={isOpen}

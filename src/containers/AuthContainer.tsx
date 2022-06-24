@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useRouteMatch } from "react-router";
 import Page from "src/constants/pages";
 import { AffiliateAccStatusEnum } from "src/enums/AffiliateAccStatusEnum";
-import { getAffiliateProfile } from "src/store/actions";
+import { getProfile } from "src/store/actions";
 import { RootStoreType } from "src/store/storeTypes";
 
 const AuthContainer: FC = ({ children }) => {
@@ -16,8 +16,8 @@ const AuthContainer: FC = ({ children }) => {
     (store: RootStoreType) => ({
       isAuthUser: store.authUser.isAuthorization,
       userId: store.authUser.userInfo?.["user-id"] || "",
-      userInfo: store.AffProfile.affProfile?.generalInfo || null,
-      userInfoLoading: store.AffProfile.loading,
+      userInfo: store.Profile.data?.generalInfo || null,
+      userInfoLoading: store.Profile.loading,
     })
   );
 
@@ -31,7 +31,7 @@ const AuthContainer: FC = ({ children }) => {
     }
 
     if (isAuthUser && userId && !userInfo && !userInfoLoading) {
-      dispatch(getAffiliateProfile(+userId));
+      dispatch(getProfile(+userId));
     }
   }, [isAuthUser, userId, userInfo, location]);
 

@@ -13,13 +13,15 @@ export default ({ isOpen, toggle }: any) => {
 
   const [selectPayouts, setSelectPayouts] = useState([])
 
-  const { payoutsList, affiliate, upLoading, affLoaded, upLoaded } = useSelector((state:any) => {
+  const { payoutsList, affiliate, upLoading, affLoaded, upLoaded, loadingUpdate, loadedUpdate } = useSelector((state:any) => {
     return{
       payoutsList: state.AffPayouts.affPayouts.items,
       affiliate: state.AffProfile.affProfile,
       upLoading: state.AffProfile.upLoading,
       upLoaded: state.AffProfile.upLoaded,
-      affLoaded: state.AffProfile.loaded
+      affLoaded: state.AffProfile.loaded,
+      loadingUpdate: state.AffPayouts.loadingUpdate,
+      loadedUpdate: state.AffPayouts.loadedUpdate,
     }
   })
 
@@ -45,10 +47,14 @@ export default ({ isOpen, toggle }: any) => {
   });
 
   useEffect(() => {
-    if((!upLoading && upLoaded)){
-      toggle(false);
+    if((!upLoading && upLoaded) || (!loadingUpdate && loadedUpdate)){
+      close();
     }
-  }, [upLoading, upLoaded])
+  }, [upLoading, upLoaded, loadingUpdate, loadedUpdate])
+
+  const close = () => {
+    toggle(false);
+  };
 
   const handleValidAffPayoutSubmit = (values : any) => {
     const {payouts, offerAffiliates, bank, company, ...affClear} = affiliate
@@ -67,7 +73,7 @@ export default ({ isOpen, toggle }: any) => {
   }
 
   return (
-    <Modal isOpen={isOpen} toggle={toggle} className="modal-dialog-centered">
+    <Modal isOpen={isOpen} toggle={() => toggle(false)} className="modal-dialog-centered">
       <AvForm
         onValidSubmit={(
           e: any,
@@ -76,7 +82,7 @@ export default ({ isOpen, toggle }: any) => {
           handleValidAffPayoutSubmit(values);
         }}
       >
-        <ModalHeader toggle={toggle} tag="h4">
+        <ModalHeader toggle={() => toggle(false)} tag="h4">
           Assign Payout
         </ModalHeader>
         <ModalBody>

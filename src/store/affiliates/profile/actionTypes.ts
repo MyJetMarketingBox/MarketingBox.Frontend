@@ -62,13 +62,13 @@ export interface AffProfileState {
   upLoading: boolean;
   upLoaded: boolean;
 
-  changePasswordLoading: boolean;
+  //changePasswordLoading: boolean;
 }
 
-export interface IChangeProfilePasswordAction {
+/*export interface IChangeProfilePasswordAction {
   type: AffProfileTypes.PROFILE_CHANGE_PASSWORD;
   payload: {
     oldPassword: string;
     newPassword: string;
   };
-}
+}*/

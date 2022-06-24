@@ -18,11 +18,12 @@ import {
   getCampaigns,
 } from "../../../../../store/campaigns/actions";
 import { RedistributionFrequency } from "../../../../../common/utils/model";
-import { AvField, AvForm } from "availity-reactstrap-validation";
-import { Col, Input, Label, Row } from "reactstrap";
+//import { AvField, AvForm } from "availity-reactstrap-validation";
+import { Col, Form, Input, Label, Row } from "reactstrap";
 import Select from "../../../../../components/UI/select";
+import LabelInput from "../../../../../components/UI/FormElements/LabelInput";
 
-export default ({ setParams }: any) => {
+export default ({ setParams, handleChange, handleBlur, errors, touched, values }: any) => {
   const dispatch = useDispatch();
 
   const [selectAff, setSelectAff] = useState<any>();
@@ -128,10 +129,20 @@ export default ({ setParams }: any) => {
         </label>
       </h5>
 
-      <AvForm>
+      <Form className="custom-form" >
         <Row>
           <Col lg={4}>
-            <AvField
+            <LabelInput
+              label="Name *"
+              placeholder="Enter Name *"
+              name="name"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.name.trim() || ""}
+              hasError={!!(errors.name && touched.name)}
+              errorText={errors.name}
+            />
+            {/*<AvField
               name="name"
               type="text"
               validate={{
@@ -152,31 +163,33 @@ export default ({ setParams }: any) => {
               }}
               onChange={handlerNameRedistribution}
               label="Name*"
-            />
+            />*/}
           </Col>
 
           <Col lg={4}>
             <div className="mb-3 custom-react-select">
-              <div className="react-select-descr">Affiliates*</div>
+              {/*<div className="react-select-descr">Affiliates*</div>*/}
               <Select
                 isSearchable
                 isLoading={loadingAffList}
                 options={affiliateList}
                 onChange={setSelectAff}
                 value={selectAff}
+                placeholder="Affiliates *"
               />
             </div>
           </Col>
 
           <Col lg={4}>
             <div className="mb-3 custom-react-select">
-              <div className="react-select-descr">Campaigns*</div>
+              {/*<div className="react-select-descr">Campaigns*</div>*/}
               <Select
                 isSearchable
                 isLoading={loadingCampaigns}
                 options={campaignList}
                 onChange={setSelectCampaign}
                 value={selectCampaign}
+                placeholder="Campaigns *"
               />
             </div>
           </Col>
@@ -184,17 +197,28 @@ export default ({ setParams }: any) => {
         <Row>
           <Col lg={3}>
             <div className="mb-3 custom-react-select">
-              <div className="react-select-descr">Status*</div>
+              {/*<div className="react-select-descr">Status*</div>*/}
               <Select
                 options={frequencyList}
                 onChange={setSelectFrequency}
                 value={selectFrequency}
+                placeholder="Status *"
               />
             </div>
           </Col>
 
           <Col lg={3}>
-            <AvField
+            <LabelInput
+              label="Portion Limit *"
+              placeholder="Enter Portion Limit *"
+              name="portionLimit"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.portionLimit || null}
+              hasError={!!(errors.portionLimit && touched.portionLimit)}
+              errorText={errors.portionLimit}
+            />
+            {/*<AvField
               name="portionLimit"
               type="text"
               validate={{
@@ -219,11 +243,21 @@ export default ({ setParams }: any) => {
               }}
               onChange={handlePortionLimit}
               label="Portion Limit*"
-            />
+            />*/}
           </Col>
 
           <Col lg={3}>
-            <AvField
+            <LabelInput
+              label="Day Limit *"
+              placeholder="Enter Day Limit *"
+              name="dayLimit"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.dayLimit || null}
+              hasError={!!(errors.dayLimit && touched.dayLimit)}
+              errorText={errors.dayLimit}
+            />
+            {/*<AvField
               name="dayLimit"
               type="text"
               validate={{
@@ -248,7 +282,7 @@ export default ({ setParams }: any) => {
               }}
               onChange={handleDayLimit}
               label="Day Limit*"
-            />
+            />*/}
           </Col>
 
           <Col lg={3}>
@@ -260,7 +294,7 @@ export default ({ setParams }: any) => {
                 switch="my-orange"
                 name="useAutologin"
                 defaultChecked={useAutologin}
-                onChange={handleUseAutologin}
+                onChange={handleChange}
               />
               <Label
                 htmlFor="square-switch4"
@@ -270,7 +304,7 @@ export default ({ setParams }: any) => {
             </div>
           </Col>
         </Row>
-      </AvForm>
+      </Form>
     </div>
   );
 };

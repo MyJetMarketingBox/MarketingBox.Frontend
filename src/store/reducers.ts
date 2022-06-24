@@ -36,7 +36,7 @@ import Integrations from "./integrations/reducer";
 //Redistribution
 import Redistribution from "./redistribution/reducer";
 // User Profile
-import profile from "./auth/profile/reducer";
+import Profile from "./auth/profile/reducer";
 // Forget Password
 import forgetPassword from "./auth/forgetpwd/reducer";
 import Languages from "./languages/reducer";
@@ -65,7 +65,7 @@ const rootReducer = combineReducers({
   BrandPayouts,
   Reports,
   Redistribution,
-  profile,
+  Profile,
   forgetPassword,
   Languages,
   badRequests,

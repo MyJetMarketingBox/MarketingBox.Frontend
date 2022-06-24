@@ -54,8 +54,9 @@ const Affiliates: React.FC = () => {
     }
   }
 
-  const toggleModal = () => {
-    setIsOpen(prev => !prev);
+  const toggleModal = (status: boolean) => {
+    setIsOpen(status);
+    //setIsOpen(prev => !prev);
     if (errorAff.error) {
       dispatch(clearAffiliateError());
     }
@@ -87,7 +88,7 @@ const Affiliates: React.FC = () => {
                     <button
                       type="button"
                       className="btn btnOrange"
-                      onClick={toggleModal}
+                      onClick={() => toggleModal(true)}
                     >
                       <i className="bx bx-plus me-1" /> Add New
                     </button>

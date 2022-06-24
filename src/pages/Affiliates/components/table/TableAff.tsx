@@ -93,7 +93,7 @@ export default ({ affiliates = [] }: any) => {
     },
     {
       dataField: "username",
-      text: "Username",
+      text: "User name",
       sort: true,
       /*headerStyle: { width: "250px", minWidth: "250px" },
       style: { width: "250px", minWidth: "250px" },*/

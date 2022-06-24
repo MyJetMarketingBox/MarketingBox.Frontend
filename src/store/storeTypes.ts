@@ -22,6 +22,7 @@ import { AffProfileState } from "./affiliates/profile/actionTypes";
 import { DashStatisticsState } from "./dashboard/statistics/actionTypes";
 import { DashMapState } from "./dashboard/map/actionTypes";
 import { AuthUserStoreType } from "./authUser/actionTypes";
+import { ProfileState } from "./auth/profile/actionTypes"
 
 export interface RootStoreType {
   authUser: AuthUserStoreType;
@@ -47,7 +48,7 @@ export interface RootStoreType {
   forgetPassword: any;
   Offers: IOffersStore;
   RegFiles: RegFilesState;
-  profile: any;
   DashStatistics: DashStatisticsState;
   DashMap: DashMapState;
+  Profile: ProfileState;
 }

@@ -21,10 +21,12 @@ import { withRouter } from "react-router-dom";
 import Breadcrumb from "../../components/Common/Breadcrumb";
 // actions
 import {
-  clearAffProfile,
-  editProfile,
-  getAffiliateProfile,
-  updateAffiliate,
+  clearProfile,
+  //editProfile,
+  //getAffiliateProfile,
+  getProfile,
+  updateProfile,
+  updateAffiliate
 } from "../../store/actions";
 import { RootStoreType } from "src/store/storeTypes";
 import ProfileChangePassword from "./component/ProfileChangePassword";
@@ -45,12 +47,12 @@ const UserProfile = () => {
     upLoading,
     upLoaded,
   } = useSelector((state: RootStoreType) => ({
-    error: state.AffProfile.error,
-    profile: state.AffProfile.affProfile,
-    loading: state.AffProfile.loading,
-    loaded: state.AffProfile.loaded,
-    upLoading: state.AffProfile.upLoading,
-    upLoaded: state.AffProfile.upLoaded,
+    error: state.Profile.error,
+    profile: state.Profile.data,
+    loading: state.Profile.loading,
+    loaded: state.Profile.loaded,
+    upLoading: state.Profile.upLoading,
+    upLoaded: state.Profile.upLoaded,
     authUserID: state.authUser.userInfo?.["user-id"] || "",
     authUserName: state.authUser.userInfo?.["user-name"] || "",
   }));
@@ -58,7 +60,7 @@ const UserProfile = () => {
   function handleValidSubmit(event: any, values: any) {
     const arrAffPayId = profile?.payouts.map((item: any) => item.id);
 
-    const updateProfile = {
+    const updateProfileData = {
       generalInfo: {
         username: values["username"] || null,
         email: values["email"] || null,
@@ -86,12 +88,13 @@ const UserProfile = () => {
       affiliatePayoutIds: arrAffPayId,
     };
 
-    dispatch(updateAffiliate(updateProfile, +authUserID));
+    dispatch(updateProfile(updateProfileData, +authUserID));
   }
 
   useEffect(() => {
     if (authUserID) {
-      dispatch(getAffiliateProfile(+authUserID));
+      //dispatch(getAffiliateProfile(+authUserID));
+      dispatch(getProfile(+authUserID));
     }
   }, []);
 
@@ -301,15 +304,15 @@ const UserProfile = () => {
                       </Col>
                       <Col md="3">
                         <FormGroup className="mb-3">
-                          <Label htmlFor="validationVatIt">VAT IT</Label>
+                          <Label htmlFor="validationVatId">VAT ID</Label>
                           <AvField
                             name="vatId"
-                            placeholder="VAT IT"
+                            placeholder="VAT ID"
                             type="text"
-                            errorMessage=" Please provide a VAT IT."
+                            errorMessage=" Please provide a VAT ID."
                             className="form-control"
                             //validate={{ required: { value: true } }}
-                            id="validationVatIt"
+                            id="validationVatId"
                             value={profile?.company?.vatId || ""}
                           />
                         </FormGroup>

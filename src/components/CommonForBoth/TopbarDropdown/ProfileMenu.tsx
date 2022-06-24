@@ -24,7 +24,7 @@ import Page from "src/constants/pages";
 
 const ProfileMenu = (props: any) => {
   const { success } = useSelector((state: any) => ({
-    success: state.profile.success,
+    success: state.Profile.success,
   }));
 
   // Declare a new state variable, which we'll call "menu"

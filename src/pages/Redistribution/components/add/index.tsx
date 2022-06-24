@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import MetaTags from "react-meta-tags";
 import Breadcrumbs from "../../../../components/Common/Breadcrumb";
 import {
@@ -23,23 +23,30 @@ import { RedistributionContentTypeRenderEnum } from "../../../../enums/Redistrib
 import * as yup from "yup";
 import { useFormik } from "formik";
 import ValidationText from "../../../../constants/validationText";
+import { string } from "yup";
 
 export interface IRedistributionParams {
-  listFileId: number[];
-  listRegId: number[];
-  registrationSearchRequest: {};
+  listFileId?: number[];
+  listRegId?: number[];
+  registrationSearchRequest?: {};
   name: string;
-  affiliateId: number;
-  campaignId: number;
-  frequency: number;
-  portionLimit: number;
-  dayLimit: number;
+  affiliateId: number | null;
+  campaignId: number | null;
+  frequency: number | null;
+  portionLimit: number | null;
+  dayLimit: number | null;
   useAutologin: boolean;
 }
 
 export default () => {
   const dispatch = useDispatch();
   const history = useHistory();
+
+  const { loading } = useSelector((state: any) => {
+    return {
+      loading: state.Redistribution.loading,
+    };
+  });
 
   const [activeTab, setActiveTab] = useState(1);
   const [type, setType] = useState<RedistributionContentTypeRenderEnum | null>(
@@ -51,21 +58,75 @@ export default () => {
     useState<any>(null);
   const [params, createParams] = useState<any>();
 
-  /*const validationSchema: yup.SchemaOf<IRedistributionParams> = yup
+  const validationSchema: yup.SchemaOf<IRedistributionParams> = yup
     .object()
     .shape({
-
+      listFileId: yup.array(),
+      listRegId: yup.array(),
+      registrationSearchRequest: yup.object(),
+      name: yup
+        .string()
+        .required(ValidationText.required)
+        .max(75, ValidationText.maxLength75)
+        .matches(/^[a-zA-Z0-9_-]+$/, ValidationText.invalidInput),
+      affiliateId: yup.number().required(ValidationText.required),
+      campaignId: yup.number().required(ValidationText.required),
+      frequency: yup.number().required(ValidationText.required),
+      portionLimit: yup.number().required(ValidationText.required),
+      dayLimit: yup.number().required(ValidationText.required),
+      useAutologin: yup.boolean().required(ValidationText.required),
     });
 
   const initialValues: IRedistributionParams = {
+    listFileId: [],
+    listRegId: [],
+    registrationSearchRequest: {},
+    name: "",
+    affiliateId: null,
+    campaignId: null,
+    frequency: null,
+    portionLimit: null,
+    dayLimit: null,
+    useAutologin: false,
+  };
 
-  };*/
+  const handleSubmitForm = () => {
+    console.log(values);
+  }
 
-  const { loading } = useSelector((state: any) => {
-    return {
-      loading: state.Redistribution.loading,
-    };
+  let {
+    values,
+    validateForm,
+    handleChange,
+    submitForm,
+    handleBlur,
+    errors,
+    touched,
+    isValid,
+  } = useFormik({
+    initialValues,
+    onSubmit: handleSubmitForm,
+    validationSchema: validationSchema,
+    validateOnBlur: true,
+    validateOnChange: true,
+    validateOnMount: true,
   });
+
+  const handlerClickSubmit = async () => {
+    const curErrors = await validateForm();
+    const curErrorsKeys = Object.keys(curErrors);
+    if (curErrorsKeys.length) {
+      const el = document.getElementById(curErrorsKeys[0]);
+      if (el) el.focus();
+    }
+    submitForm();
+  };
+
+  useEffect(() => {
+    console.log("isValid", isValid);
+    console.log("handleChange", handleChange);
+    console.log("values", values);
+  },[isValid, handleChange, values])
 
   const isRegSearchRequest = useMemo(() => {
     if (!registrationSearchRequest) {
@@ -115,7 +176,14 @@ export default () => {
   };
 
   const setParams = (data: any) => {
-    createParams(data);
+    //console.log("old values: ",values);
+
+    //values = {...data, ...values}
+    //values = Object.assign(data, values);
+
+    //console.log("new values: ",values);
+
+    //createParams(data);
   };
 
   const handelSubmit = () => {
@@ -158,7 +226,7 @@ export default () => {
     }
   };
 
-  const handleChange = (e: any) => {
+  const handleChangeType = (e: any) => {
     setType(+e.target.value);
   };
 
@@ -225,7 +293,7 @@ export default () => {
                   >
                     <TabPane tabId={1}>
                       <div className="mb-4">
-                        {type !== null && <Params setParams={setParams} />}
+                        {type !== null && <Params setParams={setParams} handleChange={handleChange} handleBlur={handleBlur} errors={errors} touched={touched} values={values}/>}
                       </div>
                       <div className="row">
                         <div className="col-md-4 content-center">
@@ -238,7 +306,7 @@ export default () => {
                                 RedistributionContentTypeRenderEnum.Registrations
                               }
                               key="1"
-                              onChange={handleChange}
+                              onChange={handleChangeType}
                             />
                             <label htmlFor="radio1">
                               <i className="mdi mdi-database-plus font-size-132" />
@@ -255,7 +323,7 @@ export default () => {
                               name="type"
                               value={RedistributionContentTypeRenderEnum.Filter}
                               key="2"
-                              onChange={handleChange}
+                              onChange={handleChangeType}
                             />
                             <label htmlFor="radio2">
                               <i className="mdi mdi-database-arrow-right-outline font-size-132" />
@@ -274,7 +342,7 @@ export default () => {
                                 RedistributionContentTypeRenderEnum.RegFiles
                               }
                               key="4"
-                              onChange={handleChange}
+                              onChange={handleChangeType}
                             />
                             <label htmlFor="radio4">
                               <i className="mdi mdi-file-table-outline font-size-132" />
@@ -410,7 +478,7 @@ export default () => {
                       <li className="next">
                         <button
                           className="btn btnOrange btn-width-250"
-                          onClick={handelSubmit}
+                          onClick={handlerClickSubmit}
                           disabled={
                             !(
                               listRegId.length ||
@@ -439,6 +507,7 @@ export default () => {
                             toggleTab(activeTab + 1);
                           }}
                           //disabled={!params?.nameRedistribution}
+                          disabled={!isValid}
                         >
                           Next <i className="bx bx-chevron-right ms-1"></i>
                         </button>

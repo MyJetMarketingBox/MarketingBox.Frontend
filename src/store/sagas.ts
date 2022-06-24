@@ -88,7 +88,7 @@ export default function* rootSaga() {
     fork(campaignRowsSaga),
     fork(offersSaga),
     fork(regFilesSaga),
-    //fork(ProfileSaga),
+    fork(ProfileSaga),
     fork(forgetPasswordSaga),
     fork(authUserSage),
     fork(forgetPasswordSaga),

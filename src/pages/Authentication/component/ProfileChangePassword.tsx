@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import { Card, CardBody, Button, Row, Col } from "reactstrap";
 import { AvForm, AvField } from "availity-reactstrap-validation";
 import { useDispatch, useSelector } from "react-redux";
-import { profileChangePassword } from "src/store/affiliates/profile/actions";
+import { profileChangePassword } from "src/store/auth/profile/actions";
 import { RootStoreType } from "src/store/storeTypes";
 import ValidationText from "src/constants/validationText";
 
@@ -11,7 +11,7 @@ const ProfileChangePassword = () => {
   const formRef = useRef<HTMLFormElement>(null);
 
   const { changePasswordLoading } = useSelector((store: RootStoreType) => ({
-    changePasswordLoading: store.AffProfile.changePasswordLoading,
+    changePasswordLoading: store.Profile.changePasswordLoading,
   }));
 
   const handleValidSubmit = (e: any, values: any) => {

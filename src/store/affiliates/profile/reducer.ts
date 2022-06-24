@@ -7,8 +7,6 @@ export const INIT_STATE : AffProfileState = {
   loaded: false,
   upLoading: false,
   upLoaded: false,
-
-  changePasswordLoading: false,
 };
 
 const affProfile = (state = INIT_STATE, action: any) => {
@@ -55,19 +53,6 @@ const affProfile = (state = INIT_STATE, action: any) => {
         ...state,
         error: action.payload,
         upLoading: false,
-      };
-
-    case AffProfileTypes.PROFILE_CHANGE_PASSWORD:
-      return {
-        ...state,
-        changePasswordLoading: true,
-      };
-
-    case AffProfileTypes.PROFILE_CHANGE_PASSWORD_ERROR:
-    case AffProfileTypes.PROFILE_CHANGE_PASSWORD_SUCCESS:
-      return {
-        ...state,
-        changePasswordLoading: false,
       };
 
     case AffProfileTypes.CLEAR_AFFILIATE_PROFILE:

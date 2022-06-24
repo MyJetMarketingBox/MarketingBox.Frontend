@@ -117,9 +117,9 @@ export default ({ isOpen, toggle }: any) => {
   }, [addAffSuccess]);
 
   return (
-    <Modal isOpen={isOpen} toggle={toggle} className="modal-dialog-centered">
+    <Modal isOpen={isOpen} toggle={() => toggle(false)} className="modal-dialog-centered">
       {/*addAffLoading && <Loader />*/}
-      <ModalHeader toggle={toggle} tag="h4">
+      <ModalHeader toggle={() => toggle(false)} tag="h4">
         Add Affiliate
       </ModalHeader>
 

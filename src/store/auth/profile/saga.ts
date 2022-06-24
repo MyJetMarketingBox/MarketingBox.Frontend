@@ -1,33 +1,53 @@
 import { takeEvery, fork, put, all, call } from "redux-saga/effects"
 
-// Login Redux States
-import { ProfileTypes } from "./actionTypes"
-import { profileSuccess, profileError } from "./actions"
-
+import { IChangeProfilePasswordAction, ProfileTypes } from "./actionTypes";
+import {
+  getProfileFail,
+  getProfileSuccess,
+  profileChangePasswordError,
+  profileChangePasswordSuccess,
+  updateProfileFail,
+  updateProfileSuccess
+} from "./actions";
 
 import {
-  postFakeProfile,
-} from "../../../helpers/backend_helper"
+  changePasswordApi,
+  getAffiliateProfile, updateAffiliate
+} from "../../../helpers/backend_helper";
 
 
 
-function* editProfile({ payload: { user } } : any) {
-  try {
-      const response: Promise<any> = yield call(postFakeProfile, {
-        username: user.username,
-        idx: user.idx,
-      })
-      yield put(profileSuccess(response))
-  } catch (error) {
-    yield put(profileError(error))
+function* getProfileSaga({ affiliateId }: any) {
+  try{
+    const response: Promise<any> = yield call(getAffiliateProfile, affiliateId)
+    yield put(getProfileSuccess(response))
+  }catch (error) {
+   yield put(getProfileFail(error))
   }
 }
-export function* watchProfile() {
-  yield takeEvery(ProfileTypes.EDIT_PROFILE, editProfile)
+
+function* updateProfileSaga({ payload: affiliate, id: id }: any) {
+  try {
+    const response: Promise<any> = yield call(updateAffiliate, affiliate, id);
+      yield put(updateProfileSuccess(response))
+  } catch (error) {
+    yield put(updateProfileFail(error))
+  }
 }
 
-function* ProfileSaga() {
-  yield all([fork(watchProfile)])
+function* profileChangePasswordSaga({ payload }: IChangeProfilePasswordAction) {
+  try {
+    const response: Promise<any> = yield call(changePasswordApi, payload);
+    yield put(profileChangePasswordSuccess());
+  } catch (error) {
+    yield put(profileChangePasswordError());
+  }
+}
+
+export function* ProfileSaga() {
+  yield takeEvery(ProfileTypes.GET_PROFILE, getProfileSaga)
+  yield takeEvery(ProfileTypes.UPDATE_PROFILE, updateProfileSaga)
+  yield takeEvery(ProfileTypes.PROFILE_CHANGE_PASSWORD, profileChangePasswordSaga)
 }
 
 export default ProfileSaga
