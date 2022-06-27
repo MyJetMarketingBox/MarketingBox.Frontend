@@ -109,7 +109,7 @@ const tablePayouts = (props: any) => {
     {
       dataField: "id",
       text: "ID",
-      sort: true,
+      sort: false,
     },
     {
       dataField: "name",
@@ -119,22 +119,22 @@ const tablePayouts = (props: any) => {
     {
       dataField: "currency",
       text: "Currency",
-      sort: true,
+      sort: false,
     },
     {
       dataField: "amount",
       text: "Amount",
-      sort: true,
+      sort: false,
     },
     {
       dataField: "payoutType",
       text: "Payout type",
-      sort: true,
+      sort: false,
     },
     {
       dataField: "geo",
       text: "Geo",
-      sort: true,
+      sort: false,
     },
     {
       dataField: "createdDate",
@@ -167,6 +167,9 @@ const tablePayouts = (props: any) => {
                     <SearchBar {...toolkitProps.searchProps} />
                     <i className="bx bx-search-alt search-icon-search" />
                   </div>
+                </div>
+                <div className="col-xl-12 text-muted mb-3">
+                  Showing {payouts.length} results
                 </div>
               </Col>
 

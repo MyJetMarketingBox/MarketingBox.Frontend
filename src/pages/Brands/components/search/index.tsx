@@ -5,7 +5,7 @@ import SimpleSearch from "../../../../components/UI/simpleSearch";
 export default () => {
 
   const optionsSelect = [
-    {value: 'name', label: 'Search by name'},
+    {value: 'name', label: 'Search by Name'},
     {value: 'integrationId', label: 'Search by Integration ID'}
   ];
 

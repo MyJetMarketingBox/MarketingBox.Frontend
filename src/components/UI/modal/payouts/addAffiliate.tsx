@@ -107,9 +107,9 @@ export default ({ isOpen, toggle, isAff, payoutId }: any) => {
               <Row>
                 <Col lg={9}>
                   <div className="mb-3">
+                    <Label>Name <span className="accent-color">*</span></Label>
                     <AvField
                       name="name"
-                      label="Name*"
                       type="text"
                       errorMessage="Invalid name"
                       validate={{
@@ -121,9 +121,9 @@ export default ({ isOpen, toggle, isAff, payoutId }: any) => {
                 </Col>
                 <Col lg={3}>
                   <div className="mb-3">
+                    <Label>Amount <span className="accent-color">*</span></Label>
                     <AvField
                       name="amount"
-                      label="Amount*"
                       type="text"
                       errorMessage="Invalid amount"
                       validate={{
@@ -137,11 +137,11 @@ export default ({ isOpen, toggle, isAff, payoutId }: any) => {
               <Row>
                 <Col lg={6}>
                   <div className="mb-3">
+                    <Label>Payout Type <span className="accent-color">*</span></Label>
                     <AvField
                       type="select"
                       name="payoutType"
                       className="form-select"
-                      label="Payout Type*"
                       required
                       value={String(payout?.payoutType)}
                     >
@@ -154,11 +154,11 @@ export default ({ isOpen, toggle, isAff, payoutId }: any) => {
                 </Col>
                 <Col lg={6}>
                   <div className="mb-3">
+                    <Label>Currency <span className="accent-color">*</span></Label>
                     <AvField
                       type="select"
                       name="currency"
                       className="form-select"
-                      label="Currency*"
                       required
                       value={payout?.currency || "0"}
                     >
@@ -171,7 +171,7 @@ export default ({ isOpen, toggle, isAff, payoutId }: any) => {
 
               <div className="mb-3 custom-react-select">
                 <div className="react-select-descr">
-                  Select GEO
+                  Select GEO <span className="accent-color">*</span>
                 </div>
                 <Select
                   isSearchable
@@ -181,19 +181,6 @@ export default ({ isOpen, toggle, isAff, payoutId }: any) => {
                   value={selectGeo}
                 />
               </div>
-
-              {/*<div className="mb-3 custom-react-select">
-                <div className="react-select-descr">
-                  Select GEO
-                </div>
-                <Select
-                  isMulti
-                  isSearchable
-                  isLoading={loadingGeoList}
-                  options={geoList}
-                  onChange={setSelectGeo}
-                />
-              </div>*/}
             </Col>
           </Row>
         </ModalBody>

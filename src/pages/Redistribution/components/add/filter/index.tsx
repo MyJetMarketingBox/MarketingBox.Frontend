@@ -139,10 +139,10 @@ export default ({setFilter, clearState} : any) => {
       countryIds: selectCountry.map((item: any) => item.value).join(","),
       brandIds: selectBrand.map((item: any) => item.value).join(","),
       campaignIds: selectCampaign.map((item: any) => item.value).join(","),
-      dateFrom: fromDate ? fromDate+" 00:00:01" : null,
+      dateFrom: fromDate ? fromDate+" 00:00:00" : null,
       dateTo: toDate ? toDate+" 23:59:59" : null,
-      statuses: selectType?.value || null,
-      crmStatuses: selectStatus?.value || null,
+      statuses: ""+selectType?.value || null,
+      crmStatuses: ""+selectStatus?.value || null,
     }
 
     setFilter(curFilter);

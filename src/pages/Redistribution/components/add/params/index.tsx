@@ -23,7 +23,7 @@ import { Col, Form, Input, Label, Row } from "reactstrap";
 import Select from "../../../../../components/UI/select";
 import LabelInput from "../../../../../components/UI/FormElements/LabelInput";
 
-export default ({ setParams, handleChange, handleBlur, errors, touched, values }: any) => {
+export default ({ handleChange, handleBlur, errors, touched, values, setFieldValue }: any) => {
   const dispatch = useDispatch();
 
   const [selectAff, setSelectAff] = useState<any>();
@@ -60,44 +60,6 @@ export default ({ setParams, handleChange, handleBlur, errors, touched, values }
     };
   }, []);
 
-  useEffect(() => {
-    let data = {
-      name: nameRedistribution,
-      affiliateId: selectAff?.value,
-      campaignId: selectCampaign?.value,
-      frequency: selectFrequency?.value,
-      portionLimit: portionLimit,
-      dayLimit: dayLimit,
-      useAutologin: useAutologin,
-    };
-
-    setParams(data);
-  }, [
-    selectAff,
-    selectCampaign,
-    selectFrequency,
-    portionLimit,
-    dayLimit,
-    useAutologin,
-    nameRedistribution,
-  ]);
-
-  const handlePortionLimit = (e: any) => {
-    setPortionLimit(e.target.value.trim());
-  };
-
-  const handleDayLimit = (e: any) => {
-    setDayLimit(e.target.value.trim());
-  };
-
-  const handleUseAutologin = () => {
-    setUseAutologin(!useAutologin);
-  };
-
-  const handlerNameRedistribution = (e: any) => {
-    setNameRedistribution(e.target.value.trim());
-  };
-
   const affiliateList = affiliates.map((item: any) => {
     return {
       value: item.id,
@@ -120,6 +82,10 @@ export default ({ setParams, handleChange, handleBlur, errors, touched, values }
       };
     }
   );
+
+  const handleChangeSelect = (name: string, value: any) => {
+    setFieldValue(name, value.value)
+  }
 
   return (
     <div className="mb-3 row">
@@ -173,7 +139,7 @@ export default ({ setParams, handleChange, handleBlur, errors, touched, values }
                 isSearchable
                 isLoading={loadingAffList}
                 options={affiliateList}
-                onChange={setSelectAff}
+                onChange={(value: any) => handleChangeSelect("affiliateId", value)}
                 value={selectAff}
                 placeholder="Affiliates *"
               />
@@ -187,7 +153,7 @@ export default ({ setParams, handleChange, handleBlur, errors, touched, values }
                 isSearchable
                 isLoading={loadingCampaigns}
                 options={campaignList}
-                onChange={setSelectCampaign}
+                onChange={(value: any) => handleChangeSelect("campaignId", value)}
                 value={selectCampaign}
                 placeholder="Campaigns *"
               />
@@ -200,7 +166,7 @@ export default ({ setParams, handleChange, handleBlur, errors, touched, values }
               {/*<div className="react-select-descr">Status*</div>*/}
               <Select
                 options={frequencyList}
-                onChange={setSelectFrequency}
+                onChange={(value: any) => handleChangeSelect("frequency", value)}
                 value={selectFrequency}
                 placeholder="Status *"
               />

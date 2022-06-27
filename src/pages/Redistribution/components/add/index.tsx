@@ -26,8 +26,8 @@ import ValidationText from "../../../../constants/validationText";
 import { string } from "yup";
 
 export interface IRedistributionParams {
-  listFileId?: number[];
-  listRegId?: number[];
+  filesIds?: number[];
+  registrationsIds?: number[];
   registrationSearchRequest?: {};
   name: string;
   affiliateId: number | null;
@@ -61,8 +61,8 @@ export default () => {
   const validationSchema: yup.SchemaOf<IRedistributionParams> = yup
     .object()
     .shape({
-      listFileId: yup.array(),
-      listRegId: yup.array(),
+      filesIds: yup.array(),
+      registrationsIds: yup.array(),
       registrationSearchRequest: yup.object(),
       name: yup
         .string()
@@ -78,8 +78,8 @@ export default () => {
     });
 
   const initialValues: IRedistributionParams = {
-    listFileId: [],
-    listRegId: [],
+    filesIds: [],
+    registrationsIds: [],
     registrationSearchRequest: {},
     name: "",
     affiliateId: null,
@@ -91,7 +91,15 @@ export default () => {
   };
 
   const handleSubmitForm = () => {
-    console.log(values);
+    let sendData: any = {
+      registrationsIds: listRegId,
+      filesIds: listFileId,
+      registrationSearchRequest: registrationSearchRequest,
+    };
+
+    sendData = { ...values, ...sendData };
+
+    dispatch(addRedistribution(sendData, history));
   }
 
   let {
@@ -103,6 +111,7 @@ export default () => {
     errors,
     touched,
     isValid,
+    setFieldValue
   } = useFormik({
     initialValues,
     onSubmit: handleSubmitForm,
@@ -122,11 +131,12 @@ export default () => {
     submitForm();
   };
 
-  useEffect(() => {
-    console.log("isValid", isValid);
-    console.log("handleChange", handleChange);
-    console.log("values", values);
-  },[isValid, handleChange, values])
+  // useEffect(() => {
+  //   console.log("isValid", isValid);
+  //   console.log("handleChange", handleChange);
+  //   console.log("values", values);
+  //   console.log("err", errors);
+  // },[isValid, handleChange, values, errors])
 
   const isRegSearchRequest = useMemo(() => {
     if (!registrationSearchRequest) {
@@ -173,29 +183,6 @@ export default () => {
     setListFileId([]);
     setListRegId([]);
     setRegistrationSearchRequest(null);
-  };
-
-  const setParams = (data: any) => {
-    //console.log("old values: ",values);
-
-    //values = {...data, ...values}
-    //values = Object.assign(data, values);
-
-    //console.log("new values: ",values);
-
-    //createParams(data);
-  };
-
-  const handelSubmit = () => {
-    let sendData: any = {
-      registrationsIds: listRegId,
-      filesIds: listFileId,
-      registrationSearchRequest: registrationSearchRequest,
-    };
-
-    sendData = { ...params, ...sendData };
-
-    dispatch(addRedistribution(sendData, history));
   };
 
   const renderContent = () => {
@@ -293,7 +280,7 @@ export default () => {
                   >
                     <TabPane tabId={1}>
                       <div className="mb-4">
-                        {type !== null && <Params setParams={setParams} handleChange={handleChange} handleBlur={handleBlur} errors={errors} touched={touched} values={values}/>}
+                        {type !== null && <Params handleChange={handleChange} handleBlur={handleBlur} errors={errors} touched={touched} values={values} setFieldValue={setFieldValue}/>}
                       </div>
                       <div className="row">
                         <div className="col-md-4 content-center">

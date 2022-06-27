@@ -4,7 +4,7 @@ import { Col, Modal, ModalBody, ModalFooter, ModalHeader, Row } from "reactstrap
 import { AvField, AvForm } from "availity-reactstrap-validation";
 import { Currency, PayoutType } from "../../../../../common/utils/model";
 //import Select from "react-select";
-import { getAffPayouts } from "../../../../../store/affiliatePayouts/actions";
+import { clearAffPayouts, getAffPayouts } from "../../../../../store/affiliatePayouts/actions";
 import { updateAffiliate } from "../../../../../store/affiliates/profile/actions";
 import Select from "../../../../../components/UI/select";
 
@@ -13,13 +13,14 @@ export default ({ isOpen, toggle }: any) => {
 
   const [selectPayouts, setSelectPayouts] = useState([])
 
-  const { payoutsList, affiliate, upLoading, affLoaded, upLoaded, loadingUpdate, loadedUpdate } = useSelector((state:any) => {
+  const { payoutsList, affiliate, upLoading, affLoaded, upLoaded, loadingUpdate, loadedUpdate, affLoading } = useSelector((state:any) => {
     return{
       payoutsList: state.AffPayouts.affPayouts.items,
       affiliate: state.AffProfile.affProfile,
       upLoading: state.AffProfile.upLoading,
       upLoaded: state.AffProfile.upLoaded,
       affLoaded: state.AffProfile.loaded,
+      affLoading: state.AffProfile.loading,
       loadingUpdate: state.AffPayouts.loadingUpdate,
       loadedUpdate: state.AffPayouts.loadedUpdate,
     }
@@ -31,6 +32,9 @@ export default ({ isOpen, toggle }: any) => {
 
   useEffect(() => {
     dispatch(getAffPayouts('', filter))
+    return () => {
+      dispatch(clearAffPayouts())
+    }
   }, []);
 
   const arrAffPayId = affiliate.payouts.map((item : any) => item.id)
@@ -54,6 +58,7 @@ export default ({ isOpen, toggle }: any) => {
 
   const close = () => {
     toggle(false);
+    setSelectPayouts([])
   };
 
   const handleValidAffPayoutSubmit = (values : any) => {
@@ -73,7 +78,7 @@ export default ({ isOpen, toggle }: any) => {
   }
 
   return (
-    <Modal isOpen={isOpen} toggle={() => toggle(false)} className="modal-dialog-centered">
+    <Modal isOpen={isOpen} toggle={close} className="modal-dialog-centered">
       <AvForm
         onValidSubmit={(
           e: any,
@@ -82,7 +87,7 @@ export default ({ isOpen, toggle }: any) => {
           handleValidAffPayoutSubmit(values);
         }}
       >
-        <ModalHeader toggle={() => toggle(false)} tag="h4">
+        <ModalHeader toggle={close} tag="h4">
           Assign Payout
         </ModalHeader>
         <ModalBody>
@@ -91,14 +96,15 @@ export default ({ isOpen, toggle }: any) => {
             <Col xs={12}>
               <div className="mb-3 custom-react-select">
                 <div className="react-select-descr">
-                  Select Payout
+                  Select Payout <span className="accent-color">*</span>
                 </div>
                 <Select
                   isMulti
                   isSearchable
-                  isLoading={""}
+                  isLoading={affLoading}
                   options={resAffPayoutsList}
                   onChange={setSelectPayouts}
+                  value={selectPayouts}
                 />
               </div>
             </Col>
@@ -112,7 +118,7 @@ export default ({ isOpen, toggle }: any) => {
                 <button
                   type="submit"
                   className="btn btnOrange save-user"
-                  disabled={upLoading}
+                  disabled={upLoading || !selectPayouts.length}
                 >
                   {upLoading &&<i className="bx bx-hourglass bx-spin me-2"/>}
                   Save

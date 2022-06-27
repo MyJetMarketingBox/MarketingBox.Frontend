@@ -19,13 +19,14 @@ const Brands: React.FC = () => {
 
   const dispatch = useDispatch();
 
-  const { brands, nextUrl, error, loaded, loading } = useSelector((state: any) => {
+  const { brands, nextUrl, error, loaded, loading, total } = useSelector((state: any) => {
     return {
       brands: state.Brands.brands.items,
       nextUrl: state.Brands.brands.pagination.nextUrl,
       error: state.Brands.error,
       loading: state.Brands.loading,
-      loaded: state.Brands.loaded
+      loaded: state.Brands.loaded,
+      total: state.Brands.brands.pagination.total
     }
   })
 
@@ -68,10 +69,12 @@ const Brands: React.FC = () => {
           <Col className="col-12">
             <div>
               <CardBody>
-
                 <Row className="mb-2">
-                  <Col className="col-md-4">
+                  <Col className="col-md-4 mb-4">
                     <SearchBrand />
+                    <div className="col-xl-12 text-muted mt-3">
+                      Showing {brands.length} / {total} results
+                    </div>
                   </Col>
                   <Col className="col-md-4 offset-4 text-end">
                     <button

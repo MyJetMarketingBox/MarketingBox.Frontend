@@ -40,6 +40,13 @@ box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.1);*/
     }
 }
 
+body[data-layout-mode="dark"] .modal-header .close{
+    background: #363a38;
+    span{
+        color: #adb5b0;
+    }
+}
+
 .modal-footer {
     height: 96px;
     border-top: 1px solid #E0E0E0;
