@@ -1,5 +1,4 @@
 import {
-  LOCAL_STORAGE_AUTH_USER,
   LOCAL_STORAGE_TOKEN,
 } from "./../../constants/localStorageKeys";
 import { Reducer } from "react";

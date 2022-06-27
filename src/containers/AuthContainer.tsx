@@ -36,7 +36,7 @@ const AuthContainer: FC = ({ children }) => {
     }
   }, [isAuthUser, userId, userInfo, location]);
 
-  if (!userProfileLoaded || userInfoLoading) {
+  if (isAuthUser && (!userProfileLoaded || userInfoLoading)) {
     return <Loader />;
   }
 
