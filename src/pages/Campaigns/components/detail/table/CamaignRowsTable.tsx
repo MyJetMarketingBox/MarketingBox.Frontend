@@ -60,10 +60,8 @@ const CamaignRowsTable = ({ items }: Props) => {
   const resCampaigns = useMemo(() => {
     return items.map(campaignRow => ({
       id: campaignRow.campaignRowId,
-      campaignName: campaignRow.campaign.name,
       campaignRowId: campaignRow.campaignRowId,
       brandName: brands.find(item => item.id === campaignRow.brandId)?.name,
-      campaignId: campaignRow.campaign.id,
       geo: campaignRow.geo.name,
       priority: campaignRow.priority,
       weight: campaignRow.weight,
@@ -84,13 +82,6 @@ const CamaignRowsTable = ({ items }: Props) => {
       ),
     },
     {
-      dataField: "campaignName",
-      text: "Campaign name",
-      sort: true,
-      headerStyle: { width: "250px", minWidth: "250px" },
-      style: { width: "250px", minWidth: "250px" },
-    },
-    {
       dataField: "campaignRowId",
       text: "Campaign Row ID",
       sort: true,
@@ -98,11 +89,6 @@ const CamaignRowsTable = ({ items }: Props) => {
     {
       dataField: "brandName",
       text: "Brand",
-      sort: true,
-    },
-    {
-      dataField: "campaignId",
-      text: "Campaign ID",
       sort: true,
     },
     {
