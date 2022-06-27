@@ -45,6 +45,7 @@ const ActivityHourInputItem = ({ value, onChange }: Props) => {
           type="checkbox"
           id={`activity-day-${value.day}`}
           switch="success"
+
           onChange={handleChangeIsActive}
           defaultChecked={!!value.isActive}
         />
@@ -55,6 +56,7 @@ const ActivityHourInputItem = ({ value, onChange }: Props) => {
         <AvField
           name={`activity-day-from-${value.day}`}
           type="time"
+          step="1"
           value={value.from || ""}
           onChange={handleChangeFrom}
         />
@@ -62,6 +64,7 @@ const ActivityHourInputItem = ({ value, onChange }: Props) => {
         <AvField
           name={`activity-day-to-${value.day}`}
           type="time"
+          step="1"
           value={value.to || ""}
           onChange={handleChangeTo}
         />

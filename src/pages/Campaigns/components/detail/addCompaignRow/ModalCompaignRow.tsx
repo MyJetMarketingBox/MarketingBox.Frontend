@@ -42,8 +42,8 @@ const ModalCompaignRow = (props: Props) => {
       activeHourse.push({
         day: +val[0],
         isActive: true,
-        from: "00:00",
-        to: "23:59",
+        from: "00:00:00",
+        to: "23:59:59",
       });
     });
     return activeHourse;
