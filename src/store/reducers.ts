@@ -2,8 +2,8 @@ import { combineReducers } from "redux";
 // Layout
 import Layout from "./layout/reducer";
 //Dashboard
-import DashStatistics from "./dashboard/statistics/reducer"
-import DashMap from "./dashboard/map/reducer"
+import DashStatistics from "./dashboard/statistics/reducer";
+import DashMap from "./dashboard/map/reducer";
 //Affiliates
 import Affiliates from "./affiliates/reducer";
 //AffProfile
@@ -46,6 +46,7 @@ import CampaignRows from "./campaignsRow/reducer";
 import Offers from "./offers/reducer";
 
 import authUser from "./authUser/reduser";
+import { AuthUserActionEnum } from "./authUser/actionTypes";
 
 const rootReducer = combineReducers({
   // public
@@ -74,7 +75,11 @@ const rootReducer = combineReducers({
   RegFiles,
   authUser,
   DashStatistics,
-  DashMap
+  DashMap,
 });
 
-export default rootReducer;
+export default (state: any, action: any) =>
+  rootReducer(
+    action.type === AuthUserActionEnum.LOGOUT ? undefined : state,
+    action
+  );

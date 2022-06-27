@@ -28,7 +28,7 @@ function* logInUserSage({ payload }: ILogInUserAction) {
   }
 }
 
-function* registerUserSaga({ payload: { user } }: any) {
+function* registerUserSaga({ payload: { user, history } }: any) {
   try {
     const response: {
       token: string;
@@ -37,6 +37,8 @@ function* registerUserSaga({ payload: { user } }: any) {
 
     yield put(authSetTokenAction(response.token));
     yield put(registerUserSuccessAction());
+
+    yield history.push(Page.CONFIRM_EMAIL);
   } catch (error) {
     yield put(registerUserFailAction(error));
   }

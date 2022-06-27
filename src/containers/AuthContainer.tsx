@@ -1,6 +1,7 @@
 import React, { FC, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useRouteMatch } from "react-router";
+import Loader from "src/components/UI/loader";
 import Page from "src/constants/pages";
 import { AffiliateAccStatusEnum } from "src/enums/AffiliateAccStatusEnum";
 import { getProfile } from "src/store/actions";
@@ -12,14 +13,14 @@ const AuthContainer: FC = ({ children }) => {
 
   const isConfirmEmailPage = useRouteMatch([Page.CONFIRM_EMAIL])?.isExact;
 
-  const { userInfoLoading, isAuthUser, userId, userInfo } = useSelector(
-    (store: RootStoreType) => ({
+  const { userInfoLoading, userProfileLoaded, isAuthUser, userId, userInfo } =
+    useSelector((store: RootStoreType) => ({
       isAuthUser: store.authUser.isAuthorization,
       userId: store.authUser.userInfo?.["user-id"] || "",
       userInfo: store.Profile.data?.generalInfo || null,
+      userProfileLoaded: store.Profile.loaded,
       userInfoLoading: store.Profile.loading,
-    })
-  );
+    }));
 
   useEffect(() => {
     if (
@@ -34,6 +35,10 @@ const AuthContainer: FC = ({ children }) => {
       dispatch(getProfile(+userId));
     }
   }, [isAuthUser, userId, userInfo, location]);
+
+  if (!userProfileLoaded || userInfoLoading) {
+    return <Loader />;
+  }
 
   return <>{children}</>;
 };

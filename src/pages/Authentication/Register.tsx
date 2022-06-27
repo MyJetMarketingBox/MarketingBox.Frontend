@@ -3,7 +3,7 @@ import MetaTags from "react-meta-tags";
 import { Label, Input, Form, FormFeedback } from "reactstrap";
 import * as yup from "yup";
 import { useFormik } from "formik";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 // action
 import { registerUserAction } from "../../store/actions";
 //redux
@@ -30,6 +30,7 @@ interface UserRegistrationType {
 
 const Register = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const { error, loading } = useSelector((store: RootStoreType) => ({
     error: store.authUser.apiError,
@@ -116,7 +117,7 @@ const Register = () => {
         },
       ],
     };
-    dispatch(registerUserAction(data));
+    dispatch(registerUserAction(data, history));
   };
 
   const {

@@ -4,10 +4,10 @@ import {
   ILogInUserAction,
 } from "./actionTypes";
 
-export const registerUserAction = (user: any) => {
+export const registerUserAction = (user: any, history: any) => {
   return {
     type: AuthUserActionEnum.REGISTER_USER,
-    payload: { user },
+    payload: { user, history },
   };
 };
 
