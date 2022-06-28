@@ -63,6 +63,7 @@ const Register = () => {
       contact: yup
         .string()
         .required(ValidationText.required)
+        .min(3, ValidationText.minLength3)
         .max(75, ValidationText.maxLength75),
       searchFrom: yup.string().required(ValidationText.required),
       searchFromCustom: yup.string().when(["searchFrom"], {
@@ -296,7 +297,7 @@ const Register = () => {
                     name="contact"
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    value={values.contact || ""}
+                    value={values.contact.replace(/ +(?= )/g, "") || ""}
                     hasError={!!(errors.contact && touched.contact)}
                     errorText={errors.contact}
                     type="text"
@@ -343,7 +344,9 @@ const Register = () => {
                       name="searchFromCustom"
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      value={values.searchFromCustom?.replace(/ +(?= )/g,'') || ""}
+                      value={
+                        values.searchFromCustom?.replace(/ +(?= )/g, "") || ""
+                      }
                       hasError={
                         !!(errors.searchFromCustom && errors.searchFromCustom)
                       }
