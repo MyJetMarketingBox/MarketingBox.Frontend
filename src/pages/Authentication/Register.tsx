@@ -91,8 +91,8 @@ const Register = () => {
 
   const handleSubmitForm = async () => {
     const data = {
-      username: values.username,
-      email: values.email.toLowerCase(),
+      username: values.username.trim(),
+      email: values.email.trim().toLowerCase(),
       password: values.password,
       sub: [
         {
@@ -176,7 +176,7 @@ const Register = () => {
                     name="email"
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    value={values.email.trim().toLowerCase() || ""}
+                    value={values.email.toLowerCase() || ""}
                     hasError={!!(errors.email && touched.email)}
                     errorText={errors.email}
                     type="email"
@@ -188,7 +188,7 @@ const Register = () => {
                     name="username"
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    value={values.username.trim() || ""}
+                    value={values.username || ""}
                     hasError={!!(errors.username && touched.username)}
                     errorText={errors.username}
                   />
