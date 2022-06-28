@@ -1,5 +1,5 @@
 import MetaTags from "react-meta-tags";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import {
   Alert,
   Button,
@@ -15,19 +15,11 @@ import {
 import { AvField, AvForm } from "availity-reactstrap-validation";
 //redux
 import { useDispatch, useSelector } from "react-redux";
-
 import { withRouter } from "react-router-dom";
 //Import Breadcrumb
 import Breadcrumb from "../../components/Common/Breadcrumb";
 // actions
-import {
-  clearProfile,
-  //editProfile,
-  //getAffiliateProfile,
-  getProfile,
-  updateProfile,
-  updateAffiliate,
-} from "../../store/actions";
+import { getProfile, updateProfile } from "../../store/actions";
 import { RootStoreType } from "src/store/storeTypes";
 import ProfileChangePassword from "./component/ProfileChangePassword";
 import { avaLetters } from "../../helpers/avaLetters";

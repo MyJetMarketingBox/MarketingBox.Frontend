@@ -363,7 +363,12 @@ const Register = () => {
                     />
                     <Label className="form-checkbox-label" for="terms">
                       By registering you agree to the TraffMe{" "}
-                      <a href="#">Terms of Use</a>
+                      <a
+                        href="https://traffme.com/terms-and-conditions"
+                        target="_blank"
+                      >
+                        Terms of Use
+                      </a>
                     </Label>
                     <FormFeedback
                       valid={!(touched.terms && errors.terms)}
