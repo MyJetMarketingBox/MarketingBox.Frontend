@@ -51,14 +51,7 @@ export default ({ affiliates = [] }: any) => {
       ai: affiliate.id,
       email: affiliate.generalInfo.email,
       reportto: "Management",
-      createdat: new Date(affiliate.createdAt).toLocaleDateString(
-        "ru-RU",
-        {
-          day: "2-digit",
-          month: "2-digit",
-          year: "2-digit",
-        }
-      ),
+      createdat:  new Date(affiliate.createdAt).valueOf(),
       status: status,
       actions: "",
       color: color,
@@ -116,6 +109,16 @@ export default ({ affiliates = [] }: any) => {
       dataField: "createdat",
       text: "Created At",
       sort: true,
+      formatter: (cellContent: any, productData: any) => {
+        return new Date(productData.createdat).toLocaleDateString(
+          "ru-RU",
+          {
+            day: "2-digit",
+            month: "2-digit",
+            year: "2-digit",
+          }
+        )
+      }
     },
     {
       dataField: "status",
