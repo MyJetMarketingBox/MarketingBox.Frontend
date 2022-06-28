@@ -70,6 +70,7 @@ const Register = () => {
         then: yup
           .string()
           .required(ValidationText.required)
+          .matches(/[a-zA-Z]{3,}/, ValidationText.minLength3)
           .max(75, ValidationText.maxLength75),
       }),
       terms: yup
@@ -342,7 +343,7 @@ const Register = () => {
                       name="searchFromCustom"
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      value={values.searchFromCustom || ""}
+                      value={values.searchFromCustom?.replace(/ +(?= )/g,'') || ""}
                       hasError={
                         !!(errors.searchFromCustom && errors.searchFromCustom)
                       }
