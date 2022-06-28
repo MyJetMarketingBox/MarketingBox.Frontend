@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   Button,
   Col,
@@ -12,46 +12,18 @@ import {
   UncontrolledDropdown
 } from "reactstrap";
 
-import { addNewAffiliate, updateAffiliate } from "../../../../store/actions";
+import { updateAffiliate } from "../../../../store/actions";
 
-import { AvField, AvForm } from "availity-reactstrap-validation";
+import { AvField } from "availity-reactstrap-validation";
 import { AffiliateState, Currency } from "../../../../common/utils/model";
 import { useDispatch, useSelector } from "react-redux";
 import "react-toastify/dist/ReactToastify.css";
 import { useHistory } from "react-router";
-import { AffiliateAccStatusEnum } from "../../../../enums/AffiliateAccStatusEnum";
-import { CurrencyEnum } from "../../../../enums/CurrencyEnum";
 import * as yup from "yup";
 import { useFormik } from "formik";
 import ValidationText from "../../../../constants/validationText";
-import { array } from "yup";
 import LabelInput from "../../../../components/UI/FormElements/LabelInput";
 import LabelSelect from "../../../../components/UI/FormElements/LabelSelect";
-
-/*interface IAffGeneralInfo {
-  username: string;
-  email: string;
-  phone?: string;
-  skype?: string;
-  zipCode?: string;
-  state?: number | null;
-  currency: number | null;
-}
-interface IAffCompany {
-  name?: string;
-  address?: string;
-  regNumber?: string;
-  vatId?: string;
-}
-interface IAffBank {
-  beneficiaryName?: string;
-  beneficiaryAddress?: string;
-  name?: string;
-  address?: string;
-  accountNumber?: string;
-  swift?: string;
-  iban?: string;
-}*/
 
 interface AffValuesType {
   g_username: string;
@@ -127,7 +99,7 @@ const FormAffiliate = (props: any) => {
     b_iban: yup.string().nullable(),
   })
 
-  const initialValues: AffValuesType = {
+  const initialValues: AffValuesType = useMemo(() => ({
     g_username: generalInfo.username,
     g_email: generalInfo.email,
     g_phone: generalInfo.phone,
@@ -148,7 +120,7 @@ const FormAffiliate = (props: any) => {
     b_accountNumber: bank?.accountNumber,
     b_swift: bank?.swift,
     b_iban: bank?.iban,
-  }
+  }), [generalInfo, company, bank])
 
   useEffect(() => {
     setStateAff(generalInfo.state);
@@ -181,8 +153,6 @@ const FormAffiliate = (props: any) => {
       affiliatePayoutIds: arrAffPayId,
     };
 
-    // console.log(newAffiliate);
-    // debugger
     dispatch(updateAffiliate(updateAff, id));
   };
 
@@ -215,39 +185,6 @@ const FormAffiliate = (props: any) => {
     submitForm();
   };
 
-
-  /*const handleValidAffiliateSubmit = (values: any) => {
-    const updateAff = {
-      generalInfo: {
-        username: values["username"] || null,
-        email: values["email"] || null,
-        phone: values["phone"] || null,
-        skype: values["skype"] || null,
-        zipCode: values["zipCode"] || null,
-        state: +stateAff,
-        currency: +values["currency"] || null,
-      },
-      company: {
-        name: values["name"] || null,
-        address: values["address"] || null,
-        regNumber: values["regNumber"] || null,
-        vatId: values["vatId"] || null,
-      },
-      bank: {
-        beneficiaryName: values["beneficiaryName"] || null,
-        beneficiaryAddress: values["beneficiaryAddress"] || null,
-        name: values["bankName"] || null,
-        address: values["bankAddress"] || null,
-        accountNumber: values["accountNumber"] || null,
-        swift: values["swift"] || null,
-        iban: values["iban"] || null,
-      },
-      affiliatePayoutIds: arrAffPayId,
-    };
-
-    dispatch(updateAffiliate(updateAff, id));
-  };*/
-
   const changeStateAff = (e: any) => {
     setStateAff(e.target.value);
     setFieldValue("g_state", +e.target.value)
@@ -256,13 +193,6 @@ const FormAffiliate = (props: any) => {
   const handleBack = () => {
     history.goBack();
   };
-
-  // useEffect(() => {
-  //   console.log("isValid", isValid);
-  //   console.log("handleChange", handleChange);
-  //   console.log("values", values);
-  //   console.log("err", errors);
-  // },[isValid, handleChange, values, errors])
 
   return (
     <React.Fragment>
@@ -590,7 +520,7 @@ const FormAffiliate = (props: any) => {
         )}
 
         <hr />
-        {console.log(upLoading)}
+
         <Button
           type="button"
           onClick={handlerClickSubmit}
