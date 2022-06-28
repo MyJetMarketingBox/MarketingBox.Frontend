@@ -26,7 +26,7 @@ import {
   //getAffiliateProfile,
   getProfile,
   updateProfile,
-  updateAffiliate
+  updateAffiliate,
 } from "../../store/actions";
 import { RootStoreType } from "src/store/storeTypes";
 import ProfileChangePassword from "./component/ProfileChangePassword";
@@ -92,8 +92,7 @@ const UserProfile = () => {
   }
 
   useEffect(() => {
-    if (authUserID) {
-      //dispatch(getAffiliateProfile(+authUserID));
+    if (!profile || (authUserID && +profile.id !== +authUserID)) {
       dispatch(getProfile(+authUserID));
     }
   }, []);
