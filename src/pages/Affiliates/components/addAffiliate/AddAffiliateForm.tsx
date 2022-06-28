@@ -121,13 +121,13 @@ export default ({ isOpen, toggle }: any) => {
   useEffect(() => {
     if (addAffSuccess) {
       toggle(false);
-      resetForm()
+      resetForm();
     }
   }, [addAffSuccess]);
 
   const close = () => {
-    toggle(false)
-    resetForm()
+    toggle(false);
+    resetForm();
   }
 
   return (
