@@ -493,7 +493,6 @@ export default () => {
                           onClick={() => {
                             toggleTab(activeTab + 1);
                           }}
-                          //disabled={!params?.nameRedistribution}
                           disabled={!isValid}
                         >
                           Next <i className="bx bx-chevron-right ms-1"></i>
