@@ -104,9 +104,9 @@ const Login = () => {
                 <p className="auth-page-descr">
                   Sign in to continue to TraffMe.
                 </p>
-                {error ? (
+                {/* {error ? (
                   <Alert color="danger">{`Not valid email or password`}</Alert>
-                ) : null}
+                ) : null} */}
                 <Form className="custom-form" noValidate>
                   <LabelInput
                     label="Email"
