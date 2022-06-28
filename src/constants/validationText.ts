@@ -13,6 +13,7 @@ const ValidationText = {
   shortPassword: "The password is too short",
   longPassword: "The password is too long",
   passwordMask: "Please use min 1 letter, 1 number, 1 special symbol, 1 upper case letter",
+  usernameMask: "Only latin letters, numbers, hyphens (-) and underscores(_) are allowed",
 };
 
 Object.freeze(ValidationText);
