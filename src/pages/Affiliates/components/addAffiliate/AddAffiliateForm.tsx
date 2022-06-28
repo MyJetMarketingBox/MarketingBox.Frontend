@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   Col,
@@ -30,6 +30,7 @@ interface AddAffValuesType {
 
 export default ({ isOpen, toggle }: any) => {
   const dispatch = useDispatch();
+  const ref = useRef<HTMLFormElement>(null);
 
   const { addAffLoading, addAffSuccess, addAffError, error } = useSelector(
     (state: RootStoreType) => {
@@ -76,7 +77,13 @@ export default ({ isOpen, toggle }: any) => {
 
   const handleSubmitForm = () => {
     const newAffiliate = {
-      generalInfo: { ...values },
+      generalInfo: {
+        email: values.email,
+        password: values.password,
+        username: values.username,
+        state: +values.state,
+        currency: +values.currency,
+      },
     };
 
     dispatch(addNewAffiliate(newAffiliate));
@@ -91,6 +98,7 @@ export default ({ isOpen, toggle }: any) => {
     errors,
     touched,
     isValid,
+    resetForm
   } = useFormik({
     initialValues,
     onSubmit: handleSubmitForm,
@@ -113,17 +121,23 @@ export default ({ isOpen, toggle }: any) => {
   useEffect(() => {
     if (addAffSuccess) {
       toggle(false);
+      resetForm()
     }
   }, [addAffSuccess]);
 
+  const close = () => {
+    toggle(false)
+    resetForm()
+  }
+
   return (
-    <Modal isOpen={isOpen} toggle={() => toggle(false)} className="modal-dialog-centered">
+    <Modal isOpen={isOpen} toggle={close} className="modal-dialog-centered">
       {/*addAffLoading && <Loader />*/}
-      <ModalHeader toggle={() => toggle(false)} tag="h4">
+      <ModalHeader toggle={close} tag="h4">
         Add Affiliate
       </ModalHeader>
 
-      <Form className="custom-form" noValidate>
+      <Form className="custom-form" noValidate innerRef={ref}>
         <ModalBody>
           <Row form>
             <Col xs={12}>
