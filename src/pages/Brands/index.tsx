@@ -121,7 +121,7 @@ const Brands: React.FC = () => {
           </Col>
         </Row>
       </div>
-      <AddBrandModal isOpen={modal} toggle={toggleModal} />
+      {modal && <AddBrandModal isOpen={modal} toggle={toggleModal}/>}
     </>
   )
 

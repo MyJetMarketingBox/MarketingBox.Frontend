@@ -12,7 +12,7 @@ import { useFormik } from "formik";
 
 interface AddBrandType {
   name: string;
-  integrationId: number;
+  integrationId: number | null;
 }
 
 export default ({ isOpen, toggle }: any) => {
@@ -38,19 +38,19 @@ export default ({ isOpen, toggle }: any) => {
         .required(ValidationText.required)
         .min(1, ValidationText.minLength1)
         .max(75, ValidationText.maxLength255),
-      integrationId: yup.number().required(ValidationText.integrationId),
+      integrationId: yup.number().required(ValidationText.required),
     });
 
   const initialValues: AddBrandType = {
     name: "",
-    integrationId: 0,
+    integrationId: null,
   };
 
   const handleSubmitForm = () => {
     const sendBrand = {
       name: values.name,
       integrationType: 0,
-      integrationId: +values.integrationId,
+      integrationId: values.integrationId,
     };
 
     dispatch(addBrand(sendBrand, history));
