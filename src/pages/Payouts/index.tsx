@@ -137,9 +137,9 @@ const Payouts = () => {
         </Row>
 
 
-        <AddAffModal isOpen={modalAff} toggle={toggleModalAff} isAff={false} payoutId={payoutAffId}/>
+        {modalAff && <AddAffModal isOpen={modalAff} toggle={toggleModalAff} isAff={false} payoutId={payoutAffId}/>}
 
-        <AddBrandModal isOpen={modalBrand} toggle={toggleModalBrand} isBrand={false} payoutId={payoutBrandId}/>
+        {modalBrand && <AddBrandModal isOpen={modalBrand} toggle={toggleModalBrand} isBrand={false} payoutId={payoutBrandId}/>}
 
 
       </div>

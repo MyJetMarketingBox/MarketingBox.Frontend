@@ -1,19 +1,29 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { Col, Label, Modal, ModalBody, ModalFooter, ModalHeader, Row } from "reactstrap";
-import { AvField, AvForm } from "availity-reactstrap-validation";
-import { PayoutType, Currency } from "../../../../common/utils/model";
+import { Col, Form, Modal, ModalBody, ModalFooter, ModalHeader, Row } from "reactstrap";
+import { Currency, PayoutType } from "../../../../common/utils/model";
 import { clearGeo, getGeo } from "../../../../store/geo/actions";
 import Select from "../../../../components/UI/select";
 import { addAffPayouts, addPayout, updatePayout } from "../../../../store/affiliatePayouts/actions";
+import * as yup from "yup";
+import { useFormik } from "formik";
+import ValidationText from "../../../../constants/validationText";
+import LabelInput from "../../FormElements/LabelInput";
+import LabelSelect from "../../FormElements/LabelSelect";
+
+interface AddAffPayouts {
+  name: string,
+  amount: number,
+  payoutType: number,
+  currency: number,
+  geoId: number
+}
 
 export default ({ isOpen, toggle, isAff, payoutId }: any) => {
   const dispatch = useDispatch();
 
-  const [selectGeo, setSelectGeo] = useState<any>({});
-
-  const { geo, loadingGeoList, loadedGeoList, loadingItem, loadedItem, affiliate, payout, loadingUpdate, loadedUpdate} = useSelector((state:any) => {
+  const { geo, loadingGeoList, loadedGeoList, loadingItem, loadedItem, affiliate, selectedPayout, loadingUpdate, loadedUpdate} = useSelector((state:any) => {
     return {
       geo: state.Geo.geo.items,
       loadingGeoList: state.Geo.loading,
@@ -21,18 +31,88 @@ export default ({ isOpen, toggle, isAff, payoutId }: any) => {
       loadingItem: state.AffPayouts.loadingItem,
       loadedItem: state.AffPayouts.loadedItem,
       affiliate: state.AffProfile.affProfile,
-      payout: state.AffPayouts.affPayouts.items.find((item: any) => item.id == payoutId ),
+      selectedPayout: state.AffPayouts.affPayouts.items.find((item: any) => item.id == payoutId ),
       loadingUpdate: state.AffPayouts.loadingUpdate,
       loadedUpdate: state.AffPayouts.loadedUpdate,
     }
   })
 
-  let filter = {
-    order: 1
+  const validationSchema: yup.SchemaOf<AddAffPayouts> = yup
+    .object()
+    .shape({
+      name: yup.string()
+        .required(ValidationText.required)
+        .max(75, ValidationText.maxLength75)
+        .matches(/^[a-zA-Z0-9_-]+$/, ValidationText.invalidInput),
+      amount: yup.number()
+        .integer("Must be more than 0")
+        .required(ValidationText.required),
+      payoutType: yup.number().required(ValidationText.required),
+      currency: yup.number().required(ValidationText.required),
+      geoId: yup.number().required(ValidationText.required),
+    });
+
+  const initialValues = useCallback(():AddAffPayouts => (
+    {
+      name: selectedPayout?.name || "",
+      amount: selectedPayout?.amount || "",
+      payoutType: (selectedPayout?.payoutType >= 0)
+        ? selectedPayout?.payoutType : "",
+      currency: 0,
+      geoId: selectedPayout?.geo?.id || null
+    }
+  ), [selectedPayout]);
+
+  const handleSubmitForm = () => {
+    const payout = {
+      name: values.name,
+      amount: +values.amount,
+      payoutType: +values.payoutType,
+      currency: +values.currency,
+      geoId: values.geoId
+    }
+
+    if(payoutId > 0 ){
+      dispatch(updatePayout(payout, payoutId))
+    }else{
+      isAff
+        ? dispatch(addAffPayouts(payout, affiliate))
+        : dispatch(addPayout(payout));
+    }
+  }
+
+  let {
+    values,
+    validateForm,
+    handleChange,
+    submitForm,
+    handleBlur,
+    errors,
+    touched,
+    isValid,
+    setFieldValue,
+    resetForm
+  } = useFormik({
+    initialValues: initialValues(),
+    onSubmit: handleSubmitForm,
+    validationSchema: validationSchema,
+    validateOnBlur: true,
+    validateOnChange: true,
+    validateOnMount: true,
+  });
+
+  const handlerClickSubmit = async () => {
+    const curErrors = await validateForm();
+    const curErrorsKeys = Object.keys(curErrors);
+    if (curErrorsKeys.length) {
+      const el = document.getElementById(curErrorsKeys[0]);
+      if (el) el.focus();
+    }
+    submitForm();
   };
 
   useEffect(() => {
-    dispatch(getGeo('', filter))
+    dispatch(getGeo('', { order: 1 }))
     return () => {
       dispatch(clearGeo())
     }
@@ -47,89 +127,59 @@ export default ({ isOpen, toggle, isAff, payoutId }: any) => {
   });
 
   useEffect(() => {
-    if(payoutId > 0){
-      let findGeo = geo.find((item : any) => payout?.geo.id === item.id);
-
-      let sGeo = { value: findGeo.id, label: findGeo.name }
-      setSelectGeo( sGeo )
-    }else{
-      setSelectGeo({})
-    }
-  }, [payoutId])
+    console.log(selectedPayout);
+  }, [selectedPayout])
 
   useEffect(() => {
     if((!loadingUpdate && loadedUpdate) || (!loadingItem && loadedItem)){
       close();
-      setSelectGeo({})
     }
   }, [loadingUpdate, loadedUpdate, loadingItem, loadedItem])
 
   const close = () => {
     toggle(false);
+    resetForm();
   };
 
-  const handleValidAffPayoutSubmit = (data: any) => {
-    const {value, lable} : any = selectGeo;
-    const payouts = {
-      name: data.name,
-      amount: +data.amount,
-      payoutType:  +data.payoutType,
-      currency:  +data.currency,
-      geoId: +value
-    }
-
-
-    if(payoutId > 0 ){
-      dispatch(updatePayout(payouts, payoutId))
-    }else{
-      isAff
-        ? dispatch(addAffPayouts(payouts, affiliate))
-        : dispatch(addPayout(payouts));
-    }
+  const handleChangeSelect = (name: string, value: any) => {
+    setFieldValue(name, value.value)
   }
 
   return (
-    <Modal isOpen={isOpen} toggle={toggle} className="modal-dialog-centered">
-      <ModalHeader toggle={toggle} tag="h4">
+    <Modal isOpen={isOpen} toggle={() => close()} className="modal-dialog-centered">
+      <ModalHeader toggle={() => close()} tag="h4">
         {payoutId ? 'Change' : 'Add'} Payout
       </ModalHeader>
-      <AvForm
-        onValidSubmit={(
-          e: any,
-          values: any
-        ) => {
-          handleValidAffPayoutSubmit(values);
-        }}
-      >
+      <Form>
         <ModalBody>
           <Row form>
             <Col xs={12}>
               <Row>
                 <Col lg={9}>
                   <div className="mb-3">
-                    <Label>Name <span className="accent-color">*</span></Label>
-                    <AvField
+                    <LabelInput
+                      label="Name*"
+                      placeholder="Enter name"
                       name="name"
-                      type="text"
-                      errorMessage="Invalid name"
-                      validate={{
-                        required: { value: true }
-                      }}
-                      value={payout?.name}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.name.trim().replace(/\s/g, "") || ""}
+                      hasError={!!(errors.name && touched.name)}
+                      errorText={errors.name}
                     />
                   </div>
                 </Col>
                 <Col lg={3}>
                   <div className="mb-3">
-                    <Label>Amount <span className="accent-color">*</span></Label>
-                    <AvField
+                    <LabelInput
+                      label="Amount*"
+                      placeholder="Amount*"
                       name="amount"
-                      type="text"
-                      errorMessage="Invalid amount"
-                      validate={{
-                        required: { value: true }
-                      }}
-                      value={payout?.amount}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={`${values.amount}`}
+                      hasError={!!(errors.amount && touched.amount)}
+                      errorText={errors.amount}
                     />
                   </div>
                 </Col>
@@ -137,48 +187,49 @@ export default ({ isOpen, toggle, isAff, payoutId }: any) => {
               <Row>
                 <Col lg={6}>
                   <div className="mb-3">
-                    <Label>Payout Type <span className="accent-color">*</span></Label>
-                    <AvField
-                      type="select"
+                    <LabelSelect
                       name="payoutType"
-                      className="form-select"
-                      required
-                      value={String(payout?.payoutType)}
+                      label="Payout Type*"
+                      value={`${values.payoutType}`}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      hasError={!!(errors.payoutType && touched.payoutType)}
+                      errorText={errors.payoutType}
                     >
-                      <option value={""}>Select sate</option>
+                      <option value="">Select payout type*</option>
                       {PayoutType.map((val, i) =>
                         <option key={i} value={i}>{val.label}</option>
                       )}
-                    </AvField>
+                    </LabelSelect>
                   </div>
                 </Col>
                 <Col lg={6}>
                   <div className="mb-3">
-                    <Label>Currency <span className="accent-color">*</span></Label>
-                    <AvField
-                      type="select"
+                    <LabelSelect
                       name="currency"
-                      className="form-select"
-                      required
-                      value={payout?.currency || "0"}
+                      label="Currency*"
+                      value={`${values.currency}`}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      hasError={!!(errors.currency && touched.currency)}
+                      errorText={errors.currency}
                     >
-                      <option value={""}>Select sate</option>
+                      <option value="">Select currency*</option>
                       {Currency.map((val, i) => <option key={i} value={i}>{val}</option>)}
-                    </AvField>
+                    </LabelSelect>
                   </div>
                 </Col>
               </Row>
 
               <div className="mb-3 custom-react-select">
-                <div className="react-select-descr">
-                  Select GEO <span className="accent-color">*</span>
-                </div>
                 <Select
                   isSearchable
+                  label="GEO*"
+                  placeholder="Select GEO *"
                   isLoading={loadingGeoList}
                   options={geoList}
-                  onChange={setSelectGeo}
-                  value={selectGeo}
+                  onChange={(value: any) => handleChangeSelect("geoId", value)}
+                  value={geoList.find((item: any) => item.value === values.geoId)}
                 />
               </div>
             </Col>
@@ -189,9 +240,10 @@ export default ({ isOpen, toggle, isAff, payoutId }: any) => {
             <Col>
               <div className="text-end">
                 <button
-                  type="submit"
+                  type="button"
                   className="btn btnOrange btn-width-250"
-                  disabled={loadingItem || loadingUpdate}
+                  onClick={handlerClickSubmit}
+                  disabled={loadingItem || loadingUpdate || !isValid}
                 >
                   {(loadingItem || loadingUpdate) && <i className="bx bx-hourglass bx-spin me-2"/>}
                   Save
@@ -200,7 +252,7 @@ export default ({ isOpen, toggle, isAff, payoutId }: any) => {
             </Col>
           </Row>
         </ModalFooter>
-      </AvForm>
+      </Form>
     </Modal>
   )
 }

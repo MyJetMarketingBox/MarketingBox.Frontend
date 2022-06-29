@@ -24,12 +24,11 @@ function* fetchBrands({ nextUrl, filter }: any) {
 
 function* addBrandSaga({ payload: brand, history }: any) {
   try {
-    const response: Promise<{ id: number }> = yield call(addBrand, brand);
+    const response: Promise<any> = yield call(addBrand, brand);
     yield put(addBrandSuccess(response));
 
-    response.then(res => {
-      history.push(`${Page.BRANDS}/${res.id}`);
-    });
+    // @ts-ignore
+    history.push(`${Page.BRANDS}/${response.id}`);
   } catch (error) {
     yield put(addBrandFail(error));
   }

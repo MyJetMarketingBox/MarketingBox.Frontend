@@ -61,11 +61,11 @@ export default () => {
     setCountFilter(count);
   });
 
-  useEffect(() => {
-    if(countFilter === 0){
-      handleClearFilter()
-    }
-  }, [countFilter])
+  // useEffect(() => {
+  //   if(countFilter === 0 && !selectAff.length){
+  //     handleClearFilter()
+  //   }
+  // }, [countFilter])
 
   const handleClearFilter = () => {
     setSelectAff([]);

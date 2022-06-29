@@ -39,16 +39,8 @@ const tablePayouts = (props: any) => {
       currency: Currency[payout.currency],
       payoutType: PayoutType[payout.payoutType].label,
       geo: payout.geo.name,
-      createdDate: new Date(payout.createdAt).toLocaleDateString("ru-RU", {
-        day: "2-digit",
-        month: "2-digit",
-        year: "2-digit",
-      }),
-      updatedDate: new Date(payout.modifiedAt).toLocaleDateString("ru-RU", {
-        day: "2-digit",
-        month: "2-digit",
-        year: "2-digit",
-      }),
+      createdDate: new Date(payout.createdAt).valueOf(),
+      updatedDate: new Date(payout.modifiedAt).valueOf(),
     };
   });
 
@@ -56,8 +48,9 @@ const tablePayouts = (props: any) => {
     setIsOpen(prev => !prev);
   };
 
-  const toggleModalAdd = () => {
-    setAddModal(prev => !prev);
+  const toggleModalAdd = (status: boolean) => {
+    //setAddModal(prev => !prev);
+    setAddModal(status);
   };
 
   const toggleModalAssignPayout = (status: boolean) => {
@@ -140,11 +133,30 @@ const tablePayouts = (props: any) => {
       dataField: "createdDate",
       text: "Created date",
       sort: true,
+      formatter: (cell: any, row: any) => {
+        return new Date(row.createdDate).toLocaleDateString(
+          "ru-RU",
+          {
+            day: "2-digit",
+            month: "2-digit",
+            year: "2-digit",
+          }
+        )
+      }
     },
     {
       dataField: "updatedDate",
       text: "Updated date",
       sort: true,
+      formatter: (cell: any, row: any) => (
+        new Date(row.updatedDate).toLocaleDateString(
+          "ru-RU",
+          {
+          day: "2-digit",
+          month: "2-digit",
+          year: "2-digit",
+        })
+      )
     },
   ];
 
@@ -188,7 +200,7 @@ const tablePayouts = (props: any) => {
                     <i className="bx bx-list-plus font-size-20"></i>
                   </DropdownToggle>
                   <DropdownMenu>
-                    <DropdownItem onClick={toggleModalAdd}>
+                    <DropdownItem onClick={() => toggleModalAdd(true)}>
                       New Payout
                     </DropdownItem>
                     <DropdownItem onClick={() => toggleModalAssignPayout(true)}>
@@ -207,7 +219,7 @@ const tablePayouts = (props: any) => {
                   bordered={false}
                   striped={false}
                   defaultSorted={defaultSorted}
-                  classes={"table align-middle"}
+                  classes={"table align-middle table-nowrap table-hover un-pointer-tr"}
                   headerWrapperClasses={"thead-light"}
                 />
               ) : (
@@ -220,15 +232,15 @@ const tablePayouts = (props: any) => {
         )}
       </ToolkitProvider>
 
-      <AddModal isOpen={modalAdd} toggle={toggleModalAdd} isAff={true}/>
-      <AssignModal isOpen={modalAssignPayout} toggle={toggleModalAssignPayout}/>
+      {modalAdd && <AddModal isOpen={modalAdd} toggle={toggleModalAdd} isAff={true}/>}
+      {modalAssignPayout && <AssignModal isOpen={modalAssignPayout} toggle={toggleModalAssignPayout}/>}
 
-      <ConfirmDelete
+      {isOpen && <ConfirmDelete
         isOpen={isOpen}
         toggle={toggleAction}
         handleDelete={handleDeleteAffPayout}
         id={selectId}
-      />
+      />}
     </React.Fragment>
   );
 };

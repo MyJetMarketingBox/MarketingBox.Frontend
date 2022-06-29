@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import ColumnActions from "../../../../components/UI/columnActions/ColumnActions";
 import BootstrapTable from "react-bootstrap-table-next";
-import { brandPrivacy, brandStatus } from "../../../../common/utils/model";
+import { brandPrivacy, brandStatus, IntegrationType } from "../../../../common/utils/model";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 
@@ -40,7 +40,7 @@ export default ({ brands = [] }: any) => {
       name: brand.name,
       integration: integrationName,
       integrationID: brand.integration?.id,
-      //integrationType: IntegrationType[brand.integrationType],
+      integrationType: IntegrationType[brand.integrationType],
       status: brand.status,
       color: color,
       payout: brand.payouts?.payoutType,
@@ -103,20 +103,20 @@ export default ({ brands = [] }: any) => {
     {
       dataField: "integration",
       text: "Integration",
-      headerStyle: { width: "250px", minWidth: "250px" },
-      style: { width: "250px", minWidth: "250px" },
-      sort: true,
+      //headerStyle: { width: "250px", minWidth: "250px" },
+      //style: { width: "250px", minWidth: "250px" },
+      sort: false,
     },
     {
       dataField: "integrationID",
       text: "Integration ID",
       sort: true,
     },
-    /*{
+    {
       dataField: "integrationType",
       text: "Type",
-      sort: true
-    },*/
+      sort: false
+    },
     {
       dataField: "revenue",
       text: "Revenue",
@@ -194,7 +194,7 @@ export default ({ brands = [] }: any) => {
         bordered={false}
         striped={false}
         defaultSorted={defaultSorted}
-        classes={"table align-middle"}
+        classes={"table align-middle table-nowrap table-hover un-pointer-tr"}
         headerWrapperClasses={"thead-light"}
       />
 

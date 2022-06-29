@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { Col, Modal, ModalBody, ModalFooter, ModalHeader, Row } from "reactstrap";
+import { Col, Form, Modal, ModalBody, ModalFooter, ModalHeader, Row } from "reactstrap";
 import { AvForm } from "availity-reactstrap-validation";
-//import Select from "react-select";
 import { useDispatch, useSelector } from "react-redux";
 import { clearBrandPayouts, getBrandPayouts } from "../../../../../../store/brandPayouts/actions";
 import { updateBrand } from "../../../../../../store/brands/profile/actions";
 import Select from "../../../../../../components/UI/select";
+import * as yup from "yup";
+import { useFormik } from "formik";
+import ValidationText from "../../../../../../constants/validationText";
+
+interface AssignBrandPayouts {
+  brandPayoutIds: number[];
+}
 
 export default ({ isOpen, toggle }: any) => {
   const dispatch = useDispatch();
-
-  const [selectPayouts, setSelectPayouts] = useState([])
-  //const [modalStandard, setModalStandard] = useState(isOpen);
 
   const { payoutsList, brand, loadingPayouts, upLoadingBrand, upLoadedBrand} = useSelector((state: any) => {
     return{
@@ -23,6 +26,62 @@ export default ({ isOpen, toggle }: any) => {
     }
   })
 
+
+  const validationSchema: yup.SchemaOf<AssignBrandPayouts> = yup
+    .object()
+    .shape({
+      brandPayoutIds: yup.array()
+        .required(ValidationText.required)
+        .min(1, ValidationText.minArray1),
+    });
+
+  const initialValues: AssignBrandPayouts = {
+    brandPayoutIds: [],
+  };
+
+  const handleSubmitForm = () => {
+    const {payouts, id, campaignRows, integration, ...currBrand} = brand;
+
+    const currPayouts = payouts.map((item : any) => {
+      return item.id
+    })
+
+    currBrand.brandPayoutIds = [...currPayouts, ...values.brandPayoutIds];
+    currBrand.integrationId = integration?.id;
+
+    dispatch(updateBrand(currBrand, id))
+  };
+
+  let {
+    values,
+    validateForm,
+    handleChange,
+    submitForm,
+    handleBlur,
+    errors,
+    touched,
+    isValid,
+    setFieldValue,
+    resetForm
+  } = useFormik({
+    initialValues,
+    onSubmit: handleSubmitForm,
+    validationSchema: validationSchema,
+    validateOnBlur: true,
+    validateOnChange: true,
+    validateOnMount: true,
+  });
+
+  const handlerClickSubmit = async () => {
+    const curErrors = await validateForm();
+    const curErrorsKeys = Object.keys(curErrors);
+    if (curErrorsKeys.length) {
+      const el = document.getElementById(curErrorsKeys[0]);
+      if (el) el.focus();
+    }
+    submitForm();
+  };
+
   let filter = { order: 1 };
 
   useEffect(() => {
@@ -31,16 +90,6 @@ export default ({ isOpen, toggle }: any) => {
       dispatch(clearBrandPayouts())
     }
   }, []);
-
-  // useEffect(() => {
-  //   if(upLoadedBrand) {
-  //     setModalStandard(!modalStandard)
-  //   }
-  // }, [upLoadedBrand])
-  //
-  // useEffect(() => {
-  //   setModalStandard(isOpen);
-  // }, [isOpen])
 
   const arrBrandPayoutsId = brand.payouts.map((item:any) => item.id)
 
@@ -53,7 +102,23 @@ export default ({ isOpen, toggle }: any) => {
     }
   })
 
-  const handleValidBrandPayoutSubmit = (values : any) => {
+  const handleChangeSelect = (name: string, value: any) => {
+
+    const resPayouts = value.map((item: any) => {
+      return item.value
+    });
+
+    setFieldValue(name, resPayouts)
+  }
+
+  useEffect(() => {
+    if(upLoadedBrand){
+      close();
+    }
+  }, [upLoadedBrand])
+
+
+  /*const handleValidBrandPayoutSubmit = (values : any) => {
     const {payouts, id, campaignRows, integration, ...currBrand} = brand;
 
     const resPayouts = selectPayouts.map((item: any) => {
@@ -68,35 +133,33 @@ export default ({ isOpen, toggle }: any) => {
     currBrand.integrationId = integration?.id; // 16
 
     dispatch(updateBrand(currBrand, id))
+  }*/
+
+  const close = () => {
+    toggle(false);
+    resetForm();
   }
 
   return(
-    <Modal isOpen={isOpen} toggle={toggle}>
-      <ModalHeader toggle={toggle} tag="h4">
+    <Modal isOpen={isOpen} toggle={() => close()} centered={true}>
+      <ModalHeader toggle={() => close()} tag="h4">
         Assign Payout
       </ModalHeader>
-      <AvForm
-        onValidSubmit={(
-          e: any,
-          values: any
-        ) => {
-          handleValidBrandPayoutSubmit(values);
-        }}
-      >
+        <Form >
         <ModalBody>
             <Row form>
               <Col xs={12}>
-                <div className="mb-3 custom-react-select">
-                  <div className="react-select-descr">
+                <div className="mb-3 mt-3 custom-react-select">
+                  {/*<div className="react-select-descr">
                     Select Brand
-                  </div>
+                  </div>*/}
                   <Select
                     isMulti
                     isSearchable
                     isLoading={loadingPayouts}
                     options={resBrandPayoutsList}
-                    onChange={setSelectPayouts}
-                    rules={{ required: 'Please select an option'}}
+                    onChange={(value: any) => handleChangeSelect("brandPayoutIds", value)}
+                    placeholder="Select Brand*"
                   />
                 </div>
               </Col>
@@ -108,9 +171,10 @@ export default ({ isOpen, toggle }: any) => {
             <Col>
               <div className="text-end">
                 <button
-                  type="submit"
+                  type="button"
                   className="btn btnOrange"
-                  disabled={upLoadingBrand}
+                  disabled={upLoadingBrand || !isValid}
+                  onClick={handlerClickSubmit}
                 >
                   {upLoadingBrand && <i className="bx bx-hourglass bx-spin me-2"/>}
                   Save
@@ -120,7 +184,7 @@ export default ({ isOpen, toggle }: any) => {
           </Row>
         </ModalFooter>
 
-      </AvForm>
+      </Form>
     </Modal>
   )
 }

@@ -1,19 +1,23 @@
 import React, { useEffect, useState } from "react";
-import { Col, Label, Modal, ModalBody, ModalFooter, ModalHeader, Row } from "reactstrap";
+import { Col, Form, Label, Modal, ModalBody, ModalFooter, ModalHeader, Row } from "reactstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { clearIntegrations, getIntegrations } from "../../../../store/integrations/actions";
-import { AvField, AvForm } from "availity-reactstrap-validation";
 import { addBrand } from "../../../../store/brands/actions";
 import { useHistory } from "react-router-dom";
 import Select from "../../../../components/UI/select";
+import ValidationText from "../../../../constants/validationText";
+import LabelInput from "../../../../components/UI/FormElements/LabelInput";
+import * as yup from "yup";
+import { useFormik } from "formik";
+
+interface AddBrandType {
+  name: string;
+  integrationId: number;
+}
 
 export default ({ isOpen, toggle }: any) => {
   const dispatch = useDispatch();
   const history = useHistory();
-
-  const [getIntegration, setIntegration] = useState({});
-  const [valid, setValid] = useState<boolean>(false);
-  const [name, setName] = useState<string>("");
 
   const { integrations, upLoadingBrand, addLoaded, loadingIntegration } = useSelector(
     (state: any) => {
@@ -26,6 +30,62 @@ export default ({ isOpen, toggle }: any) => {
     }
   );
 
+  const validationSchema: yup.SchemaOf<AddBrandType> = yup
+    .object()
+    .shape({
+      name: yup
+        .string()
+        .required(ValidationText.required)
+        .min(1, ValidationText.minLength1)
+        .max(75, ValidationText.maxLength255),
+      integrationId: yup.number().required(ValidationText.integrationId),
+    });
+
+  const initialValues: AddBrandType = {
+    name: "",
+    integrationId: 0,
+  };
+
+  const handleSubmitForm = () => {
+    const sendBrand = {
+      name: values.name,
+      integrationType: 0,
+      integrationId: +values.integrationId,
+    };
+
+    dispatch(addBrand(sendBrand, history));
+  };
+
+  let {
+    values,
+    validateForm,
+    handleChange,
+    submitForm,
+    handleBlur,
+    errors,
+    touched,
+    isValid,
+    setFieldValue,
+    resetForm
+  } = useFormik({
+    initialValues,
+    onSubmit: handleSubmitForm,
+    validationSchema: validationSchema,
+    validateOnBlur: true,
+    validateOnChange: true,
+    validateOnMount: true,
+  });
+
+  const handlerClickSubmit = async () => {
+    const curErrors = await validateForm();
+    const curErrorsKeys = Object.keys(curErrors);
+    if (curErrorsKeys.length) {
+      const el = document.getElementById(curErrorsKeys[0]);
+      if (el) el.focus();
+    }
+    submitForm();
+  };
+
   let filter = {
     order: 1,
   };
@@ -37,16 +97,6 @@ export default ({ isOpen, toggle }: any) => {
     }
   }, []);
 
-  useEffect(() => {
-    if(name.length && Object.keys(getIntegration).length){
-      setValid(true)
-    }
-  }, [name, getIntegration])
-
-  const handleName = (e: any) => {
-    setName(e.target.value)
-  }
-
   const resIntegrations = integrations.map((item: any) => {
     return {
       value: item.id,
@@ -54,80 +104,70 @@ export default ({ isOpen, toggle }: any) => {
     };
   });
 
-  const handleValidBrandSubmit = (data: any) => {
-    const { value }: any = getIntegration;
+  const handleChangeSelect = (name: string, value: any) => {
+    setFieldValue(name, value.value)
+  }
 
-    const sendBrand = {
-      name: data.name,
-      integrationType: 0,
-      integrationId: +value,
-    };
-
-    dispatch(addBrand(sendBrand, history));
-  };
+  const close = () => {
+    toggle(false);
+    resetForm();
+  }
 
   return (
-    <Modal isOpen={isOpen} toggle={toggle} className="modal-dialog-centered">
-      <AvForm
-        onValidSubmit={(e: any, values: any) => {
-          handleValidBrandSubmit(values);
-        }}
-      >
-      <ModalHeader toggle={toggle} tag="h4">
-        Add Brand
-      </ModalHeader>
-      <ModalBody>
-        <Row form>
-          <Col xs={12}>
-            <div className="mb-3">
-              <Label>Name <span className="accent-color">*</span></Label>
-              <AvField
-                name="name"
-                type="text"
-                autoComplete="off"
-                errorMessage="Invalid name"
-                requried
-                validate={{
-                  required: { value: true, errorMessage: 'Please enter a name' },
-                  pattern: {value: '^[A-Za-z0-9]+$', errorMessage: 'Your name must be composed only with letter and numbers'},
-                }}
-                onChange={handleName}
-              />
-            </div>
-
-            <div className="mb-3 custom-react-select">
-              <div className="react-select-descr">
-                Integration <span className="accent-color">*</span>
+    <Modal isOpen={isOpen} toggle={close} className="modal-dialog-centered">
+      <Form>
+        <ModalHeader toggle={close} tag="h4">
+          Add Brand
+        </ModalHeader>
+        <ModalBody>
+          <Row form>
+            <Col xs={12}>
+              <div className="mb-3">
+                <LabelInput
+                  label="Name*"
+                  placeholder="Enter name"
+                  name="name"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.name.replace(/\s+/g, "").trim() || ""}
+                  hasError={!!(errors.name && touched.name)}
+                  errorText={errors.name}
+                />
               </div>
-              <Select
-                isSearchable
-                isLoading={loadingIntegration}
-                options={resIntegrations}
-                onChange={setIntegration}
-              />
-            </div>
-          </Col>
-        </Row>
-        </ModalBody>
-        <ModalFooter>
-          <Row>
-            <Col>
-              <div className="text-end">
-                <button
-                  type="submit"
-                  className="btn btnOrange save-user"
-                  disabled={upLoadingBrand || !valid}
-                >
-                  {upLoadingBrand && (
-                    <i className="bx bx-hourglass bx-spin me-2" />
-                  )}
-                  Save
-                </button>
+
+              <div className="mb-3 custom-react-select">
+                <Select
+                  isSearchable
+                  label="Integration"
+                  placeholder="Integration *"
+                  isLoading={loadingIntegration}
+                  options={resIntegrations}
+                  onChange={(value: any) => handleChangeSelect("integrationId", value)}
+                />
               </div>
             </Col>
           </Row>
-        </ModalFooter>
-      </AvForm>
+          </ModalBody>
+          <ModalFooter>
+            <Row>
+              <Col>
+                <div className="text-end">
+                  <button
+                    type="button"
+                    className="btn btnOrange save-user"
+                    onClick={handlerClickSubmit}
+                    disabled={upLoadingBrand || !isValid}
+                  >
+                    {upLoadingBrand && (
+                      <i className="bx bx-hourglass bx-spin me-2" />
+                    )}
+                    Save
+                  </button>
+                </div>
+              </Col>
+            </Row>
+          </ModalFooter>
+      </Form>
     </Modal>
   );
 };

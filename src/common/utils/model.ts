@@ -15,12 +15,16 @@ export const AffiliateState = [
     'Not Active',
 ]
 
-export const Currency = [
+export const OldCurrency = [
     'USD',
     'EUR',
     'GBP',
     'CHF',
     'BTC',
+]
+
+export const Currency = [
+    'USD',
 ]
 
 export const RegistrationStatus = [

@@ -82,7 +82,7 @@ const Brands: React.FC = () => {
                       className="btn btnOrange"
                       onClick={toggleModal}
                     >
-                      <i className="bx bx-plus me-1" /> Add New
+                      Add New
                     </button>
                   </Col>
                 </Row>

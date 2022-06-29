@@ -14,6 +14,8 @@ const ValidationText = {
   longPassword: "The password is too long",
   passwordMask: "Please use min 1 letter, 1 number, 1 special symbol, 1 upper case letter",
   usernameMask: "Only latin letters, numbers, hyphens (-) and underscores(_) are allowed",
+  integrationId: "Please select an Integration",
+  minArray1: "Array length must be at least 1",
 };
 
 Object.freeze(ValidationText);

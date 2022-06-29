@@ -45,16 +45,8 @@ export default (props: any) => {
       currency: Currency[payout.currency],
       payoutType: PayoutType[payout.payoutType].label,
       geo: payout.geo.name,
-      createdDate: new Date(payout.createdAt).toLocaleDateString("ru-RU", {
-        day: "2-digit",
-        month: "2-digit",
-        year: "2-digit",
-      }),
-      updatedDate: new Date(payout.modifiedAt).toLocaleDateString("ru-RU", {
-        day: "2-digit",
-        month: "2-digit",
-        year: "2-digit",
-      }),
+      createdDate: new Date(payout.createdAt).valueOf(),
+      updatedDate: new Date(payout.modifiedAt).valueOf(),
     };
   });
 
@@ -62,12 +54,14 @@ export default (props: any) => {
     setIsOpen(prev => !prev);
   };
 
-  const toggleModalAdd = () => {
-    setAddModal(prev => !prev);
-  };
+  const toggleModalAdd = (status: boolean) => {
+    //setAddModal(prev => !prev);
+    setAddModal(status);
+  }
 
-  const toggleModalAssign = () => {
-    setAssignModal(prev => !prev);
+  const toggleModalAssign = (status: boolean) => {
+    //setAssignModal(prev => !prev);
+    setAssignModal(status);
   };
 
   const handleDeleteBrandPayout = (payoutId: number) => {
@@ -121,32 +115,52 @@ export default (props: any) => {
     {
       dataField: "currency",
       text: "Currency",
-      sort: true,
+      sort: false,
     },
     {
       dataField: "amount",
       text: "Amount",
-      sort: true,
+      sort: false,
     },
     {
       dataField: "payoutType",
       text: "Payout type",
-      sort: true,
+      sort: false,
     },
     {
       dataField: "geo",
       text: "Geo",
-      sort: true,
+      sort: false,
     },
     {
       dataField: "createdDate",
       text: "Created date",
       sort: true,
+      formatter: (cell: any, row: any) => {
+        return new Date(row.createdDate).toLocaleDateString(
+          "ru-RU",
+          {
+            day: "2-digit",
+            month: "2-digit",
+            year: "2-digit",
+          }
+        )
+      }
     },
     {
       dataField: "updatedDate",
       text: "Updated date",
       sort: true,
+      formatter: (cell: any, row: any) => {
+        return new Date(row.updatedDate).toLocaleDateString(
+          "ru-RU",
+          {
+            day: "2-digit",
+            month: "2-digit",
+            year: "2-digit",
+          }
+        )
+      }
     },
   ];
 
@@ -170,6 +184,9 @@ export default (props: any) => {
                     <i className="bx bx-search-alt search-icon-search" />
                   </div>
                 </div>
+                <div className="col-xl-12 text-muted mb-3">
+                  Showing {payouts.length} results
+                </div>
               </Col>
 
               <Col className="col-md-8 col-sm-8 col-xs-12 text-end">
@@ -187,10 +204,10 @@ export default (props: any) => {
                     <i className="bx bx-list-plus font-size-20"></i>
                   </DropdownToggle>
                   <DropdownMenu>
-                    <DropdownItem onClick={toggleModalAdd}>
+                    <DropdownItem onClick={() => toggleModalAdd(true)}>
                       New Payout
                     </DropdownItem>
-                    <DropdownItem onClick={toggleModalAssign}>
+                    <DropdownItem onClick={() => toggleModalAssign(true)}>
                       Assign
                     </DropdownItem>
                   </DropdownMenu>
@@ -206,7 +223,7 @@ export default (props: any) => {
                   bordered={false}
                   striped={false}
                   defaultSorted={defaultSorted}
-                  classes={"table align-middle"}
+                  classes={"table align-middle table-nowrap table-hover un-pointer-tr"}
                   headerWrapperClasses={"thead-light"}
                 />
               ) : (
@@ -219,16 +236,16 @@ export default (props: any) => {
         )}
       </ToolkitProvider>
 
-      <ConfirmDelete
+      {isOpen && <ConfirmDelete
         isOpen={isOpen}
         toggle={toggleAction}
         handleDelete={handleDeleteBrandPayout}
         id={selectId}
-      />
+      />}
 
-      <AddModal isOpen={modalAdd} toggle={toggleModalAdd} isBrand={true} />
+      {modalAdd && <AddModal isOpen={modalAdd} toggle={toggleModalAdd} isBrand={true} />}
+      {modalAssign && <AssignModal isOpen={modalAssign} toggle={toggleModalAssign} />}
 
-      <AssignModal isOpen={modalAssign} toggle={toggleModalAssign} />
     </React.Fragment>
   );
 };

@@ -148,7 +148,6 @@ export default ({ handleChange, handleBlur, errors, touched, values, setFieldVal
 
           <Col lg={4}>
             <div className="mb-3 custom-react-select">
-              {/*<div className="react-select-descr">Campaigns*</div>*/}
               <Select
                 isSearchable
                 isLoading={loadingCampaigns}
