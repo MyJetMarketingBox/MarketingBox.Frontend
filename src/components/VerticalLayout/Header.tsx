@@ -40,7 +40,7 @@ const Header = (props: any) => {
             layoutMode={layoutMode}
             onChangeLayoutMode={props.onChangeLayoutMode}
           />
-          <NotificationDropdown />
+          {/*<NotificationDropdown />*/}
           <ProfileMenu />
         </div>
       </div>

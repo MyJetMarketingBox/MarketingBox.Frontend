@@ -3,9 +3,8 @@ import React, { useEffect, useRef, useState } from "react";
 
 import SimpleBar from "simplebar-react";
 import { useTranslation } from "react-i18next";
-
 // MetisMenu
-import { NavLink, withRouter } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 import c from "./SidebarContent.module.scss";
@@ -13,18 +12,15 @@ import ReactDOM from "react-dom";
 import Page from "src/constants/pages";
 import { avaLetters } from "../../helpers/avaLetters";
 import { RootStoreType } from "src/store/storeTypes";
-
 //Import Icons
 import { ReactComponent as IconMenu } from "../../assets/images/icon-menu.svg";
 import { ReactComponent as IconBalance } from "../../assets/images/icon-account-balance.svg";
 import { ReactComponent as IconDashboard } from "../../assets/images/icon-dashboard.svg";
-import { ReactComponent as IconReports } from "../../assets/images/icon-reports.svg";
 import { ReactComponent as IconBrands } from "../../assets/images/icon-brands.svg";
 import { ReactComponent as IconRegistrations } from "../../assets/images/icon-registration.svg";
 import { ReactComponent as IconCampaigns } from "../../assets/images/icon-campaigns.svg";
 import { ReactComponent as IconLeads } from "../../assets/images/icon-leads.svg";
 import { ReactComponent as IconMarketingTools } from "../../assets/images/icon-marketing-tools.svg";
-import { ReactComponent as IconConversions } from "../../assets/images/icon-conversions.svg";
 import { ReactComponent as IconSettings } from "../../assets/images/icons-settings.svg";
 import { ReactComponent as IconRedistribution } from "../../assets/images/icon-phone-flip.svg";
 //
@@ -36,8 +32,9 @@ const SidebarContent = (props: any) => {
   const [isOpenSubmenu, setIsOpenSubmenu] = useState<string | null>(null);
   const [isClick, setClick] = useState<boolean>(true);
 
-  const { user } = useSelector((state: RootStoreType) => ({
+  const { user, profile } = useSelector((state: RootStoreType) => ({
     user: state.authUser.userInfo,
+    profile: state.Profile.data?.generalInfo
   }));
 
   useEffect(() => {
@@ -103,11 +100,11 @@ const SidebarContent = (props: any) => {
           <div className={c.userPhoto}>
             <div className="avatar">
               <div className="avatar_letters">
-                {avaLetters(user?.["user-name"] || "U")}
+                {avaLetters(profile?.username || "U")}
               </div>
             </div>
           </div>
-          <div className={c.userName}>{user?.["user-name"] || ""}</div>
+          <div className={c.userName}>{profile?.username || ""}</div>
           <div className={c.userId}>ID #{user?.["user-id"] || ""}</div>
         </div>
 
@@ -117,7 +114,7 @@ const SidebarContent = (props: any) => {
               <IconBalance />
             </div>
             <div className={c.balanceItemContent}>
-              <div className={c.balanceItemVal}>$15,000.00</div>
+              <div className={c.balanceItemVal}>$ 0</div>
               <div className={c.balanceItemDescr}>Approved balance</div>
             </div>
           </li>
@@ -126,7 +123,7 @@ const SidebarContent = (props: any) => {
               <IconBalance />
             </div>
             <div className={c.balanceItemContent}>
-              <div className={c.balanceItemVal}>$2,000.00</div>
+              <div className={c.balanceItemVal}>$ 0</div>
               <div className={c.balanceItemDescr}>Hold balance</div>
             </div>
           </li>
@@ -146,7 +143,7 @@ const SidebarContent = (props: any) => {
                 <div className={c.menuItemDescr}>{t("Dashboard")}</div>
               </NavLink>
             </li>
-            <li className={c.menuItem}>
+            {/*<li className={c.menuItem}>
               <NavLink
                 to={Page.REPORTS}
                 className={c.menuItemLink}
@@ -157,7 +154,7 @@ const SidebarContent = (props: any) => {
                 </div>
                 <div className={c.menuItemDescr}>{t("Reports")}</div>
               </NavLink>
-            </li>
+            </li>*/}
             <li className={c.menuItem}>
               <NavLink
                 to={Page.BRANDS}
@@ -233,7 +230,7 @@ const SidebarContent = (props: any) => {
                 </li> */}
               </ul>
             </li>
-            <li className={c.menuItem}>
+            {/*<li className={c.menuItem}>
               <NavLink
                 to={Page.CONVERSIONS}
                 className={c.menuItemLink}
@@ -244,7 +241,7 @@ const SidebarContent = (props: any) => {
                 </div>
                 <div className={c.menuItemDescr}>{t("Conversions")}</div>
               </NavLink>
-            </li>
+            </li>*/}
             <li className={c.menuItem}>
               <NavLink
                 to={Page.REDISTRIBUTION}
@@ -315,7 +312,7 @@ const SidebarContent = (props: any) => {
                     <div className={c.descr}>{t("Dashboard")}</div>
                   </NavLink>
                 </li>
-                <li className={c.mobMenuItem}>
+                {/*<li className={c.mobMenuItem}>
                   <NavLink
                     to={Page.REPORTS}
                     className={c.mobMenuItemLink}
@@ -326,7 +323,7 @@ const SidebarContent = (props: any) => {
                     </div>
                     <div className={c.descr}>{t("Reports")}</div>
                   </NavLink>
-                </li>
+                </li>*/}
                 <li className={c.mobMenuItem}>
                   <NavLink
                     to={Page.BRANDS}
@@ -388,7 +385,7 @@ const SidebarContent = (props: any) => {
                     <div className={c.descr}>{t("Marketing Tools")}</div>
                   </NavLink>
                 </li>
-                <li className={c.mobMenuItem}>
+                {/*<li className={c.mobMenuItem}>
                   <NavLink
                     to={Page.CONVERSIONS}
                     className={c.mobMenuItemLink}
@@ -399,7 +396,7 @@ const SidebarContent = (props: any) => {
                     </div>
                     <div className={c.descr}>{t("Conversions")}</div>
                   </NavLink>
-                </li>
+                </li>*/}
                 <li className={c.mobMenuItem}>
                   <NavLink
                     to={Page.REDISTRIBUTION}

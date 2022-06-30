@@ -1,5 +1,6 @@
 const ValidationText = {
   invalidInput: 'Invalid input',
+  invalidPhoneNumber: 'Invalid phone number (phone number must be have [1-9]{1}[0-9]{3,14})',
   email: "Invalid email format",
   required: "This field is required",
   minLength1: "Min 1 symbols",

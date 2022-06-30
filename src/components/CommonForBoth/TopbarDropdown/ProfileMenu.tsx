@@ -21,27 +21,29 @@ import { useSelector } from "react-redux";
 import c from "./ProfileMenu.module.scss";
 import { LOCAL_STORAGE_AUTH_USER } from "../../../constants/localStorageKeys";
 import Page from "src/constants/pages";
+import { avaLetters } from "../../../helpers/avaLetters";
 
 const ProfileMenu = (props: any) => {
-  const { success } = useSelector((state: any) => ({
+  const { success, profile } = useSelector((state: any) => ({
     success: state.Profile.success,
+    profile: state.Profile.data?.generalInfo,
   }));
 
   // Declare a new state variable, which we'll call "menu"
   const [menu, setMenu] = useState<boolean>(false);
-  const [username, setusername] = useState("Admin");
+  //const [username, setusername] = useState("Admin");
 
   const dropdownClickHandler = () => {
     setMenu(prev => !prev);
   };
 
-  useEffect(() => {
+  /*useEffect(() => {
     const getAuthUser = localStorage.getItem(LOCAL_STORAGE_AUTH_USER);
     if (getAuthUser) {
       const obj = JSON.parse(getAuthUser);
       setusername(obj.username);
     }
-  }, [success]);
+  }, [success]);*/
 
   return (
     <Dropdown isOpen={menu} toggle={dropdownClickHandler} className="d-flex">
@@ -50,7 +52,12 @@ const ProfileMenu = (props: any) => {
         id="page-header-user-dropdown"
         tag="button"
       >
-        <img src={user1} alt="Header Avatar" />
+        {/*<img src={user1} alt="Header Avatar" />*/}
+        <div className="avatar mini">
+          <div className="avatar_letters mini">
+            {avaLetters(profile?.username)}
+          </div>
+        </div>
       </DropdownToggle>
       <DropdownMenu className="dropdown-menu-end">
         <DropdownItem tag="a" href={Page.PROFILE}>

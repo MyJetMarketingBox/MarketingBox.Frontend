@@ -50,9 +50,7 @@ export default ({selected}: any) => {
     label: "All",
   })
 
-  //const [fromDate, setFromDate] = useState(new Date(new Date().setDate(new Date().getDate() - 6)).toJSON().slice(0, 10))
   const [fromDate, setFromDate] = useState("");
-  //const [toDate, setToDate] = useState(new Date().toJSON().slice(0, 10))
   const [toDate, setToDate] = useState("");
   const [dateFilter, setDateFilter] = useState(`${fromDate} to ${toDate}`);
 
@@ -107,21 +105,21 @@ export default ({selected}: any) => {
   };
 
   useEffect(() => {
-    if(!affiliates.length) {
+    //if(!affiliates.length) {
       dispatch(getAffiliates("", { order: 1 }));
-    }
-    if(!countries.length) {
+    //}
+    //if(!countries.length) {
       dispatch(getCountries("", { order: 0 }));
-    }
-    if(!brands.length) {
+    //}
+    //if(!brands.length) {
       dispatch(getBrands("", { order: 1 }));
-    }
-    if(!integrations.length) {
+    //}
+    //if(!integrations.length) {
       dispatch(getIntegrations("", { order: 1 }));
-    }
-    if(!campaigns.length) {
+    //}
+    //if(!campaigns.length) {
       dispatch(getCampaigns("", { order: 1 }));
-    }
+    //}
 
     if(!selected) { //only for redistribution
       return () => {

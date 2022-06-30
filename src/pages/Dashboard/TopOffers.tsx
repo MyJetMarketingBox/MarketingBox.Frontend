@@ -62,7 +62,7 @@ const TopOffers = () => {
       cr: "10-12%"
     },
     {
-      id: 7,
+      id: 8,
       name: "CFD Trader",
       country: "ES",
       cpa: "750",

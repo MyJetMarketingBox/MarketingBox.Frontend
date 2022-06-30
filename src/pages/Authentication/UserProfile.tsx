@@ -1,30 +1,46 @@
 import MetaTags from "react-meta-tags";
-import React, { useEffect } from "react";
-import {
-  Alert,
-  Button,
-  Card,
-  CardBody,
-  Col,
-  Container,
-  FormGroup,
-  Label,
-  Row,
-} from "reactstrap";
-// availity-reactstrap-validation
-import { AvField, AvForm } from "availity-reactstrap-validation";
+import React, { useCallback, useEffect } from "react";
+import { Button, Card, CardBody, Col, Container, Form, FormGroup, Row } from "reactstrap";
 //redux
 import { useDispatch, useSelector } from "react-redux";
 import { withRouter } from "react-router-dom";
 //Import Breadcrumb
 import Breadcrumb from "../../components/Common/Breadcrumb";
 // actions
-import { getProfile, updateProfile } from "../../store/actions";
+import { getProfile, updateAffiliate } from "../../store/actions";
 import { RootStoreType } from "src/store/storeTypes";
 import ProfileChangePassword from "./component/ProfileChangePassword";
 import { avaLetters } from "../../helpers/avaLetters";
 import Loader from "../../components/UI/loader";
 import { Currency } from "../../common/utils/model";
+import * as yup from "yup";
+import { useFormik } from "formik";
+import ValidationText from "../../constants/validationText";
+import LabelInput from "../../components/UI/FormElements/LabelInput";
+import LabelSelect from "../../components/UI/FormElements/LabelSelect";
+
+interface AffValuesType {
+  g_username: string;
+  g_email: string;
+  g_phone?: string | null;
+  g_skype?: string | null;
+  g_zipCode?: string | null;
+  g_state?: number | null;
+  g_currency: number;
+
+  c_companyName?: string | null;
+  c_companyAddress?: string | null;
+  c_regNumber?: string | null;
+  c_vatId?: string | null;
+
+  b_beneficiaryName?: string | null;
+  b_beneficiaryAddress?: string | null;
+  b_bankName?: string | null;
+  b_bankAddress?: string | null;
+  b_accountNumber?: string | null;
+  b_swift?: string | null;
+  b_iban?: string | null;
+}
 
 const UserProfile = () => {
   const dispatch = useDispatch();
@@ -46,10 +62,123 @@ const UserProfile = () => {
     upLoading: state.Profile.upLoading,
     upLoaded: state.Profile.upLoaded,
     authUserID: state.authUser.userInfo?.["user-id"] || "",
-    authUserName: state.authUser.userInfo?.["user-name"] || "",
+    authUserName: state.Profile.data?.generalInfo.username || "",
   }));
 
-  function handleValidSubmit(event: any, values: any) {
+  const validationSchema: yup.SchemaOf<AffValuesType> = yup.object().shape({
+    g_username: yup.string()
+      .required(ValidationText.required)
+      .max(75, ValidationText.maxLength75)
+      .matches(/^[a-zA-Z0-9_-]+$/, ValidationText.invalidInput),
+    g_email: yup.string()
+      .required(ValidationText.required)
+      .email(ValidationText.email)
+      .max(255, ValidationText.maxLength255),
+    g_phone: yup.string()
+      .matches(/^[1-9]{1}[0-9]{3,14}$/, ValidationText.invalidPhoneNumber).nullable(),
+    g_skype: yup.string().nullable(),
+    g_zipCode: yup.string().nullable(),
+    g_state: yup.number().nullable(),
+    g_currency: yup.number().required(ValidationText.required),
+
+    c_companyName: yup.string().nullable(),
+    c_companyAddress: yup.string().nullable(),
+    c_regNumber: yup.string().nullable(),
+    c_vatId: yup.string().nullable(),
+
+    b_beneficiaryName: yup.string().nullable(),
+    b_beneficiaryAddress: yup.string().nullable(),
+    b_bankName: yup.string().nullable(),
+    b_bankAddress:yup.string().nullable(),
+    b_accountNumber: yup.string().nullable(),
+    b_swift: yup.string().nullable(),
+    b_iban: yup.string().nullable(),
+  })
+
+  const initialValues = useCallback(():AffValuesType => ({
+    g_username: profile?.generalInfo?.username || "",
+    g_email: profile?.generalInfo?.email || "",
+    g_phone: profile?.generalInfo?.phone || "",
+    g_skype: profile?.generalInfo?.skype || "",
+    g_zipCode: profile?.generalInfo?.zipCode || "",
+    g_state: profile?.generalInfo?.state || null,
+    g_currency: profile?.generalInfo?.currency || 0,
+
+    c_companyName: profile?.company?.name || "",
+    c_companyAddress: profile?.company?.address || "",
+    c_regNumber: profile?.company?.regNumber || "",
+    c_vatId: profile?.company?.vatId || "",
+
+    b_beneficiaryName: profile?.bank?.beneficiaryName || "",
+    b_beneficiaryAddress: profile?.bank?.beneficiaryAddress || "",
+    b_bankName: profile?.bank?.name || "",
+    b_bankAddress: profile?.bank?.address || "",
+    b_accountNumber: profile?.bank?.accountNumber || "",
+    b_swift: profile?.bank?.swift || "",
+    b_iban: profile?.bank?.iban || "",
+  }), [profile])
+
+  const handleSubmitForm = () => {
+    const arrAffPayId = profile?.payouts.map((item: any) => item.id);
+    let generalInfo:any = {}
+    let company:any = {}
+    let bank:any = {}
+
+    for (const key in values) {
+      if(key.includes('g_')){
+        // @ts-ignore
+        generalInfo[key.slice(2)] = values[key] || null;
+      }
+      if(key.includes('c_')){
+        // @ts-ignore
+        company[key.slice(2)] = values[key] || null;
+      }
+      if(key.includes('b_')){
+        // @ts-ignore
+        bank[key.slice(2)] = values[key] || null;
+      }
+    }
+
+    const updateProfile = {
+      generalInfo,
+      company,
+      bank,
+      affiliatePayoutIds: arrAffPayId,
+    };
+
+    dispatch(updateAffiliate(updateProfile, +authUserID));
+  };
+
+  let {
+    values,
+    validateForm,
+    handleChange,
+    submitForm,
+    handleBlur,
+    errors,
+    touched,
+    isValid,
+    setFieldValue
+  } = useFormik({
+    initialValues: initialValues(),
+    onSubmit: handleSubmitForm,
+    validationSchema: validationSchema,
+    validateOnBlur: true,
+    validateOnChange: true,
+    validateOnMount: true,
+  });
+
+  const handlerClickSubmit = async () => {
+    const curErrors = await validateForm();
+    const curErrorsKeys = Object.keys(curErrors);
+    if (curErrorsKeys.length) {
+      const el = document.getElementById(curErrorsKeys[0]);
+      if (el) el.focus();
+    }
+    submitForm();
+  };
+
+  /*function handleValidSubmit(event: any, values: any) {
     const arrAffPayId = profile?.payouts.map((item: any) => item.id);
 
     const updateProfileData = {
@@ -81,7 +210,7 @@ const UserProfile = () => {
     };
 
     dispatch(updateProfile(updateProfileData, +authUserID));
-  }
+  }*/
 
   useEffect(() => {
     if (!profile || (authUserID && +profile.id !== +authUserID)) {
@@ -114,7 +243,7 @@ const UserProfile = () => {
                           </div>
                         </div>
                         <div className="flex-grow-1 align-self-center ms-3">
-                          <div className="text-muted">
+                          <div className="text-muted word_break_all">
                             <h5>{profile?.generalInfo.username}</h5>
                             <p className="mb-1">{profile?.generalInfo.email}</p>
                             <p className="mb-0">Id no: #{authUserID}</p>
@@ -130,112 +259,97 @@ const UserProfile = () => {
 
               <Card>
                 <CardBody>
-                  <AvForm
-                    className="form-horizontal"
-                    onValidSubmit={(e: any, v: any) => {
-                      handleValidSubmit(e, v);
-                    }}
-                  >
+                  <Form>
                     <Row>
                       <h5 className="text-orange">General Info</h5>
                       <Col md="3">
                         <FormGroup className="mb-3">
-                          <Label htmlFor="validationUserName">
-                            User Name <span className="accent-color">*</span>
-                          </Label>
-                          <AvField
-                            name="username"
-                            placeholder="User Name"
-                            type="text"
-                            errorMessage="Enter User Name"
-                            className="form-control"
-                            validate={{ required: { value: true } }}
-                            id="validationUserName"
-                            value={profile?.generalInfo.username}
+                          <LabelInput
+                            label="User Name*"
+                            placeholder="Enter user name"
+                            name="g_username"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.g_username.trim() || ""}
+                            hasError={!!(errors.g_username && touched.g_username)}
+                            errorText={errors.g_username}
                           />
                         </FormGroup>
                       </Col>
                       <Col md="3">
                         <FormGroup className="mb-3">
-                          <Label htmlFor="validationCustomEmail">
-                            Email <span className="accent-color">*</span>
-                          </Label>
-                          <AvField
-                            name="email"
-                            placeholder="Email"
+                          <LabelInput
+                            label="Email*"
+                            placeholder="Enter email"
+                            name="g_email"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.g_email.trim().toLowerCase() || ""}
+                            hasError={!!(errors.g_email && touched.g_email)}
+                            errorText={errors.g_email}
                             type="email"
-                            errorMessage="Enter email"
-                            className="form-control"
-                            validate={{ required: { value: true } }}
-                            id="validationCustomEmail"
-                            value={profile?.generalInfo.email}
                           />
                         </FormGroup>
                       </Col>
                       <Col md="3">
                         <FormGroup className="mb-3">
-                          <Label htmlFor="validationPhone">Phone</Label>
-                          <AvField
-                            name="phone"
-                            placeholder="Last phone"
-                            type="text"
-                            errorMessage="Enter phone"
-                            className="form-control"
-                            //validate={{ required: { value: true } }}
-                            id="validationPhone"
-                            value={profile?.generalInfo.phone}
+                          <LabelInput
+                            label="Phone"
+                            placeholder="Enter phone"
+                            name="g_phone"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.g_phone || ""}
+                            hasError={!!(errors.g_phone && touched.g_phone)}
+                            errorText={errors.g_phone}
                           />
                         </FormGroup>
                       </Col>
                       <Col md="3">
                         <FormGroup className="mb-3">
-                          <Label htmlFor="validationSkype">Skype</Label>
-                          <AvField
-                            name="skype"
-                            placeholder="Last skype"
-                            type="text"
-                            errorMessage="Enter skype"
-                            className="form-control"
-                            //validate={{ required: { value: true } }}
-                            id="validationSkype"
-                            value={profile?.generalInfo.skype}
+                          <LabelInput
+                            label="Skype"
+                            placeholder="Enter skype"
+                            name="g_skype"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.g_skype || ""}
+                            hasError={!!(errors.g_skype && touched.g_skype)}
+                            errorText={errors.g_skype}
                           />
                         </FormGroup>
                       </Col>
                       <Col md="3">
                         <FormGroup className="mb-3">
-                          <Label htmlFor="validationZip">Zip Code</Label>
-                          <AvField
-                            name="zipCode"
-                            placeholder="zip code"
-                            type="text"
-                            errorMessage="Enter zip code"
-                            className="form-control"
-                            //validate={{ required: { value: true } }}
-                            id="validationZip"
-                            value={profile?.generalInfo.zipCode}
+                          <LabelInput
+                            label="Zip Code"
+                            placeholder="Enter zip code"
+                            name="g_zipCode"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.g_zipCode || ""}
+                            hasError={!!(errors.g_zipCode && touched.g_zipCode)}
+                            errorText={errors.g_zipCode}
                           />
                         </FormGroup>
                       </Col>
                       <Col md="3">
                         <FormGroup className="mb-3">
-                          <Label htmlFor="currency">
-                            Currency <span className="accent-color">*</span>
-                          </Label>
-                          <AvField
-                            type="select"
-                            name="currency"
-                            className="form-select"
-                            id="currency"
-                            required
-                            value={profile?.generalInfo.currency.toString()}
+                          <LabelSelect
+                            value={`${values.g_currency}`}
+                            name="g_currency"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            label="Currency*"
+                            hasError={!!(errors.g_currency && touched.g_currency)}
+                            errorText={errors.g_currency}
                           >
                             {Currency.map((val, i) => (
                               <option key={i} value={i}>
                                 {val}
                               </option>
                             ))}
-                          </AvField>
+                          </LabelSelect>
                         </FormGroup>
                       </Col>
                     </Row>
@@ -244,67 +358,57 @@ const UserProfile = () => {
                       <h5 className="text-orange">Company</h5>
                       <Col md="3">
                         <FormGroup className="mb-3">
-                          <Label htmlFor="validationCompanyName">
-                            Company Name
-                          </Label>
-                          <AvField
-                            name="name"
-                            placeholder="Company Name"
-                            type="text"
-                            errorMessage=" Please provide a company name."
-                            className="form-control"
-                            //validate={{ required: { value: true } }}
-                            id="validationCompanyName"
-                            value={profile?.company?.name || ""}
+                          <LabelInput
+                            label="Company Name"
+                            placeholder="Enter company name"
+                            name="c_companyName"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.c_companyName || ""}
+                            hasError={!!(errors.c_companyName && touched.c_companyName)}
+                            errorText={errors.c_companyName}
                           />
                         </FormGroup>
                       </Col>
                       <Col md="3">
                         <FormGroup className="mb-3">
-                          <Label htmlFor="validationCompanyAddress">
-                            Company Address
-                          </Label>
-                          <AvField
-                            name="address"
-                            placeholder="Company Address"
-                            type="text"
-                            errorMessage="Please provide a company address."
-                            className="form-control"
-                            //validate={{ required: { value: true } }}
-                            id="validationCompanyAddress"
-                            value={profile?.company?.address || ""}
+                          <LabelInput
+                            label="Company Address"
+                            placeholder="Enter company address"
+                            name="c_companyAddress"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.c_companyAddress || ""}
+                            hasError={!!(errors.c_companyAddress && touched.c_companyAddress)}
+                            errorText={errors.c_companyAddress}
                           />
                         </FormGroup>
                       </Col>
                       <Col md="3">
                         <FormGroup className="mb-3">
-                          <Label htmlFor="validationCompanyRegNumber">
-                            Company Reg Number
-                          </Label>
-                          <AvField
-                            name="regNumber"
-                            placeholder="Company Reg Number"
-                            type="text"
-                            errorMessage=" Please provide a Company Reg Number."
-                            className="form-control"
-                            //validate={{ required: { value: true } }}
-                            id="validationCompanyRegNumber"
-                            value={profile?.company?.regNumber || ""}
+                          <LabelInput
+                            label="Company Reg Number"
+                            placeholder="Enter company reg number"
+                            name="c_companyAddress"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.c_regNumber || ""}
+                            hasError={!!(errors.c_regNumber && touched.c_regNumber)}
+                            errorText={errors.c_regNumber}
                           />
                         </FormGroup>
                       </Col>
                       <Col md="3">
                         <FormGroup className="mb-3">
-                          <Label htmlFor="validationVatId">VAT ID</Label>
-                          <AvField
-                            name="vatId"
-                            placeholder="VAT ID"
-                            type="text"
-                            errorMessage=" Please provide a VAT ID."
-                            className="form-control"
-                            //validate={{ required: { value: true } }}
-                            id="validationVatId"
-                            value={profile?.company?.vatId || ""}
+                          <LabelInput
+                            label="VAT ID"
+                            placeholder="Enter VAT ID"
+                            name="c_vatId"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.c_vatId || ""}
+                            hasError={!!(errors.c_vatId && touched.c_vatId)}
+                            errorText={errors.c_vatId}
                           />
                         </FormGroup>
                       </Col>
@@ -314,114 +418,99 @@ const UserProfile = () => {
                       <h5 className="text-orange">Bank</h5>
                       <Col md="3">
                         <FormGroup className="mb-3">
-                          <Label htmlFor="validationBeneficiaryName">
-                            Beneficiary Name
-                          </Label>
-                          <AvField
-                            name="beneficiaryName"
-                            placeholder="Beneficiary Name"
-                            type="text"
-                            errorMessage=" Please provide a Beneficiary name."
-                            className="form-control"
-                            //validate={{ required: { value: true } }}
-                            id="validationBeneficiaryName"
-                            value={profile?.bank?.beneficiaryName || ""}
+                          <LabelInput
+                            label="Beneficiary Name"
+                            placeholder="Enter beneficiary name"
+                            name="b_beneficiaryName"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.b_beneficiaryName || ""}
+                            hasError={!!(errors.b_beneficiaryName && touched.b_beneficiaryName)}
+                            errorText={errors.b_beneficiaryName}
                           />
                         </FormGroup>
                       </Col>
                       <Col md="3">
                         <FormGroup className="mb-3">
-                          <Label htmlFor="validationBeneficiaryAddress">
-                            Beneficiary Address
-                          </Label>
-                          <AvField
-                            name="beneficiaryAddress"
-                            placeholder="Beneficiary Address"
-                            type="text"
-                            errorMessage="Please provide a Beneficiary address."
-                            className="form-control"
-                            //validate={{ required: { value: true } }}
-                            id="validationBeneficiaryAddress"
-                            value={profile?.bank?.beneficiaryAddress || ""}
+                          <LabelInput
+                            label="Beneficiary Address"
+                            placeholder="Enter beneficiary address"
+                            name="b_beneficiaryAddress"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.b_beneficiaryAddress || ""}
+                            hasError={!!(errors.b_beneficiaryAddress && touched.b_beneficiaryAddress)}
+                            errorText={errors.b_beneficiaryAddress}
                           />
                         </FormGroup>
                       </Col>
                       <Col md="3">
                         <FormGroup className="mb-3">
-                          <Label htmlFor="validationBankName">Bank Name</Label>
-                          <AvField
-                            name="bankName"
-                            placeholder="Bank Name"
-                            type="text"
-                            errorMessage=" Please provide a Bank name."
-                            className="form-control"
-                            //validate={{ required: { value: true } }}
-                            id="validationBankName"
-                            value={profile?.bank?.name || ""}
+                          <LabelInput
+                            label="Bank Name"
+                            placeholder="Enter bank name"
+                            name="b_bankName"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.b_bankName || ""}
+                            hasError={!!(errors.b_bankName && touched.b_bankName)}
+                            errorText={errors.b_bankName}
                           />
                         </FormGroup>
                       </Col>
                       <Col md="3">
                         <FormGroup className="mb-3">
-                          <Label htmlFor="validationBankAddress">
-                            Bank Address
-                          </Label>
-                          <AvField
-                            name="bankAddress"
-                            placeholder="Bank Address"
-                            type="text"
-                            errorMessage="Please provide a Bank address."
-                            className="form-control"
-                            //validate={{ required: { value: true } }}
-                            id="validationBankAddress"
-                            value={profile?.bank?.address || ""}
+                          <LabelInput
+                            label="Bank Address"
+                            placeholder="Enter bank address"
+                            name="b_bankAddress"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.b_bankAddress || ""}
+                            hasError={!!(errors.b_bankAddress && touched.b_bankAddress)}
+                            errorText={errors.b_bankAddress}
                           />
                         </FormGroup>
                       </Col>
                       <Col md="4">
                         <FormGroup className="mb-3">
-                          <Label htmlFor="validationAccountNumber">
-                            Account Number
-                          </Label>
-                          <AvField
-                            name="accountNumber"
-                            placeholder="Account Number"
-                            type="text"
-                            errorMessage=" Please provide a Account Number."
-                            className="form-control"
-                            //validate={{ required: { value: true } }}
-                            id="validationAccountNumber"
-                            value={profile?.bank?.accountNumber || ""}
+                          <LabelInput
+                            label="Account Number"
+                            placeholder="Enter account number"
+                            name="b_accountNumber"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.b_accountNumber || ""}
+                            hasError={!!(errors.b_accountNumber && touched.b_accountNumber)}
+                            errorText={errors.b_accountNumber}
                           />
                         </FormGroup>
                       </Col>
                       <Col md="4">
                         <FormGroup className="mb-3">
-                          <Label htmlFor="validationSwift">Swift</Label>
-                          <AvField
-                            name="swift"
-                            placeholder="Swift"
-                            type="text"
-                            errorMessage="Please provide a Swift."
-                            className="form-control"
-                            //validate={{ required: { value: true } }}
-                            id="validationSwift"
-                            value={profile?.bank?.swift || ""}
+                          <LabelInput
+                            label="Swift"
+                            placeholder="Enter swift"
+                            name="b_swift"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.b_swift || ""}
+                            hasError={!!(errors.b_swift && touched.b_swift)}
+                            errorText={errors.b_swift}
                           />
                         </FormGroup>
                       </Col>
                       <Col md="4">
                         <FormGroup className="mb-3">
-                          <Label htmlFor="validationIBAN">IBAN</Label>
-                          <AvField
-                            name="iban"
-                            placeholder="IBAN"
-                            type="text"
-                            errorMessage=" Please provide a IBAN."
-                            className="form-control"
-                            //validate={{ required: { value: true } }}
-                            id="validationIBAN"
-                            value={profile?.bank?.iban || ""}
+                          <LabelInput
+                            label="IBAN"
+                            placeholder="Enter IBAN"
+                            name="b_iban"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.b_iban || ""}
+                            hasError={!!(errors.b_iban && touched.b_iban)}
+                            errorText={errors.b_iban}
                           />
                         </FormGroup>
                       </Col>
@@ -430,15 +519,16 @@ const UserProfile = () => {
 
                     <Button
                       className="btnOrange float-end btn-width-250"
-                      type="submit"
-                      disabled={upLoading}
+                      type="button"
+                      disabled={upLoading || !isValid}
+                      onClick={handlerClickSubmit}
                     >
                       {upLoading && (
                         <i className="bx bx-hourglass bx-spin me-2" />
                       )}
                       Update
                     </Button>
-                  </AvForm>
+                  </Form>
                 </CardBody>
               </Card>
 
@@ -451,4 +541,4 @@ const UserProfile = () => {
   );
 };
 
-export default withRouter(UserProfile);
+export default UserProfile;

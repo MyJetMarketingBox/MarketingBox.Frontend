@@ -39,6 +39,7 @@ const profile = (state = INIT_STATE, action : any) => {
         ...state,
         error: {},
         upLoading: true,
+        upLoaded: false,
       };
 
     case ProfileTypes.UPDATE_PROFILE_SUCCESS:
@@ -54,6 +55,7 @@ const profile = (state = INIT_STATE, action : any) => {
         ...state,
         error: action.payload,
         upLoading: false,
+        upLoaded: false,
       };
 
     default:

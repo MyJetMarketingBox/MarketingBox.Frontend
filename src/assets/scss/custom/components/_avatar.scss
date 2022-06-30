@@ -57,6 +57,9 @@
 
 body[data-sidebar-size="sm"] .avatar {
   display: none;
+  &.mini{
+    display: block;
+  }
 }
 
 .avatar {
@@ -77,6 +80,10 @@ body[data-sidebar-size="sm"] .avatar {
   width: 100px;
 
   object-fit: cover;
+  &.mini{
+    height: 30px;
+    width: 30px;
+  }
 }
 
 .avatar_letters {
@@ -86,4 +93,7 @@ body[data-sidebar-size="sm"] .avatar {
   top: 50%;
   transform: translate(-50%, -50%);
   font-size: xxx-large;
+  &.mini{
+    font-size: large;
+  }
 }
