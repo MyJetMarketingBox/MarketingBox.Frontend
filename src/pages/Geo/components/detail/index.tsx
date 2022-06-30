@@ -10,14 +10,13 @@ import {
 import c from "./geoDetail.module.scss";
 import { AvForm, AvField, AvInput } from "availity-reactstrap-validation";
 import { addGeo, getGeoProfile, updateGeo } from "../../../../store/geo/actions";
-import { useParams } from "react-router";
+import { useHistory, useParams } from "react-router";
 import SimpleBar from "simplebar-react";
 import Loader from "../../../../components/UI/loader";
 
 const GeoDetail = (props: any) => {
-
   const { id } = useParams<{ id: string }>();
-
+  const history = useHistory();
   const dispatch = useDispatch();
 
   const {
@@ -128,6 +127,10 @@ const GeoDetail = (props: any) => {
     ref.current.recalculate();
   })
 
+  const handleBack = () => {
+    history.goBack();
+  };
+
   /*function scrollElement(item: any) {
     if (item) {
       const currentPosition = item.offsetTop;
@@ -153,7 +156,7 @@ const GeoDetail = (props: any) => {
           <Col xs={12}>
             <Card>
               <CardBody>
-                <Row className="mb-5">
+                <Row className="mb-4">
                   <Col md={12}>
                     <input
                       type="text"
@@ -163,6 +166,12 @@ const GeoDetail = (props: any) => {
                       placeholder="Insert Geo Name"
                     />
                   </Col>
+                  <div className="col-xl-12 mt-3 inline-flex">
+                    <i className="bx bx-chevron-left font-size-20 text-orange"></i>
+                    <a onClick={handleBack} className="text-orange pointer">
+                      Back to Geo
+                    </a>
+                  </div>
                 </Row>
 
                 <Row>

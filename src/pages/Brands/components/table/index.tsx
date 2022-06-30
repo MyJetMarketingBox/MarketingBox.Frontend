@@ -96,6 +96,11 @@ export default ({ brands = [] }: any) => {
       ),
     },
     {
+      dataField: "id",
+      text: "ID",
+      sort: true,
+    },
+    {
       dataField: "name",
       text: "Name",
       sort: true,

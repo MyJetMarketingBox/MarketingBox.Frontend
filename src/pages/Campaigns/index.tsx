@@ -55,10 +55,11 @@ const CampaignsGrid = () => {
   const { push } = useHistory();
 
   const dispatch = useDispatch();
-  const { campaigns, pagination, nextUrl, loaded, loading, error } =
+  const { campaigns, pagination, nextUrl, loaded, loading, error, total } =
     useSelector((state: RootStoreType) => ({
       pagination: state.Campaigns.campaigns.pagination,
       campaigns: state.Campaigns.campaigns.items,
+      total: state.Campaigns.campaigns.pagination?.total,
       nextUrl: state.Campaigns.campaigns.pagination?.nextUrl,
       loaded: state.Campaigns.loaded,
       loading: state.Campaigns.loading,
@@ -184,12 +185,12 @@ const CampaignsGrid = () => {
                   className="p-3 text-muted"
                 >
                   <TabPane tabId={CampaignTabsEnum.Campaign}>
-                    <Row className="align-items-center justify-content-between">
-                      <Col md={4} className="mb-5">
+                    <Row className="mb-2">
+                      <Col className="col-md-4 mb-4">
                         <SearchCampaigns />
                       </Col>
 
-                      <Col className="mb-5 d-flex align-items-center justify-content-end">
+                      <Col className="col-md-4 offset-4 text-end">
                         <button
                           type="button"
                           className="btn btnOrange"
@@ -201,6 +202,10 @@ const CampaignsGrid = () => {
                     </Row>
 
                     <Row>
+                      <div className="col-xl-12 text-muted mb-3">
+                        Showing {campaigns.length} / {total} results
+                      </div>
+
                       {campaigns.map((campaign: any) => (
                         <MiniCard
                           data={campaign}
@@ -226,12 +231,12 @@ const CampaignsGrid = () => {
                     )}
                   </TabPane>
                   <TabPane tabId={CampaignTabsEnum.Geo}>
-                    <Row className="align-items-center justify-content-between">
-                      <Col className="col-md-4 mb-5">
+                    <Row className="mb-2">
+                      <Col className="col-md-4 mb-4">
                         <SearchGeo />
                       </Col>
 
-                      <Col className="mb-5 d-flex align-items-center justify-content-end">
+                      <Col className="col-md-4 offset-4 text-end">
                         <button
                           type="button"
                           className="btn btnOrange"

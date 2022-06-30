@@ -46,6 +46,11 @@ const Geo = (props: any) => {
 
   return (
     <React.Fragment>
+
+      <div className="col-xl-12 text-muted mb-3">
+        Showing {geoList.length} / {total} results
+      </div>
+
       <Row>
         {geoList.map((geo: any) => (
           <MiniCard

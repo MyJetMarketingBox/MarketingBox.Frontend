@@ -110,7 +110,12 @@ export default (props: any) => {
       }}>
 
         <div style={{margin: '0 0 25px 0', display: "flex", justifyContent: "space-between"}}>
-          <input type="text" value={brandName} className="text-input" onChange={changeName}/>
+          <AvField className="text-input" type="text" name="name" value={brandName} onChange={changeName} validate={{
+            required: {value: true, errorMessage: 'Please enter a name'},
+            pattern: {value: '^[A-Za-z0-9_-]+$', errorMessage: 'Your name must be composed only with letter and numbers'},
+            minLength: {value: 3, errorMessage: 'Your name must be between 3 and 16 characters'},
+            maxLength: {value: 16, errorMessage: 'Your name must be between 3 and 16 characters'}
+          }}/>
 
           <div>
             <UncontrolledDropdown>
