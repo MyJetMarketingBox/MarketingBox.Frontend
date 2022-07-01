@@ -99,6 +99,9 @@ export const injectInterceptor = (store: any) => {
       removeRecconnectAttemp(response.config.url || "");
       hideReconnectNotify();
 
+      if(!response.data.isOk){
+        response.config.notification = "";
+      }
       if (response.config.notification) {
         toast.success(response.config.notification, optionToast);
       }
@@ -214,8 +217,6 @@ export async function post(
   isAffApi = true
 ) {
   axiosApi.defaults.headers.common = isAffApi ? authHeader() : registerHeader();
-
-  console.log(config);
   return axiosApi
     .post(
       url,

@@ -48,9 +48,10 @@ export const updateGeoFail = (error : any) => ({
   payload: error
 })
 
-export const addGeo = (geo: any) => ({
+export const addGeo = (geo: any, history: any) => ({
   type: GeoTypes.ADD_GEO,
   payload: geo,
+  history
 });
 
 export const addGeoSuccess = (geo: any) => ({
@@ -68,9 +69,10 @@ export const delGeo = (id: number) => ({
   payload: id,
 })
 
-export const delGeoSuccess = (response: any) => ({
+export const delGeoSuccess = (response: any, id: number) => ({
   type: GeoTypes.DEL_GEO_SUCCESS,
   payload: response,
+  id
 })
 
 export const delGeoFail = (error: any) => ({
@@ -81,3 +83,12 @@ export const delGeoFail = (error: any) => ({
 export const clearGeo = () => ({
   type: GeoTypes.CLEAR_GEO,
 });
+
+export const modalGeoInCampaignsShow = (payload: boolean) => ({
+  type: GeoTypes.MODAL_SHOW,
+  payload
+})
+
+export const modalGeoInCampaignsHide = () => ({
+  type: GeoTypes.MODAL_HIDE
+})

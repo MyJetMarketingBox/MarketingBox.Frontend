@@ -1,5 +1,5 @@
 import MetaTags from "react-meta-tags";
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useMemo } from "react";
 import { Button, Card, CardBody, Col, Container, Form, FormGroup, Row } from "reactstrap";
 //redux
 import { useDispatch, useSelector } from "react-redux";
@@ -7,7 +7,7 @@ import { withRouter } from "react-router-dom";
 //Import Breadcrumb
 import Breadcrumb from "../../components/Common/Breadcrumb";
 // actions
-import { getProfile, updateAffiliate } from "../../store/actions";
+import { getProfile, updateProfile } from "../../store/actions";
 import { RootStoreType } from "src/store/storeTypes";
 import ProfileChangePassword from "./component/ProfileChangePassword";
 import { avaLetters } from "../../helpers/avaLetters";
@@ -28,15 +28,15 @@ interface AffValuesType {
   g_state?: number | null;
   g_currency: number;
 
-  c_companyName?: string | null;
-  c_companyAddress?: string | null;
+  c_name?: string | null;
+  c_address?: string | null;
   c_regNumber?: string | null;
   c_vatId?: string | null;
 
   b_beneficiaryName?: string | null;
   b_beneficiaryAddress?: string | null;
-  b_bankName?: string | null;
-  b_bankAddress?: string | null;
+  b_name?: string | null;
+  b_address?: string | null;
   b_accountNumber?: string | null;
   b_swift?: string | null;
   b_iban?: string | null;
@@ -81,42 +81,77 @@ const UserProfile = () => {
     g_state: yup.number().nullable(),
     g_currency: yup.number().required(ValidationText.required),
 
-    c_companyName: yup.string().nullable(),
-    c_companyAddress: yup.string().nullable(),
-    c_regNumber: yup.string().nullable(),
-    c_vatId: yup.string().nullable(),
+    c_name: yup.string()
+      .max(75, ValidationText.maxLength75)
+      .matches(/^[a-z A-Z0-9_-]+$/, ValidationText.invalidInput)
+      .nullable(),
+    c_address: yup.string()
+      .max(75, ValidationText.maxLength75)
+      .matches(/^[a-z A-Z0-9_-]+$/, ValidationText.invalidInput)
+      .nullable(),
+    c_regNumber: yup.string()
+      .max(75, ValidationText.maxLength75)
+      .matches(/^[a-z A-Z0-9_-]+$/, ValidationText.invalidInput)
+      .nullable(),
+    c_vatId: yup.string()
+      .max(75, ValidationText.maxLength75)
+      .matches(/^[a-z A-Z0-9_-]+$/, ValidationText.invalidInput)
+      .nullable(),
 
-    b_beneficiaryName: yup.string().nullable(),
-    b_beneficiaryAddress: yup.string().nullable(),
-    b_bankName: yup.string().nullable(),
-    b_bankAddress:yup.string().nullable(),
-    b_accountNumber: yup.string().nullable(),
-    b_swift: yup.string().nullable(),
-    b_iban: yup.string().nullable(),
+    b_beneficiaryName: yup.string()
+      .max(75, ValidationText.maxLength75)
+      .matches(/^[a-z A-Z0-9_-]+$/, ValidationText.invalidInput)
+      .nullable(),
+    b_beneficiaryAddress: yup.string()
+      .max(75, ValidationText.maxLength75)
+      .matches(/^[a-z A-Z0-9_-]+$/, ValidationText.invalidInput)
+      .nullable(),
+    b_name: yup.string()
+      .max(75, ValidationText.maxLength75)
+      .matches(/^[a-z A-Z0-9_-]+$/, ValidationText.invalidInput)
+      .nullable(),
+    b_address:yup.string()
+      .max(75, ValidationText.maxLength75)
+      .matches(/^[a-z A-Z0-9_-]+$/, ValidationText.invalidInput)
+      .nullable(),
+    b_accountNumber: yup.string()
+      .max(75, ValidationText.maxLength75)
+      .matches(/^[a-z A-Z0-9_-]+$/, ValidationText.invalidInput)
+      .nullable(),
+    b_swift: yup.string()
+      .max(75, ValidationText.maxLength75)
+      .matches(/^[a-zA-Z0-9_-]+$/, ValidationText.invalidInput)
+      .nullable(),
+    b_iban: yup.string()
+      .max(75, ValidationText.maxLength75)
+      .matches(/^[A-Z{2}0-9]+$/, ValidationText.invalidInput)
+      .nullable(),
   })
 
-  const initialValues = useCallback(():AffValuesType => ({
-    g_username: profile?.generalInfo?.username || "",
-    g_email: profile?.generalInfo?.email || "",
-    g_phone: profile?.generalInfo?.phone || "",
-    g_skype: profile?.generalInfo?.skype || "",
-    g_zipCode: profile?.generalInfo?.zipCode || "",
-    g_state: profile?.generalInfo?.state || null,
-    g_currency: profile?.generalInfo?.currency || 0,
+  const initialValues : AffValuesType = useMemo(() => {
+    return {
+      g_username: profile?.generalInfo?.username || "",
+      g_email: profile?.generalInfo?.email || "",
+      g_phone: profile?.generalInfo?.phone || "",
+      g_skype: profile?.generalInfo?.skype || "",
+      g_zipCode: profile?.generalInfo?.zipCode || "",
+      g_state: profile?.generalInfo?.state || null,
+      g_currency: profile?.generalInfo?.currency || 0,
 
-    c_companyName: profile?.company?.name || "",
-    c_companyAddress: profile?.company?.address || "",
-    c_regNumber: profile?.company?.regNumber || "",
-    c_vatId: profile?.company?.vatId || "",
+      c_name: profile?.company?.name || "",
+      c_address: profile?.company?.address || "",
+      c_regNumber: profile?.company?.regNumber || "",
+      c_vatId: profile?.company?.vatId || "",
 
-    b_beneficiaryName: profile?.bank?.beneficiaryName || "",
-    b_beneficiaryAddress: profile?.bank?.beneficiaryAddress || "",
-    b_bankName: profile?.bank?.name || "",
-    b_bankAddress: profile?.bank?.address || "",
-    b_accountNumber: profile?.bank?.accountNumber || "",
-    b_swift: profile?.bank?.swift || "",
-    b_iban: profile?.bank?.iban || "",
-  }), [profile])
+      b_beneficiaryName: profile?.bank?.beneficiaryName || "",
+      b_beneficiaryAddress: profile?.bank?.beneficiaryAddress || "",
+      b_name: profile?.bank?.name || "",
+      b_address: profile?.bank?.address || "",
+      b_accountNumber: profile?.bank?.accountNumber || "",
+      b_swift: profile?.bank?.swift || "",
+      b_iban: profile?.bank?.iban || "",
+    }
+  }, [profile])
 
   const handleSubmitForm = () => {
     const arrAffPayId = profile?.payouts.map((item: any) => item.id);
@@ -139,14 +174,14 @@ const UserProfile = () => {
       }
     }
 
-    const updateProfile = {
+    const updateProfileData = {
       generalInfo,
       company,
       bank,
       affiliatePayoutIds: arrAffPayId,
     };
 
-    dispatch(updateAffiliate(updateProfile, +authUserID));
+    dispatch(updateProfile(updateProfileData, +authUserID));
   };
 
   let {
@@ -160,7 +195,7 @@ const UserProfile = () => {
     isValid,
     setFieldValue
   } = useFormik({
-    initialValues: initialValues(),
+    initialValues,
     onSubmit: handleSubmitForm,
     validationSchema: validationSchema,
     validateOnBlur: true,
@@ -361,12 +396,12 @@ const UserProfile = () => {
                           <LabelInput
                             label="Company Name"
                             placeholder="Enter company name"
-                            name="c_companyName"
+                            name="c_name"
                             onChange={handleChange}
                             onBlur={handleBlur}
-                            value={values.c_companyName || ""}
-                            hasError={!!(errors.c_companyName && touched.c_companyName)}
-                            errorText={errors.c_companyName}
+                            value={values.c_name || ""}
+                            hasError={!!(errors.c_name && touched.c_name)}
+                            errorText={errors.c_name}
                           />
                         </FormGroup>
                       </Col>
@@ -375,12 +410,12 @@ const UserProfile = () => {
                           <LabelInput
                             label="Company Address"
                             placeholder="Enter company address"
-                            name="c_companyAddress"
+                            name="c_address"
                             onChange={handleChange}
                             onBlur={handleBlur}
-                            value={values.c_companyAddress || ""}
-                            hasError={!!(errors.c_companyAddress && touched.c_companyAddress)}
-                            errorText={errors.c_companyAddress}
+                            value={values.c_address || ""}
+                            hasError={!!(errors.c_address && touched.c_address)}
+                            errorText={errors.c_address}
                           />
                         </FormGroup>
                       </Col>
@@ -389,7 +424,7 @@ const UserProfile = () => {
                           <LabelInput
                             label="Company Reg Number"
                             placeholder="Enter company reg number"
-                            name="c_companyAddress"
+                            name="c_regNumber"
                             onChange={handleChange}
                             onBlur={handleBlur}
                             value={values.c_regNumber || ""}
@@ -449,12 +484,12 @@ const UserProfile = () => {
                           <LabelInput
                             label="Bank Name"
                             placeholder="Enter bank name"
-                            name="b_bankName"
+                            name="b_name"
                             onChange={handleChange}
                             onBlur={handleBlur}
-                            value={values.b_bankName || ""}
-                            hasError={!!(errors.b_bankName && touched.b_bankName)}
-                            errorText={errors.b_bankName}
+                            value={values.b_name || ""}
+                            hasError={!!(errors.b_name && touched.b_name)}
+                            errorText={errors.b_name}
                           />
                         </FormGroup>
                       </Col>
@@ -463,12 +498,12 @@ const UserProfile = () => {
                           <LabelInput
                             label="Bank Address"
                             placeholder="Enter bank address"
-                            name="b_bankAddress"
+                            name="b_address"
                             onChange={handleChange}
                             onBlur={handleBlur}
-                            value={values.b_bankAddress || ""}
-                            hasError={!!(errors.b_bankAddress && touched.b_bankAddress)}
-                            errorText={errors.b_bankAddress}
+                            value={values.b_address || ""}
+                            hasError={!!(errors.b_address && touched.b_address)}
+                            errorText={errors.b_address}
                           />
                         </FormGroup>
                       </Col>

@@ -71,7 +71,7 @@ export default (props: any) => {
     }
 
     let currBrand = {
-      "name": brandName,
+      "name": brandName.trim(),
       "integrationId": getIntegration.value,
       "integrationType": +integrationType,
       "brandPayoutIds": brandPayoutIds,
@@ -109,15 +109,17 @@ export default (props: any) => {
         handleValidBrandSubmit(values);
       }}>
 
-        <div style={{margin: '0 0 25px 0', display: "flex", justifyContent: "space-between"}}>
-          <AvField className="text-input" type="text" name="name" value={brandName} onChange={changeName} validate={{
-            required: {value: true, errorMessage: 'Please enter a name'},
-            pattern: {value: '^[A-Za-z0-9_-]+$', errorMessage: 'Your name must be composed only with letter and numbers'},
-            minLength: {value: 3, errorMessage: 'Your name must be between 3 and 16 characters'},
-            maxLength: {value: 16, errorMessage: 'Your name must be between 3 and 16 characters'}
-          }}/>
+        <Row >
+          <div className="col-md-10">
+            <AvField className="text-input" type="text" name="name" value={brandName} onChange={changeName} placeholder="Insert Brand Name" validate={{
+              required: {value: true, errorMessage: 'Please enter brand name'},
+              pattern: {value: '^[A-Za-z0-9_-]+$', errorMessage: 'Your name must be composed only with letter and numbers'},
+              minLength: {value: 1, errorMessage: 'Your name must be between 1 and 75 characters'},
+              maxLength: {value: 75, errorMessage: 'Your name must be between 1 and 75 characters'}
+            }}/>
+          </div>
 
-          <div>
+          <div className="col-md-2 text-end">
             <UncontrolledDropdown>
               <DropdownToggle
                 type="button"
@@ -135,7 +137,7 @@ export default (props: any) => {
             </UncontrolledDropdown>
 
           </div>
-        </div>
+        </Row>
 
         {integrationType === IntegrationTypeEnum.API &&
         <Row>

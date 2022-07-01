@@ -79,6 +79,14 @@ const CampaignsGrid = () => {
     limit: 50,
   };
 
+  useEffect(() => {
+    dispatch(getCampaigns(null, filter));
+
+    return () => {
+      dispatch(clearCampaigns());
+    };
+  }, []);
+
   const toggleCustom = (tabId: any) => {
     switch (tabId) {
       case CampaignTabsEnum.Geo:
@@ -114,13 +122,7 @@ const CampaignsGrid = () => {
     }
   }
 
-  useEffect(() => {
-    dispatch(getCampaigns(null, filter));
 
-    return () => {
-      dispatch(clearCampaigns());
-    };
-  }, []);
 
   return (
     <React.Fragment>
@@ -255,11 +257,12 @@ const CampaignsGrid = () => {
         </Container>
       </div>
       {loading && <Loader />}
-      <AddCampaignOrGeoForm
+
+      {modal && <AddCampaignOrGeoForm
         isOpen={modal}
         toggle={toggleModal}
         formType={customActiveTab}
-      />
+      />}
 
       {editableCampaign && (
         <EditCampaignForm

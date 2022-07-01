@@ -1,16 +1,16 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { clearGeo, delGeo, getGeo } from "../../store/geo/actions";
+import { clearGeo, delGeo, getGeo, modalGeoInCampaignsHide } from "../../store/geo/actions";
 import { Col, Row } from "reactstrap";
 import MiniCard from "../../components/UI/miniCard/miniCard";
 import BtnLoadMore from "../../components/UI/btns/BtnLoadMore";
-import SearchGeo from "./components/search";
 import { CardTypeEnum } from "../../enums/CardTypeEnum";
+import ModalGeoInCampaigns from "./components/modal/geoInCampaigns";
 
-const Geo = (props: any) => {
+const Geo = () => {
   const dispatch = useDispatch();
 
-  const { geoList, nextUrl, loading, loaded, total } = useSelector(
+  const { geoList, nextUrl, loading, loaded, total, deleteGeo, isOpen } = useSelector(
     (state: any) => {
       return {
         geoList: state.Geo.geo.items,
@@ -18,21 +18,25 @@ const Geo = (props: any) => {
         total: state.Geo.geo.pagination.total,
         loading: state.Geo.loading,
         loaded: state.Geo.loaded,
+        deleteGeo: state.Geo.delete,
+        isOpen: state.Geo.delete.modal
       };
     }
   );
 
   let filter = {
     order: 1,
-    limit: 12,
   };
 
   useEffect(() => {
     dispatch(getGeo("", filter));
+
     return () => {
       dispatch(clearGeo());
+      dispatch(modalGeoInCampaignsHide())
     };
   }, []);
+
 
   async function loadMore() {
     if (nextUrl) {
@@ -42,6 +46,10 @@ const Geo = (props: any) => {
 
   const handleDelete = (id: number) => {
     dispatch(delGeo(id));
+  };
+
+  const handleCloseModal = () => {
+    dispatch(modalGeoInCampaignsHide())
   };
 
   return (
@@ -72,6 +80,9 @@ const Geo = (props: any) => {
           </Col>
         </Row>
       )}
+
+      {isOpen && <ModalGeoInCampaigns isOpen={isOpen} toggleClose={handleCloseModal} campaigns={deleteGeo.items} />}
+
     </React.Fragment>
   );
 };

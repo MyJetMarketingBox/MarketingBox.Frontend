@@ -1,14 +1,11 @@
 import React, { ChangeEvent, useEffect, useMemo, useRef, useState } from "react";
 import MetaTags from "react-meta-tags";
 import Breadcrumbs from "../../../../components/Common/Breadcrumb";
-import { Button, Card, CardBody, CardHeader, Col, Row } from "reactstrap";
+import { Card, CardBody, Col, Row } from "reactstrap";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  clearCountries,
-  getCountries,
-} from "../../../../store/countries/actions";
+import { clearCountries, getCountries } from "../../../../store/countries/actions";
 import c from "./geoDetail.module.scss";
-import { AvForm, AvField, AvInput } from "availity-reactstrap-validation";
+import { AvField, AvForm } from "availity-reactstrap-validation";
 import { addGeo, getGeoProfile, updateGeo } from "../../../../store/geo/actions";
 import { useHistory, useParams } from "react-router";
 import SimpleBar from "simplebar-react";
@@ -43,12 +40,12 @@ const GeoDetail = (props: any) => {
 
   const [search, setSearch] = useState("");
   const [selectedCountries, setSelectedCountries] = useState<number[]>([]);
-  const [profileName, setProfileName] = useState("");
+  const [profileName, setProfileName] = useState<string | null>( null);
 
   const ref = useRef<any>();
 
   const changeName = (e: ChangeEvent<HTMLInputElement>) => {
-    setProfileName(e.target.value);
+    setProfileName(e.target.value.trim());
   };
 
   const handleSelectCountry = (id: number) => {
@@ -101,16 +98,16 @@ const GeoDetail = (props: any) => {
     };
   }, []);
 
-  const handleBtnUpdate = () => {
+  const handleBtnUpdate = (values: any) => {
     const upGeo = {
-      "name": profileName.trim(),
+      "name": profileName,
       "countryIds": selectedCountries
     }
 
     if (id) {
       dispatch(updateGeo(upGeo, +id))
     }else{
-      dispatch(addGeo(upGeo))
+      dispatch(addGeo(upGeo, history))
     }
   }
 
@@ -156,37 +153,45 @@ const GeoDetail = (props: any) => {
           <Col xs={12}>
             <Card>
               <CardBody>
-                <Row className="mb-4">
-                  <Col md={12}>
-                    <input
-                      type="text"
-                      value={profileName}
-                      className="text-input"
-                      onChange={changeName}
-                      placeholder="Insert Geo Name"
-                    />
-                  </Col>
-                  <div className="col-xl-12 mt-3 inline-flex">
-                    <i className="bx bx-chevron-left font-size-20 text-orange"></i>
-                    <a onClick={handleBack} className="text-orange pointer">
-                      Back to Geo
-                    </a>
-                  </div>
-                </Row>
+                <AvForm className="needs-validation" onValidSubmit={(
+                  e: any,
+                  values: any
+                ) => {
+                  handleBtnUpdate(values);
+                }}>
+                  <Row className="mb-4">
+                    <Col md={12}>
+                      <AvField className="text-input" type="text" name="name" value={profileName} onChange={changeName} placeholder="Insert Geo Name"
+                               validate={{
+                        required: {value: true, errorMessage: 'Please enter geo name'},
+                        pattern: {value: '^[A-Za-z0-9_-]+$', errorMessage: 'Your name must be composed only with letter and numbers'},
+                        minLength: {value: 1, errorMessage: 'Your name must be between 1 and 75 characters'},
+                        maxLength: {value: 75, errorMessage: 'Your name must be between 1 and 75 characters'}
+                      }}/>
+                    </Col>
+                    <div className="col-xl-12 mt-4 inline-flex">
+                      <i className="bx bx-chevron-left font-size-20 text-orange"></i>
+                      <a onClick={handleBack} className="text-orange pointer">
+                        Back to Geo
+                      </a>
+                    </div>
+                  </Row>
 
-                <Row>
-                  <Col md={3}>
-                    <Row className="mb-4">
-                      <AvForm>
+                  <Row>
+                    <Col md={3}>
+                      <Row className="mb-4">
                         <div className="mb-4">
                           <AvField
-                            name="name"
+                            name="country"
                             placeholder="Search Country"
                             type="text"
                             className="form-control"
                             autoComplete="off"
                             id="validationCountry"
                             onChange={(e: any) => setSearch(e.target.value)}
+                            validate={{
+                              required: { value: false }
+                            }}
                           />
                         </div>
                         <div className="text-lg-center">
@@ -198,63 +203,62 @@ const GeoDetail = (props: any) => {
                             Remove All Countries
                           </a>
                         </div>
-                      </AvForm>
+                      </Row>
+
+                      <SimpleBar ref={ref} className={c["wrapper-list-country"]} autoHide={false}>
+                        <ul className={c["list-country"]}>
+                          {outputCountries.map((item: any) => (
+                            <li
+                              key={`list-country-${item.id}`}
+                              onClick={() => handleSelectCountry(item.id)}
+                            >
+                              <span>{item.name}</span>
+                              <span className="text-muted">
+                                {item.alfa2Code}, {item.alfa3Code}
+                              </span>
+                            </li>
+                          ))}
+                        </ul>
+                      </SimpleBar>
+                    </Col>
+
+                    {/* added countries  */}
+                    <Col md={9}>
+                      <p>Countries Added: {selectedCountries.length}</p>
+                      <ul className={c["selected-country"]}>
+                        {/*loadedProfile &&*/}
+                        {selectedCountries.length
+                          ? selectedCountries.map((itemId: number) => (
+                              <button
+                                key={`geo-${itemId}`}
+                                onClick={handleRemoveSelected(itemId)}
+                                className="text-dark-blue"
+                              >
+                                <span>{countryName(itemId)}</span>
+                              </button>
+                            ))
+                          : "Select some countries"}
+                      </ul>
+                    </Col>
+                    {/*  */}
+
+                    <Row>
+                      <Col>
+                        <div className="text-end">
+                          <button
+                            type="submit"
+                            className="btn btnOrange text-white btn-width-250"
+                            disabled={(!selectedCountries.length || !profileName) || loading}
+                          >
+                            {loading && <i className="bx bx-hourglass bx-spin me-2"/>}
+                            Save
+                          </button>
+                        </div>
+                      </Col>
                     </Row>
 
-                    <SimpleBar ref={ref} className={c["wrapper-list-country"]} autoHide={false}>
-                      <ul className={c["list-country"]}>
-                        {outputCountries.map((item: any) => (
-                          <li
-                            key={`list-country-${item.id}`}
-                            onClick={() => handleSelectCountry(item.id)}
-                          >
-                            <span>{item.name}</span>
-                            <span className="text-muted">
-                              {item.alfa2Code}, {item.alfa3Code}
-                            </span>
-                          </li>
-                        ))}
-                      </ul>
-                    </SimpleBar>
-                  </Col>
-
-                  {/* added countries  */}
-                  <Col md={9}>
-                    <p>Countries Added: {selectedCountries.length}</p>
-                    <ul className={c["selected-country"]}>
-                      {/*loadedProfile &&*/}
-                      {selectedCountries.length
-                        ? selectedCountries.map((itemId: number) => (
-                            <button
-                              key={`geo-${itemId}`}
-                              onClick={handleRemoveSelected(itemId)}
-                              className="text-dark-blue"
-                            >
-                              <span>{countryName(itemId)}</span>
-                            </button>
-                          ))
-                        : "Select some countries"}
-                    </ul>
-                  </Col>
-                  {/*  */}
-
-                  <Row>
-                    <Col>
-                      <div className="text-end">
-                        <button
-                          type="submit"
-                          className="btn btnOrange btn-width-250"
-                          onClick={handleBtnUpdate}
-                          disabled={!selectedCountries.length || loading}
-                        >
-                          {loading && <i className="bx bx-hourglass bx-spin me-2"/>}
-                          Save
-                        </button>
-                      </div>
-                    </Col>
                   </Row>
-
-                </Row>
+                </AvForm>
               </CardBody>
             </Card>
           </Col>

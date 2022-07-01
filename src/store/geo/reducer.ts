@@ -11,6 +11,7 @@ export const INIT_STATE : GeoState = {
   profile: {},
   loadingProfile: false,
   loadedProfile: false,
+  delete: {items: [], isOk: false, modal: false}
 }
 
 const geo = (state = INIT_STATE, action: any) => {
@@ -98,10 +99,10 @@ const geo = (state = INIT_STATE, action: any) => {
     case GeoTypes.ADD_GEO_SUCCESS:
       return{
         ...state,
-        geo: {
-          ...state.geo,
-          items: [action.payload, ...state.geo.items]
-        },
+        // geo: {
+        //   ...state.geo,
+        //   items: [action.payload, ...state.geo.items]
+        // },
         error: {},
         loading: false,
         loaded: true
@@ -123,15 +124,33 @@ const geo = (state = INIT_STATE, action: any) => {
       }
 
     case GeoTypes.DEL_GEO_SUCCESS:
-      return {
-        ...state,
-        geo: {
-          ...state.geo,
-          items: state.geo.items.filter(item => item.id !== action.payload)
-        },
-        loading: true,
-        loaded: false
+      let resObject = {};
+      if (!action.payload.isOk) {
+        resObject = {
+          ...state,
+          delete: {
+            ...state.delete,
+            items: action.payload.items,
+            isOk: action.payload.isOk,
+            modal: true
+          },
+          loading: false,
+          loaded: true
+        }
+      } else {
+        resObject = {
+          ...state,
+          geo: {
+            ...state.geo,
+            items: state.geo.items.filter(item => item.id !== action.id)
+          },
+          delete: action.payload,
+          loading: false,
+          loaded: true
+        }
       }
+      return resObject;
+
 
     case GeoTypes.DEL_GEO_FAIL:
       return {
@@ -139,6 +158,24 @@ const geo = (state = INIT_STATE, action: any) => {
         error: action.payload,
         loading: true,
         loaded: false
+      }
+
+    case GeoTypes.MODAL_SHOW:
+      return {
+        ...state,
+        delete: {
+          ...state.delete,
+          modal: action.payload
+        }
+      }
+
+    case GeoTypes.MODAL_HIDE:
+      return {
+        ...state,
+        delete: {
+          ...state.delete,
+          modal: false
+        }
       }
 
     case GeoTypes.CLEAR_GEO:

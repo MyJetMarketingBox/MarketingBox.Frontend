@@ -16,6 +16,7 @@ import {
 } from "./actions";
 
 import { getGeo, getGeoProfile, updateGeoProfile, addGeo, delGeo } from "../../helpers/backend_helper";
+import Page from "../../constants/pages";
 
 function* getGeoSaga({ nextUrl, filter }: any) {
   try {
@@ -45,10 +46,11 @@ function* updateGeoSaga({ payload: geo, id: id } : any) {
   }
 }
 
-function* addGeoSaga({ payload: geo} : any) {
+function* addGeoSaga({ payload: geo, history} : any) {
   try {
     const response: Promise<any> = yield call(addGeo, geo);
     yield put(addGeoSuccess(response))
+    history.push(`${Page.CAMPAIGNS}/geo`)
   }catch (error) {
     yield put(addGeoFail(error))
   }
@@ -56,8 +58,8 @@ function* addGeoSaga({ payload: geo} : any) {
 
 function* delGeoSaga({ payload: id }: any) {
   try {
-    yield call(delGeo, id);
-    yield put(delGeoSuccess(id));
+    const response: Promise<any> = yield call(delGeo, id);
+    yield put(delGeoSuccess(response, id));
   } catch (error) {
     yield put(delGeoFail(error));
   }

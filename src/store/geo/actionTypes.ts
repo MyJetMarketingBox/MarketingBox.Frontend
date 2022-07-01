@@ -25,6 +25,10 @@ export enum GeoTypes {
 
   /** CLEAR **/
   CLEAR_GEO = "@@geo/CLEAR_GEO",
+
+  /** MODAL **/
+  MODAL_SHOW = "@@geo/MODAL_SHOW",
+  MODAL_HIDE = "@@geo/MODAL_HIDE",
 }
 
 export interface IGeoItem {
@@ -39,8 +43,21 @@ interface IGeo {
   pagination: Object;
 }
 
+interface ICampaignItem {
+  "campaignId": number;
+  "campaignName": string;
+  "amount": number;
+}
+
+interface IDelete {
+  items: ICampaignItem[];
+  isOk: boolean;
+  modal: boolean;
+}
+
 export interface GeoState {
   geo: IGeo;
+  delete: IDelete;
   error: Object;
   loading: boolean;
   loaded: boolean;

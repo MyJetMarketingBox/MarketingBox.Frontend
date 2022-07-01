@@ -5,13 +5,15 @@ import { useParams } from "react-router";
 import { CardBody, Col, Row } from "reactstrap";
 import Loader from "src/components/UI/loader";
 import {
+  clearBrands,
+  clearGeo,
   closeEditCampaignRowModal,
   getBrands,
   getCampaignRowByCampaignId,
   getGeo,
-  openEditCampaignRowModal,
+  openEditCampaignRowModal
 } from "src/store/actions";
-import { getCampaigns } from "src/store/campaigns/actions";
+import { clearCampaigns, getCampaigns } from "src/store/campaigns/actions";
 import { RootStoreType } from "src/store/storeTypes";
 import Breadcrumbs from "../../../../components/Common/Breadcrumb";
 import ModalCompaignRow from "./addCompaignRow/ModalCompaignRow";
@@ -47,6 +49,12 @@ const CampaignDetail = () => {
     dispatch(getGeo());
     dispatch(getBrands());
     dispatch(getCampaignRowByCampaignId("", { CampaignIds: id }));
+
+    return () => {
+      dispatch(clearCampaigns())
+      dispatch(clearGeo())
+      dispatch(clearBrands())
+    }
   }, []);
 
   return (
