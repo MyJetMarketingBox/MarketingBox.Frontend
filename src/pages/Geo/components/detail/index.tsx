@@ -212,7 +212,7 @@ const GeoDetail = (props: any) => {
                               key={`list-country-${item.id}`}
                               onClick={() => handleSelectCountry(item.id)}
                             >
-                              <span>{item.name}</span>
+                              <span className="truncate" title={item.name}>{item.name}</span>
                               <span className="text-muted">
                                 {item.alfa2Code}, {item.alfa3Code}
                               </span>
