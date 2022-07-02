@@ -19,7 +19,9 @@
     }
 }
 
-.card-dot .dropdown-menu {
+.card-dot .dropdown-menu,
+.open-right .dropdown-menu,
+{
     &[style] {
         right: 0 !important;
         left: unset !important;

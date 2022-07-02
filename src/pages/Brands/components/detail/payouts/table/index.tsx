@@ -108,6 +108,11 @@ export default (props: any) => {
       ),
     },
     {
+      dataField: "id",
+      text: "ID",
+      sort: true,
+    },
+    {
       dataField: "name",
       text: "Name",
       sort: true,
@@ -189,7 +194,7 @@ export default (props: any) => {
                 </div>
               </Col>
 
-              <Col className="col-md-8 col-sm-8 col-xs-12 text-end">
+              <Col className="col-md-8 col-sm-8 col-xs-12 text-end open-right">
                 <Dropdown
                   isOpen={plusBtn}
                   toggle={() => {
