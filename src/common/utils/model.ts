@@ -94,10 +94,15 @@ export const responseStatus = [
     "Failed",
 ]
 
-export const PayoutType = [
+export const OldPayoutType = [
     {label: "CPA", value: 0},
     {label: "CPL", value: 1},
     {label: "CPC", value: 2},
+]
+
+export const PayoutType = [
+    {label: "CPA", value: 0},
+    {label: "CPL", value: 1},
 ]
 
 export const IntegrationType = [

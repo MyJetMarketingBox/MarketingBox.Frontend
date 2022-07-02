@@ -21,12 +21,13 @@ const Integrations: React.FC = () => {
   const [modal, setModal] = useState<boolean>(false);
   const [filter, setFilter] = useState<object>({order: 1, limit: 50})
 
-  const {integrations, nextUrl, loading, loaded} = useSelector((state: any) => {
+  const {integrations, nextUrl, loading, loaded, total} = useSelector((state: any) => {
     return {
       integrations: state.Integrations.value.items,
       nextUrl: state.Integrations.value.pagination.nextUrl,
       loading: state.Integrations.loading,
       loaded: state.Integrations.loaded,
+      total: state.Integrations.value.pagination.total
     }
   });
 
@@ -65,8 +66,11 @@ const Integrations: React.FC = () => {
               <CardBody>
 
                 <Row className="mb-2">
-                  <Col className="col-md-4 mb-4">
+                  <Col className="col-md-4 mb-2">
                     <SearchIntegration />
+                    <div className="col-xl-12 text-muted mt-4">
+                      Showing {integrations.length} / {total} results
+                    </div>
                   </Col>
 
                   <Col className="col-md-4 offset-4 text-end">

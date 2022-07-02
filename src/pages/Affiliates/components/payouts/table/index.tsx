@@ -37,7 +37,7 @@ const tablePayouts = (props: any) => {
       name: payout.name,
       amount: payout.amount,
       currency: Currency[payout.currency],
-      payoutType: PayoutType[payout.payoutType].label,
+      payoutType: PayoutType[payout.payoutType]?.label,
       geo: payout.geo.name,
       createdDate: new Date(payout.createdAt).valueOf(),
       updatedDate: new Date(payout.modifiedAt).valueOf(),

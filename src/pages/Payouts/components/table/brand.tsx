@@ -60,7 +60,7 @@ export default ({setPayoutId, toggle} : any) => {
       name: payout.name,
       amount: payout.amount,
       currency: Currency[payout.currency],
-      payoutType: PayoutType[payout.payoutType].label,
+      payoutType: PayoutType[payout.payoutType]?.label,
       geo: payout.geo.name,
       createdDate: new Date(payout.createdAt).toLocaleDateString("ru-RU", {
         day: "2-digit",
