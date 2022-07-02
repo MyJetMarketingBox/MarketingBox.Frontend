@@ -37,7 +37,7 @@ export default ({ isOpen, toggle }: any) => {
         .string()
         .required(ValidationText.required)
         .min(1, ValidationText.minLength1)
-        .max(75, ValidationText.maxLength255)
+        .max(75, ValidationText.maxLength75)
         .matches(/^[a-zA-Z0-9_-]+$/, ValidationText.invalidInput),
       integrationId: yup.number().required(ValidationText.required),
     });

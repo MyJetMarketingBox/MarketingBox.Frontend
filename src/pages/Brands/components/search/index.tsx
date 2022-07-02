@@ -6,6 +6,7 @@ export default () => {
 
   const optionsSelect = [
     {value: 'name', label: 'Search by Name'},
+    {value: 'id', label: 'Search by Brand ID'},
     {value: 'integrationId', label: 'Search by Integration ID'}
   ];
 

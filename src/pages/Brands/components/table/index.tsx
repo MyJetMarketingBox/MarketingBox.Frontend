@@ -115,7 +115,7 @@ export default ({ brands = [] }: any) => {
     {
       dataField: "integrationID",
       text: "Integration ID",
-      sort: true,
+      sort: false,
     },
     {
       dataField: "integrationType",
