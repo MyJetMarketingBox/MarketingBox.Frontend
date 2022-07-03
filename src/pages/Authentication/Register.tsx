@@ -56,7 +56,7 @@ const Register = () => {
         .min(8, ValidationText.shortPassword)
         .max(50, ValidationText.longPassword)
         .matches(
-          /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*?[!@#$%^&*()_+<>?])[A-Za-z\d!@#$%^&*()_+<>?]{6,}$/,
+          /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*?[!@#$%^&*()_+<>?"':;/\\|{}\[\]~`\-=,.])[A-Za-z\d!@#$%^&*()_+<>?"':;/\\|{}\[\]~`\-=,.]{6,}$/,
           ValidationText.passwordMask
         ),
       message: yup.string().required(ValidationText.required),
@@ -64,7 +64,8 @@ const Register = () => {
         .string()
         .required(ValidationText.required)
         .min(3, ValidationText.minLength3)
-        .max(75, ValidationText.maxLength75),
+        .max(75, ValidationText.maxLength75)
+        .matches(/^[a-zA-Z\d@_-]+$/, ValidationText.usernameMask),
       searchFrom: yup.string().required(ValidationText.required),
       searchFromCustom: yup.string().when(["searchFrom"], {
         is: (val: string) => val === "other",
@@ -95,7 +96,7 @@ const Register = () => {
     const data = {
       username: values.username.trim(),
       email: values.email.trim().toLowerCase(),
-      password: values.password,
+      password: values.password.trim(),
       sub: [
         {
           SubName: "ClientType",
@@ -107,7 +108,7 @@ const Register = () => {
         },
         {
           SubName: "MessangerLogin",
-          SubValue: values.contact,
+          SubValue: values.contact.trim(),
         },
         {
           SubName: "HeardAboutFrom",
@@ -115,7 +116,7 @@ const Register = () => {
         },
         {
           SubName: "HeardAboutFromCustom",
-          SubValue: values.searchFromCustom || "",
+          SubValue: (values.searchFrom === "other") ? values.searchFromCustom : "",
         },
       ],
     };
