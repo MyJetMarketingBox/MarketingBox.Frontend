@@ -34,3 +34,13 @@ export const updateBrandFail = (error : any) => ({
 export const clearBrand = () => ({
   type: BrandProfileTypes.CLEAR_BRAND_PROFILE
 })
+
+export const modalAssignPayoutBrand = (status: boolean) => ({
+  type: BrandProfileTypes.MODAL_ASSIGN_PAYOUT,
+  status
+});
+
+export const modalNewPayoutBrand = (status: boolean) => ({
+  type: BrandProfileTypes.MODAL_NEW_PAYOUT,
+  status
+});

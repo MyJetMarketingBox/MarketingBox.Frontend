@@ -16,7 +16,7 @@ import {
 } from "./actions";
 
 import { getBrandPayouts, addBrandPayout, delBrandPayout, updateBrandPayout} from "../../helpers/backend_helper";
-import { updateBrand } from "../brands/profile/actions";
+import { modalAssignPayoutBrand, modalNewPayoutBrand, updateBrand } from "../brands/profile/actions";
 
 function* getBrandPayoutsSaga({nextUrl, filter} : any) {
   try{
@@ -56,7 +56,8 @@ function* addBrandPayoutSaga({brandPayout, brand} : any){
 function* addPayoutSaga({payload: payouts} : any){
   try{
     const response : Promise<any> = yield call(addBrandPayout, payouts)
-    yield  put(addBPayoutSuccess(response))
+    yield put(addBPayoutSuccess(response));
+    yield put(modalNewPayoutBrand(false));
   }catch(error){
     yield put(addBPayoutFail(error))
   }
@@ -65,7 +66,9 @@ function* addPayoutSaga({payload: payouts} : any){
 function* updatePayoutSaga({data, id} : any) {
   try{
     const response : Promise<any> = yield call(updateBrandPayout, data, id)
-    yield put(updateBrandPayoutSuccess(response))
+    yield put(updateBrandPayoutSuccess(response));
+    //yield put(modalAssignPayoutBrand(false));
+    yield put(modalNewPayoutBrand(false));
   }catch (error) {
     yield put(updateBrandPayoutFail(error))
   }

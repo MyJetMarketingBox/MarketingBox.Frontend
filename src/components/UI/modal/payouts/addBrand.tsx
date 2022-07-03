@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { clearGeo, getGeo } from "../../../../store/geo/actions";
 import { Col, Form, Modal, ModalBody, ModalFooter, ModalHeader, Row } from "reactstrap";
@@ -126,14 +126,14 @@ export default ({ isOpen, toggle, isBrand, payoutId }: any) => {
     }
   });
 
-  useEffect(() => {
-    if((!loadingUpdate && loadedUpdate) || (!loadingItem && loadedItem)){
-      close();
-    }
-  }, [loadingUpdate, loadedUpdate, loadingItem, loadedItem])
+  // useEffect(() => {
+  //   if((!loadingUpdate && loadedUpdate) || (!loadingItem && loadedItem)){
+  //     close();
+  //   }
+  // }, [loadingUpdate, loadedUpdate, loadingItem, loadedItem])
 
   const close = () => {
-    toggle(false);
+    toggle("", false);
     resetForm();
   };
 

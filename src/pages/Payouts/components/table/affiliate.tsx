@@ -18,11 +18,12 @@ export default ({setPayoutId, toggle} : any) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectId, setSelectId] = useState(false);
 
-  const { affPayouts, loadingList, loadedList, nextUrl } = useSelector(
+  const { affPayouts, loadingList, loadedList, nextUrl, total } = useSelector(
     (state: any) => {
       return {
         affPayouts: state.AffPayouts.affPayouts.items,
         nextUrl: state.AffPayouts.affPayouts.pagination.nextUrl,
+        total: state.AffPayouts.affPayouts.pagination.total,
         loadingList: state.AffPayouts.affPayouts.loadingList,
         loadedList: state.AffPayouts.affPayouts.loadedList,
       };
@@ -45,7 +46,7 @@ export default ({setPayoutId, toggle} : any) => {
     onClick: (e:any, row:any, rowIndex:any) => {
       if(e.target.classList.length == 0) {
         setPayoutId(row.id);
-        toggle();
+        toggle("", true);
       }
     }
   }
@@ -64,16 +65,8 @@ export default ({setPayoutId, toggle} : any) => {
       currency: Currency[payout.currency],
       payoutType: PayoutType[payout.payoutType]?.label,
       geo: payout.geo.name,
-      createdDate: new Date(payout.createdAt).toLocaleDateString("ru-RU", {
-        day: "2-digit",
-        month: "2-digit",
-        year: "2-digit",
-      }),
-      updatedDate: new Date(payout.modifiedAt).toLocaleDateString("ru-RU", {
-        day: "2-digit",
-        month: "2-digit",
-        year: "2-digit",
-      }),
+      createdDate: new Date(payout.createdAt).valueOf(),
+      updatedDate: new Date(payout.modifiedAt).valueOf(),
     };
   });
 
@@ -92,7 +85,7 @@ export default ({setPayoutId, toggle} : any) => {
       handler: (id: any) => {
         //history.push(`/some/${id}`);
         setPayoutId(id);
-        toggle();
+        toggle("", true);
       },
     },
     {
@@ -114,43 +107,62 @@ export default ({setPayoutId, toggle} : any) => {
       ),
     },
     {
+      dataField: "id",
+      text: "ID",
+      sort: true,
+    },
+    {
       dataField: "name",
       text: "Name",
       sort: true,
-      headerStyle: { width: "250px", minWidth: "250px" },
-      style: { width: "250px", minWidth: "250px" },
+      //headerStyle: { width: "250px", minWidth: "250px" },
+      //style: { width: "250px", minWidth: "250px" },
     },
     {
       dataField: "currency",
       text: "Currency",
-      sort: true,
+      sort: false,
     },
     {
       dataField: "amount",
       text: "Amount",
-      sort: true,
+      sort: false,
     },
     {
       dataField: "payoutType",
       text: "Payout type",
-      sort: true,
+      sort: false,
     },
     {
       dataField: "geo",
       text: "Geo",
-      sort: true,
-      headerStyle: { width: "250px", minWidth: "250px" },
-      style: { width: "250px", minWidth: "250px" },
+      sort: false,
+      //headerStyle: { width: "250px", minWidth: "250px" },
+      //style: { width: "250px", minWidth: "250px" },
     },
     {
       dataField: "createdDate",
       text: "Created date",
       sort: true,
+      formatter: (cell: any, row: any) =>{
+        return new Date(row.createdDate).toLocaleDateString("ru-RU", {
+          day: "2-digit",
+          month: "2-digit",
+          year: "2-digit",
+        })
+      }
     },
     {
       dataField: "updatedDate",
       text: "Updated date",
       sort: true,
+      formatter: (cell: any, row: any) => {
+        return new Date(row.updatedDate).toLocaleDateString("ru-RU", {
+          day: "2-digit",
+          month: "2-digit",
+          year: "2-digit",
+        })
+      }
     },
   ];
 
@@ -164,6 +176,11 @@ export default ({setPayoutId, toggle} : any) => {
   return (
     <React.Fragment>
       {!loadedList && loadingList && <Loader />}
+
+      <div className="col-xl-12 text-muted mt-3 mb-4">
+        Showing {resPayouts.length} / {total} results
+      </div>
+
       <Row className="mb-4">
         <div className="table-responsive">
           <BootstrapTable
@@ -190,12 +207,12 @@ export default ({setPayoutId, toggle} : any) => {
         </Row>
       )}
 
-      <ConfirmDelete
+      {isOpen && <ConfirmDelete
         isOpen={isOpen}
         toggle={toggleDelAction}
         handleDelete={handleDeleteAffPayout}
         id={selectId}
-      />
+      />}
 
     </React.Fragment>
   );

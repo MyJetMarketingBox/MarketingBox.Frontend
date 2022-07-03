@@ -5,7 +5,10 @@ import ConfirmDelete from "../../../../../components/UI/confirmDelete/ConfirmDel
 import ColumnActions from "../../../../../components/UI/columnActions/ColumnActions";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { updateAffiliate } from "../../../../../store/affiliates/profile/actions";
+import {
+  modalAssignPayoutAff, modalNewPayoutAff,
+  updateAffiliate
+} from "../../../../../store/affiliates/profile/actions";
 import ToolkitProvider, { Search } from "react-bootstrap-table2-toolkit";
 import { Col, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Row } from "reactstrap";
 import AddModal from "../../../../../components/UI/modal/payouts/addAffiliate";
@@ -19,13 +22,13 @@ const tablePayouts = (props: any) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectId, setSelectId] = useState(false);
   const [plusBtn, setPlusBtn] = useState(false);
-  const [modalAdd, setAddModal] = useState<boolean>(false);
-  const [modalAssignPayout, setModalAssignPayout] = useState<boolean>(false);
   const { SearchBar } = Search;
 
-  const { affProfile } = useSelector((state: any) => {
+  const { affProfile, modalAssign, modalNew } = useSelector((state: any) => {
     return {
       affProfile: state.AffProfile.affProfile,
+      modalAssign: state.AffProfile.modalAssignPayout,
+      modalNew: state.AffProfile.modalNewPayout
     };
   });
 
@@ -48,14 +51,12 @@ const tablePayouts = (props: any) => {
     setIsOpen(prev => !prev);
   };
 
-  const toggleModalAdd = (status: boolean) => {
-    //setAddModal(prev => !prev);
-    setAddModal(status);
+  const toggleModalAddPayout = (type: string, status: boolean) => {
+    dispatch(modalNewPayoutAff(status))
   };
 
   const toggleModalAssignPayout = (status: boolean) => {
-    //setModalAssignPayout(prev => !prev);
-    setModalAssignPayout(status);
+    dispatch(modalAssignPayoutAff(status))
   };
 
   const handleDeleteAffPayout = (id: number) => {
@@ -200,7 +201,7 @@ const tablePayouts = (props: any) => {
                     <i className="bx bx-list-plus font-size-20"></i>
                   </DropdownToggle>
                   <DropdownMenu>
-                    <DropdownItem onClick={() => toggleModalAdd(true)}>
+                    <DropdownItem onClick={() => toggleModalAddPayout("", true)}>
                       New Payout
                     </DropdownItem>
                     <DropdownItem onClick={() => toggleModalAssignPayout(true)}>
@@ -232,8 +233,9 @@ const tablePayouts = (props: any) => {
         )}
       </ToolkitProvider>
 
-      {modalAdd && <AddModal isOpen={modalAdd} toggle={toggleModalAdd} isAff={true}/>}
-      {modalAssignPayout && <AssignModal isOpen={modalAssignPayout} toggle={toggleModalAssignPayout}/>}
+      {modalNew && <AddModal isOpen={modalNew} toggle={toggleModalAddPayout} isAff={true}/>}
+
+      {modalAssign && <AssignModal isOpen={modalAssign} toggleAssign={toggleModalAssignPayout}/>}
 
       {isOpen && <ConfirmDelete
         isOpen={isOpen}

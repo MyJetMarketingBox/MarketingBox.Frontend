@@ -7,6 +7,8 @@ import {
   getAffiliateProfileSuccess,
   updateAffiliateSuccess,
   updateAffiliateFail,
+  modalAssignPayoutAff,
+  modalNewPayoutAff
 } from "./actions";
 
 import {
@@ -27,6 +29,8 @@ function* onUpdateAffiliate({ payload: affiliate, id: id }: any) {
   try {
     const response: Promise<any> = yield call(updateAffiliate, affiliate, id);
     yield put(updateAffiliateSuccess(response));
+    yield put(modalAssignPayoutAff(false));
+    yield put(modalNewPayoutAff(false));
   } catch (error) {
     yield put(updateAffiliateFail(error));
   }

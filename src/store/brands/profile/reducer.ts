@@ -7,6 +7,8 @@ export const INIT_STATE : BrandProfileState = {
   loaded: false,
   upLoading: false,
   upLoaded: false,
+  modalNewPayout: false,
+  modalAssignPayout: false,
 }
 
 const brandProfile = (state = INIT_STATE, action: any) => {
@@ -51,6 +53,18 @@ const brandProfile = (state = INIT_STATE, action: any) => {
         ...state,
         error: action.payload,
         upLoading: false
+      }
+
+    case BrandProfileTypes.MODAL_ASSIGN_PAYOUT:
+      return {
+        ...state,
+        modalAssignPayout: action.status
+      }
+
+    case BrandProfileTypes.MODAL_NEW_PAYOUT:
+      return {
+        ...state,
+        modalNewPayout: action.status
       }
 
     case BrandProfileTypes.CLEAR_BRAND_PROFILE:

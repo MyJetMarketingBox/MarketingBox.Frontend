@@ -111,11 +111,11 @@ export default ({ isOpen, toggle }: any) => {
     setFieldValue(name, resPayouts)
   }
 
-  useEffect(() => {
-    if(upLoadedBrand){
-      close();
-    }
-  }, [upLoadedBrand])
+  // useEffect(() => {
+  //   if(upLoadedBrand){
+  //     close();
+  //   }
+  // }, [upLoadedBrand])
 
 
   /*const handleValidBrandPayoutSubmit = (values : any) => {

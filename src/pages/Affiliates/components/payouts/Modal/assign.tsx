@@ -5,15 +5,15 @@ import { AvField, AvForm } from "availity-reactstrap-validation";
 import { Currency, PayoutType } from "../../../../../common/utils/model";
 //import Select from "react-select";
 import { clearAffPayouts, getAffPayouts } from "../../../../../store/affiliatePayouts/actions";
-import { updateAffiliate } from "../../../../../store/affiliates/profile/actions";
+import { modalAssignPayoutAff, updateAffiliate } from "../../../../../store/affiliates/profile/actions";
 import Select from "../../../../../components/UI/select";
 
-export default ({ isOpen, toggle }: any) => {
+export default ({ isOpen, toggleAssign }: any) => {
   const dispatch = useDispatch();
 
   const [selectPayouts, setSelectPayouts] = useState([])
 
-  const { payoutsList, affiliate, upLoading, affLoaded, upLoaded, loadingUpdate, loadedUpdate, affLoading } = useSelector((state:any) => {
+  const { payoutsList, affiliate, upLoading, affLoaded, upLoaded, affLoading } = useSelector((state:any) => {
     return{
       payoutsList: state.AffPayouts.affPayouts.items,
       affiliate: state.AffProfile.affProfile,
@@ -21,8 +21,8 @@ export default ({ isOpen, toggle }: any) => {
       upLoaded: state.AffProfile.upLoaded,
       affLoaded: state.AffProfile.loaded,
       affLoading: state.AffProfile.loading,
-      loadingUpdate: state.AffPayouts.loadingUpdate,
-      loadedUpdate: state.AffPayouts.loadedUpdate,
+      // loadingUpdate: state.AffPayouts.loadingUpdate,
+      // loadedUpdate: state.AffPayouts.loadedUpdate,
     }
   })
 
@@ -50,14 +50,15 @@ export default ({ isOpen, toggle }: any) => {
     }
   });
 
-  useEffect(() => {
-    if((!upLoading && upLoaded) || (!loadingUpdate && loadedUpdate)){
-      close();
-    }
-  }, [upLoading, upLoaded, loadingUpdate, loadedUpdate])
+  // useEffect(() => {
+  //   if((!upLoading && upLoaded) ){
+  //     console.log("modal useEff");
+  //     close();
+  //   }
+  // }, [upLoading, upLoaded])
 
   const close = () => {
-    toggle(false);
+    toggleAssign(false);
     setSelectPayouts([])
   };
 
@@ -78,7 +79,7 @@ export default ({ isOpen, toggle }: any) => {
   }
 
   return (
-    <Modal isOpen={isOpen} toggle={close} className="modal-dialog-centered">
+    <Modal isOpen={isOpen} toggle={() => close()} className="modal-dialog-centered">
       <AvForm
         onValidSubmit={(
           e: any,
@@ -87,7 +88,7 @@ export default ({ isOpen, toggle }: any) => {
           handleValidAffPayoutSubmit(values);
         }}
       >
-        <ModalHeader toggle={close} tag="h4">
+        <ModalHeader toggle={() => close()} tag="h4">
           Assign Payout
         </ModalHeader>
         <ModalBody>

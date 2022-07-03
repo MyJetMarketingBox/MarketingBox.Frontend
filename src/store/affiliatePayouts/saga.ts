@@ -15,7 +15,7 @@ import {
   delPayoutFail
 } from "./actions";
 
-import { updateAffiliate } from "../affiliates/profile/actions";
+import { modalAssignPayoutAff, modalNewPayoutAff, updateAffiliate } from "../affiliates/profile/actions";
 
 import {
   getAffPayouts,
@@ -60,6 +60,8 @@ function* addPayoutSaga({payload: payouts} : any) {
   try{
     const response : Promise<any> = yield call(addAffPayouts, payouts);
     yield put(addPayoutSuccess(response))
+    yield put(modalAssignPayoutAff(false));
+    yield put(modalNewPayoutAff(false));
   }catch (error) {
     yield put(addPayoutFail(error));
   }
@@ -69,6 +71,8 @@ function* updatePayoutSaga({data, id} : any) {
   try{
     const response : Promise<any> = yield call(updateAffPayout, data, id);
     yield put(updatePayoutSuccess(response));
+    yield put(modalAssignPayoutAff(false));
+    yield put(modalNewPayoutAff(false));
   }catch (error) {
     yield put(updatePayoutFail(error))
   }

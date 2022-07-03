@@ -5,7 +5,9 @@ import {
   getBrandSuccess,
   getBrandFail,
   updateBrandSuccess,
-  updateBrandFail
+  updateBrandFail,
+  modalAssignPayoutBrand,
+  modalNewPayoutBrand,
 } from "./actions";
 
 import {getBrand, updateBrand} from "../../../helpers/backend_helper";
@@ -23,6 +25,8 @@ function* updateBrandSaga({payload: brand, id: id}: any) {
   try{
     const response : Promise<any> = yield call(updateBrand, brand, id)
     yield put(updateBrandSuccess(response))
+    yield put(modalAssignPayoutBrand(false));
+    yield put(modalNewPayoutBrand(false));
   }catch (error) {
     yield put(updateBrandFail(error))
   }

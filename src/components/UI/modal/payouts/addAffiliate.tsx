@@ -126,18 +126,18 @@ export default ({ isOpen, toggle, isAff, payoutId }: any) => {
     }
   });
 
-  useEffect(() => {
+  /*useEffect(() => {
     console.log(selectedPayout);
-  }, [selectedPayout])
+  }, [selectedPayout])*/
 
-  useEffect(() => {
+  /*useEffect(() => {
     if((!loadingUpdate && loadedUpdate) || (!loadingItem && loadedItem)){
       close();
     }
-  }, [loadingUpdate, loadedUpdate, loadingItem, loadedItem])
+  }, [loadingUpdate, loadedUpdate, loadingItem, loadedItem])*/
 
   const close = () => {
-    toggle(false);
+    toggle("", false);
     resetForm();
   };
 

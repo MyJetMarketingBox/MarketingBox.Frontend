@@ -7,6 +7,8 @@ export const INIT_STATE : AffProfileState = {
   loaded: false,
   upLoading: false,
   upLoaded: false,
+  modalNewPayout: false,
+  modalAssignPayout: false,
 };
 
 const affProfile = (state = INIT_STATE, action: any) => {
@@ -54,6 +56,18 @@ const affProfile = (state = INIT_STATE, action: any) => {
         error: action.payload,
         upLoading: false,
       };
+
+    case AffProfileTypes.MODAL_ASSIGN_PAYOUT:
+      return {
+        ...state,
+        modalAssignPayout: action.status
+      }
+
+    case AffProfileTypes.MODAL_NEW_PAYOUT:
+      return {
+        ...state,
+        modalNewPayout: action.status
+      }
 
     case AffProfileTypes.CLEAR_AFFILIATE_PROFILE:
       return INIT_STATE;

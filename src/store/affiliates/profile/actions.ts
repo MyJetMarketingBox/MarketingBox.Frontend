@@ -35,3 +35,13 @@ export const clearAffProfile = () => ({
   type: AffProfileTypes.CLEAR_AFFILIATE_PROFILE,
 });
 
+export const modalAssignPayoutAff = (status: boolean) => ({
+  type: AffProfileTypes.MODAL_ASSIGN_PAYOUT,
+  status
+});
+
+export const modalNewPayoutAff = (status: boolean) => ({
+  type: AffProfileTypes.MODAL_NEW_PAYOUT,
+  status
+});
+

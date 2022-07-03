@@ -11,6 +11,10 @@ export enum BrandProfileTypes {
 
   /** CLEAR **/
   CLEAR_BRAND_PROFILE = "@brands/profile/CLEAR_BRAND_PROFILE",
+
+  /** MODAL **/
+  MODAL_ASSIGN_PAYOUT = "@@brands/profile/MODAL_ASSIGN_PAYOUT",
+  MODAL_NEW_PAYOUT = "@@brands/profile/MODAL_NEW_PAYOUT",
 }
 
 export interface BrandProfileState {
@@ -20,4 +24,6 @@ export interface BrandProfileState {
   loaded: boolean;
   upLoading: boolean;
   upLoaded: boolean;
+  modalNewPayout: boolean;
+  modalAssignPayout: boolean;
 }

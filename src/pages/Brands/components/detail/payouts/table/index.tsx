@@ -4,7 +4,11 @@ import BootstrapTable from "react-bootstrap-table-next";
 import { Currency, PayoutType } from "../../../../../../common/utils/model";
 import { useDispatch, useSelector } from "react-redux";
 import ConfirmDelete from "../../../../../../components/UI/confirmDelete/ConfirmDelete";
-import { updateBrand } from "../../../../../../store/brands/profile/actions";
+import {
+  modalAssignPayoutBrand,
+  modalNewPayoutBrand,
+  updateBrand
+} from "../../../../../../store/brands/profile/actions";
 import ToolkitProvider, { Search } from "react-bootstrap-table2-toolkit";
 import {
   Col,
@@ -24,16 +28,15 @@ export default (props: any) => {
 
   const [isOpen, setIsOpen] = useState(false);
   const [selectId, setSelectId] = useState(false);
-
-  const [modalAdd, setAddModal] = useState<boolean>(false);
-  const [modalAssign, setAssignModal] = useState<boolean>(false);
   const [plusBtn, setPlusBtn] = useState(false);
 
   const { SearchBar } = Search;
 
-  const { brandProfile } = useSelector((state: any) => {
+  const { brandProfile, modalAssign, modalNew } = useSelector((state: any) => {
     return {
       brandProfile: state.BrandProfile.brand,
+      modalAssign: state.BrandProfile.modalAssignPayout,
+      modalNew: state.BrandProfile.modalNewPayout
     };
   });
 
@@ -55,13 +58,11 @@ export default (props: any) => {
   };
 
   const toggleModalAdd = (status: boolean) => {
-    //setAddModal(prev => !prev);
-    setAddModal(status);
+    dispatch(modalNewPayoutBrand(status))
   }
 
   const toggleModalAssign = (status: boolean) => {
-    //setAssignModal(prev => !prev);
-    setAssignModal(status);
+    dispatch(modalAssignPayoutBrand(status))
   };
 
   const handleDeleteBrandPayout = (payoutId: number) => {
@@ -248,7 +249,7 @@ export default (props: any) => {
         id={selectId}
       />}
 
-      {modalAdd && <AddModal isOpen={modalAdd} toggle={toggleModalAdd} isBrand={true} />}
+      {modalNew && <AddModal isOpen={modalNew} toggle={toggleModalAdd} isBrand={true} />}
       {modalAssign && <AssignModal isOpen={modalAssign} toggle={toggleModalAssign} />}
 
     </React.Fragment>
