@@ -5,6 +5,7 @@ import { DayOfWorkEnum } from "src/enums/DayOfWorkEnum";
 import { ActivityHoursType } from "src/types/ActivityHoursType";
 import { useTranslation } from "react-i18next";
 import { DayOfWorkName } from "src/constants/DayOfWorkName";
+import InputMask from "react-input-mask";
 
 interface Props {
   onChange: (data: ActivityHoursType) => void;
@@ -24,14 +25,14 @@ const ActivityHourInputItem = ({ value, onChange }: Props) => {
   const handleChangeFrom = (e: ChangeEvent<HTMLInputElement>) => {
     onChange({
       ...value,
-      from: e.target.value,
+      from: (!e.target.value) ? "00:00:00" : e.target.value,
     });
   };
 
   const handleChangeTo = (e: ChangeEvent<HTMLInputElement>) => {
     onChange({
       ...value,
-      to: e.target.value,
+      to: (!e.target.value) ? "23:59:59" : e.target.value,
     });
   };
 
@@ -52,22 +53,52 @@ const ActivityHourInputItem = ({ value, onChange }: Props) => {
         <Label htmlFor={`activity-day-${value.day}`} />
       </div>
 
-      <div className="d-flex">
-        <AvField
+      <div className="d-flex ml-5">
+        {/*<AvField
           name={`activity-day-from-${value.day}`}
-          type="time"
-          step="1"
+          //type="time"
+          //step="1"
           value={value.from || ""}
           onChange={handleChangeFrom}
-        />
-        &nbsp;
-        <AvField
+        />*/}
+        <InputMask
+          name={`activity-day-from-${value.day}`}
+          mask="99:99:99"
+          placeholder="__:__:__"
+          value={value.from || ""}
+          className="form-control input-color text-end"
+          onChange={handleChangeFrom}
+          style={{padding: "0px", border: "unset", height: "30px", width: "100px"}}
+          validate={{
+            pattern: {
+              value: '^([0-1]?\\d|2[0-3])(?::([0-5]?\\d))?(?::([0-5]?\\d))?$',
+              errorMessage: 'Your name must be composed only with letter and numbers'
+            },
+          }}
+        ></InputMask>
+        <span style={{margin:"0px 10px", lineHeight: "2"}}> - </span>
+        {/*<AvField
           name={`activity-day-to-${value.day}`}
-          type="time"
-          step="1"
+          //type="time"
+          //step="1"
           value={value.to || ""}
           onChange={handleChangeTo}
-        />
+        />*/}
+        <InputMask
+          name={`activity-day-to-${value.day}`}
+          mask="99:99:99"
+          placeholder="__:__:__"
+          value={value.to || ""}
+          className="form-control input-color"
+          onChange={handleChangeTo}
+          style={{padding: "0px", border: "unset", height: "30px", width: "100px"}}
+          validate={{
+            pattern: {
+              value: '^([0-1]?\\d|2[0-3])(?::([0-5]?\\d))?(?::([0-5]?\\d))?$',
+              errorMessage: 'Your name must be composed only with letter and numbers'
+            },
+          }}
+        ></InputMask>
       </div>
     </div>
   );

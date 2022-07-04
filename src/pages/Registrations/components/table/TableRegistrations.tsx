@@ -1,20 +1,30 @@
 import BootstrapTable from "react-bootstrap-table-next";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ColumnActions from "../../../../components/UI/columnActions/ColumnActions";
 import { RegistrationStatus } from "../../../../common/utils/model";
 import ChangeStatus from "../../../../components/UI/modal/changeStatus";
 import { RegistrationStatusEnum } from "../../../../enums/RegistrationStatusEnum";
 import { TableButtonHandlerEnum } from "../../../../enums/TableButtonHandlerEnum";
+import { useDispatch, useSelector } from "react-redux";
+import { setModalStatus } from "../../../../store/registrations/actions";
 
 export default ({ registrations = [], setRegId, toggle, selected }: any) => {
+  const dispatch = useDispatch();
+
   const [isOpen, setIsOpen] = useState(false);
   const [selectId, setSelectId] = useState<number>();
   const [selectStatus, setSelectStatus] = useState<RegistrationStatusEnum>(
     RegistrationStatusEnum.Registered
   );
 
-  const toggleAction = () => {
-    setIsOpen(prev => !prev);
+  const { modalStatus } = useSelector((state: any) => {
+    return {
+      modalStatus: state.Registrations.modalStatus
+    }
+  })
+
+  const toggleAction = (status: boolean) => {
+    dispatch(setModalStatus(status))
   };
 
   let selectRow: any;
@@ -34,7 +44,7 @@ export default ({ registrations = [], setRegId, toggle, selected }: any) => {
       label: "change status",
       type: TableButtonHandlerEnum.EditStatus,
       handler: (id: number, status: RegistrationStatusEnum) => {
-        setIsOpen(true);
+        toggleAction(true);
         setSelectId(+id);
         setSelectStatus(status);
       },
@@ -215,9 +225,9 @@ export default ({ registrations = [], setRegId, toggle, selected }: any) => {
         selectRow={selectRow}
       />
 
-      {selectId && (
+      {(selectId && modalStatus) && (
         <ChangeStatus
-          isOpen={isOpen}
+          isOpen={modalStatus}
           toggle={toggleAction}
           id={selectId}
           status={selectStatus}

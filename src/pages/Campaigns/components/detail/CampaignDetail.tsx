@@ -45,13 +45,13 @@ const CampaignDetail = () => {
   };
 
   useEffect(() => {
-    dispatch(getCampaigns());
+    //dispatch(getCampaigns());
     dispatch(getGeo());
     dispatch(getBrands());
     dispatch(getCampaignRowByCampaignId("", { CampaignIds: id }));
 
     return () => {
-      dispatch(clearCampaigns())
+      //dispatch(clearCampaigns())
       dispatch(clearGeo())
       dispatch(clearBrands())
     }
@@ -59,6 +59,7 @@ const CampaignDetail = () => {
 
   return (
     <div className="page-content">
+      {isLoading && <Loader />}
       <MetaTags>
         <title>Campaign | TraffMe </title>
       </MetaTags>
@@ -86,7 +87,6 @@ const CampaignDetail = () => {
                 <Col xl="12">
                   <div className="table-responsive">
                     {!isLoading && <CamaignRowsTable items={campaignRows} />}
-                    {isLoading && <Loader />}
                   </div>
                 </Col>
               </Row>
@@ -101,9 +101,9 @@ const CampaignDetail = () => {
           activeCRId={+id}
           toggleClose={handleCloseEditModal}
           campaignRow={
-            campaignRows.find(item => item.campaignRowId === editableCRid) ||
-            null
+            campaignRows.find(item => item.campaignRowId === editableCRid) || null
           }
+          campaignId={+id}
         />
       )}
     </div>

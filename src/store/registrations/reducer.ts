@@ -12,6 +12,7 @@ export const INIT_STATE : RegistrationsState = {
   errorUpdate: {},
   loadingUpdate: false,
   loadedUpdate: false,
+  modalStatus: false
 }
 
 const registrations = (state = INIT_STATE, action :any) => {
@@ -98,7 +99,11 @@ const registrations = (state = INIT_STATE, action :any) => {
         loadedLog: false
       }
 
-
+    case RegistrationsTypes.MODAL_STATUS:
+      return {
+        ...state,
+        modalStatus: action.status
+      }
 
     case RegistrationsTypes.CLEAR_REGISTRATIONS:
       return INIT_STATE

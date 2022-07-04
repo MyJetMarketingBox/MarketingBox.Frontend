@@ -35,7 +35,7 @@ export const deleteCampaignRowSuccess = (id: number) => ({
   id,
 });
 
-export const addCampaignRow = (payload: CampaignRowValues) => ({
+export const addCampaignRow = (payload: any) => ({
   type: CampaignRowsActionEnum.ADD_CAMPAIGN_ROW,
   payload,
 });
@@ -47,7 +47,7 @@ export const addCampaignRowSuccess = (payload: ICampaignRowItem) => ({
 
 export const editCampaignRow = (payload: {
   id: number;
-  data: CampaignRowValues;
+  data: any;
 }) => ({
   type: CampaignRowsActionEnum.EDIT_CAMPAIGN_ROW,
   payload,

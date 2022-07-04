@@ -13,7 +13,10 @@ export enum RegistrationsTypes {
   UPDATE_STATUS_FAIL = "@@registrations/UPDATE_STATUS_FAIL",
 
   /* CLEAR Registrations */
-  CLEAR_REGISTRATIONS = "@@contact/CLEAR_REGISTRATIONS",
+  CLEAR_REGISTRATIONS = "@@registrations/CLEAR_REGISTRATIONS",
+
+  /** MODAL **/
+  MODAL_STATUS = "@@registrations/MODAL_STATUS",
 }
 
 interface iRegistrations {
@@ -34,4 +37,6 @@ export interface RegistrationsState {
   errorUpdate: Object;
   loadingUpdate: boolean;
   loadedUpdate: boolean;
+
+  modalStatus: false;
 }

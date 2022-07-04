@@ -1,11 +1,15 @@
 import { useDispatch, useSelector } from "react-redux";
-import { Col, Row, Modal, ModalHeader, ModalBody } from "reactstrap";
+import { Col, Row, Modal, ModalHeader, ModalBody, Form, ModalFooter } from "reactstrap";
 import { AvField, AvForm } from "availity-reactstrap-validation";
 import { addCampaign, editCampaign } from "../../../../store/campaigns/actions";
 import { CampaignTabsEnum } from "src/enums/CampaignTabsEnum";
-import { ChangeEvent, useEffect, useMemo, useState } from "react";
+import React, { ChangeEvent, useCallback, useEffect, useMemo, useState } from "react";
 import { addGeo, getGeo } from "src/store/actions";
 import { RootStoreType } from "src/store/storeTypes";
+import * as yup from "yup";
+import ValidationText from "../../../../constants/validationText";
+import { useFormik } from "formik";
+import LabelInput from "../../../../components/UI/FormElements/LabelInput";
 
 interface Props {
   isOpen: boolean;
@@ -20,62 +24,110 @@ interface IFormValues {
 const EditCampaignForm = ({ data, isOpen, toggle }: Props) => {
   const dispatch = useDispatch();
 
-  const [name, setName] = useState(data.name);
+  //const [name, setName] = useState(data.name);
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setName(e.target.value);
-  };
+  const validationSchema: yup.SchemaOf<IFormValues> = yup.object().shape({
+    name: yup.string()
+      .min(1, ValidationText.minLength1)
+      .max(75, ValidationText.maxLength75)
+      .matches(/^[a-zA-Z0-9_-]+$/, ValidationText.usernameMask)
+      .required(ValidationText.required),
+  });
 
-  const handleValidSubmit = () => {
+  const initialValues = useCallback((): IFormValues => {
+    return {
+      name: data.name,
+    }
+  }, [data]);
+
+
+  // const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  //   setName(e.target.value);
+  // };
+
+  const handleSubmitForm = () => {
     dispatch(
       editCampaign({
         id: data.id,
-        name,
+        "name": values.name,
       })
     );
 
     toggle();
   };
 
+  const {
+    values,
+    validateForm,
+    handleChange,
+    submitForm,
+    handleBlur,
+    errors,
+    touched,
+    isValid,
+    resetForm,
+    setFieldValue
+  } = useFormik({
+    initialValues: initialValues(),
+    onSubmit: handleSubmitForm,
+    validationSchema: validationSchema,
+    validateOnBlur: true,
+    validateOnChange: true,
+    validateOnMount: true,
+  });
+
+  const handlerClickSubmit = async () => {
+    const curErrors = await validateForm();
+    const curErrorsKeys = Object.keys(curErrors);
+    if (curErrorsKeys.length) {
+      const el = document.getElementById(curErrorsKeys[0]);
+      if (el) el.focus();
+    }
+    submitForm();
+  };
+
   return (
     <Modal isOpen={isOpen} toggle={toggle} centered>
-      <ModalHeader toggle={toggle} tag="h4">
-        Edit Campaign
-      </ModalHeader>
-      <ModalBody>
-        <AvForm onValidSubmit={handleValidSubmit}>
+      {/*<AvForm onValidSubmit={handleValidSubmit}>*/}
+      <Form className="needs-validation">
+        <ModalHeader toggle={toggle} tag="h4">
+          Edit Campaign
+        </ModalHeader>
+        <ModalBody>
           <Row form>
             <Col xs={12}>
               <div className="mb-3">
-                <AvField
+                <LabelInput
+                  label="Name*"
+                  placeholder="Name*"
                   name="name"
-                  label="Name"
-                  type="text"
-                  errorMessage="Invalid name"
-                  value={name}
                   onChange={handleChange}
-                  validate={{
-                    required: { value: true },
-                  }}
+                  onBlur={handleBlur}
+                  value={values.name || ""}
+                  hasError={!!(errors.name && touched.name)}
+                  errorText={errors.name}
                 />
               </div>
             </Col>
           </Row>
+        </ModalBody>
+        <ModalFooter>
           <Row>
             <Col>
               <div className="d-flex">
-                <button type="submit" className="mr-10 btn custom-btn-success">
+                <button
+                  type="button"
+                  className="btn btnOrange"
+                  onClick={handlerClickSubmit}
+                  disabled={!isValid}
+                >
                   Save
-                </button>
-
-                <button type="submit" className="btn custom-btn-light">
-                  Cancel
                 </button>
               </div>
             </Col>
           </Row>
-        </AvForm>
-      </ModalBody>
+        </ModalFooter>
+      </Form>
     </Modal>
   );
 };

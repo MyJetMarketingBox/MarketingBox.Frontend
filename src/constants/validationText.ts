@@ -9,6 +9,7 @@ const ValidationText = {
   maxLength5: "Max 5 symbols",
   maxLength50: "Max 50 symbols",
   maxLength75: "Max 75 symbols",
+  maxLength128: "Max 128 symbols",
   maxLength255: "Max 255 symbols",
   matchPassword: "Must matching with new password",
   shortPassword: "The password is too short",

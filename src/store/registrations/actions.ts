@@ -50,3 +50,8 @@ export const getStatusLogFail = (error: any) => ({
 export const clearRegistrations = () => ({
   type: RegistrationsTypes.CLEAR_REGISTRATIONS,
 })
+
+export const setModalStatus = (status: boolean) => ({
+  type: RegistrationsTypes.MODAL_STATUS,
+  status
+})

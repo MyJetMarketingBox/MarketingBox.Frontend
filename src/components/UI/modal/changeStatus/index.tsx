@@ -1,14 +1,18 @@
-import React, { ChangeEvent, useEffect, useState } from "react";
-import { Col, Label, Modal, ModalBody, ModalFooter, ModalHeader, Row } from "reactstrap";
-import { AvField, AvForm, AvInput } from "availity-reactstrap-validation";
+import React, { ChangeEvent, useCallback, useEffect, useMemo } from "react";
+import { Col, Form, Modal, ModalBody, ModalFooter, ModalHeader, Row } from "reactstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { changeRootBlur } from "../../../../store/layout/actions";
 import { RegistrationStatusObj } from "../../../../common/utils/model";
 import { RegistrationStatusEnum } from "../../../../enums/RegistrationStatusEnum";
+import * as yup from "yup";
+import { useFormik } from "formik";
+import ValidationText from "../../../../constants/validationText";
+import LabelInput from "../../FormElements/LabelInput";
+import LabelSelect from "../../FormElements/LabelSelect";
 import { updateRegistrationStatus } from "../../../../store/registrations/actions";
 
-interface UpdateResponse {
-  status: RegistrationStatusEnum,
+interface IUpdateResponse {
+  status: number,
   comment: string
 }
 
@@ -23,9 +27,6 @@ interface Props {
 export default ({ isOpen, toggle, id, status }: Props) => {
   const dispatch = useDispatch();
 
-  const [getStatus, setStatus] = useState<RegistrationStatusEnum>(status);
-  const [getComment, setComment] = useState("");
-
   const { loadingUpdate, loadedUpdate } = useSelector((state: any) => {
     return {
       loadingUpdate: state.Registrations.loadingUpdate,
@@ -33,42 +34,78 @@ export default ({ isOpen, toggle, id, status }: Props) => {
     }
   })
 
+  const validationSchema: yup.SchemaOf<IUpdateResponse> = yup.object().shape({
+    status: yup.number().required(ValidationText.required),
+    comment: yup.string().required(ValidationText.required)
+  });
+
+  const initialValues = useCallback((): IUpdateResponse => {
+    return {
+      status: status,
+      comment: ""
+    }
+  }, [status]);
+
+
+  const handleSubmitForm = () => {
+    let resp = {
+      "status": +values.status,
+      "comment": values.comment
+    }
+
+    dispatch(updateRegistrationStatus(id, resp));
+  }
+
+  const {
+    values,
+    validateForm,
+    handleChange,
+    submitForm,
+    handleBlur,
+    errors,
+    touched,
+    isValid,
+    resetForm,
+    setFieldValue
+  } = useFormik({
+    initialValues: initialValues(),
+    onSubmit: handleSubmitForm,
+    validationSchema: validationSchema,
+    validateOnBlur: true,
+    validateOnChange: true,
+    validateOnMount: true,
+  });
+
+  const handlerClickSubmit = async () => {
+    const curErrors = await validateForm();
+    const curErrorsKeys = Object.keys(curErrors);
+    if (curErrorsKeys.length) {
+      const el = document.getElementById(curErrorsKeys[0]);
+      if (el) el.focus();
+    }
+    submitForm();
+  };
+
+  const toggleRootBlur = (status: boolean) => {
+    dispatch(changeRootBlur(status));
+  }
 
   useEffect(() => {
-    dispatch(changeRootBlur(isOpen));
+    toggleRootBlur(isOpen);
   }, [isOpen]);
 
-  useEffect(() => {
-    setStatus(status);
-  }, [status])
 
   useEffect(() => {
-    if(!loadingUpdate && loadedUpdate){
+    if(!isOpen && !loadingUpdate && loadedUpdate){
       close();
-      setComment("")
     }
-  }, [loadingUpdate, loadedUpdate])
+  }, [isOpen, loadingUpdate, loadedUpdate])
 
 
   const close = () => {
+    toggleRootBlur(false);
     toggle(false);
-  };
-
-  const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    setStatus(+e.target.value);
-  };
-
-  const handleChangeComment = (e: ChangeEvent<HTMLInputElement>) => {
-    setComment(e.target.value);
-  }
-
-  const handleBtnUpdate = () => {
-      let resp = {
-        "status": getStatus,
-        "comment": getComment
-      }
-
-      dispatch(updateRegistrationStatus(id, resp));
+    resetForm();
   };
 
 
@@ -77,62 +114,58 @@ export default ({ isOpen, toggle, id, status }: Props) => {
       <ModalHeader toggle={close} tag="h4">
         Change Status
       </ModalHeader>
-      <ModalBody>
-
-        <AvForm className="needs-validation">
-
+      <Form className="needs-validation">
+        <ModalBody>
           <div className="mb-3 mt-2">
-            <AvField
-              type="select"
+            <LabelSelect
+              value={`${values.status}`}
               name="status"
-              className="form-select"
-              label="Status*"
-              required
-              value={String(getStatus)}
               onChange={handleChange}
+              onBlur={handleBlur}
+              label="Status*"
+              hasError={!!(errors.status && touched.status)}
+              errorText={errors.status}
             >
               {Object.entries(RegistrationStatusObj).map((val) => {
                 if (val[0] !== '0') {
                   return <option key={val[0]} value={val[0]}>{val[1]}</option>;
                 }
               })}
-            </AvField>
+            </LabelSelect>
           </div>
 
           <div className="mb-3">
-            <Label> Comment* </Label>
-            <AvInput
-              type="textarea"
+            <LabelInput
+              label="Comment"
+              placeholder="Comment*"
               name="comment"
-              id="comment"
-              placeholder="Comment"
-              value={getComment}
-              onChange={handleChangeComment}
-              required
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.comment || ""}
+              hasError={!!(errors.comment && touched.comment)}
+              errorText={errors.comment}
             />
           </div>
+        </ModalBody>
 
-        </AvForm>
-
-
-      </ModalBody>
-      <ModalFooter>
-        <Row>
-          <Col>
-            <div className="text-end">
-              <button
-                type="submit"
-                className="btn btnOrange"
-                onClick={handleBtnUpdate}
-                disabled={loadingUpdate}
-              >
-                {loadingUpdate && <i className="bx bx-hourglass bx-spin me-2"/>}
-                Save
-              </button>
-            </div>
-          </Col>
-        </Row>
-      </ModalFooter>
+        <ModalFooter>
+          <Row>
+            <Col>
+              <div className="text-end">
+                <button
+                  type="button"
+                  className="btn btnOrange"
+                  onClick={handlerClickSubmit}
+                  disabled={!isValid || loadingUpdate}
+                >
+                  {loadingUpdate && <i className="bx bx-hourglass bx-spin me-2"/>}
+                  Save
+                </button>
+              </div>
+            </Col>
+          </Row>
+        </ModalFooter>
+      </Form>
     </Modal>
   )
 

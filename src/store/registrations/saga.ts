@@ -9,11 +9,14 @@ import {
   getStatusLogFail,
   getStatusLogSuccess,
   updateRegistrationStatusFail,
-  updateRegistrationStatusSuccess
+  updateRegistrationStatusSuccess,
+  setModalStatus
 } from "./actions";
 
 //Включите оба файла-помощника с необходимыми методами
 import { getRegistrations, getStatusLog, updateRegStatus } from "../../helpers/backend_helper";
+import { modalNewPayoutAff } from "../affiliates/profile/actions";
+import { changeRootBlur } from "../layout/actions";
 
 
 function* fetchRegistrations({ nextUrl, filter } : any) {
@@ -38,6 +41,8 @@ function* updateRegStatusSaga({id, request} : any) {
   try{
     const response : Promise<any> = yield call(updateRegStatus, id, request);
     yield put(updateRegistrationStatusSuccess(response))
+    yield put(setModalStatus(false))
+    yield put(changeRootBlur(false))
   }catch (error) {
     yield put(updateRegistrationStatusFail(error))
   }
