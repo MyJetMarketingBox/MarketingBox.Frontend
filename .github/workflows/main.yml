@@ -2,7 +2,8 @@ name: NodeJS with Webpack
 
 on:
   push:
-    branches: [ test ]
+    tags:
+      - "[0-9]+.[0-9]+.[0-9]+"
 
 jobs:
   build:
@@ -22,7 +23,14 @@ jobs:
       uses: ASzc/change-string-case-action@v1
       with:
         string: ${{ github.event.repository.name }}
-        
+    - name: Name of branch prod
+      id: branches
+      uses: ashley-taylor/regex-property-action@1.2
+      with:
+        value: ${{ github.ref }}
+        regex: ".*/"
+        flags: "" # Optional, defaults to "g"
+        replacement: ""
     - name: Get current time
       uses: MyJetTools/get-current-time@v2
       id: current-time
@@ -53,24 +61,38 @@ jobs:
         registry: ${{ secrets.MBOX_REGISTRY_URL }} 
         repository: marketingbox/${{ steps.string.outputs.lowercase }}-${{ steps.branch.outputs.branch_name }}
         tags: latest
-        build_args: app_version=${{ steps.string.outputs.lowercase }}-${{ steps.branch.outputs.branch_name }}:latest,app_compilation_date=${{ steps.current-time.outputs.formattedTime }}
+        build_args: app_version=${{ steps.string.outputs.lowercase }}-${{ steps.branch.outputs.branch_name }}:${{ steps.branches.outputs.value }},app_compilation_date=${{ steps.current-time.outputs.formattedTime }}
         
 #     - name: deploy
 #       uses: Myjetwallet/kube-apply-all@master
 #       env:
 #         KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA_PROD }}
 
-    - name: deploy
-      env:
-        KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA_UAT }}
-      run: |
-        echo "$KUBE_CONFIG_DATA" | base64 --decode > /tmp/config
-        export KUBECONFIG=/tmp/config
-        ls -la /tmp
-        kubectl config current-context
-        kubectl get nodes
-        ls -la
-        kubectl apply -f deployment.yaml -f service.yaml
+#     - name: deploy
+#       env:
+#         KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA_UAT }}
+#       run: |
+#         echo "$KUBE_CONFIG_DATA" | base64 --decode > /tmp/config
+#         export KUBECONFIG=/tmp/config
+#         ls -la /tmp
+#         kubectl config current-context
+#         kubectl get nodes
+#         ls -la
+#         kubectl apply -f deployment.yaml -f service.yaml
+
+    - name: get master kube yamls
+      uses: actions/checkout@v2
+      with:
+        repository: MyJetMarketingBox/marketing-box-kubernates-infrastructure
+        ref: master
+        token: ${{ secrets.UAT_GIT_TOKEN }}
+    - run: ls
+    - run: sed -i s/${{ steps.string.outputs.lowercase }}-master:.*/${{ steps.string.outputs.lowercase }}-master:${{ steps.branches.outputs.value }}/g services/*/deployment*
+    - run: |        
+        git config user.name github-actions
+        git config user.email github-actions@github.com
+        git commit -a -m "Update version of service ${{ steps.string.outputs.lowercase }}"
+        git push
 
   docker_update_version:
     needs: build
