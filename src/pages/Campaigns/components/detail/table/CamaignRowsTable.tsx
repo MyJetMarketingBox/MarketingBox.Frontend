@@ -3,7 +3,7 @@ import { ICampaignRowItem } from "src/store/campaignsRow/actionTypes";
 import ToolkitProvider, { Search } from "react-bootstrap-table2-toolkit";
 import PopoverActivityHours from "../../../../../components/UI/popover/bottom/activityHours";
 import ColumnActions from "../../../../../components/UI/columnActions/ColumnActions";
-import { Col } from "reactstrap";
+import { Col, Input, Label } from "reactstrap";
 import BootstrapTable from "react-bootstrap-table-next";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteCampaignRow, openEditCampaignRowModal } from "src/store/actions";
@@ -69,6 +69,7 @@ const CamaignRowsTable = ({ items }: Props) => {
       dailyCapValue: campaignRow.dailyCapValue,
       activityHours: campaignRow.activityHours,
       information: campaignRow.information,
+      enableTraffic: campaignRow.enableTraffic
     }));
   }, [items, brands]);
 
@@ -95,6 +96,17 @@ const CamaignRowsTable = ({ items }: Props) => {
       dataField: "geo",
       text: "GEO",
       sort: true,
+    },
+    {
+      dataField: "enableTraffic",
+      text: "Enable Traffic",
+      sort: false,
+      formatter: (cell: any, row: any) => (
+        <>
+          <Input type="checkbox" id="enableTraffic" switch="success" defaultChecked={!!row.enableTraffic} onChange={() => console.log('fuck')}/>
+          <Label className="me-1" htmlFor="enableTraffic" data-on-label="Yes" data-off-label="No"></Label>
+        </>
+      ),
     },
     {
       dataField: "activityHours",

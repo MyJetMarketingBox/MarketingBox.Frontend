@@ -51,13 +51,16 @@ export default ({ id, activityHours }: Props) => {
         <PopoverHeader>Activity Hours</PopoverHeader>
         <PopoverBody>
           <ul className={c["ul"]}>
-            {activityHours?.map(item => (
-              <li key={item.day} className={c["list-hours"]}>
-                <Label className={c["day"]}>{DayOfWeek[item.day]}</Label>
-                <Label className={"mr-5"}>{item?.from.slice(0, 5)}</Label>-
-                <Label className={"ml-5"}>{item?.to.slice(0, 5)}</Label>
-              </li>
-            ))}
+            {activityHours?.map(item => {
+              const classesContainer = [];
+              if (!item.isActive ) classesContainer.push("text-muted opacity-3");
+                return <li key={item.day} className={c["list-hours"]}>
+                  <Label style={{width: "80px"}} className={classesContainer.join(" ml-5 ")}>{DayOfWeek[item.day]}</Label>
+                  <Label className={classesContainer.join(" ml-5 ")}>{item?.from.slice(0, 5)}</Label>-
+                  <Label className={classesContainer.join(" ml-5 ")}>{item?.to.slice(0, 5)}</Label>
+                </li>
+              }
+            )}
           </ul>
         </PopoverBody>
       </Popover>

@@ -49,7 +49,6 @@ const CampaignDetail = () => {
     dispatch(getGeo());
     dispatch(getBrands());
     dispatch(getCampaignRowByCampaignId("", { CampaignIds: id }));
-
     return () => {
       //dispatch(clearCampaigns())
       dispatch(clearGeo())

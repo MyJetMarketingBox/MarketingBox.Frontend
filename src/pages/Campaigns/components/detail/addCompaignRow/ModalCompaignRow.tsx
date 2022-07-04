@@ -305,9 +305,7 @@ const ModalCompaignRow = (props: Props) => {
     >
       <ModalHeader toggle={toggleClose} tag="h4">
         {campaignRow
-          ? <div style={{width: "80%", wordWrap: "break-word"}}> `${t("Edit Row")} - ${campaignRow.campaign.name} | ${
-            campaignRow.campaignRowId
-          }`</div>
+          ? t("Edit Row")
           : t("Add new Row")}
       </ModalHeader>
 
