@@ -59,9 +59,9 @@ jobs:
         password: ${{ secrets.MBOX_REGISTRY_PASS }}
         path: ./
         registry: ${{ secrets.MBOX_REGISTRY_URL }} 
-        repository: marketingbox/${{ steps.string.outputs.lowercase }}-${{ steps.branch.outputs.branch_name }}
+        repository: marketingbox/${{ steps.string.outputs.lowercase }}-master
         tags: latest
-        build_args: app_version=${{ steps.string.outputs.lowercase }}-${{ steps.branch.outputs.branch_name }}:${{ steps.branches.outputs.value }},app_compilation_date=${{ steps.current-time.outputs.formattedTime }}
+        build_args: app_version=${{ steps.string.outputs.lowercase }}-master:${{ steps.branches.outputs.value }},app_compilation_date=${{ steps.current-time.outputs.formattedTime }}
         
 #     - name: deploy
 #       uses: Myjetwallet/kube-apply-all@master
