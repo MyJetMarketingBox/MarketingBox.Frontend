@@ -53,6 +53,22 @@ export const editCampaignRow = (payload: {
   payload,
 });
 
+export const editCampaignRowEnableTraffic = (id: number, status: boolean) => ({
+  type: CampaignRowsActionEnum.CAMPAIGN_ROW_ENABLE_TRAFFIC,
+  id,
+  status
+})
+
+export const editCampaignRowEnableTrafficSuccess = (data: any) => ({
+  type: CampaignRowsActionEnum.CAMPAIGN_ROW_ENABLE_TRAFFIC_SUCCESS,
+  payload: data
+})
+
+export const editCampaignRowEnableTrafficFail = (error: any) => ({
+  type: CampaignRowsActionEnum.CAMPAIGN_ROW_ENABLE_TRAFFIC_FAIL,
+  payload: error
+})
+
 export const editCampaignRowSuccess = (payload: ICampaignRowItem) => ({
   type: CampaignRowsActionEnum.EDIT_CAMPAIGN_ROW_SUCCESS,
   payload,

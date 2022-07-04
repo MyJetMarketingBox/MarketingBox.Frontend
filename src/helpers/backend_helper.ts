@@ -233,6 +233,9 @@ export const addCampaignRowsApi = (data: CampaignRowValues) =>
 export const editCampaignRowsApi = (id: number, data: CampaignRowValues) =>
   put(`${url.CAMPAIGN_ROWS}/${id}`, data);
 
+export const editCampaignRowsEnableTrafficApi = (id: number, status: boolean) =>
+  put(`${url.CAMPAIGN_ROWS}/${id}/enableTraffic`, { "enableTraffic": status }, { notification: "Update success!" });
+
 /** Languages **/
 export const getLanguagesList = (nextUrl: any, filter: object) =>
   get(nextUrl || url.LANGUAGES, { params: filter });

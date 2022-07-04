@@ -7,10 +7,11 @@ import {
   ICloseCampaignRowModalAction,
   IDeleteCampaignRowAction,
   IDeleteCampaignRowSuccessAction,
+  IEditCampaignRowEnableTrafficSuccessAction,
   IEditCampaignRowSuccessAction,
   IGetCampaignRowAction,
   IGetCampaignRowSuccessAction,
-  IOpenCampaignRowModalAction,
+  IOpenCampaignRowModalAction
 } from "./actionTypes";
 
 const initialStore: ICampaignRowStore = {
@@ -30,7 +31,8 @@ type action =
   | IAddCampaignRowSuccessAction
   | IOpenCampaignRowModalAction
   | ICloseCampaignRowModalAction
-  | IEditCampaignRowSuccessAction;
+  | IEditCampaignRowSuccessAction
+  | IEditCampaignRowEnableTrafficSuccessAction;
 
 const CampaignRows: Reducer<ICampaignRowStore, action> = (
   store = initialStore,
@@ -78,6 +80,20 @@ const CampaignRows: Reducer<ICampaignRowStore, action> = (
         isEditCRModal: false,
         editableCRid: null,
         items,
+      };
+
+
+    case CampaignRowsActionEnum.CAMPAIGN_ROW_ENABLE_TRAFFIC_SUCCESS:
+      const itemsArr = store.items.map(item => {
+        if (item.campaignRowId === action.payload.campaignRowId) {
+          return action.payload;
+        }
+        return item;
+      });
+
+      return {
+        ...store,
+        items: itemsArr
       };
 
     case CampaignRowsActionEnum.CAMPAIGN_ROW_OPEN_MODAL:

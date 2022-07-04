@@ -83,7 +83,9 @@ const ModalCompaignRow = (props: Props) => {
     brandId: yup.number().required(ValidationText.required),
     geoId: yup.number().required(ValidationText.required),
     priority: yup.number().required(ValidationText.required),
-    weight: yup.number().required(ValidationText.required),
+    weight: yup.number()
+      .min(1, ValidationText.minLength1)
+      .required(ValidationText.required),
     dailyCapValue: yup.number()
       .min(1, ValidationText.minLength1)
       .required(ValidationText.required),
