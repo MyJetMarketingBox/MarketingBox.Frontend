@@ -2,13 +2,8 @@ name: NodeJS with Webpack
 
 on:
   push:
-<<<<<<< HEAD
-    branches:
-      - uat
-=======
     tags:
       - "[0-9]+.[0-9]+.[0-9]+"
->>>>>>> b73b30ac21c97388fcfabd144bc32e95bb03315f
 
 jobs:
   build:
@@ -73,32 +68,6 @@ jobs:
 #       env:
 #         KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA_PROD }}
 
-<<<<<<< HEAD
-    - name: deploy
-      env:
-        KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA_UAT }}
-      run: |
-        echo "$KUBE_CONFIG_DATA" | base64 --decode > /tmp/config
-        export KUBECONFIG=/tmp/config
-        ls -la /tmp
-        kubectl config current-context
-        kubectl get nodes
-        ls -la
-        kubectl apply -f deployment.yaml -f service.yaml
-
-
-    - name: restart docker container uat
-      if: ${{ steps.branch.outputs.branch_name == 'uat' }}
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.TRAFME_UAT_SVC1_HOST }}
-        username: ${{ secrets.VM_USERNAME }}
-        key: ${{ secrets.TRAFFME_SSH_KEY }}
-        port: ${{ secrets.TRAFME_UAT_SVC1_PORT }}
-        script: |
-          cd /home/monfex/docker-infrastructure/services/MarketingBox.Frontend
-          docker-compose pull && docker-compose up -d
-=======
 #     - name: deploy
 #       env:
 #         KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA_UAT }}
@@ -124,7 +93,6 @@ jobs:
         git config user.email github-actions@github.com
         git commit -a -m "Update version of service ${{ steps.string.outputs.lowercase }}"
         git push
-
   docker_update_version:
     needs: build
     runs-on: ubuntu-latest
@@ -145,4 +113,3 @@ jobs:
         git config user.email github-actions@github.com
         git commit -a -m "Update version of service marketingbox.frontend"
         git push
->>>>>>> b73b30ac21c97388fcfabd144bc32e95bb03315f
