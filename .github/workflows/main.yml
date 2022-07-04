@@ -60,7 +60,7 @@ jobs:
         path: ./
         registry: ${{ secrets.MBOX_REGISTRY_URL }} 
         repository: marketingbox/${{ steps.string.outputs.lowercase }}-master
-        tags: latest
+        tags: ${{ steps.branches.outputs.value }}
         build_args: app_version=${{ steps.string.outputs.lowercase }}-master:${{ steps.branches.outputs.value }},app_compilation_date=${{ steps.current-time.outputs.formattedTime }}
         
 #     - name: deploy
