@@ -274,11 +274,11 @@ const SidebarContent = (props: any) => {
                     {t("Payouts")}
                   </NavLink>
                 </li>
-                <li className={c.subMenuItem}>
+                {/*<li className={c.subMenuItem}>
                   <NavLink to={Page.POSTBACK} activeClassName={c.active}>
                     {t("Postback")}
                   </NavLink>
-                </li>
+                </li>*/}
                 <li className={c.subMenuItem}>
                   <NavLink to={Page.POSTBACK_LOGS} activeClassName={c.active}>
                     {t("Postback Logs")}
