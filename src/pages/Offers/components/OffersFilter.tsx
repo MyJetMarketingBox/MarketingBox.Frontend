@@ -98,7 +98,7 @@ const OffersFilter = ({ onFilter, onClearFilter }: Props) => {
   return (
     <Row className="mb-4 align-items-end">
       <Col xs={12} md={12} lg={2} className="mb-3 custom-react-select">
-        <Label>Countries</Label>
+        <Label>GEO</Label>
         <Select
           isSearchable
           options={geoSelect}

@@ -20,7 +20,7 @@ import {
   getLanguages,
 } from "src/store/actions";
 import { RootStoreType } from "src/store/storeTypes";
-import { AffiliateState, brandPrivacy, Currency } from "src/common/utils/model";
+import { brandPrivacy, Currency, OfferState } from "src/common/utils/model";
 
 interface Props {
   isOpen: boolean;
@@ -29,10 +29,11 @@ interface Props {
 const AddOfferModal = ({ isOpen, toggleClose }: Props) => {
   const dispatch = useDispatch();
 
-  const { geos, languages, brands } = useSelector((store: RootStoreType) => ({
+  const { geos, languages, brands, isLoadingAdd } = useSelector((store: RootStoreType) => ({
     geos: store.Geo,
     languages: store.Languages,
     brands: store.Brands,
+    isLoadingAdd: store.Offers.isLoadingAdd
   }));
 
   const [formValues, setFormValues] = useState({
@@ -196,7 +197,7 @@ const AddOfferModal = ({ isOpen, toggleClose }: Props) => {
                   value="0"
                 >
                   <option value={""}>Select sate</option>
-                  {AffiliateState.map((val, i) => (
+                  {OfferState.map((val, i) => (
                     <option key={i} value={i}>
                       {val}
                     </option>
@@ -204,18 +205,11 @@ const AddOfferModal = ({ isOpen, toggleClose }: Props) => {
                 </AvField>
               </Col>
             </Row>
-            <ModalFooter className="justify-content-center">
-              <div className="d-flex justify-content-center">
+            <ModalFooter className="justify-content-end">
+              <div className="d-flex justify-content-end">
                 <button type="submit" className="mr-10 btn custom-btn-success">
+                  {isLoadingAdd && <i className="bx bx-hourglass bx-spin me-2"/>}
                   Save
-                </button>
-
-                <button
-                  type="button"
-                  className="btn custom-btn-light"
-                  onClick={toggleClose}
-                >
-                  Cancel
                 </button>
               </div>
             </ModalFooter>

@@ -63,3 +63,8 @@ export const addOfferSuccess = (payload: any) => ({
   type: OffersActionEnum.ADD_OFFERS_SUCCESS,
   payload,
 });
+
+export const addOfferFail = (error: any) => ({
+  type: OffersActionEnum.ADD_OFFERS_FAIL,
+  payload: error?.response?.data,
+});

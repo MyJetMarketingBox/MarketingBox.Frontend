@@ -90,6 +90,11 @@ export interface IAddOfferSuccessAction {
   payload: IOffersItem;
 }
 
+export interface IAddOfferFailAction {
+  type: OffersActionEnum.ADD_OFFERS_FAIL;
+  payload: any;
+}
+
 export interface IOffersParams {
   offerName?: string;
   languageIds?: string;
@@ -123,8 +128,10 @@ export interface IOffersDTO {
 
 export interface IOffersStore {
   isLoading: boolean;
+  isLoadingAdd: boolean;
   editableOffer: IOffersItem | null;
   offerUrl: string;
   pagination: PaginationType | null;
   items: IOffersItem[];
+  error: Object
 }
