@@ -5,7 +5,7 @@ import { clearOffersStore, getOffers } from "src/store/actions";
 const SearchOffers = () => {
   const optionsSelect = [
     {value: 'offerName', label: 'Search by Name'},
-    {value: 'id', label: 'Search by ID'},
+    {value: 'OfferId', label: 'Search by ID'},
   ]
 
   return (

@@ -1,0 +1,115 @@
+name: NodeJS with Webpack
+
+on:
+  push:
+    tags:
+      - "[0-9]+.[0-9]+.[0-9]+"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    #strategy:
+    #  matrix:
+    #    node-version: [12.x, 14.x, 16.x]
+    
+    steps:
+    - uses: actions/checkout@v2
+    - name: Extract branch name
+      uses: vazco/github-actions-branch-name@v1
+      id: branch
+
+    - id: string
+      uses: ASzc/change-string-case-action@v1
+      with:
+        string: ${{ github.event.repository.name }}
+    - name: Name of branch prod
+      id: branches
+      uses: ashley-taylor/regex-property-action@1.2
+      with:
+        value: ${{ github.ref }}
+        regex: ".*/"
+        flags: "" # Optional, defaults to "g"
+        replacement: ""
+    - name: Get current time
+      uses: MyJetTools/get-current-time@v2
+      id: current-time
+      with:
+        format: YYYY-MM-DD HH:mm:ss
+        utcOffset: "+00:00"
+        
+    - name: Use Node.js 14.x
+      uses: actions/setup-node@v1
+      with:
+    #    node-version: ${{ matrix.node-version }}
+        node-version: 14.x
+
+    - name: Install
+      run: |
+        npm install
+    - name: Build
+      run: |
+        CI=false
+        npm run build
+    - name: Publish image github
+      id: publish
+      uses: docker/build-push-action@v1
+      with:
+        username: ${{ secrets.MBOX_REGISTRY_USER }}
+        password: ${{ secrets.MBOX_REGISTRY_PASS }}
+        path: ./
+        registry: ${{ secrets.MBOX_REGISTRY_URL }} 
+        repository: marketingbox/${{ steps.string.outputs.lowercase }}-master
+        tags: ${{ steps.branches.outputs.value }}
+        build_args: app_version=${{ steps.string.outputs.lowercase }}-master:${{ steps.branches.outputs.value }},app_compilation_date=${{ steps.current-time.outputs.formattedTime }}
+        
+#     - name: deploy
+#       uses: Myjetwallet/kube-apply-all@master
+#       env:
+#         KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA_PROD }}
+
+#     - name: deploy
+#       env:
+#         KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA_UAT }}
+#       run: |
+#         echo "$KUBE_CONFIG_DATA" | base64 --decode > /tmp/config
+#         export KUBECONFIG=/tmp/config
+#         ls -la /tmp
+#         kubectl config current-context
+#         kubectl get nodes
+#         ls -la
+#         kubectl apply -f deployment.yaml -f service.yaml
+
+    - name: get master kube yamls
+      uses: actions/checkout@v2
+      with:
+        repository: MyJetMarketingBox/marketing-box-kubernates-infrastructure
+        ref: master
+        token: ${{ secrets.UAT_GIT_TOKEN }}
+    - run: ls
+    - run: sed -i s/${{ steps.string.outputs.lowercase }}-master:.*/${{ steps.string.outputs.lowercase }}-master:${{ steps.branches.outputs.value }}/g services/*/deployment*
+    - run: |        
+        git config user.name github-actions
+        git config user.email github-actions@github.com
+        git commit -a -m "Update version of service ${{ steps.string.outputs.lowercase }}"
+        git push
+  docker_update_version:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+    - name: get prod docker yamls
+      uses: actions/checkout@v2
+      with:
+        repository: MyJetMarketingBox/docker-infrastructure
+        ref: prod
+        token: ${{ secrets.UAT_GIT_TOKEN }}
+    - run: |
+        pattern=marketingbox.frontend-master:.*$
+        imagename=marketingbox.frontend-master:${GITHUB_REF#refs/tags/}
+        reg=$"s/${pattern}/${imagename}/g"
+        echo $reg
+        find . -type f -name "docker-compose.*" -print0 -exec sed -i -r $reg {} \;
+        git config user.name github-actions
+        git config user.email github-actions@github.com
+        git commit -a -m "Update version of service marketingbox.frontend"
+        git push

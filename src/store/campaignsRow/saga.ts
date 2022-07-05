@@ -6,19 +6,20 @@ import {
   IDeleteCampaignRowAction,
   IEditCampaignRowAction,
   IGetCampaignRowAction,
+  IEditCampaignRowEnableTraffic
 } from "./actionTypes";
 import { call, takeEvery, put } from "redux-saga/effects";
 import {
   addCampaignRowsApi,
   deleteCampaignRowsApi,
-  editCampaignRowsApi,
-  getCampaignRowsApi,
+  editCampaignRowsApi, editCampaignRowsEnableTrafficApi,
+  getCampaignRowsApi
 } from "src/helpers/backend_helper";
 import {
   addCampaignRowSuccess,
-  deleteCampaignRowSuccess,
+  deleteCampaignRowSuccess, editCampaignRowEnableTrafficSuccess,
   editCampaignRowSuccess,
-  getCampaignRowsSuccess,
+  getCampaignRowsSuccess
 } from "./actions";
 
 function* getCampaignRowByCampaignIdSaga({
@@ -60,6 +61,13 @@ function* editCampaignRowSaga({ payload }: IEditCampaignRowAction) {
   } catch (error) {}
 }
 
+function* editCampaignRowEnableTrafficSaga({ id, status } : IEditCampaignRowEnableTraffic) {
+  try {
+    const response: ICampaignRowItem = yield call(editCampaignRowsEnableTrafficApi, id, status);
+    yield put(editCampaignRowEnableTrafficSuccess(response))
+  }catch (error) {}
+}
+
 function* campaignRowsSaga() {
   yield takeEvery(
     CampaignRowsActionEnum.GET_CAMPAIGN_ROW,
@@ -77,6 +85,11 @@ function* campaignRowsSaga() {
     CampaignRowsActionEnum.EDIT_CAMPAIGN_ROW,
     editCampaignRowSaga
   );
+
+  yield takeEvery(
+    CampaignRowsActionEnum.CAMPAIGN_ROW_ENABLE_TRAFFIC,
+    editCampaignRowEnableTrafficSaga
+  )
 }
 
 export default campaignRowsSaga;

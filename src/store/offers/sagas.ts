@@ -7,12 +7,13 @@ import {
   getOffersList,
 } from "src/helpers/backend_helper";
 import {
+  addOfferFail,
   addOfferSuccess,
   deleteOfferSuccess,
   getOffersSuccess,
   getOfferSuccess,
   getOfferUrl,
-  getOfferUrlSuccess,
+  getOfferUrlSuccess
 } from "./actions";
 import {
   IGetOffersAction,
@@ -57,7 +58,9 @@ function* addOfferSaga({ payload }: IAddOfferAction) {
   try {
     const response: IOffersItem = yield call(addOfferApi, payload);
     yield put(addOfferSuccess(response));
-  } catch (error) {}
+  } catch (error) {
+    yield put(addOfferFail(error))
+  }
 }
 
 function* offersSaga() {

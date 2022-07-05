@@ -22,6 +22,10 @@ export enum CampaignRowsActionEnum {
 
   CAMPAIGN_ROW_OPEN_MODAL = "@@campaignRows/open-edit-modal",
   CAMPAIGN_ROW_CLOSE_MODAL = "@@campaignRows/open-close-modal",
+
+  CAMPAIGN_ROW_ENABLE_TRAFFIC = "@@campaignRows/CAMPAIGN_ROW_ENABLE_TRAFFIC",
+  CAMPAIGN_ROW_ENABLE_TRAFFIC_SUCCESS = "@@campaignRows/CAMPAIGN_ROW_ENABLE_TRAFFIC_SUCCESS",
+  CAMPAIGN_ROW_ENABLE_TRAFFIC_FAIL = "@@campaignRows/CAMPAIGN_ROW_ENABLE_TRAFFIC_FAIL",
 }
 
 export interface IGetCampaignRowAction {
@@ -73,6 +77,17 @@ export interface IEditCampaignRowAction {
 }
 export interface IEditCampaignRowSuccessAction {
   type: CampaignRowsActionEnum.EDIT_CAMPAIGN_ROW_SUCCESS;
+  payload: ICampaignRowItem;
+}
+
+export interface IEditCampaignRowEnableTraffic {
+  type: CampaignRowsActionEnum.CAMPAIGN_ROW_ENABLE_TRAFFIC;
+  id: number;
+  status: boolean;
+}
+
+export interface IEditCampaignRowEnableTrafficSuccessAction {
+  type: CampaignRowsActionEnum.CAMPAIGN_ROW_ENABLE_TRAFFIC_SUCCESS;
   payload: ICampaignRowItem;
 }
 

@@ -15,6 +15,12 @@ export const AffiliateState = [
     'Not Active',
 ]
 
+export const OfferState = [
+    'Active',
+    'Not Active',
+]
+
+
 export const OldCurrency = [
     'USD',
     'EUR',

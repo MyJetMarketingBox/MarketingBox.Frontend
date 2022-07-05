@@ -6,7 +6,7 @@ import ColumnActions from "../../../../../components/UI/columnActions/ColumnActi
 import { Col, Input, Label } from "reactstrap";
 import BootstrapTable from "react-bootstrap-table-next";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteCampaignRow, openEditCampaignRowModal } from "src/store/actions";
+import { deleteCampaignRow, editCampaignRowEnableTraffic, openEditCampaignRowModal } from "src/store/actions";
 import ConfirmDelete from "src/components/UI/confirmDelete/ConfirmDelete";
 import { RootStoreType } from "src/store/storeTypes";
 
@@ -32,6 +32,13 @@ const CamaignRowsTable = ({ items }: Props) => {
   const handleDeleteCampaignRow = (id: number) => {
     dispatch(deleteCampaignRow(id));
   };
+
+  const handleChangeEnableTraffic = (e: any) => {
+    let id = e.target.getAttribute('data-id');
+    let status = e.target.checked;
+
+    dispatch(editCampaignRowEnableTraffic(id, status))
+  }
 
   const listActions: any = [
     {
@@ -103,8 +110,8 @@ const CamaignRowsTable = ({ items }: Props) => {
       sort: false,
       formatter: (cell: any, row: any) => (
         <>
-          <Input type="checkbox" id="enableTraffic" switch="success" defaultChecked={!!row.enableTraffic} onChange={() => console.log('fuck')}/>
-          <Label className="me-1" htmlFor="enableTraffic" data-on-label="Yes" data-off-label="No"></Label>
+          <Input type="checkbox" id={`enableTraffic-${row.id}`} switch="success" defaultChecked={!!row.enableTraffic} data-id={`${row.id}`} onChange={handleChangeEnableTraffic}/>
+          <Label className="me-1" htmlFor={`enableTraffic-${row.id}`} data-on-label="Yes" data-off-label="No"></Label>
         </>
       ),
     },

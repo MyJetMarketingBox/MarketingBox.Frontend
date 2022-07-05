@@ -74,7 +74,7 @@ const miniCard = ({
                 <DropdownMenu className="float-start">
                   <DropdownItem
                     onClick={
-                      cardType === CardTypeEnum.Geo
+                      cardType === CardTypeEnum.Geo || cardType === CardTypeEnum.Offer
                         ? handleOpenDetail
                         : handleClickEdit
                     }
