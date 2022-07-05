@@ -4,8 +4,8 @@ import { Col, Label, Row } from "reactstrap";
 import Select from "src/components/UI/select";
 import OfferPrivacyName from "src/constants/OfferPrivacyName";
 import OfferStatusName from "src/constants/OfferStatusName";
-import { getBrands, getGeo, getLanguages } from "src/store/actions";
-import { getCampaigns } from "src/store/campaigns/actions";
+import { clearBrands, clearCountries, clearGeo, getBrands, getGeo, getLanguages } from "src/store/actions";
+import { clearCampaigns, getCampaigns } from "src/store/campaigns/actions";
 import { RootStoreType } from "src/store/storeTypes";
 
 interface Props {
@@ -92,6 +92,9 @@ const OffersFilter = ({ onFilter, onClearFilter }: Props) => {
 
     return () => {
       setFilterParams(DEFAULT_PARAMS);
+      dispatch(clearGeo())
+      dispatch(clearCampaigns())
+      dispatch(clearBrands())
     };
   }, []);
 

@@ -55,7 +55,7 @@ export default ({ isOpen, toggle }: any) => {
       .min(8, ValidationText.shortPassword)
       .max(50, ValidationText.longPassword)
       .matches(
-        /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*?[!@#$%^&*()_+<>?])[A-Za-z\d!@#$%^&*()_+<>?]{6,}$/,
+        /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*?[!@#$%^&*()_+<>?"':;/\\|{}\[\]~`\-=,.])[A-Za-z\d!@#$%^&*()_+<>?"':;/\\|{}\[\]~`\-=,.]{6,}$/,
         ValidationText.passwordMask
       ),
     username: yup
