@@ -1,43 +1,44 @@
-import {PostbackState, PostbackTypes} from "./actionTypes";
+import {PostbacksState, PostbackTypes} from "./actionTypes";
 import { cssTransition } from "react-toastify";
 
-export const INIT_STATE : PostbackState = {
-  postback: {items: [], pagination: {}},
+export const INIT_STATE : PostbacksState = {
+  data: {items: [], pagination: {}},
   item: {},
   error: {},
   loading: false,
   loaded: false,
   success: false,
-  addPostbackLoading: false,
-  addPostbackSuccess: false,
+  addLoading: false,
+  addLoaded: false,
   addPostbackError: false,
   upLoading: false,
   upLoaded: false,
+  modalPostback: false,
 }
 
-const postback = (state = INIT_STATE, action: any) => {
+const postbacks = (state = INIT_STATE, action: any) => {
 
   switch (action.type) {
 
-    case PostbackTypes.GET_POSTBACK :
+    case PostbackTypes.GET_POSTBACKS :
       return {
         ...state,
         loading: true,
       }
 
-    case PostbackTypes.GET_POSTBACK_SUCCESS:
+    case PostbackTypes.GET_POSTBACKS_SUCCESS:
       return {
         ...state,
-        item: action.payload,
-        /*postback: {
-          items: [...state.postback.items, ...action.payload.items],
+        //item: action.payload,
+        data: {
+          items: [...state.data.items, ...action.payload.items],
           pagination: { ...action.payload.pagination }
-        },*/
+        },
         loading: false,
         loaded: true,
       }
 
-    case PostbackTypes.GET_POSTBACK_FAIL:
+    case PostbackTypes.GET_POSTBACKS_FAIL:
       return {
         ...state,
         error: action.payload.response,
@@ -48,27 +49,28 @@ const postback = (state = INIT_STATE, action: any) => {
     case PostbackTypes.ADD_POSTBACK:
       return {
         ...state,
-        loading: true,
+        addLoading: true,
       }
 
     case PostbackTypes.ADD_POSTBACK_SUCCESS:
       return {
         ...state,
-        item: action.payload,
-        /*postback: {
-          ...state.postback,
-          items: [...action.payload, ...state.postback.items],
-          pagination: { ...action.payload.pagination },
-        },*/
-        loaded: true,
-        loading: false,
+        //item: action.payload,
+        data: {
+          ...state.data,
+          items: [action.payload, ...state.data.items],
+          //pagination: { ...action.payload.pagination },
+        },
+        addLoaded: true,
+        addLoading: false,
       }
 
     case PostbackTypes.ADD_POSTBACK_FAIL:
       return {
         ...state,
         error: action.payload,
-        loading: false,
+        addLoaded: false,
+        addLoading: false,
       }
 
     case PostbackTypes.UPDATE_POSTBACK:
@@ -79,9 +81,19 @@ const postback = (state = INIT_STATE, action: any) => {
       }
 
     case PostbackTypes.UPDATE_POSTBACK_SUCCESS:
+      const items = state.data.items.map((item: any) => {
+        if (item.id === action.payload.id) {
+          return action.payload;
+        }
+        return item;
+      })
       return {
         ...state,
-        item: action.payload,
+        //item: action.payload,
+        data: {
+          ...state.data,
+          items,
+        },
         upLoading: false,
         upLoaded: true
       }
@@ -103,7 +115,11 @@ const postback = (state = INIT_STATE, action: any) => {
     case PostbackTypes.DEL_POSTBACK_SUCCESS:
       return {
         ...state,
-        item: action.payload,
+        //item: action.payload,
+        data: {
+          ...state.data,
+          items: state.data.items.filter((item: any) => item.id !== action.id)
+        },
         loading: false,
         loaded: false
       }
@@ -119,10 +135,16 @@ const postback = (state = INIT_STATE, action: any) => {
     case PostbackTypes.CLEAR_POSTBACK :
       return INIT_STATE;
 
+    case PostbackTypes.MODAL_POSTBACK:
+      return{
+        ...state,
+        modalPostback: action.status
+      }
+
     default:
       return state
   }
 
 }
 
-export default postback;
+export default postbacks;

@@ -2,69 +2,67 @@ import React, { useEffect, useState } from "react";
 import MetaTags from "react-meta-tags";
 import Breadcrumbs from "../../components/Common/Breadcrumb";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  clearPostback,
-  getPostback,
-  updatePostback,
-  delPostback,
-} from "../../store/postback/actions";
-import {
-  Button,
-  Card,
-  CardBody,
-  CardFooter,
-  CardHeader,
-  CardText,
-  Col,
-  Container,
-  FormGroup,
-  Input,
-  Label,
-  Nav,
-  NavItem,
-  NavLink,
-  Row,
-  TabContent,
-  TabPane,
-} from "reactstrap";
+import { clearPostback, getPostbacks, modalPostback, updatePostback } from "../../store/postback/actions";
+import { Card, CardBody, Col, Row } from "reactstrap";
 import ModalPostback from "./components/modal";
-import { AvField, AvForm } from "availity-reactstrap-validation";
-import classnames from "classnames";
 import { httpQueryType } from "../../common/utils/model";
 import Loader from "../../components/UI/loader";
-import ConfirmDelete from "../../components/UI/confirmDelete/ConfirmDelete";
+import TablePostbaks from "./components/table";
+import BtnLoadMore from "../../components/UI/btns/BtnLoadMore";
+import { getBrands } from "../../store/brands/actions";
+import PostbacksBrand from "./components/search";
 
 const Postback: React.FC = () => {
   const dispatch = useDispatch();
 
-  const [modal, setModal] = useState<boolean>(false);
-  const [customActiveTab, setcustomActiveTab] = useState("1");
-  const [isDeleteConfirm, setIsDeleteConfirm] = useState<boolean>(false);
+  const [postbackId, setPostbackId] = useState<number | null>(null);
 
-  const { postback, loaded, loading, upLoading, upLoaded } = useSelector(
+  const { postbacks, loaded, loading, nextUrl, total, modal } = useSelector(
     (state: any) => {
       return {
-        postback: state.Postback.item,
-        loading: state.Postback.loading,
-        loaded: state.Postback.loaded,
-        upLoading: state.Postback.upLoading,
-        upLoaded: state.Postback.upLoaded,
+        postbacks: state.Postbacks.data.items,
+        nextUrl: state.Postbacks.data.pagination.nextUrl,
+        total: state.Postbacks.data.pagination.total,
+        loading: state.Postbacks.loading,
+        loaded: state.Postbacks.loaded,
+        modal: state.Postbacks.modalPostback
       };
     }
   );
 
+  let filter = {
+    order: 1,
+    limit: 50
+  };
+
   useEffect(() => {
-    dispatch(getPostback());
+    dispatch(getPostbacks("", filter));
     return () => {
       dispatch(clearPostback());
     };
   }, []);
 
-  const toggleModal = () => {
-    setModal(prev => !prev);
-  };
+  async function loadMore() {
+    if(nextUrl){
+      dispatch(getBrands(nextUrl, filter))
+    }
+  }
 
-  const toggleCustom = (tab: any) => {
+  // const toggleModal = () => {
+  //   setModal(prev => !prev);
+  // };
+
+  const toggleModalPostback = (status: boolean) => {
+    dispatch(modalPostback(status));
+  }
+
+  const handleAddPostback = () => {
+    setPostbackId(0);
+    toggleModalPostback(true);
+  }
+
+
+  /*const toggleCustom = (tab: any) => {
     if (customActiveTab !== tab) {
       setcustomActiveTab(tab);
     }
@@ -76,13 +74,13 @@ const Postback: React.FC = () => {
 
   const popupDeleteConfirmClose = () => {
     setIsDeleteConfirm(false);
-  };
+  };*/
 
-  const handleDeletePostback = () => () => {
-    dispatch(delPostback());
-  };
+  // const handleDeletePostback = () => () => {
+  //   dispatch(delPostback());
+  // };
 
-  const handleUpdatePostback = (values: any) => {
+  /*const handleUpdatePostback = (values: any) => {
     const newPostback = {
       depositReference: values["depositReference"],
       depositTGReference: values["depositTGReference"],
@@ -92,23 +90,25 @@ const Postback: React.FC = () => {
     };
 
     dispatch(updatePostback(newPostback));
-  };
+  };*/
 
   return (
     <React.Fragment>
       {!loaded && loading && <Loader />}
-
       <div className="page-content">
         <MetaTags>
-          <title>Postback | TraffMe </title>
+          <title>Postbacks | TraffMe </title>
         </MetaTags>
+        <div className="container-fluid">
+          <Breadcrumbs title="TraffMe" breadcrumbItem="Postbacks" />
+        </div>
 
-        <Container fluid>
-          <div className="container-fluid">
-            <Breadcrumbs title="TraffMe" breadcrumbItem="Postback" />
-          </div>
+        <Row>
+          <Col className="col-12">
+            <Card>
+              <CardBody>
 
-          {!loaded && loading ? null : !loaded ? (
+                {/*{!loaded && loading ? null : !loaded ? (
             <Row className="align-items-center">
               <Col md={12}>
                 <div className="d-flex flex-wrap align-items-center justify-content-end gap-2 mb-3">
@@ -124,9 +124,43 @@ const Postback: React.FC = () => {
                 </div>
               </Col>
             </Row>
-          ) : null}
+          ) : null}*/}
 
-          {loaded && (
+
+                <Row>
+                  <Col className="col-md-4 mb-3">
+                    <PostbacksBrand />
+                    <div className="col-xl-12 text-muted mt-3">
+                      Showing {postbacks.length} / {total} results
+                    </div>
+                  </Col>
+                  <Col className="col-md-4 offset-4 text-end">
+                    <button
+                      type="button"
+                      className="btn btnOrange"
+                      onClick={() => handleAddPostback()}
+                    >
+                      Add New
+                    </button>
+                  </Col>
+                </Row>
+
+                <Row className="mb-4">
+                  <Col xl="12">
+                    <div className="table-responsive">
+                      {postbacks.length ? <TablePostbaks postbacks={postbacks} setPostbackId={setPostbackId} toggle={toggleModalPostback}/> : null}
+                      {
+                        (!postbacks.length && loaded) ?
+                          <div style={{ "textAlign": "center", "padding": "30px 0" }}>
+                            <h3>No Data Available</h3>
+                          </div> :
+                          null
+                      }
+                    </div>
+                  </Col>
+                </Row>
+
+                {/*{loaded &&
             <Row>
               <Col md={9}>
                 <Card>
@@ -282,16 +316,30 @@ const Postback: React.FC = () => {
                 </Card>
               </Col>
             </Row>
-          )}
-        </Container>
+          }*/}
+
+                {
+                  nextUrl &&
+                  <Row>
+                    <Col className="col-12">
+                      <div className="text-center">
+                        <BtnLoadMore
+                          loading={loading}
+                          handeClick={loadMore}
+                        />
+                      </div>
+                    </Col>
+                  </Row>
+                }
+              </CardBody>
+            </Card>
+          </Col>
+        </Row>
+
+
+      {modal && <ModalPostback isOpen={modal} toggle={toggleModalPostback} postbackId={postbackId}/>}
+
       </div>
-      <ModalPostback isOpen={modal} toggle={toggleModal} />
-      {isDeleteConfirm && (
-        <ConfirmDelete
-          toggle={popupDeleteConfirmClose}
-          handleDelete={handleDeletePostback()}
-        />
-      )}
     </React.Fragment>
   );
 };

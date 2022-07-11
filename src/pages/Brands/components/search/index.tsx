@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { clearBrands, getBrands } from "../../../../store/brands/actions";
 import SimpleSearch from "../../../../components/UI/simpleSearch";
 

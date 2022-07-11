@@ -152,10 +152,7 @@ const CampaignsGrid = () => {
                           toggleCustom(CampaignTabsEnum.Campaign);
                         }}
                       >
-                        <span className="d-block d-sm-none">
-                          <i className="fas fa-home"></i>
-                        </span>
-                        <span className="d-none d-sm-block">
+                        <span className="d-sm-block">
                           {TAB_DATA[CampaignTabsEnum.Campaign].tabTitle}
                         </span>
                       </NavLink>
@@ -170,10 +167,7 @@ const CampaignsGrid = () => {
                           toggleCustom(CampaignTabsEnum.Geo);
                         }}
                       >
-                        <span className="d-block d-sm-none">
-                          <i className="far fa-user"></i>
-                        </span>
-                        <span className="d-none d-sm-block">
+                        <span className="d-sm-block">
                           {TAB_DATA[CampaignTabsEnum.Geo].tabTitle}
                         </span>
                       </NavLink>

@@ -33,7 +33,7 @@ export const REGISTRATIONS_STATUS_LOG = "api/Registrations/status-log";
 //PostbackLogs
 export const POSTBACKLOGS = "api/PostbackLogs";
 //Postback
-export const POSTBACK = "api/postback";
+export const POSTBACK = "api/postbacks";
 //REPORTS
 export const GET_REPORTS = "api/reports";
 //CAMPAIGNS

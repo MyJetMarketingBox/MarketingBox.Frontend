@@ -1,16 +1,18 @@
 import {PostbackTypes} from "./actionTypes";
 
-export const getPostback = () => ({
-  type: PostbackTypes.GET_POSTBACK,
+export const getPostbacks = (nextUrl: any, filter: object) => ({
+  type: PostbackTypes.GET_POSTBACKS,
+  nextUrl,
+  filter,
 })
 
-export const getPostbackSuccess = (postback: any) => ({
-  type: PostbackTypes.GET_POSTBACK_SUCCESS,
-  payload: postback,
+export const getPostbacksSuccess = (postbacks: any) => ({
+  type: PostbackTypes.GET_POSTBACKS_SUCCESS,
+  payload: postbacks,
 })
 
-export const getPostbackFail = (error: any) => ({
-  type: PostbackTypes.GET_POSTBACK_FAIL,
+export const getPostbacksFail = (error: any) => ({
+  type: PostbackTypes.GET_POSTBACKS_FAIL,
   payload: error,
 })
 
@@ -28,9 +30,10 @@ export const addPostbackSuccess = (postback : any) => ({
   payload: postback
 })
 
-export const updatePostback = (postback: object) => ({
+export const updatePostback = (postback: object, id: number) => ({
   type: PostbackTypes.UPDATE_POSTBACK,
-  payload: postback
+  payload: postback,
+  id: id
 })
 
 export const updatePostbackSuccess = (postback: object) => ({
@@ -48,16 +51,23 @@ export const addPostbackFail = (error : any) => ({
   payload: error
 })
 
-export const delPostback = () => ({
-  type: PostbackTypes.DEL_POSTBACK
+export const delPostback = (id: number) => ({
+  type: PostbackTypes.DEL_POSTBACK,
+  payload: id,
 })
 
-export const delPostbackSuccess = (response: any) => ({
+export const delPostbackSuccess = (response: any, id: number) => ({
   type: PostbackTypes.DEL_POSTBACK_SUCCESS,
-  payload: response
+  payload: response,
+  id
 })
 
 export const delPostbackFail = (error: any) => ({
   type: PostbackTypes.DEL_POSTBACK_FAIL,
   payload: error
+})
+
+export const modalPostback = (status: boolean) => ({
+  type: PostbackTypes.MODAL_POSTBACK,
+  status
 })

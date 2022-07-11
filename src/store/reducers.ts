@@ -21,7 +21,7 @@ import RegFiles from "./regFiles/reducer";
 //PostbackLogs
 import PostbackLogs from "./postback_logs/reducer";
 //Postback
-import Postback from "./postback/reducer";
+import Postbacks from "./postback/reducer";
 //Reports
 import Reports from "./reports/reducer";
 //Brands
@@ -58,7 +58,7 @@ const rootReducer = combineReducers({
   Campaigns,
   Registrations,
   PostbackLogs,
-  Postback,
+  Postbacks,
   Countries,
   Integrations,
   Brands,

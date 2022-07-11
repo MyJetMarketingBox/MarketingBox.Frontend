@@ -163,7 +163,7 @@ const routesList: RouteItemsType[] = [
     exact: true,
   },
   {
-    path: Page.POSTBACK,
+    path: Page.POSTBACKS,
     component: Postback,
     layoutType: RouteLayoutTypeEnum.Authorized,
     strict: true,

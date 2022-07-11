@@ -15,7 +15,7 @@ const Page = {
   GEO_ADD: "/geo/edit",
   GEO_EDIT: "/geo/edit/:id?",
   POSTBACK_LOGS: "/postback_logs",
-  POSTBACK: "/postback",
+  POSTBACKS: "/postbacks",
   BRANDS: "/brands",
   BRAND: "/brands/:id",
   PAYOUTS: "/payouts",

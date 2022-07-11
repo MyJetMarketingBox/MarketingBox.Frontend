@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { deleteCampaignRow, editCampaignRowEnableTraffic, openEditCampaignRowModal } from "src/store/actions";
 import ConfirmDelete from "src/components/UI/confirmDelete/ConfirmDelete";
 import { RootStoreType } from "src/store/storeTypes";
+import "./CampaignRowsTableStyle.scss"
 
 interface Props {
   items: ICampaignRowItem[];
@@ -111,7 +112,7 @@ const CamaignRowsTable = ({ items }: Props) => {
       formatter: (cell: any, row: any) => (
         <>
           <Input type="checkbox" id={`enableTraffic-${row.id}`} switch="success" defaultChecked={!!row.enableTraffic} data-id={`${row.id}`} onChange={handleChangeEnableTraffic}/>
-          <Label className="me-1" htmlFor={`enableTraffic-${row.id}`} data-on-label="Yes" data-off-label="No"></Label>
+          <Label className="me-1 position-switch" htmlFor={`enableTraffic-${row.id}`} data-on-label="Yes" data-off-label="No"></Label>
         </>
       ),
     },

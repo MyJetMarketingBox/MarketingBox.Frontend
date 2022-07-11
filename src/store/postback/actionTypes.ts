@@ -1,8 +1,8 @@
 export enum PostbackTypes{
   /** GET POSTBACK **/
-  GET_POSTBACK = '@@postback/GET_POSTBACK',
-  GET_POSTBACK_SUCCESS = '@@postback/GET_POSTBACK_SUCCESS',
-  GET_POSTBACK_FAIL = '@@postback/GET_POSTBACK_FAIL',
+  GET_POSTBACKS = '@@postback/GET_POSTBACKS',
+  GET_POSTBACKS_SUCCESS = '@@postback/GET_POSTBACKS_SUCCESS',
+  GET_POSTBACKS_FAIL = '@@postback/GET_POSTBACKS_FAIL',
 
   /** CLEAR POSTBACK **/
   CLEAR_POSTBACK = '@@postback/CLEAR_POSTBACK',
@@ -21,6 +21,9 @@ export enum PostbackTypes{
   DEL_POSTBACK = '@@postback/DEL_POSTBACK',
   DEL_POSTBACK_SUCCESS = '@@postback/DEL_POSTBACK_SUCCESS',
   DEL_POSTBACK_FAIL = '@@postback/DEL_POSTBACK_FAIL',
+
+  /** MODAL **/
+  MODAL_POSTBACK = '@@postback/MODAL_POSTBACK',
 }
 
 interface iPostback {
@@ -28,16 +31,17 @@ interface iPostback {
   pagination : Object;
 }
 
-export interface PostbackState {
-  postback  : iPostback;
+export interface PostbacksState {
+  data  : iPostback;
   item: {},
   error : Object;
   loading: boolean;
   loaded: boolean;
   success: boolean;
-  addPostbackLoading: boolean;
-  addPostbackSuccess: boolean;
+  addLoading: boolean;
+  addLoaded: boolean;
   addPostbackError: boolean;
   upLoading: boolean;
   upLoaded: boolean;
+  modalPostback: boolean;
 }

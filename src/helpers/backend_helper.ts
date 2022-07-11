@@ -112,13 +112,13 @@ export const getPostbackLogs = (nextUrl: any, filter: object) =>
   get(nextUrl || url.POSTBACKLOGS, { params: filter });
 
 /** POSTBACK **/
-export const getPostback = () => get(url.POSTBACK);
+export const getPostback = (nextUrl: any, filter: object) => get(nextUrl || url.POSTBACK, { params: filter });
 
 export const addPostback = (postback: any) => post(url.POSTBACK, postback);
 
-export const updatePostback = (postback: object) => put(url.POSTBACK, postback);
+export const updatePostback = (postback: object, id: number) => put(`${url.POSTBACK}/${id}`, postback);
 
-export const delPostback = () => del(`${url.POSTBACK}`);
+export const delPostback = (id: number) => del(`${url.POSTBACK}/${id}`, { notification: "Successfully deleted!" });
 /** END POSTBACK **/
 
 /** AFF PAYOUTS **/

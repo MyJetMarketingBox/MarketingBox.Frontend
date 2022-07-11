@@ -12,7 +12,7 @@ import { ICampaignRowStore } from "./campaignsRow/actionTypes";
 import { GeoState } from "./geo/actionTypes";
 import { LanguagesStateType } from "./languages/actionTypes";
 import { LayoytState } from "./layout/actionTypes";
-import { PostbackState } from "./postback/actionTypes";
+import { PostbacksState } from "./postback/actionTypes";
 import { PostbackLogsState } from "./postback_logs/actionTypes";
 import { RegistrationsState } from "./registrations/actionTypes";
 import { IBadRequestStore } from "./badRequests/actionTypes";
@@ -39,7 +39,7 @@ export interface RootStoreType {
   Integrations: IntegrationsState;
   Languages: LanguagesStateType;
   Layout: LayoytState;
-  Postback: PostbackState;
+  Postbacks: PostbacksState;
   PostbackLogs: PostbackLogsState;
   Redistribution: RedistributionState;
   Registrations: RegistrationsState;
