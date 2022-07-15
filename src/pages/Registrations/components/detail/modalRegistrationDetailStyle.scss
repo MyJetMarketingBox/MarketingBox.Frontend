@@ -1,0 +1,41 @@
+.bxs-user-circle:before{
+  color: rgba(0, 0, 0, 0.3);
+}
+.block-param {
+  border: 1px solid #e9e9ef;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 15px;
+  text-align: center;
+  border-radius: 5px;
+
+  .key{
+    position: absolute;
+    top: 0px;
+    left: 15px;
+    font-size: 12px;
+    font-weight: normal;
+    color: rgba(133, 133, 133, 0.6);
+    background-color: transparent;
+  }
+
+  .null{
+    color: rgba(133, 133, 133, 0.4);
+  }
+
+  .value{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -moz-box;
+    -moz-box-orient: vertical;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    line-clamp: 1;
+    box-orient: vertical;
+  }
+}
+
+body[data-layout-mode="dark"] .block-param{
+  border-color: #3b403d;
+}

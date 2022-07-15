@@ -1,17 +1,6 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import {
-  Card,
-  CardBody,
-  CardHeader,
-  CardTitle,
-  Col,
-  DropdownItem,
-  DropdownMenu,
-  DropdownToggle,
-  Row,
-  UncontrolledDropdown,
-} from "reactstrap";
+import { Card, CardBody, Col, Row } from "reactstrap";
+import  "../detail/modalRegistrationDetailStyle.scss"
 
 export default (props: any) => {
 
@@ -43,17 +32,17 @@ export default (props: any) => {
                   Object.entries(additionalInfo).map(([key, value]: any) => {
                     return (
                       <Col xl={4} key={key} className="mb-2">
-                        <div style={{border: "1px solid #c6c6c6", marginLeft: "auto",
-                          marginRight: "auto", padding: "15px", backgroundColor:"#dbd6d6", textAlign: "center", borderRadius: "5px"}}>
-                          {value  || key}
+                        <div className="block-param">
+                          <span className="key">{key}</span>
+                          { value
+                            ?  <span className="value" title={value}>{value}</span>
+                            : <span className="null">null</span>
+                          }
                         </div>
                       </Col>
                     )
                   })
                 }
-
-
-
               </Row>
             </div>
         </CardBody>

@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 import {
   Badge,
@@ -12,7 +12,7 @@ import {
   NavLink,
   Row,
   TabContent,
-  TabPane,
+  TabPane, Tooltip
 } from "reactstrap";
 
 import classnames from "classnames";
@@ -22,17 +22,27 @@ import RegTab2 from "./RegTab2";
 
 export default ({ regId }: any) => {
   const [activeTab, setActiveTab] = useState("1");
+  const [tAffTop, settAffTop] = useState(false);
+  const [tBrTop, settBrTop] = useState(false);
+  const [tCampTop, settCampTop] = useState(false);
+  const [tIntegrTop, settIntegrTop] = useState(false);
 
-  const { register } = useSelector((state: any) => {
+  const { register, сountries } = useSelector((state: any) => {
     return {
       register: state.Registrations.registrations.items.find((item: any) => {
         return item.registrationId == regId;
       }),
+      сountries: state.Countries.value.items
     };
   });
 
-  const { generalInfo, additionalInfo, status, routeInfo, registrationId } =
-    register;
+  const { generalInfo, additionalInfo, status, routeInfo, registrationId } = register;
+
+  const country = useMemo(() => {
+    return сountries.find((item:any) => {
+      return item.id === generalInfo.countryId
+    })
+  }, [сountries]);
 
   let color;
   switch (status) {
@@ -71,7 +81,7 @@ export default ({ regId }: any) => {
               <dd className="col-sm-7">{generalInfo.ip}</dd>
 
               <dt className="col-sm-5">Country: </dt>
-              <dd className="col-sm-7">{generalInfo.country}</dd>
+              <dd className="col-sm-7">{ country?.name } | {country?.alfa2Code}</dd>
 
               <dt className="col-sm-5">Phone: </dt>
               <dd className="col-sm-7">{generalInfo.phone}</dd>
@@ -88,18 +98,71 @@ export default ({ regId }: any) => {
             <dl className="row mb-0">
               <dt className="col-sm-5">Affiliate: </dt>
               <dd className="col-sm-7">
-                {routeInfo.affiliateId}
-                {routeInfo.affiliateNane}
+                <Tooltip
+                  placement="top"
+                  isOpen={tAffTop}
+                  target={`TooltipTop-${routeInfo.affiliateId }`}
+                  toggle={() => {
+                    settAffTop(!tAffTop);
+                  }}
+                >
+                  AI: {routeInfo.affiliateId}
+                </Tooltip>
+                {routeInfo.affiliateName}
+                &nbsp;
+                <i className="bx bx-info-circle" id={`TooltipTop-${routeInfo.affiliateId }`}></i>
               </dd>
 
               <dt className="col-sm-5">Brand: </dt>
-              <dd className="col-sm-7">{routeInfo.brandId}</dd>
+              <dd className="col-sm-7">
+                <Tooltip
+                  placement="top"
+                  isOpen={tBrTop}
+                  target={`TooltipTop-${routeInfo.brandId }`}
+                  toggle={() => {
+                    settBrTop(!tBrTop);
+                  }}
+                >
+                  BI: {routeInfo.brandId}
+                </Tooltip>
+                {routeInfo.brandName}
+                &nbsp;
+                <i className="bx bx-info-circle" id={`TooltipTop-${routeInfo.brandId }`}></i>
+              </dd>
 
               <dt className="col-sm-5">Campaign: </dt>
-              <dd className="col-sm-7">{routeInfo.campaignId}</dd>
+              <dd className="col-sm-7">
+                <Tooltip
+                  placement="top"
+                  isOpen={tCampTop}
+                  target={`TooltipTop-${routeInfo.campaignId }`}
+                  toggle={() => {
+                    settCampTop(!tCampTop);
+                  }}
+                >
+                  CI: {routeInfo.campaignId}
+                </Tooltip>
+                {routeInfo.campaignName}
+                &nbsp;
+                <i className="bx bx-info-circle" id={`TooltipTop-${routeInfo.campaignId }`}></i>
+              </dd>
 
               <dt className="col-sm-5">Integration:</dt>
-              <dd className="col-sm-7">{routeInfo.integrationIdId}</dd>
+              <dd className="col-sm-7">
+                <Tooltip
+                  placement="top"
+                  isOpen={tIntegrTop}
+                  target={`TooltipTop-${routeInfo.integrationId }`}
+                  toggle={() => {
+                    settIntegrTop(!tIntegrTop);
+                  }}
+                >
+                  ID: {routeInfo.integrationId}
+                </Tooltip>
+                {routeInfo.integrationName}
+                &nbsp;
+                <i className="bx bx-info-circle" id={`TooltipTop-${routeInfo.integrationId }`}></i>
+              </dd>
             </dl>
           </CardBody>
         </Card>
@@ -129,7 +192,7 @@ export default ({ regId }: any) => {
                       <h5 className="font-size-16 mb-1">
                         {generalInfo.firstName} {generalInfo.lastName}
                       </h5>
-                      <p className="text-muted font-size-13">
+                      <div className="text-muted font-size-13">
                         <b>Reg Time:</b>{" "}
                         {new Date(generalInfo.createdAt).toLocaleDateString(
                           "ru-RU",
@@ -142,10 +205,25 @@ export default ({ regId }: any) => {
                             second: "numeric",
                           }
                         )}
-                      </p>
+                      </div>
+                      {generalInfo.depositDate ? (
+                        <div className="text-muted font-size-13">
+                          <b>Dep Date:</b> &nbsp;
+                          {new Date(
+                            generalInfo.depositDate
+                          ).toLocaleDateString("ru-RU", {
+                            day: "2-digit",
+                            month: "2-digit",
+                            year: "2-digit",
+                            hour: "2-digit",
+                            minute: "2-digit",
+                            second: "numeric",
+                          })}
+                        </div>
+                      ) : null}
                       {generalInfo.conversionDate ? (
-                        <p className="text-muted font-size-13">
-                          <b>Dep Date:</b>{" "}
+                        <div className="text-muted font-size-13">
+                          <b>Conversion Date:</b> &nbsp;
                           {new Date(
                             generalInfo.conversionDate
                           ).toLocaleDateString("ru-RU", {
@@ -156,7 +234,7 @@ export default ({ regId }: any) => {
                             minute: "2-digit",
                             second: "numeric",
                           })}
-                        </p>
+                        </div>
                       ) : null}
 
                       <div className="d-flex flex-wrap align-items-start gap-2 gap-lg-3 text-muted font-size-13">

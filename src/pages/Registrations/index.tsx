@@ -17,11 +17,12 @@ import Loader from "../../components/UI/loader";
 const Registrations: React.FC = () => {
   const dispatch = useDispatch();
 
-  const { registrations, errorReg, loading, loaded, layoutMode, nextURL } =
+  const { registrations, errorReg, loading, loaded, layoutMode, nextURL, total } =
     useSelector((state: any) => {
       return {
         registrations: state.Registrations.registrations.items,
         nextURL: state.Registrations.registrations.pagination.nextUrl,
+        total: state.Registrations.registrations.pagination.total,
         errorReg: state.Registrations.error,
         loading: state.Registrations.loading,
         loaded: state.Registrations.loaded,
@@ -72,6 +73,9 @@ const Registrations: React.FC = () => {
               <CardBody>
                 <Row>
                   <Filter />
+                  <div className="col-xl-12 mb-3 text-muted">
+                    Showing {registrations.length} / {total} results
+                  </div>
                 </Row>
 
                 <Row className="mb-4">

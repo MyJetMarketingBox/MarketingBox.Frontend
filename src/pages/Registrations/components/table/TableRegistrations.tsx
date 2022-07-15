@@ -11,15 +11,16 @@ import { setModalStatus } from "../../../../store/registrations/actions";
 export default ({ registrations = [], setRegId, toggle, selected }: any) => {
   const dispatch = useDispatch();
 
-  const [isOpen, setIsOpen] = useState(false);
+  //const [isOpen, setIsOpen] = useState(false);
   const [selectId, setSelectId] = useState<number>();
   const [selectStatus, setSelectStatus] = useState<RegistrationStatusEnum>(
     RegistrationStatusEnum.Registered
   );
 
-  const { modalStatus } = useSelector((state: any) => {
+  const { modalStatus, сountries } = useSelector((state: any) => {
     return {
-      modalStatus: state.Registrations.modalStatus
+      modalStatus: state.Registrations.modalStatus,
+      сountries: state.Countries.value.items
     }
   })
 
@@ -130,6 +131,35 @@ export default ({ registrations = [], setRegId, toggle, selected }: any) => {
         )
       }
     },
+    {
+      dataField: "conversionDate",
+      text: "Conversion At",
+      sort: true,
+      formatter: (cellContent: any, data: any) => {
+        return (!data.conversionDate) ? ''
+          : new Date(data.conversionDate).toLocaleDateString(
+            "ru-RU",
+            {
+              day: "2-digit",
+              month: "2-digit",
+              year: "2-digit",
+              hour: "2-digit",
+              minute: "2-digit",
+              second: "numeric",
+            }
+          )
+      }
+    },
+    {
+      dataField: "name",
+      text: "Name",
+      sort: false,
+    },
+    {
+      dataField: "phone",
+      text: "Phone",
+      sort: false,
+    },
   ];
 
   if (!selected) {
@@ -168,6 +198,7 @@ export default ({ registrations = [], setRegId, toggle, selected }: any) => {
 
   const registrationData = registrations.map((registration: any) => {
     let color;
+    let country = сountries.find((item:any) => item.id === registration.generalInfo.countryId)
     switch (registration.status) {
       case 0:
         color = "danger";
@@ -193,7 +224,7 @@ export default ({ registrations = [], setRegId, toggle, selected }: any) => {
       id: registration.registrationId,
       affiliateId: registration.routeInfo.affiliateId,
       affiliate: registration.routeInfo.affiliateName,
-      campaign: registration.routeInfo.campaignId,
+      campaign: registration.routeInfo.campaignName,
       brandId: registration.routeInfo.brandId,
       brand: registration.routeInfo.brandName,
       integrationId: registration.routeInfo.integrationIdId,
@@ -201,12 +232,17 @@ export default ({ registrations = [], setRegId, toggle, selected }: any) => {
       status: RegistrationStatus[registration.status],
       statusId: registration.status,
       email: registration.generalInfo.email,
-      country: registration.generalInfo.countryId,
+      country: country?.name,
       createdAt: new Date( registration.generalInfo.createdAt ).valueOf(),
       depositedAt: registration.generalInfo.depositDate
         ? new Date(registration.generalInfo.depositDate).valueOf()
         : null,
+      conversionDate: registration.generalInfo.conversionDate
+        ? new Date(registration.generalInfo.conversionDate).valueOf()
+        : null,
       color: color,
+      name: registration.generalInfo.firstName+" "+registration.generalInfo.lastName,
+      phone: registration.generalInfo.phone,
     };
   });
 

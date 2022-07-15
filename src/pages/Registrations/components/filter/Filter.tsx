@@ -1,33 +1,16 @@
 import { useDispatch, useSelector } from "react-redux";
 import React, { useEffect, useState } from "react";
-import SelectTypeSearch from "../../../../components/UI/simpleSearch/SelectTypeSearch";
-import s from "../filter/FilterReg.module.scss";
-import {
-  clearRegistrations,
-  getRegistrations,
-} from "../../../../store/registrations/actions";
+import { clearRegistrations, getRegistrations } from "../../../../store/registrations/actions";
 import { RegistrationStatus, ReportType } from "../../../../common/utils/model";
 
 import { Col, Collapse, Row } from "reactstrap";
-import { AvField, AvForm } from "availity-reactstrap-validation";
+import { AvForm } from "availity-reactstrap-validation";
 import Select from "../../../../components/UI/select";
-import {
-  clearAffiliate,
-  getAffiliates,
-} from "../../../../store/affiliates/actions";
-import {
-  clearCountries,
-  getCountries,
-} from "../../../../store/countries/actions";
+import { clearAffiliate, getAffiliates } from "../../../../store/affiliates/actions";
+import { clearCountries, getCountries } from "../../../../store/countries/actions";
 import { clearBrands, getBrands } from "../../../../store/brands/actions";
-import {
-  clearIntegrations,
-  getIntegrations,
-} from "../../../../store/integrations/actions";
-import {
-  clearCampaigns,
-  getCampaigns,
-} from "../../../../store/campaigns/actions";
+import { clearIntegrations, getIntegrations } from "../../../../store/integrations/actions";
+import { clearCampaigns, getCampaigns } from "../../../../store/campaigns/actions";
 import "flatpickr/dist/themes/material_blue.css";
 import Flatpickr from "react-flatpickr";
 import SearchRegistration from "../search";
@@ -207,8 +190,9 @@ export default ({selected}: any) => {
       BrandIds: selectBrand.map((item: any) => item.value).join(","),
       CampaignIds: selectCampaign.map((item: any) => item.value).join(","),
       IntegrationIds: selectIntegr.map((item: any) => item.value).join(","),
-      Statuses: selectStatus?.value || null,
-      type: selectType?.value || null,
+      //Statuses: selectStatus?.value,
+      Statuses: selectStatus.map((item: any) => item.value).join(","),
+      type: selectType?.value,
       DateFrom: fromDate,
       DateTo: toDate ? toDate + " 23:59:59" : null,
     };
@@ -237,10 +221,10 @@ export default ({selected}: any) => {
 
   return (
     <>
-      <Col className="col-md-4 mb-3">
+      <Col className="col-md-4 col-12">
         <SearchRegistration />
       </Col>
-      <Col className="col-md-4 offset-4 text-end">
+      <Col className="col-md-8 col-12 text-end mt-2">
         {collapse && (
           <button
             className="btn btn-light mr-10 fw-bold"
@@ -371,6 +355,8 @@ export default ({selected}: any) => {
                   <div className="mb-3 custom-react-select">
                     <div className="react-select-descr">Status</div>
                     <Select
+                      isMulti
+                      isSearchable
                       options={statusList}
                       onChange={setSelectStatus}
                       value={selectStatus}
