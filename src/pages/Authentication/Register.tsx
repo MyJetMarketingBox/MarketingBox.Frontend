@@ -49,7 +49,7 @@ const Register = () => {
         .string()
         .required(ValidationText.required)
         .max(75, ValidationText.maxLength75)
-        .matches(/^[a-zA-Z0-9_-]+$/, ValidationText.usernameMask),
+        .matches(/^[A-Za-z\d@/+._:-]+$/, ValidationText.usernameMask),
       password: yup
         .string()
         .required(ValidationText.required)

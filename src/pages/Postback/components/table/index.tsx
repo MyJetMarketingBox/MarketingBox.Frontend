@@ -16,14 +16,15 @@ export default ({postbacks = [], setPostbackId, toggle, selected} : any) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectId, setSelectId] = useState(false);
 
-
   const postbackData = postbacks.map((item: any) => {
     let events: string;
-    events = (item.depositReference || item
+    let zpt =  ", ";
+    let ftd = (item.depositReference || item
       .depositTGReference) ? "FTDs" : "";
-    events += (events) ? ", " : "";
-    events += (item.registrationReference || item
+    let lead = (item.registrationReference || item
       .registrationTGReference) ? "Lead" : "";
+
+    events = ( lead.length && ftd.length ) ? lead+zpt+ftd : ftd || lead;
 
     return {
       id: item.id,

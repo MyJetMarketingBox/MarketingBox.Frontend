@@ -214,7 +214,7 @@ export default ({ isOpen, toggle, postbackId}: any) => {
                       <div className="mb-3">
                         <LabelInput
                           label="URL TG"
-                          placeholder="URL TG"
+                          placeholder="Enter lead URL TG"
                           name="registrationTGReference"
                           onChange={handleChange}
                           onBlur={handleBlur}
