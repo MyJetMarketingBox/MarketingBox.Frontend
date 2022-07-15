@@ -49,7 +49,7 @@ const Register = () => {
         .string()
         .required(ValidationText.required)
         .max(75, ValidationText.maxLength75)
-        .matches(/^[A-Za-z\d@/+._:-]+$/, ValidationText.usernameMask),
+        .matches(/^[a-zA-Z0-9_-]+$/, ValidationText.usernameMask),
       password: yup
         .string()
         .required(ValidationText.required)
@@ -65,7 +65,7 @@ const Register = () => {
         .required(ValidationText.required)
         .min(3, ValidationText.minLength3)
         .max(75, ValidationText.maxLength75)
-        .matches(/^[a-zA-Z\d@_-]+$/, ValidationText.usernameMask),
+        .matches(/^[a-zA-Z\d@.:+/_-]+$/, ValidationText.usernameMask),
       searchFrom: yup.string().required(ValidationText.required),
       searchFromCustom: yup.string().when(["searchFrom"], {
         is: (val: string) => val === "other",
