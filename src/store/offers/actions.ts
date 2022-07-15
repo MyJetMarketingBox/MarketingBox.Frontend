@@ -68,3 +68,8 @@ export const addOfferFail = (error: any) => ({
   type: OffersActionEnum.ADD_OFFERS_FAIL,
   payload: error?.response?.data,
 });
+
+export const modalOfferAction = (status: boolean) => ({
+  type: OffersActionEnum.MODAL_OFFER,
+  status
+})

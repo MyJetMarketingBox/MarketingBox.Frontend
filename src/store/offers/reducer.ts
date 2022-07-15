@@ -1,7 +1,7 @@
 import { Reducer } from "react";
-import { OfferActiveStateEnum } from "src/enums/OfferStateEnum";
 import {
-  IAddOfferAction, IAddOfferFailAction,
+  IAddOfferAction,
+  IAddOfferFailAction,
   IAddOfferSuccessAction,
   ICLearOffersAction,
   IGetOfferAction,
@@ -13,17 +13,20 @@ import {
   IOffersStore,
   IRemoveOfferAction,
   IRemoveOfferSuccessAction,
-  OffersActionEnum
+  OffersActionEnum,
+  IModalOfferAction
 } from "./actionTypes";
 
 const initialStore: IOffersStore = {
   isLoading: false,
   isLoadingAdd: false,
+  isLoadedAdd: false,
   editableOffer: null,
   offerUrl: "",
   pagination: null,
   items: [],
-  error: {}
+  error: {},
+  modalOffer: false,
 };
 
 type action =
@@ -38,7 +41,8 @@ type action =
   | IRemoveOfferSuccessAction
   | IAddOfferAction
   | IAddOfferSuccessAction
-  | IAddOfferFailAction;
+  | IAddOfferFailAction
+  | IModalOfferAction;
 
 const Offers: Reducer<IOffersStore, action> = (
   store = initialStore,
@@ -111,6 +115,7 @@ const Offers: Reducer<IOffersStore, action> = (
         ...store,
         items: [action.payload, ...store.items],
         isLoadingAdd: false,
+        isLoadedAdd: true
       };
 
     case OffersActionEnum.ADD_OFFERS_FAIL:
@@ -118,7 +123,15 @@ const Offers: Reducer<IOffersStore, action> = (
         ...store,
         error: action.payload,
         isLoadingAdd: false,
+        isLoadedAdd: false,
       }
+
+    case OffersActionEnum.MODAL_OFFER:
+      return {
+        ...store,
+        modalOffer: action.status,
+      }
+
 
     case OffersActionEnum.CLEAR_OFFER_STORE:
       return initialStore;

@@ -132,7 +132,6 @@ export default ({ isOpen, toggle }: any) => {
 
   return (
     <Modal isOpen={isOpen} toggle={close} className="modal-dialog-centered">
-      {/*addAffLoading && <Loader />*/}
       <ModalHeader toggle={close} tag="h4">
         Add Affiliate
       </ModalHeader>

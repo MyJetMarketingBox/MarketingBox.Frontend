@@ -1,0 +1,21 @@
+.modal-body{
+  input[switch]:checked + label,
+  input[switch] + label{
+    width: 85px;
+    height: 30px;
+  }
+
+
+  input[switch]:checked + label:after{
+    left: 58px;
+  }
+
+  input[switch] + label:after{
+    width: 25px;
+    height: 25px;
+  }
+
+  input[switch] + label:before{
+    line-height: 27px;
+  }
+}

@@ -33,6 +33,8 @@ export enum OffersActionEnum {
   DELETE_OFFER_FAIL = "offers/delete-offer-fail",
 
   CLEAR_OFFER_STORE = "offers/clear-offers-state",
+
+  MODAL_OFFER = "@@offers/MODAL_OFFER",
 }
 
 export interface ICLearOffersAction {
@@ -95,6 +97,11 @@ export interface IAddOfferFailAction {
   payload: any;
 }
 
+export interface IModalOfferAction {
+  type: OffersActionEnum.MODAL_OFFER;
+  status: boolean;
+}
+
 export interface IOffersParams {
   offerName?: string;
   languageIds?: string;
@@ -129,9 +136,11 @@ export interface IOffersDTO {
 export interface IOffersStore {
   isLoading: boolean;
   isLoadingAdd: boolean;
+  isLoadedAdd: boolean;
   editableOffer: IOffersItem | null;
   offerUrl: string;
   pagination: PaginationType | null;
   items: IOffersItem[];
-  error: Object
+  error: Object;
+  modalOffer: boolean;
 }

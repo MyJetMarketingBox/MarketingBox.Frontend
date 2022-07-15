@@ -44,7 +44,7 @@ const Postback: React.FC = () => {
 
   async function loadMore() {
     if(nextUrl){
-      dispatch(getBrands(nextUrl, filter))
+      dispatch(getPostbacks(nextUrl, filter))
     }
   }
 

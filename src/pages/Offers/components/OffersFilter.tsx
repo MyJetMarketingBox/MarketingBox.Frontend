@@ -10,7 +10,9 @@ import { RootStoreType } from "src/store/storeTypes";
 
 interface Props {
   onFilter: (value: any) => void;
-  onClearFilter: () => void;
+  setCountFilter: (value: any) => void;
+  clearFilterParams: number;
+  //onClearFilter: () => void;
 }
 
 const DEFAULT_PARAMS = {
@@ -21,15 +23,22 @@ const DEFAULT_PARAMS = {
   brandIds: null,
 };
 
-const OffersFilter = ({ onFilter, onClearFilter }: Props) => {
+const OffersFilter = ({ onFilter, setCountFilter, clearFilterParams }: Props) => {
   const dispatch = useDispatch();
 
   const [filterParams, setFilterParams] = useState(DEFAULT_PARAMS);
 
   const handleChange = (value: any) => {
     let obj = { ...filterParams };
+    let cnt:any = 0;
     // @ts-ignore
     obj[value.name] = value.value;
+
+    Object.entries(obj).forEach(([key, value]) => {
+      cnt = (value) ? cnt + 1 : cnt;
+    });
+
+    setCountFilter(cnt)
     setFilterParams(obj);
   };
 
@@ -37,10 +46,16 @@ const OffersFilter = ({ onFilter, onClearFilter }: Props) => {
     onFilter(filterParams);
   };
 
-  const handleClearFilter = () => {
-    setFilterParams(DEFAULT_PARAMS);
-    onClearFilter();
-  };
+  useMemo(() => {
+    if(clearFilterParams > 0){
+      setFilterParams(DEFAULT_PARAMS);
+    }
+  }, [clearFilterParams])
+
+  // const handleClearFilter = () => {
+  //   setFilterParams(DEFAULT_PARAMS);
+  //   onClearFilter();
+  // };
 
   const { geos, languages, brands } = useSelector((store: RootStoreType) => ({
     geos: store.Geo.geo.items,
@@ -99,96 +114,93 @@ const OffersFilter = ({ onFilter, onClearFilter }: Props) => {
   }, []);
 
   return (
-    <Row className="mb-4 align-items-end">
-      <Col xs={12} md={12} lg={2} className="mb-3 custom-react-select">
-        <Label>GEO</Label>
-        <Select
-          isSearchable
-          options={geoSelect}
-          onChange={handleChange}
-          value={
-            geoSelect.find(item => item.value === filterParams.geoIds) || null
-          }
-        />
-      </Col>
+    <>
+      <Row className="align-items-end">
+        <Col xs={12} md={12} lg={3} className="mb-3 custom-react-select">
+          <Label>GEO</Label>
+          <Select
+            isMulti
+            isSearchable
+            options={geoSelect}
+            onChange={handleChange}
+            value={
+              geoSelect.find(item => item.value === filterParams.geoIds) || null
+            }
+            //placeholder="Select GEO"
+          />
+        </Col>
 
-      <Col xs={12} md={6} lg={2} className="mb-3 custom-react-select">
-        <Label>Languages</Label>
-        <Select
-          isSearchable
-          options={languagesSelect}
-          onChange={handleChange}
-          value={
-            languagesSelect.find(
-              item => item.value === filterParams.languageIds
-            ) || null
-          }
-        />
-      </Col>
+        <Col xs={12} md={6} lg={3} className="mb-3 custom-react-select">
+          <Label>Languages</Label>
+          <Select
+            isSearchable
+            options={languagesSelect}
+            onChange={handleChange}
+            value={
+              languagesSelect.find(
+                item => item.value === filterParams.languageIds
+              ) || null
+            }
+            //placeholder="Select languages"
+          />
+        </Col>
 
-      <Col xs={12} md={6} lg={2} className="mb-3 custom-react-select">
-        <Label>Brands</Label>
-        <Select
-          isSearchable
-          options={brandsSelect}
-          onChange={handleChange}
-          value={
-            brandsSelect.find(item => item.value === filterParams.brandIds) ||
-            null
-          }
-        />
-      </Col>
+        <Col xs={12} md={6} lg={3} className="mb-3 custom-react-select">
+          <Label>Brands</Label>
+          <Select
+            isSearchable
+            options={brandsSelect}
+            onChange={handleChange}
+            value={
+              brandsSelect.find(item => item.value === filterParams.brandIds) ||
+              null
+            }
+            //placeholder="Select brands"
+          />
+        </Col>
 
-      <Col xs={12} md={6} lg={2} className="mb-3 custom-react-select">
-        <Label>Status</Label>
-        <Select
-          isSearchable
-          options={statusSelect}
-          onChange={handleChange}
-          value={
-            statusSelect.find(item => item.value === filterParams.states) ||
-            null
-          }
-        />
-      </Col>
+        <Col xs={12} md={6} lg={3} className="mb-3 custom-react-select">
+          <Label>Status</Label>
+          <Select
+            isSearchable
+            options={statusSelect}
+            onChange={handleChange}
+            value={
+              statusSelect.find(item => item.value === filterParams.states) ||
+              null
+            }
+            //placeholder="Select status"
+          />
+        </Col>
 
-      <Col xs={12} md={6} lg={2} className="mb-3 custom-react-select">
-        <Label>Privacies</Label>
-        <Select
-          isSearchable
-          options={privacySelect}
-          onChange={handleChange}
-          value={
-            privacySelect.find(item => item.value === filterParams.privacies) ||
-            null
-          }
-        />
-      </Col>
+        <Col xs={12} md={6} lg={3} className="mb-3 custom-react-select">
+          <Label>Privacies</Label>
+          <Select
+            isSearchable
+            options={privacySelect}
+            onChange={handleChange}
+            value={
+              privacySelect.find(item => item.value === filterParams.privacies) ||
+              null
+            }
+            //placeholder="Select privacies"
+          />
+        </Col>
+      </Row>
 
-      <Col xs={12} md={12} lg={2} className="mb-3 custom-react-select">
-        <Row>
-          <Col xs={6}>
-            <button
-              type="button"
-              className="w-100 btn btn-light btn-h"
-              onClick={handleClearFilter}
-            >
-              Clear
-            </button>
-          </Col>
+      <Row>
+        <Col className="col-md-12 text-end">
+          <button
+            type="button"
+            className="btn btnOrange"
+            onClick={handleFilter}
+          >
+            Search
+          </button>
+        </Col>
+      </Row>
 
-          <Col xs={6}>
-            <button
-              type="button"
-              className="w-100 btn btnOrange btn-h"
-              onClick={handleFilter}
-            >
-              Filter
-            </button>
-          </Col>
-        </Row>
-      </Col>
-    </Row>
+    </>
   );
 };
 

@@ -12,8 +12,8 @@ import {
   deleteOfferSuccess,
   getOffersSuccess,
   getOfferSuccess,
-  getOfferUrl,
-  getOfferUrlSuccess
+  getOfferUrlSuccess,
+  modalOfferAction
 } from "./actions";
 import {
   IGetOffersAction,
@@ -58,6 +58,7 @@ function* addOfferSaga({ payload }: IAddOfferAction) {
   try {
     const response: IOffersItem = yield call(addOfferApi, payload);
     yield put(addOfferSuccess(response));
+    yield put(modalOfferAction(false))
   } catch (error) {
     yield put(addOfferFail(error))
   }
