@@ -78,7 +78,7 @@ export default ({ isOpen, toggle }: any) => {
   const handleSubmitForm = () => {
     const newAffiliate = {
       generalInfo: {
-        email: values.email,
+        email: values.email.toLowerCase().trim(),
         password: values.password,
         username: values.username,
         state: +values.state,

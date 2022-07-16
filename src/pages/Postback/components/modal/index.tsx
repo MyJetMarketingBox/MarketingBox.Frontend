@@ -201,7 +201,7 @@ export default ({ isOpen, toggle, postbackId}: any) => {
                     <Col sm="12">
                       <div className="mb-3">
                         <LabelInput
-                          label="Enter lead URL"
+                          label="Lead URL"
                           placeholder="Enter lead URL"
                           name="registrationReference"
                           onChange={handleChange}
@@ -213,7 +213,7 @@ export default ({ isOpen, toggle, postbackId}: any) => {
                       </div>
                       <div className="mb-3">
                         <LabelInput
-                          label="URL TG"
+                          label="Lead URL TG"
                           placeholder="Enter lead URL TG"
                           name="registrationTGReference"
                           onChange={handleChange}
@@ -231,7 +231,7 @@ export default ({ isOpen, toggle, postbackId}: any) => {
                     <Col sm="12">
                       <div className="mb-3">
                         <LabelInput
-                          label="Enter deposit URL"
+                          label="Deposit URL"
                           placeholder="Enter deposit URL"
                           name="depositReference"
                           onChange={handleChange}
@@ -243,7 +243,7 @@ export default ({ isOpen, toggle, postbackId}: any) => {
                       </div>
                       <div className="mb-3">
                         <LabelInput
-                          label="Enter deposit URL TG"
+                          label="Deposit URL TG"
                           placeholder="Enter deposit URL TG"
                           name="depositTGReference"
                           onChange={handleChange}

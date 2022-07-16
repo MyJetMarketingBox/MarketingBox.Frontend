@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import React, { useEffect, useState } from "react";
 import { clearRegistrations, getRegistrations } from "../../../../store/registrations/actions";
-import { RegistrationStatus, ReportType } from "../../../../common/utils/model";
+import { DateType, RegistrationStatus, ReportType } from "../../../../common/utils/model";
 
 import { Col, Collapse, Row } from "reactstrap";
 import { AvForm } from "availity-reactstrap-validation";
@@ -27,11 +27,12 @@ export default ({selected}: any) => {
   const [selectBrand, setSelectBrand] = useState([]);
   const [selectIntegr, setSelectIntegr] = useState([]);
   const [selectCampaign, setSelectCampaign] = useState([]);
-  const [selectStatus, setSelectStatus] = useState<any>();
+  const [selectStatus, setSelectStatus] = useState([]);
   const [selectType, setSelectType] = useState<any>({
     value: 2,
     label: "All",
   })
+  const [selectDateType, setSelectDateType] = useState<any>();
 
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
@@ -45,8 +46,9 @@ export default ({selected}: any) => {
     selectBrand.length > 0 ? (count += 1) : null;
     selectIntegr.length > 0 ? (count += 1) : null;
     selectCampaign.length > 0 ? (count += 1) : null;
-    selectStatus ? (count += 1) : null;
+    selectStatus.length > 0 ? (count += 1) : null;
     selectType ? (count += 1) : null;
+    selectDateType ? (count += 1) : null;
     fromDate || toDate ? (count += 1) : null;
 
     setCountFilter(count);
@@ -168,6 +170,13 @@ export default ({selected}: any) => {
     };
   })
 
+  const dateTypeList = DateType.map((item: any, idx: number) => {
+    return {
+      value: idx,
+      label: item,
+    };
+  })
+
   const setDateOnFilter = (data: any) => {
     if (data.length > 1) {
       const utcFrom = data[0].getTime();
@@ -193,6 +202,7 @@ export default ({selected}: any) => {
       //Statuses: selectStatus?.value,
       Statuses: selectStatus.map((item: any) => item.value).join(","),
       type: selectType?.value,
+      dateType: selectDateType?.value,
       DateFrom: fromDate,
       DateTo: toDate ? toDate + " 23:59:59" : null,
     };
@@ -208,10 +218,11 @@ export default ({selected}: any) => {
     setSelectCampaign([]);
     setSelectCountry([]);
     setSelectIntegr([]);
-    setSelectStatus(null);
+    setSelectStatus([]);
     setSelectType({
       value: 2, label: "All",
     });
+    setSelectDateType(null);
     setFromDate("");
     setToDate("");
 
@@ -371,6 +382,19 @@ export default ({selected}: any) => {
                       options={typeList}
                       onChange={setSelectType}
                       value={selectType}
+                    />
+                  </div>
+                </Col>
+              </Row>
+
+              <Row>
+                <Col lg={3}>
+                  <div className="mb-3 custom-react-select">
+                    <div className="react-select-descr">Date Type</div>
+                    <Select
+                      options={dateTypeList}
+                      onChange={setSelectDateType}
+                      value={selectDateType}
                     />
                   </div>
                 </Col>

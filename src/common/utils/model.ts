@@ -149,3 +149,9 @@ export const DiffType = [
     "Positive",
     "Negative",
 ]
+
+export const DateType = [
+  "Registration",
+  "Deposit",
+  "Conversion"
+]
