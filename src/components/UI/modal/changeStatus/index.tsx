@@ -41,7 +41,7 @@ export default ({ isOpen, toggle, id, status }: Props) => {
 
   const initialValues = useCallback((): IUpdateResponse => {
     return {
-      status: status,
+      status: status || 1,
       comment: ""
     }
   }, [status]);

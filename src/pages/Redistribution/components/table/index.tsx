@@ -62,6 +62,9 @@ const tableIndex = ({data = []} : any) => {
       dataField: "createdAt",
       text: "Created",
       sort: true,
+      formatter: (cellContent: any, data: any) => {
+        return new Date(data.createdAt).toLocaleDateString('ru-RU', {day:"2-digit", month:"2-digit", year:"2-digit", hour: "2-digit", minute: "2-digit"})
+      }
     },
     {
       dataField: "destination",
@@ -133,7 +136,7 @@ const tableIndex = ({data = []} : any) => {
       id: item.id,
       redistributionName: item.redistributionName,
       createdByUserName: item.createdByUserName,
-      createdAt: new Date(item.createdAt).toLocaleDateString('ru-RU', {day:"2-digit", month:"2-digit", year:"2-digit", hour: "2-digit", minute: "2-digit"}),
+      createdAt: new Date(item.createdAt).valueOf(),
       destination: "Affiliate: "+item.affiliateId+". Campaign: "+item.campaignId+". ",
       status: RedistributionState[item.status],
       statusId: item.status,
@@ -153,7 +156,7 @@ const tableIndex = ({data = []} : any) => {
         bordered={false}
         striped={false}
         defaultSorted={defaultSorted}
-        classes={"table align-middle table-nowrap table-hover"}
+        classes={"table align-middle table-nowrap table-hover un-pointer-tr"}
         headerWrapperClasses={"thead-light"}
       />
 
