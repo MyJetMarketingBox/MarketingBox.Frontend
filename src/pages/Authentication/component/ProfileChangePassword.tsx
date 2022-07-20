@@ -60,12 +60,13 @@ const ProfileChangePassword = () => {
                     },
                     minLength: {
                       value: 8,
-                      errorMessage: ValidationText.shortPassword,
+                      errorMessage: ValidationText.minLength8,
                     },
                     maxLength: {
                       value: 50,
-                      errorMessage: ValidationText.longPassword,
+                      errorMessage: ValidationText.maxLength50,
                     },
+                    pattern: {value: '/^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*?[!@#$%^&*()_+<>?"\':;/\\\\|{}\\[\\]~`\\-=,.])[A-Za-z\\d!@#$%^&*()_+<>?"\':;/\\\\|{}\\[\\]~`\\-=,.]{6,}$/', errorMessage: ValidationText.passwordMask},
                   }}
                 />
               </Col>

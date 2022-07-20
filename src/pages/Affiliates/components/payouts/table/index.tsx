@@ -174,7 +174,7 @@ const tablePayouts = (props: any) => {
         {toolkitProps => (
           <React.Fragment>
             <Row>
-              <Col className="col-md-4 col-sm-4 col-xs-12">
+              <Col className="col-md-4 col-sm-4 col-10">
                 <div className="search-box d-inline-block">
                   <div className="position-relative">
                     <SearchBar {...toolkitProps.searchProps} />
@@ -186,7 +186,7 @@ const tablePayouts = (props: any) => {
                 </div>
               </Col>
 
-              <Col className="col-md-8 col-sm-8 col-xs-12 text-end open-right">
+              <Col className="col-md-8 col-sm-8 col-2 text-end open-right">
                 <Dropdown
                   isOpen={plusBtn}
                   toggle={() => {
