@@ -148,8 +148,8 @@ export default () => {
       frequency: values.frequency,
       useAutologin: values.useAutologin,
     };
-    console.log(sendData);
-    //dispatch(addRedistribution(sendData, history));
+
+    dispatch(addRedistribution(sendData, history));
   }
 
   let {
