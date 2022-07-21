@@ -26,9 +26,9 @@ const redistribution = (state = INIT_STATE, action: any) => {
     case RedistributionTypes.ADD_REDISTRIBUTION_SUCCESS:
       return {
         ...state,
-        date: {
+        data: {
           ...state.data,
-          items: [action.payload, ...state.data.items]
+          //items: [action.payload, ...state.data.items]
         },
         error: {},
         loading: false,

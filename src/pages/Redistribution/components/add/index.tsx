@@ -23,7 +23,12 @@ import { RedistributionContentTypeRenderEnum } from "../../../../enums/Redistrib
 import * as yup from "yup";
 import { useFormik } from "formik";
 import ValidationText from "../../../../constants/validationText";
-import { string } from "yup";
+import { array, number, string } from "yup";
+import { clearAffiliate, getAffiliates } from "../../../../store/affiliates/actions";
+import { clearCountries, getCountries } from "../../../../store/countries/actions";
+import { clearBrands, getBrands } from "../../../../store/brands/actions";
+import { clearCampaigns, getCampaigns } from "../../../../store/campaigns/actions";
+import { clearIntegrations, getIntegrations } from "../../../../store/integrations/actions";
 
 export interface IRedistributionParams {
   filesIds?: number[];
@@ -33,8 +38,8 @@ export interface IRedistributionParams {
   affiliateId: number | null;
   campaignId: number | null;
   frequency: number | null;
-  portionLimit: number | null;
-  dayLimit: number | null;
+  portionLimit: number;
+  dayLimit: number;
   useAutologin: boolean;
 }
 
@@ -42,9 +47,14 @@ export default () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const { loading } = useSelector((state: any) => {
+  const { loading, affiliates, countries, brands, campaigns, integrations } = useSelector((state: any) => {
     return {
       loading: state.Redistribution.loading,
+      affiliates: state.Affiliates.affiliates.items,
+      countries: state.Countries.value.items,
+      brands: state.Brands.brands.items,
+      campaigns: state.Campaigns.campaigns.items,
+      integrations: state.Integrations.value.items
     };
   });
 
@@ -56,7 +66,34 @@ export default () => {
   const [listRegId, setListRegId] = useState<number[]>([]);
   const [registrationSearchRequest, setRegistrationSearchRequest] =
     useState<any>(null);
-  const [params, createParams] = useState<any>();
+  //const [params, createParams] = useState<any>();
+
+  useEffect(() => {
+    console.log("add useEffect");
+    //if(!affiliates.length) {
+      dispatch(getAffiliates("", { order: 1 }));
+    //}
+    //if(!countries.length) {
+      dispatch(getCountries("", { order: 0 }));
+    //}
+    //if(!brands.length) {
+      dispatch(getBrands("", { order: 1 }));
+    //}
+    //if(!campaigns.length) {
+      dispatch(getCampaigns("", { order: 1 }));
+    //}
+    //if(!integrations.length){
+      dispatch(getIntegrations("", { order: 1 }));
+    //}
+
+    return () => {
+      dispatch(clearAffiliate());
+      dispatch(clearBrands());
+      dispatch(clearCampaigns());
+      dispatch(clearIntegrations());
+      dispatch(clearCountries());
+    };
+  }, []);
 
   const validationSchema: yup.SchemaOf<IRedistributionParams> = yup
     .object()
@@ -72,8 +109,12 @@ export default () => {
       affiliateId: yup.number().required(ValidationText.required),
       campaignId: yup.number().required(ValidationText.required),
       frequency: yup.number().required(ValidationText.required),
-      portionLimit: yup.number().required(ValidationText.required),
-      dayLimit: yup.number().required(ValidationText.required),
+      portionLimit: yup.number()
+        .min(1, ValidationText.minLength1)
+        .required(ValidationText.required),
+      dayLimit: yup.number()
+        .min(1, ValidationText.minLength1)
+        .required(ValidationText.required),
       useAutologin: yup.boolean().required(ValidationText.required),
     });
 
@@ -85,8 +126,8 @@ export default () => {
     affiliateId: null,
     campaignId: null,
     frequency: null,
-    portionLimit: null,
-    dayLimit: null,
+    portionLimit: 0,
+    dayLimit: 0,
     useAutologin: false,
   };
 
@@ -97,9 +138,18 @@ export default () => {
       registrationSearchRequest: registrationSearchRequest,
     };
 
-    sendData = { ...values, ...sendData };
-
-    dispatch(addRedistribution(sendData, history));
+    sendData = {
+      ...sendData,
+      portionLimit: +values.portionLimit,
+      dayLimit: +values.dayLimit,
+      name: values.name,
+      affiliateId: values.affiliateId,
+      campaignId: values.campaignId,
+      frequency: values.frequency,
+      useAutologin: values.useAutologin,
+    };
+    console.log(sendData);
+    //dispatch(addRedistribution(sendData, history));
   }
 
   let {
@@ -153,26 +203,38 @@ export default () => {
     }
   }
 
-  const handlerSetIdFile = (id: number) => {
-    let newArr = [...listFileId];
-    const idx = newArr.findIndex(el => el === id);
-    if (idx === -1) {
-      newArr.push(id);
-    } else {
-      newArr.splice(idx, 1);
+  const handlerSetIdFile = (id: number | number[] | null) => {
+    if(id) {
+      let newArr: number[];
+      if(Array.isArray(id)){
+        newArr = [...id, ...listFileId];
+      }else {
+        newArr = [...listFileId];
+        const idx = newArr.findIndex(el => el === id);
+        (idx === -1) ? newArr.push(id) : newArr.splice(idx, 1);
+      }
+
+      setListFileId(newArr);
+    }else{
+      setListFileId([]);
     }
-    setListFileId(newArr);
   };
 
-  const handelSetRegId = (id: number) => {
-    let newArr = [...listRegId];
-    const idx = newArr.findIndex(el => el === id);
-    if (idx === -1) {
-      newArr.push(id);
-    } else {
-      newArr.splice(idx, 1);
+  const handelSetRegId = (id: number | number[] | null) => {
+    if(id) {
+      let newArr: number[];
+      if(Array.isArray(id)){
+        newArr = [...id, ...listRegId];
+      } else {
+        newArr = [...listRegId];
+        const idx = newArr.findIndex(el => el === id);
+        (idx === -1) ? newArr.push(id) : newArr.splice(idx, 1);
+      }
+
+      setListRegId(newArr)
+    }else{
+      setListRegId([]);
     }
-    setListRegId(newArr);
   };
 
   const handelSetFilter = (data: any) => {

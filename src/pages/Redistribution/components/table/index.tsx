@@ -48,6 +48,16 @@ const tableIndex = ({data = []} : any) => {
       sort: true,
     },
     {
+      dataField: "source",
+      text: "Source",
+      sort: false,
+    },
+    {
+      dataField: "quantity",
+      text: "Quantity",
+      sort: false,
+    },
+    {
       dataField: "createdByUserName",
       text: "Created by user",
       sort: true,
@@ -113,7 +123,9 @@ const tableIndex = ({data = []} : any) => {
 
   const resList = data.map((item: any) => {
 
-    let color;
+    let color, source : string = "";
+    let n: number = 0 ;
+    let qty: number = 0 ;
     switch (item.status) {
       case 0:
         color = "dark-blue";
@@ -132,6 +144,22 @@ const tableIndex = ({data = []} : any) => {
         break;
     }
 
+    if(item.searchRequest) {
+      source = "Search DB";
+      qty = item.registrationsIds.length;
+    }else if(item.registrationsIds?.length) {
+      source = "Registration DB";
+      qty = item.registrationsIds.length;
+    }
+    if(item.filesIds?.length) {
+      item.filesIds.forEach((item: any) => {
+        let z = ( n > 0) ? ", " : " ";
+        source += z+"File_"+item;
+        n++;
+      })
+      qty = (qty) ? qty + item.filesIds.length : item.filesIds.length;
+     }
+
     return {
       id: item.id,
       redistributionName: item.redistributionName,
@@ -144,6 +172,8 @@ const tableIndex = ({data = []} : any) => {
       portionLimit: item.portionLimit,
       dayLimit: item.dayLimit,
       color: color,
+      source: source,
+      quantity: qty,
     }
   })
 

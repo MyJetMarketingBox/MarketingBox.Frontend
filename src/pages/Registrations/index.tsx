@@ -33,10 +33,16 @@ const Registrations: React.FC = () => {
   const [modal, setModal] = useState<boolean>(false);
   const [regId, setRegId] = useState(null);
 
+  let fromDate = new Date(new Date().setDate(new Date().getDate() - 7)).toISOString().split('T')[0];
+  let toDate = new Date().toISOString().split('T')[0];
+  let dateType = 0;
   let filter = {
     order: 1, //DESC
     type: 2, //all
     limit: 50,
+    DateFrom: fromDate,
+    DateTo: toDate,
+    DateType: dateType
   };
 
   useEffect(() => {
@@ -72,7 +78,7 @@ const Registrations: React.FC = () => {
             <Card>
               <CardBody>
                 <Row>
-                  <Filter />
+                  <Filter selected={false} DateFrom={fromDate} DateTo={toDate} />
                   <div className="col-xl-12 mb-3 text-muted">
                     Showing {registrations.length} / {total} results
                   </div>

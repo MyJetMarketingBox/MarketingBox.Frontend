@@ -13,13 +13,13 @@ import Select from "../../../../../components/UI/select";
 import { RegistrationStatus, ReportType } from "../../../../../common/utils/model";
 
 export default ({setFilter, clearState} : any) => {
-  const dispatch = useDispatch()
+  //const dispatch = useDispatch()
 
   const [selectAff, setSelectAff] = useState([]);
   const [selectBrand, setSelectBrand] = useState([]);
   const [selectCampaign, setSelectCampaign] = useState([]);
   const [selectCountry, setSelectCountry] = useState([]);
-  const [selectStatus, setSelectStatus] = useState<any>();
+  const [selectStatus, setSelectStatus] = useState([]);
   const [selectType, setSelectType] = useState<any>()
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
@@ -48,28 +48,28 @@ export default ({setFilter, clearState} : any) => {
     };
   });
 
-  useEffect(() => {
-    if(!affiliates.length) {
-      dispatch(getAffiliates("", { order: 1 }));
-    }
-    if(!countries.length) {
-      dispatch(getCountries("", { order: 0 }));
-    }
-    if(!brands.length) {
-      dispatch(getBrands("", { order: 1 }));
-    }
-    if(!campaigns.length) {
-      dispatch(getCampaigns("", { order: 1 }));
-    }
+  /*useEffect(() => {
+    // if(!affiliates.length) {
+    //   dispatch(getAffiliates("", { order: 1 }));
+    // }
+    // if(!countries.length) {
+    //   dispatch(getCountries("", { order: 0 }));
+    // }
+    // if(!brands.length) {
+    //   dispatch(getBrands("", { order: 1 }));
+    // }
+    // if(!campaigns.length) {
+    //   dispatch(getCampaigns("", { order: 1 }));
+    // }
 
     return () => {
-      /*dispatch(clearAffiliate());
+      dispatch(clearAffiliate());
       dispatch(clearBrands());
       dispatch(clearCampaigns());
-      dispatch(clearCountries());*/
+      dispatch(clearCountries());
       clearState();
     };
-  }, []);
+  }, []);*/
 
   const affiliateList = affiliates.map((item: any) => {
     return {
@@ -105,7 +105,7 @@ export default ({setFilter, clearState} : any) => {
 
   const statusList = RegistrationStatus.map((item: any, idx: number) => {
     return {
-      name: "crmStatuses",
+      name: "statuses",
       value: idx,
       label: item,
     };
@@ -113,7 +113,7 @@ export default ({setFilter, clearState} : any) => {
 
   const typeList = ReportType.map((item: any, idx: number) => {
     return {
-      name: "statuses",
+      name: "type",
       value: idx,
       label: item,
     };
@@ -141,8 +141,8 @@ export default ({setFilter, clearState} : any) => {
       campaignIds: selectCampaign.map((item: any) => item.value).join(","),
       dateFrom: fromDate ? fromDate+"T00:00:00Z" : null,
       dateTo: toDate ? toDate+"T23:59:59Z" : null,
-      statuses: ""+selectType?.value || null,
-      crmStatuses: ""+selectStatus?.value || null,
+      statuses: selectStatus.map((item: any) => item.value).join(","),
+      type: selectType?.value,
     }
 
     setFilter(curFilter);
@@ -233,6 +233,7 @@ export default ({setFilter, clearState} : any) => {
           <div className="mb-3 custom-react-select">
             <div className="react-select-descr">Status</div>
             <Select
+              isMulti
               options={statusList}
               onChange={setSelectStatus}
               value={selectStatus}

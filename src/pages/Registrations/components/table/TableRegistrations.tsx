@@ -29,7 +29,6 @@ export default ({ registrations = [], setRegId, toggle, selected }: any) => {
   };
 
   let selectRow: any;
-
   if (selected) {
     selectRow = {
       mode: "checkbox",
@@ -37,6 +36,32 @@ export default ({ registrations = [], setRegId, toggle, selected }: any) => {
       onSelect: (e: any, row: any, rowIndex: any, isSelect: any) => {
         setRegId(e.id);
       },
+      onSelectAll: (isSelect: any, row: any, rowIndex: any) => {
+        if (isSelect) {
+          let arrRow = row.map((item: any) => item.id);
+          setRegId(arrRow);
+        } else {
+          setRegId(null)
+        }
+      },
+      // Change default checkbox
+      /*headerColumnStyle: (status: any) => {
+        console.log("headerColumnStyle", status);
+      },
+      selectionRenderer: ({ mode, checked, disabled }: any) => {
+        console.log("mode", mode);
+        console.log("checked", checked);
+        console.log("disabled", disabled);
+        if(checked){
+          return {
+            backgroundColor: "#e74a18",
+            backgroundImage: "url(\"/assets/images/checkbox.svg\")",
+            backgroundSize: "10px auto",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat"
+          }
+        }
+      }*/
     };
   }
 

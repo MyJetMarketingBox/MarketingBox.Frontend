@@ -18,7 +18,6 @@ import {
   getCampaigns,
 } from "../../../../../store/campaigns/actions";
 import { RedistributionFrequency } from "../../../../../common/utils/model";
-//import { AvField, AvForm } from "availity-reactstrap-validation";
 import { Col, Form, Input, Label, Row } from "reactstrap";
 import Select from "../../../../../components/UI/select";
 import LabelInput from "../../../../../components/UI/FormElements/LabelInput";
@@ -26,13 +25,13 @@ import LabelInput from "../../../../../components/UI/FormElements/LabelInput";
 export default ({ handleChange, handleBlur, errors, touched, values, setFieldValue }: any) => {
   const dispatch = useDispatch();
 
-  const [selectAff, setSelectAff] = useState<any>();
-  const [selectCampaign, setSelectCampaign] = useState<any>();
-  const [selectFrequency, setSelectFrequency] = useState<any>();
-  const [portionLimit, setPortionLimit] = useState<number>();
-  const [dayLimit, setDayLimit] = useState<number>();
-  const [useAutologin, setUseAutologin] = useState<boolean>(false);
-  const [nameRedistribution, setNameRedistribution] = useState<string>("");
+  // const [selectAff, setSelectAff] = useState<any>();
+  // const [selectCampaign, setSelectCampaign] = useState<any>();
+  // const [selectFrequency, setSelectFrequency] = useState<any>();
+  // const [portionLimit, setPortionLimit] = useState<number>();
+  // const [dayLimit, setDayLimit] = useState<number>();
+  // const [useAutologin, setUseAutologin] = useState<boolean>(false);
+  // const [nameRedistribution, setNameRedistribution] = useState<string>("");
 
   const { affiliates, loadingAffList, campaigns, loadingCampaigns } =
     useSelector((state: any) => {
@@ -44,21 +43,31 @@ export default ({ handleChange, handleBlur, errors, touched, values, setFieldVal
       };
     });
 
-  useEffect(() => {
-    dispatch(getAffiliates("", { order: 1 }));
-    dispatch(getCountries("", { order: 0 }));
-    dispatch(getBrands("", { order: 1 }));
-    dispatch(getIntegrations("", { order: 1 }));
-    dispatch(getCampaigns("", { order: 1 }));
+  /*useEffect(() => {
+    /!*if(!affiliates.length) {
+      dispatch(getAffiliates("", { order: 1 }));
+    }
+    if(!affiliates.length) {
+      dispatch(getCountries("", { order: 0 }));
+    }
+    if(!affiliates.length) {
+      dispatch(getBrands("", { order: 1 }));
+    }
+    if(!affiliates.length) {
+      dispatch(getIntegrations("", { order: 1 }));
+    }
+    if(!affiliates.length) {
+      dispatch(getCampaigns("", { order: 1 }));
+    }*!/
 
     return () => {
-      dispatch(clearAffiliate());
+      /!*dispatch(clearAffiliate());
       dispatch(clearBrands());
       dispatch(clearCampaigns());
       dispatch(clearIntegrations());
-      dispatch(clearCountries());
+      dispatch(clearCountries());*!/
     };
-  }, []);
+  }, []);*/
 
   const affiliateList = affiliates.map((item: any) => {
     return {
@@ -140,7 +149,7 @@ export default ({ handleChange, handleBlur, errors, touched, values, setFieldVal
                 isLoading={loadingAffList}
                 options={affiliateList}
                 onChange={(value: any) => handleChangeSelect("affiliateId", value)}
-                value={selectAff}
+                //value={selectAff}
                 placeholder="Affiliates *"
               />
             </div>
@@ -153,7 +162,7 @@ export default ({ handleChange, handleBlur, errors, touched, values, setFieldVal
                 isLoading={loadingCampaigns}
                 options={campaignList}
                 onChange={(value: any) => handleChangeSelect("campaignId", value)}
-                value={selectCampaign}
+                //value={selectCampaign}
                 placeholder="Campaigns *"
               />
             </div>
@@ -166,7 +175,7 @@ export default ({ handleChange, handleBlur, errors, touched, values, setFieldVal
               <Select
                 options={frequencyList}
                 onChange={(value: any) => handleChangeSelect("frequency", value)}
-                value={selectFrequency}
+                //value={selectFrequency}
                 placeholder="Status *"
               />
             </div>
@@ -258,7 +267,7 @@ export default ({ handleChange, handleBlur, errors, touched, values, setFieldVal
                 id="square-switch4"
                 switch="my-orange"
                 name="useAutologin"
-                defaultChecked={useAutologin}
+                defaultChecked={false}
                 onChange={handleChange}
               />
               <Label

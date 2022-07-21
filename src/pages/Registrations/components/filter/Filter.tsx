@@ -16,7 +16,7 @@ import Flatpickr from "react-flatpickr";
 import SearchRegistration from "../search";
 import { getUpdateDate } from "src/helpers/getUpdateDate";
 
-export default ({selected}: any) => {
+export default ({selected, DateFrom, DateTo}: any) => {
   const dispatch = useDispatch();
 
   const [collapse, setCollapse] = useState(false);
@@ -32,10 +32,12 @@ export default ({selected}: any) => {
     value: 2,
     label: "All",
   })
-  const [selectDateType, setSelectDateType] = useState<any>();
-
-  const [fromDate, setFromDate] = useState("");
-  const [toDate, setToDate] = useState("");
+  const [selectDateType, setSelectDateType] = useState<any>({
+    value: 0,
+    label: "Registration"
+  });
+  const [fromDate, setFromDate] = useState<any>(DateFrom || "");
+  const [toDate, setToDate] = useState<any>(DateTo || "");
   const [dateFilter, setDateFilter] = useState(`${fromDate} to ${toDate}`);
 
   useEffect(() => {
@@ -90,6 +92,7 @@ export default ({selected}: any) => {
   };
 
   useEffect(() => {
+    if(!selected) { //only for redistribution
     //if(!affiliates.length) {
       dispatch(getAffiliates("", { order: 1 }));
     //}
@@ -106,7 +109,6 @@ export default ({selected}: any) => {
       dispatch(getCampaigns("", { order: 1 }));
     //}
 
-    if(!selected) { //only for redistribution
       return () => {
         dispatch(clearAffiliate());
         dispatch(clearBrands());
@@ -203,8 +205,8 @@ export default ({selected}: any) => {
       Statuses: selectStatus.map((item: any) => item.value).join(","),
       type: selectType?.value,
       dateType: selectDateType?.value,
-      DateFrom: fromDate,
-      DateTo: toDate ? toDate + " 23:59:59" : null,
+      DateFrom: fromDate ? fromDate+"T00:00:00Z" : null,
+      DateTo: toDate ? toDate+"T23:59:59Z" : null,
     };
 
     dispatch(clearRegistrations());
@@ -222,9 +224,11 @@ export default ({selected}: any) => {
     setSelectType({
       value: 2, label: "All",
     });
-    setSelectDateType(null);
-    setFromDate("");
-    setToDate("");
+    setSelectDateType({
+      value: 0, label: "Registration"
+    });
+    setFromDate(DateFrom || "");
+    setToDate(DateTo || "");
 
     dispatch(clearRegistrations());
     dispatch(getRegistrations("", filter));
@@ -292,6 +296,17 @@ export default ({selected}: any) => {
 
                 <Col lg={3}>
                   <div className="mb-3 custom-react-select">
+                    <div className="react-select-descr">Date Type</div>
+                    <Select
+                      options={dateTypeList}
+                      onChange={setSelectDateType}
+                      value={selectDateType}
+                    />
+                  </div>
+                </Col>
+
+                <Col lg={3}>
+                  <div className="mb-3 custom-react-select">
                     <div className="react-select-descr">Affiliates</div>
                     <Select
                       isMulti
@@ -317,7 +332,9 @@ export default ({selected}: any) => {
                     />
                   </div>
                 </Col>
+              </Row>
 
+              <Row>
                 <Col lg={3}>
                   <div className="mb-3 custom-react-select">
                     <div className="react-select-descr">Integrations</div>
@@ -331,9 +348,7 @@ export default ({selected}: any) => {
                     />
                   </div>
                 </Col>
-              </Row>
 
-              <Row>
                 <Col lg={3}>
                   <div className="mb-3 custom-react-select">
                     <div className="react-select-descr">Campaigns</div>
@@ -375,6 +390,10 @@ export default ({selected}: any) => {
                   </div>
                 </Col>
 
+
+              </Row>
+
+              <Row>
                 <Col lg={3}>
                   <div className="mb-3 custom-react-select">
                     <div className="react-select-descr">Type</div>
@@ -382,19 +401,6 @@ export default ({selected}: any) => {
                       options={typeList}
                       onChange={setSelectType}
                       value={selectType}
-                    />
-                  </div>
-                </Col>
-              </Row>
-
-              <Row>
-                <Col lg={3}>
-                  <div className="mb-3 custom-react-select">
-                    <div className="react-select-descr">Date Type</div>
-                    <Select
-                      options={dateTypeList}
-                      onChange={setSelectDateType}
-                      value={selectDateType}
                     />
                   </div>
                 </Col>

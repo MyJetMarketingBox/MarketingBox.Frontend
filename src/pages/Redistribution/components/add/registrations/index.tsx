@@ -10,10 +10,11 @@ export default ({selected, setRegId, clearState} : any) => {
 
   const dispatch = useDispatch();
 
-  const { registrations, loading, loaded, nextURL } = useSelector((state: any) => {
+  const { registrations, loading, loaded, nextURL, total } = useSelector((state: any) => {
     return {
       registrations: state.Registrations.registrations.items,
       nextURL: state.Registrations.registrations.pagination.nextUrl,
+      total: state.Registrations.registrations.pagination.total,
       errorReg: state.Registrations.error,
       loading: state.Registrations.loading,
       loaded: state.Registrations.loaded,
@@ -48,6 +49,9 @@ export default ({selected, setRegId, clearState} : any) => {
 
         <Row className="mb-4">
           <Filter selected={selected}/>
+          <div className="col-xl-12 mb-3 text-muted">
+            Showing {registrations.length} / {total} results
+          </div>
         </Row>
 
         <Row className="mb-4">

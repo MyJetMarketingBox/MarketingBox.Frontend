@@ -15,14 +15,21 @@ const tableIndex = ({data = [], selected, setIdFile} : any) => {
   ];
 
   let selectRow:any;
-
   if(selected){
     selectRow = {
       mode: "checkbox",
       clickToSelect: true,
       onSelect: ( e: any, row: any, rowIndex: any, isSelect: any) => {
         setIdFile(e.id);
-      }
+      },
+      onSelectAll: (isSelect: any, row: any, rowIndex: any) => {
+        if (isSelect) {
+          let arrRow = row.map((item: any) => item.id);
+          setIdFile(arrRow);
+        } else {
+          setIdFile(null)
+        }
+      },
     };
   }
 
