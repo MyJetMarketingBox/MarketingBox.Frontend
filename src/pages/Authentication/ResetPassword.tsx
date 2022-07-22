@@ -1,23 +1,17 @@
-import PropTypes from "prop-types";
 import MetaTags from "react-meta-tags";
 import React, { useState } from "react";
-import { Row, Col, Alert, Container } from "reactstrap";
-
+import { Alert, Col } from "reactstrap";
 //redux
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
-import { withRouter, Link, useParams } from "react-router-dom";
-
+import { Link, useParams, withRouter } from "react-router-dom";
 // availity-reactstrap-validation
-import { AvForm, AvField } from "availity-reactstrap-validation";
-
+import { AvField, AvForm } from "availity-reactstrap-validation";
 // action
-import { userForgetPassword, userResetPassword } from "../../store/actions";
-
+import { userResetPassword } from "../../store/actions";
 // import images
 import logo from "../../assets/images/logo-sm.svg";
 import Page from "src/constants/pages";
-import { values } from "lodash";
 import ValidationText from "src/constants/validationText";
 
 interface Props {}
@@ -97,7 +91,6 @@ const ResetPassword = ({}: Props) => {
                                 value: 50,
                                 errorMessage: ValidationText.maxLength50,
                               },
-                              pattern: {value: '/^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*?[!@#$%^&*()_+<>?"\':;/\\\\|{}\\[\\]~`\\-=,.])[A-Za-z\\d!@#$%^&*()_+<>?"\':;/\\\\|{}\\[\\]~`\\-=,.]{6,}$/', errorMessage: ValidationText.passwordMask},
                             }}
                           />
                         </Col>

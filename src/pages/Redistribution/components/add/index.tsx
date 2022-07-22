@@ -38,8 +38,8 @@ export interface IRedistributionParams {
   affiliateId: number | null;
   campaignId: number | null;
   frequency: number | null;
-  portionLimit: number;
-  dayLimit: number;
+  portionLimit: string;
+  dayLimit: string;
   useAutologin: boolean;
 }
 
@@ -109,12 +109,14 @@ export default () => {
       affiliateId: yup.number().required(ValidationText.required),
       campaignId: yup.number().required(ValidationText.required),
       frequency: yup.number().required(ValidationText.required),
-      portionLimit: yup.number()
+      portionLimit: yup.string()
         .min(1, ValidationText.minLength1)
-        .required(ValidationText.required),
-      dayLimit: yup.number()
+        .required(ValidationText.required)
+        .matches(/^[0-9]+$/, ValidationText.invalidInputNumber),
+      dayLimit: yup.string()
         .min(1, ValidationText.minLength1)
-        .required(ValidationText.required),
+        .required(ValidationText.required)
+        .matches(/^[0-9]+$/, ValidationText.invalidInputNumber),
       useAutologin: yup.boolean().required(ValidationText.required),
     });
 
@@ -126,8 +128,8 @@ export default () => {
     affiliateId: null,
     campaignId: null,
     frequency: null,
-    portionLimit: 0,
-    dayLimit: 0,
+    portionLimit: "",
+    dayLimit: "",
     useAutologin: false,
   };
 
@@ -181,12 +183,12 @@ export default () => {
     submitForm();
   };
 
-  // useEffect(() => {
-  //   console.log("isValid", isValid);
-  //   console.log("handleChange", handleChange);
-  //   console.log("values", values);
-  //   console.log("err", errors);
-  // },[isValid, handleChange, values, errors])
+  /*useEffect(() => {
+    console.log("isValid", isValid);
+    console.log("handleChange", handleChange);
+    console.log("values", values);
+    console.log("err", errors);
+  },[isValid, handleChange, values, errors])*/
 
   const isRegSearchRequest = useMemo(() => {
     if (!registrationSearchRequest) {

@@ -117,33 +117,10 @@ export default ({ handleChange, handleBlur, errors, touched, values, setFieldVal
               hasError={!!(errors.name && touched.name)}
               errorText={errors.name}
             />
-            {/*<AvField
-              name="name"
-              type="text"
-              validate={{
-                required: { value: true, errorMessage: "Please enter a name" },
-                pattern: {
-                  value: "^[A-Za-z0-9]+$",
-                  errorMessage:
-                    "Your name must be composed only with letter and numbers",
-                },
-                minLength: {
-                  value: 6,
-                  errorMessage: "Your name must be between 6 and 16 characters",
-                },
-                maxLength: {
-                  value: 16,
-                  errorMessage: "Your name must be between 6 and 16 characters",
-                },
-              }}
-              onChange={handlerNameRedistribution}
-              label="Name*"
-            />*/}
           </Col>
 
           <Col lg={4}>
             <div className="mb-3 custom-react-select">
-              {/*<div className="react-select-descr">Affiliates*</div>*/}
               <Select
                 isSearchable
                 isLoading={loadingAffList}
@@ -171,7 +148,6 @@ export default ({ handleChange, handleBlur, errors, touched, values, setFieldVal
         <Row>
           <Col lg={3}>
             <div className="mb-3 custom-react-select">
-              {/*<div className="react-select-descr">Status*</div>*/}
               <Select
                 options={frequencyList}
                 onChange={(value: any) => handleChangeSelect("frequency", value)}
@@ -188,36 +164,10 @@ export default ({ handleChange, handleBlur, errors, touched, values, setFieldVal
               name="portionLimit"
               onChange={handleChange}
               onBlur={handleBlur}
-              value={values.portionLimit || null}
+              value={values.portionLimit.trim() || ""}
               hasError={!!(errors.portionLimit && touched.portionLimit)}
               errorText={errors.portionLimit}
             />
-            {/*<AvField
-              name="portionLimit"
-              type="text"
-              validate={{
-                required: {
-                  value: true,
-                  errorMessage: "Please enter a Portion Limit",
-                },
-                pattern: {
-                  value: "^[0-9]+$",
-                  errorMessage: "Your name must be composed only numbers",
-                },
-                minLength: {
-                  value: 1,
-                  errorMessage:
-                    "Your name must be between 1 and 100 characters",
-                },
-                maxLength: {
-                  value: 100,
-                  errorMessage:
-                    "Your name must be between 1 and 100 characters",
-                },
-              }}
-              onChange={handlePortionLimit}
-              label="Portion Limit*"
-            />*/}
           </Col>
 
           <Col lg={3}>
@@ -227,36 +177,10 @@ export default ({ handleChange, handleBlur, errors, touched, values, setFieldVal
               name="dayLimit"
               onChange={handleChange}
               onBlur={handleBlur}
-              value={values.dayLimit || null}
+              value={values.dayLimit.trim() || ""}
               hasError={!!(errors.dayLimit && touched.dayLimit)}
               errorText={errors.dayLimit}
             />
-            {/*<AvField
-              name="dayLimit"
-              type="text"
-              validate={{
-                required: {
-                  value: true,
-                  errorMessage: "Please enter a Portion Limit",
-                },
-                pattern: {
-                  value: "^[0-9]+$",
-                  errorMessage: "Your name must be composed only numbers",
-                },
-                minLength: {
-                  value: 1,
-                  errorMessage:
-                    "Your name must be between 1 and 100 characters",
-                },
-                maxLength: {
-                  value: 100,
-                  errorMessage:
-                    "Your name must be between 1 and 100 characters",
-                },
-              }}
-              onChange={handleDayLimit}
-              label="Day Limit*"
-            />*/}
           </Col>
 
           <Col lg={3}>
