@@ -91,6 +91,7 @@ const ResetPassword = ({}: Props) => {
                                 value: 50,
                                 errorMessage: ValidationText.maxLength50,
                               },
+                              pattern: {value: '/^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*?[!@#$%^&*()_+<>?"\':;/\\\\|{}\\[\\]~`\\-=,.])[A-Za-z\\d!@#$%^&*()_+<>?"\':;/\\\\|{}\\[\\]~`\\-=,.]{6,}$/', errorMessage: ValidationText.passwordMask},
                             }}
                           />
                         </Col>
