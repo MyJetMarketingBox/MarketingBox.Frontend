@@ -37,6 +37,7 @@ const Page = {
   SIGN_UP: "/register",
   FORGOT_PASSWORD: "/forgot-password",
   SIGN_OUT: "/logout",
+  LOCK_SCREEN: "/lock-screen"
 };
 
 Object.freeze(Page);

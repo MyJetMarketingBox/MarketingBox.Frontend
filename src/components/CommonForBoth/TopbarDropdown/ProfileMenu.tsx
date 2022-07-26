@@ -64,7 +64,7 @@ const ProfileMenu = (props: any) => {
           <i className="bx bx-user font-size-16 align-middle me-1" />
           {props.t("Profile")}{" "}
         </DropdownItem>
-        <DropdownItem tag="a" href="/#">
+        <DropdownItem tag="a" href={Page.LOCK_SCREEN}>
           <i className="bx bx-lock-open font-size-16 align-middle me-1" />
           {props.t("Lock screen")}
         </DropdownItem>

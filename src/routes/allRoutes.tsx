@@ -40,6 +40,7 @@ import OfferDetatils from "src/pages/Offers/detail/OfferDetatils";
 import ForgetPassword from "src/pages/Authentication/ForgetPassword";
 import ResetPassword from "src/pages/Authentication/ResetPassword";
 import ConfirmEmailPage from "src/pages/ConfirmEmail/ConfirmEmailPage";
+import LockScreen from "src/pages/Authentication/LockScreen";
 
 const routesList: RouteItemsType[] = [
   {
@@ -264,6 +265,13 @@ const routesList: RouteItemsType[] = [
   {
     path: Page.SIGN_OUT,
     component: Logout,
+    layoutType: RouteLayoutTypeEnum.Public,
+    strict: true,
+    exact: true,
+  },
+  {
+    path: Page.LOCK_SCREEN,
+    component: LockScreen,
     layoutType: RouteLayoutTypeEnum.Public,
     strict: true,
     exact: true,
