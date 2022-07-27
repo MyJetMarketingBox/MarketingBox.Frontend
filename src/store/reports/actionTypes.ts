@@ -1,5 +1,5 @@
 export enum ReportsTypes {
-  /** Get reports */
+  /** GET */
   GET_REPORTS = '@@reports/GET_REPORTS',
   GET_REPORTS_SUCCESS = '@@reports/GET_REPORTS_SUCCESS',
   GET_REPORTS_FAIL = '@@reports/GET_REPORTS_FAIL',

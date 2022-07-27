@@ -62,6 +62,15 @@ export const ReportType = [
     'All',
 ]
 
+export const TypeReport = [
+    'Affiliate',
+    'Country',
+    'Brand',
+    'Offer',
+    'Day',
+    'Month',
+]
+
 export const registrationModel = [
     "Created",
     "Registered",

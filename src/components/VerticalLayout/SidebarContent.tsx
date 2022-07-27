@@ -23,6 +23,7 @@ import { ReactComponent as IconLeads } from "../../assets/images/icon-leads.svg"
 import { ReactComponent as IconMarketingTools } from "../../assets/images/icon-marketing-tools.svg";
 import { ReactComponent as IconSettings } from "../../assets/images/icons-settings.svg";
 import { ReactComponent as IconRedistribution } from "../../assets/images/icon-phone-flip.svg";
+import { ReactComponent as IconReports } from "../../assets/images/icon-reports.svg"
 //
 
 const SidebarContent = (props: any) => {
@@ -143,7 +144,7 @@ const SidebarContent = (props: any) => {
                 <div className={c.menuItemDescr}>{t("Dashboard")}</div>
               </NavLink>
             </li>
-            {/*<li className={c.menuItem}>
+            <li className={c.menuItem}>
               <NavLink
                 to={Page.REPORTS}
                 className={c.menuItemLink}
@@ -154,7 +155,7 @@ const SidebarContent = (props: any) => {
                 </div>
                 <div className={c.menuItemDescr}>{t("Reports")}</div>
               </NavLink>
-            </li>*/}
+            </li>
             <li className={c.menuItem}>
               <NavLink
                 to={Page.BRANDS}
