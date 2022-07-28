@@ -7,9 +7,7 @@ export default (props: any) => {
 
   return(
     <Modal isOpen={isOpen} toggle={toggle} centered={true} size="xl" >
-      {/*<ModalHeader toggle={toggle} tag="h4">
-        ModalHeader
-      </ModalHeader>*/}
+      <ModalHeader toggle={toggle} tag="h4"> </ModalHeader>
       <ModalBody>
         <RegisterDetail regId={regId} />
       </ModalBody>

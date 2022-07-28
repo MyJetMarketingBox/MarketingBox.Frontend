@@ -16,9 +16,10 @@ import {
 } from "reactstrap";
 
 import classnames from "classnames";
-import { RegistrationStatus } from "../../../../common/utils/model";
+import { CrmStatus, RegistrationStatus } from "../../../../common/utils/model";
 import RegTab1 from "./RegTab1";
 import RegTab2 from "./RegTab2";
+import "../detail/modalRegistrationDetailStyle.scss"
 
 export default ({ regId }: any) => {
   const [activeTab, setActiveTab] = useState("1");
@@ -36,7 +37,7 @@ export default ({ regId }: any) => {
     };
   });
 
-  const { generalInfo, additionalInfo, status, routeInfo, registrationId } = register;
+  const { generalInfo, additionalInfo, status, routeInfo, registrationId, crmStatus, autologinUsed } = register;
 
   const country = useMemo(() => {
     return сountries.find((item:any) => {
@@ -163,6 +164,8 @@ export default ({ regId }: any) => {
                 &nbsp;
                 <i className="bx bx-info-circle" id={`TooltipTop-${routeInfo.integrationId }`}></i>
               </dd>
+              <dt className="col-sm-5">Autologin: </dt>
+              <dd className="col-sm-7">{`${autologinUsed}`}</dd>
             </dl>
           </CardBody>
         </Card>
@@ -249,6 +252,9 @@ export default ({ regId }: any) => {
                         <div>
                           <b>Email:</b> {generalInfo.email}
                         </div>
+                      </div>
+                      <div>
+                        <b>Brand Status:</b> {CrmStatus[crmStatus]}
                       </div>
                     </div>
                   </div>

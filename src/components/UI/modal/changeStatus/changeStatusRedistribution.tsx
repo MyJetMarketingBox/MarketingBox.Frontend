@@ -73,7 +73,9 @@ const changeStatusRedistribution = ({ isOpen, toggle, id, status }: Props) => {
                 onChange={handleChange}
               >
                 {Object.entries(RedistributionStatusObj).map((val) => {
-                  return <option key={val[0]} value={val[0]}>{val[1]}</option>;
+                  if (val[0] !== '0' && val[0] !== "3") {
+                    return <option key={val[0]} value={val[0]}>{val[1]}</option>;
+                  }
                 })}
               </AvField>
             </div>

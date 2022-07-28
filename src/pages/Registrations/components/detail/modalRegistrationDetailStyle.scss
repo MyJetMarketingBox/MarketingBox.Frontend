@@ -1,3 +1,13 @@
+.modal-header{
+  border-bottom: unset !important;
+  height: 45px !important;
+}
+
+.modal-header .close{
+  top: 10px !important;
+  right: 1.5% !important;
+}
+
 .bxs-user-circle:before{
   color: rgba(0, 0, 0, 0.3);
 }

@@ -1,7 +1,7 @@
 import BootstrapTable from "react-bootstrap-table-next";
 import React, { useEffect, useState } from "react";
 import ColumnActions from "../../../../components/UI/columnActions/ColumnActions";
-import { RegistrationStatus } from "../../../../common/utils/model";
+import { CrmStatus, RegistrationStatus } from "../../../../common/utils/model";
 import ChangeStatus from "../../../../components/UI/modal/changeStatus";
 import { RegistrationStatusEnum } from "../../../../enums/RegistrationStatusEnum";
 import { TableButtonHandlerEnum } from "../../../../enums/TableButtonHandlerEnum";
@@ -116,9 +116,19 @@ export default ({ registrations = [], setRegId, toggle, selected }: any) => {
       ),
     },
     {
+      dataField: "brandStatus",
+      text: "Brand Status",
+      sort: false,
+    },
+    {
       dataField: "email",
       text: "Email",
       sort: true,
+    },
+    {
+      dataField: "autologinUsed",
+      text: "Autologin",
+      sort: false,
     },
     {
       dataField: "createdAt",
@@ -223,7 +233,7 @@ export default ({ registrations = [], setRegId, toggle, selected }: any) => {
 
   const registrationData = registrations.map((registration: any) => {
     let color;
-    let country = сountries.find((item:any) => item.id === registration.generalInfo.countryId)
+    let country = сountries.find((item:any) => item.id === registration.generalInfo.countryId);
     switch (registration.status) {
       case 0:
         color = "danger";
@@ -257,7 +267,9 @@ export default ({ registrations = [], setRegId, toggle, selected }: any) => {
       status: RegistrationStatus[registration.status],
       statusId: registration.status,
       email: registration.generalInfo.email,
-      country: country?.name,
+      country: country?.alfa2Code,
+      brandStatus: CrmStatus[registration.crmStatus],
+      autologinUsed: registration.autologinUsed,
       createdAt: new Date( registration.generalInfo.createdAt ).valueOf(),
       depositedAt: registration.generalInfo.depositDate
         ? new Date(registration.generalInfo.depositDate).valueOf()

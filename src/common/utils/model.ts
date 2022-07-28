@@ -52,7 +52,7 @@ export const RegistrationStatusObj = {
 export const RedistributionStatusObj = {
     [RedistributionStatusEnum.Disable] : "Disable",
     [RedistributionStatusEnum.Enable] : "Enable",
-    [RedistributionStatusEnum.Finished] : "Finished",
+    [RedistributionStatusEnum.Finished] : "Finish",
     [RedistributionStatusEnum.Error] : "Error",
 }
 
@@ -163,4 +163,19 @@ export const DateType = [
   "Registration",
   "Deposit",
   "Conversion"
+]
+
+export const CrmStatus = [
+    "New",
+    "FullyActivated",
+    "NA",
+    "HighPriority",
+    "Callback",
+    "FailedExpectation",
+    "NotValid",
+    "NotInterested",
+    "Transfer",
+    "FollowUp",
+    "ConversionRenew",
+    "Unknown",
 ]
