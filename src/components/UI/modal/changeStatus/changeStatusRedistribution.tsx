@@ -72,6 +72,7 @@ const changeStatusRedistribution = ({ isOpen, toggle, id, status }: Props) => {
                 value={String(getStatus)}
                 onChange={handleChange}
               >
+                <option key="0">Select status...</option>
                 {Object.entries(RedistributionStatusObj).map((val) => {
                   if (val[0] !== '0' && val[0] !== "3") {
                     return <option key={val[0]} value={val[0]}>{val[1]}</option>;
