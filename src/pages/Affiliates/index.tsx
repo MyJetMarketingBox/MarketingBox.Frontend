@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import MetaTags from "react-meta-tags";
 import { Card, CardBody, Col, Row } from "reactstrap";
 
-//Import Breadcrumb
 import Breadcrumbs from "../../components/Common/Breadcrumb";
 import AddAffiliateForm from "./components/addAffiliate/AddAffiliateForm";
 import "../../assets/scss/datatables.scss";
@@ -13,7 +12,7 @@ import {
 } from "../../store/actions";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../../components/UI/loader";
-import SearchAffiliate from "./components/search/SearchAffiliate";
+import FilterAff from "./components/filter"
 import TableAff from "./components/table/TableAff";
 import BtnLoadMore from "../../components/UI/btns/BtnLoadMore";
 import { RootStoreType } from "src/store/storeTypes";
@@ -77,22 +76,11 @@ const Affiliates: React.FC = () => {
           <Col className="col-12">
             <div>
               <CardBody>
-                <Row className="mb-2">
-                  <Col className="col-md-4 mb-4">
-                    <SearchAffiliate />
-                    <div className="col-xl-12 text-muted mt-3">
-                      Showing {affiliates.length} / {total} results
-                    </div>
-                  </Col>
-                  <Col className="col-md-4 offset-4 text-end">
-                    <button
-                      type="button"
-                      className="btn btnOrange"
-                      onClick={() => toggleModal(true)}
-                    >
-                      Add New
-                    </button>
-                  </Col>
+                <Row className="mb-4">
+                  <FilterAff filter={filter} toggleAddAff={toggleModal}/>
+                  <div className="col-xl-12 text-muted mt-1">
+                    Showing {affiliates.length} / {total} results
+                  </div>
                 </Row>
                 <Row className="mb-4">
                   <Col xl="12">

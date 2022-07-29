@@ -11,6 +11,7 @@ export default () => {
     { value: "email", label: "Search by Email" },
     { value: "id", label: "Search by AI" },
     { value: "phone", label: "Search by Phone" },
+    //{ value: "days", label: "Search by Date Range" },
   ];
 
   return (
