@@ -31,7 +31,9 @@ const changeStatusRedistribution = ({ isOpen, toggle, id, status }: Props) => {
   }, [isOpen]);
 
   useEffect(() => {
-    setStatus(status);
+    (status === 3 || status === 0)
+      ? setStatus(0)
+      : setStatus(status);
   }, [status])
 
   useEffect(() => {
@@ -72,7 +74,7 @@ const changeStatusRedistribution = ({ isOpen, toggle, id, status }: Props) => {
                 value={String(getStatus)}
                 onChange={handleChange}
               >
-                <option key="0">Select status...</option>
+                <option key="0" value="">Select status...</option>
                 {Object.entries(RedistributionStatusObj).map((val) => {
                   if (val[0] !== '0' && val[0] !== "3") {
                     return <option key={val[0]} value={val[0]}>{val[1]}</option>;
@@ -92,7 +94,7 @@ const changeStatusRedistribution = ({ isOpen, toggle, id, status }: Props) => {
                   type="submit"
                   className="btn btnOrange"
                   onClick={handleBtnUpdate}
-                  disabled={loadingUpdate}
+                  disabled={getStatus === 0 || loadingUpdate}
                 >
                   {loadingUpdate && <i className="bx bx-hourglass bx-spin me-2"/>}
                   Save

@@ -1326,13 +1326,13 @@ const Map = () => {
     }
   })
 
-  useEffect(() => {
+  /*useEffect(() => {
     dispatch(getDashMap({}))
 
     return () => {
       dispatch(clearDashMap())
     }
-  }, []);
+  }, []);*/
 
   const mapCountries = useMemo(() => {
     let obj = {};
@@ -1365,15 +1365,16 @@ const Map = () => {
     countries.filter((item: any) => {
       if (item.alpha2Code.includes(code)) {
         el.html(
-          "Registrations Count: " + item.registrationsCount +
+          el.html() +
           " <br /> " +
-          "FTD Count: " + item.ftdCount +
+          "Registrations: " + item.registrationsCount +
           " <br /> " +
-          "Failed Count: " + item.failedCount +
+          "FTD: " + item.ftdCount +
+          " <br /> " +
+          "Failed: " + item.failedCount +
           " <br /> " +
           "CR: " + item.cr +
-          " <br /> " +
-          el.html()
+          " <br /> "
         );
       }
     });

@@ -21,13 +21,13 @@ const Indicators = () => {
     }
   })
 
-  useEffect(() => {
+  /*useEffect(() => {
     dispatch(getDashStatistics({}))
 
     return () => {
       dispatch(clearDashStatistics())
     }
-  }, []);
+  }, []);*/
 
   return (
     <React.Fragment>

@@ -179,3 +179,12 @@ export const CrmStatus = [
     "ConversionRenew",
     "Unknown",
 ]
+
+export const PeriodName = [
+    { value: 0, label: "ALL" },
+    { value: 7, label: "1W" },
+    { value: 30, label: "1M" },
+    { value: 180, label: "6M" },
+    { value: 360, label: "1Y" },
+    { value: 999, label: "Custom" },
+]
